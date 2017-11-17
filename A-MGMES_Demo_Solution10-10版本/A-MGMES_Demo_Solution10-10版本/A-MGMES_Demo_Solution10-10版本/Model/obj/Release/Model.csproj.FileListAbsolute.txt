@@ -1,0 +1,11 @@
+E:\工作代码\GFB1511\MGMES_Demo_Solution6-9版本\Model\bin\Release\Model.dll
+E:\工作代码\GFB1511\MGMES_Demo_Solution6-9版本\Model\bin\Release\Model.pdb
+E:\工作代码\GFB1511\MGMES_Demo_Solution6-9版本\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
+E:\工作代码\GFB1511\MGMES_Demo_Solution6-9版本\Model\obj\Release\Model.dll
+E:\工作代码\GFB1511\MGMES_Demo_Solution6-9版本\Model\obj\Release\Model.pdb
+C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\Model\bin\Release\Model.dll
+C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\Model\bin\Release\Model.pdb
+C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\Model\obj\Release\Model.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\Model\obj\Release\Model.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\Model\obj\Release\Model.dll
+C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\Model\obj\Release\Model.pdb

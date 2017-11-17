@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{8B13835F-89A4-4E32-836D-17C4EBDB6176}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dal</RootNamespace>
+    <AssemblyName>Dal</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ExcelAbstraction">
+      <HintPath>..\..\..\新建文件夹\ExcelAbstraction.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelAbstraction.NPOI">
+      <HintPath>..\..\..\新建文件夹\ExcelAbstraction.NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>..\..\..\新建文件夹\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\..\新建文件夹\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\..\新建文件夹\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\..\..\新建文件夹\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AndonTaglinesDAL.cs" />
+    <Compile Include="mg_Part1DAL.cs" />
+    <Compile Include="mg_ProductDAL.cs" />
+    <Compile Include="mg_FlowLine1DAL.cs" />
+    <Compile Include="mg_TestRepairItemDAL.cs" />
+    <Compile Include="mg_Report_MachineStopDAL.cs" />
+    <Compile Include="mg_TestDAL.cs" />
+    <Compile Include="mg_MailDAL.cs" />
+    <Compile Include="mg_TestPartDAL.cs" />
+    <Compile Include="mg_PiistationDAL.cs" />
+    <Compile Include="mg_PoInspectItemDAL.cs" />
+    <Compile Include="mg_BOMTestGroupDAL.cs" />
+    <Compile Include="mg_allpartDAL.cs" />
+    <Compile Include="mg_allpart_part_relDAL.cs" />
+    <Compile Include="mg_BOMDAL.cs" />
+    <Compile Include="mg_BOMTestDAL.cs" />
+    <Compile Include="mg_BOM_MatchDAL.cs" />
+    <Compile Include="mg_ClassesDAL.cs" />
+    <Compile Include="mg_CustomerOrderDAL.cs" />
+    <Compile Include="mg_CuttedOrderDAL.cs" />
+    <Compile Include="mg_DepartmentDAL.cs" />
+    <Compile Include="mg_FlowLineDAL.cs" />
+    <Compile Include="mg_machinestepDAL.cs" />
+    <Compile Include="mg_ODSDAL.cs" />
+    <Compile Include="mg_OperatorDAL.cs" />
+    <Compile Include="mg_orderDAL.cs" />
+    <Compile Include="mg_PartDAL.cs" />
+    <Compile Include="mg_PositionDAL.cs" />
+    <Compile Include="mg_PropertyDAL.cs" />
+    <Compile Include="mg_StationDAL.cs" />
+    <Compile Include="mg_StepDAL.cs" />
+    <Compile Include="mg_sys_LogDal1.cs" />
+    <Compile Include="mg_userDAL.cs" />
+    <Compile Include="mg_workqueueDAL.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="mg_sys_LogDal.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DbUtility\DbUtility.csproj">
+      <Project>{910e6091-a03b-4a02-8646-5f54bccbfd02}</Project>
+      <Name>DbUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{d5eec511-f12c-4bac-8099-cc5dabdde685}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{1d0eddf7-9720-40a4-b59f-58fdbfb179cc}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

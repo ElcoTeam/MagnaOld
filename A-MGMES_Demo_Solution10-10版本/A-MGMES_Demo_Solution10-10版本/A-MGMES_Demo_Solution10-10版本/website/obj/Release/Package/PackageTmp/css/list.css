@@ -1,0 +1,212 @@
+﻿body { margin: 0; font: 14px/1.5 arial, "Microsoft Yahei" , "Hiragino Sans GB" ,sans-serif;  background-color: #fff; }
+
+img { border: none; }
+li { list-style: none; }
+
+/*  topbar   */
+
+.site-topbar { height: 36px; border-bottom: 1px solid #dfdfdf; font-size: 12px; line-height: 36px; color: #8c8c8c; background: #fafafa; vertical-align: middle; }
+.container { width: 1240px; margin-left: auto; margin-right: auto; }
+.site-topbar .topbar-nav { float: left; _width: 630px; }
+.site-topbar a { color: #8c8c8c; cursor: pointer; text-decoration: none; }
+
+.site-topbar a:hover { text-decoration: underline; }
+
+.site-topbar img { position: relative; height: 14px; top: 1px; }
+.site-topbar .sep { margin: 0 10px; color: #dfdfdf; }
+.site-topbar .topbar-info { position: relative; float: right; _width: 400px; padding-top: 10px; line-height: 1.5; text-align: right; }
+
+.numhid { z-index: 999; position: absolute; width: 100px; top: 37px; display: none; }
+/*  topbar  end */
+
+/*  panel   */
+.pannel { width: 1240px; margin-left: auto; margin-right: auto; margin-top: 0px; margin-bottom: 0px; }
+
+/*  header   */
+.site-header { position: relative; padding-top: 20px; height: 60px; border-bottom: 1px solid #E6E6E6; }
+.site-header .site-logo { position: relative; float: left; height: 40px; }
+.site-header .site-logo .logo { position: relative; z-index: 5; display: block; background-repeat: no-repeat; }
+.site-header .site-logo .logo img { height: 50px; }
+
+
+.nav { margin: 10 0 0 0; position: relative; float: right; }
+.nav ul { margin: 0px; }
+
+
+.nav ul li { float: left; padding: 0 20px; line-height: 60px; font-size: 16px; }
+
+
+.nav ul li:hover { border-bottom: 5px solid #3d62ad; height: 55px; }
+
+
+.nav ul li a { text-decoration: none; color: #383838; line-height: 40px; height: 40px; padding-top: 20px; }
+
+
+
+
+
+/* 面包屑 css */
+
+.home-star-goods { margin-top: 20px; background-color: #fafafa; }
+.xm-plain-box .box-hd { position: relative; height: 50px; }
+
+.xm-recommend-page { width: 60px; margin: 20px 0 0; }
+
+
+.box-nav { height: 30px; width: 300px; display: inline; line-height: 30px; }
+.box-nav a, .box-nav span { margin-right: 10px; margin-left: 5px; line-height: 30px; text-decoration: none; font-size: 12px; color: #8c8c8c; }
+.box-nav a:hover { color: #92A9D9; }
+
+
+.category { height: 50px; display: inline; float: right; line-height: 50px; margin-right: 10px; width: 700px; text-align: right; }
+.category a, .category span { margin-left: 30px; line-height: 50px; text-decoration: none; font-size: 14px; color: #8c8c8c; }
+.category a { color: #666666; }
+.category a:hover { color: Red; }
+
+/* 分类排序 css */
+
+.choosediv { margin-top: 20px; border-bottom: 1px solid #f0f0f0; height: 60px; }
+
+.choosediv .chooseitem { width: 700px; float: left; }
+
+.choosediv .chooseitem .ok { margin: 0px 20px 0px 0px; padding: 5px 10px; line-height: 50px; text-decoration: none; font-size: 14px; border: 1px solid #B30000; color: white; background-color: #B30000; cursor: pointer; display: none; }
+
+.choosediv .chooseitem a { margin: 0px 20px 0px 0px; padding: 5px; line-height: 50px; text-decoration: none; font-size: 14px; border: 1px solid #aaa; color: #aaa; cursor: pointer; }
+
+.choosediv .chooseitem a span { display: none; margin: 0px; }
+.choosediv .chooseitem .select { border: 1px solid #B30000; color: #B30000; }
+.choosediv .chooseitem .select span { margin-left: 10px; display: inline; }
+
+
+.choosediv .chooseitem a:hover { border: 1px solid #B30000; color: #B30000; }
+
+
+.choosediv .sortitem { width: 350px; float: right; text-align: right; padding-right: 10px; }
+
+.choosediv .sortitem a { margin: 0px 0px 0px 20px; padding: 5px; line-height: 50px; text-decoration: none; font-size: 14px; border: 1px solid #aaa; color: #aaa; cursor: pointer; }
+
+.choosediv .sortitem .select { border: 1px solid #B30000; color: #B30000; }
+.choosediv .sortitem a span { margin-left: 5px; }
+.choosediv .sortitem a:hover { border: 1px solid #B30000; color: #B30000; }
+
+
+
+/* 热卖产品 css */
+.picScroll-left { width: 1240px; overflow: hidden; position: relative; border: 0px solid #dfdfdf; margin-top: 10px; }
+.picScroll-left .hd { overflow: hidden; height: 30px; background: #f4f4f4; padding: 0 10px; }
+.picScroll-left .hd .prev, .picScroll-left .hd .next { display: block; width: 5px; height: 9px; float: right; margin-right: 5px; margin-top: 10px; overflow: hidden; cursor: pointer; background: url("../image/arrow.png") no-repeat; }
+.picScroll-left .hd .next { background-position: 0 -50px; }
+.picScroll-left .hd .prevStop { background-position: -60px 0; }
+.picScroll-left .hd .nextStop { background-position: -60px -50px; }
+
+.pageState { margin-top: 5px; display: inline-block; }
+.picScroll-left .hd ul { float: right; overflow: hidden; zoom: 1; margin-top: 10px; zoom: 1; }
+.picScroll-left .hd ul li { float: left; width: 9px; height: 9px; overflow: hidden; margin-right: 5px; text-indent: -999px; cursor: pointer; background: url("../image/icoCircle.gif") 0 -9px no-repeat; }
+.picScroll-left .hd ul li.on { background-position: 0 0; }
+.picScroll-left .bd { padding: 0px; }
+.picScroll-left .bd ul { overflow: hidden; zoom: 1; }
+.picScroll-left .bd ul li { margin: 1px; float: left; _display: inline; overflow: hidden; text-align: center; width: 308px; height: 380px; }
+
+.picScroll-left .bd ul li:hover { border: 1px solid #999; margin: 0px; }
+
+.picScroll-left .bd ul .hoverspan { z-index: 2; float: left; background-color: Red; color: White; padding: 3px; }
+.picScroll-left .bd ul li .pic { width: 220px; height: 220px; padding: 0px; margin: 20px 0px 10px 44px; }
+.picScroll-left .bd ul li .pic img { width: 220px; height: 220px; display: block; padding: 0px; border-right: 0px solid #dfdfdf; }
+.picScroll-left .bd ul li .pic a:hover img { border-color: #999; }
+.picScroll-left .bd ul li .title { line-height: 24px; font-size: 16px; border-bottom: 1px solid #dedede; width: 250px; margin-left: 29px; height: 49px; vertical-align: middle; }
+.picScroll-left .bd ul li .title a { text-decoration: none; color: #333; }
+.picScroll-left .bd ul li .title .price { color: Red; }
+.picScroll-left .bd ul li .title .price .oldprice { color: #aaa; text-decoration: line-through; margin-left: 5px; }
+.picScroll-left .bd ul li .title .price .newprice { margin-left: 5px; }
+.picScroll-left .bd ul li .title .price .normalprice { color: Black; }
+
+.picScroll-left .bd ul li .func { display: none; padding: 20px 0px; line-height: 30px; font-size: 16px; border-bottom: 0px solid #dedede; width: 250px; margin-left: 29px; height: 50px; text-align: center; }
+.picScroll-left .bd ul li .func a { display: inline-block; width: 110px; height: 30px; line-height: 30px; font-size: 14px; vertical-align: middle; text-decoration: none; text-align: center; }
+.picScroll-left .bd ul li .func .car { background-color:  #FF4D4D; color: White; margin-right: 10px; }
+.picScroll-left .bd ul li .func .car:hover { background-color: #FF7A7A; }
+.picScroll-left .bd ul li .func .info { background-color: #7D7D7D; color: White; }
+.picScroll-left .bd ul li .func .info:hover { background-color: #b0b0b0; }
+
+
+.list { margin: 0px 0px 30px 0px; padding: 5px; }
+.list a { text-decoration: none; color: #555; }
+.list a:hover { color: #92A9D9 ; }
+
+.list .content { border-bottom: 1px dotted #f0f0f0; margin: 30px 0px 30px 0px; }
+.list .content h4 { margin-top: 1.2em; line-height: 1.35; font-size: 1.4em; font-weight: normal; }
+
+.list .content h7 { float: right; margin-right: 20px; height: 27px; line-height: 27px; vertical-align: middle; }
+
+.list .content .desc { margin: 10px 20px 20px 50px; border-left: 1px solid #92A9D9; background-color: #fcfcfc; padding: 5px 20px 5px 30px; font-size: 1.1em; line-height: 1.8em; }
+
+.list .content .desc a { color: #888; }
+.list .content .desc a:hover { color: #92A9D9; }
+
+/*pages*/
+.pages { color: #999; overflow: auto; }
+.pages a, .pages .cpb { text-decoration: none;padding: 0 10px; border: 1px solid #ddd; background: #ffff; margin: 0 2px; font-size: 11px; color: #000;  display:inline-block }
+.pages a:hover { background-color: #3d62ad; color: #fff; border: 1px solid #3d62ad; text-decoration: none; }
+.pages .cpb { font-weight: bold; color: #fff; background: #3d62ad; border: 1px solid #3d62ad; }
+.pages a { height: 30px; line-height: 30px; cursor: pointer; }
+.pages .cpb { height: 30px; line-height: 30px; padding:0px 15px }
+/* bottom  */
+
+
+
+.site-footer { margin-top: 80px; color: #333; background: #fafafa; padding-bottom: 50px; }
+
+
+.site-footer .footer-service { padding: 40px 0; border-bottom: 0px solid #dfdfdf; }
+.site-footer .list-service { margin: 0; padding: 0; list-style-type: none; }
+
+.site-footer .list-service li { float: left; width: 20%; text-align: center; }
+.site-footer .list-service li a { display: block; font-size: 12px; color: #333; text-decoration: none; }
+
+.site-footer .list-service li a strong { display: block; margin-top: 5px; font-size: 18px; font-weight: 400; color: #000; }
+
+.site-footer .list-service li a .iconfont { font-size: 30px; color: #6d6d6d; }
+.iconfont { font-family: "iconfont" !important; font-style: normal; }
+
+
+
+.clear { clear: both; }
+
+/*foot*/
+.foot { left: 0; width: 100%; height: 54px; background: #868686; }
+.foot_div { position: relative; max-width: 1240px; min-width: 1240px; height: 54px; margin: auto; background: #868686; }
+.foot_l { position: relative; float: left; width: 420px; padding: 15px 0 15px 0px; color: #ddd; }
+.foot_l a { display: inline-block; height: 24px; margin-left: 20px; padding-left: 32px; line-height: 24px; text-decoration: none; font-size: 12px; color: #bebebe; }
+.foot_l a.a_taobao { background: url(../images/foot/ico_sina.png) left no-repeat; }
+.foot_l a.a_sina { background: url(../images/foot/ico_sina.png) left no-repeat; }
+.foot_l span.span_weixin { display: inline-block; height: 24px; margin-left: 20px; padding-left: 32px; line-height: 24px; color: #bebebe; background: url(../images/foot/ico_weixin.png) left no-repeat; cursor: pointer; }
+.foot_l a.a_ewm { display: none; position: absolute; top: 1px; width: 83px; height: 83px; margin-left: 15px; padding-left: 0; }
+.foot_l a.a_ewm.on { display: inline-block; }
+
+.foot_r { float: right; position: relative; width: 340px; padding-left: 256px; line-height: 54px; text-align: right; font-size: 12px; color: #c6c6c6; }
+.foot_r a { margin-right: 15px; text-decoration: none; color: #c6c6c6; }
+.foot_r span.guanzihao { padding-right: 10px; }
+.foot_r span.phone_line { display: block; position: absolute; /*left: 0; */ right: 340px; /*line-height: 60px;*/ height: 54px; overflow: hidden; }
+.foot_r span.phone_num { display: block; position: absolute; top: 0; /*left: 58px;*/ right: 160px; height: 54px; line-height: 54px; font-size: 24px; font-weight: bolder; color: #b7b7b7; }
+
+/* footer  end */
+
+
+
+/*在线客服代码*/
+.rides-cs { background-color: #777; position: fixed; top: 130px; right: 1px; _position: absolute; z-index: 999; filter: progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr='#E5333333', endColorstr='#E5333333'); height: 220px; overflow: hidden; }
+.rides-cs a { color: #00A0E9; }
+.rides-cs a:hover { color: #ff8100; text-decoration: none; }
+.rides-cs .floatL { width: 36px; float: left; position: relative; z-index: 1; }
+.rides-cs .floatL a { font-size: 0; text-indent: -999em; display: block; }
+.rides-cs .floatR { width: 130px; float: left; padding: 5px; overflow: hidden; }
+.rides-cs .floatR .cn { background: #F7F7F7; }
+.rides-cs .cn h3 { font-size: 14px; color: #333; font-weight: 600; line-height: 24px; padding: 5px; margin: 5px; }
+.rides-cs .cn ul { padding: 0 0 0 8px; margin: 0px; }
+.rides-cs .cn ul li { line-height: 38px; height: 38px; border-bottom: solid 1px #E6E4E4; overflow: hidden; }
+.rides-cs .cn ul li span { color: #777; }
+.rides-cs .cn ul li img { vertical-align: middle; }
+.rides-cs .btnOpen, .rides-cs .btnCtn { position: relative; z-index: 9; top: 0; left: 0; background-image: url(../image/shopnc.png); background-repeat: no-repeat; display: block; width: 20px; height: 146px; padding: 8px; }
+.rides-cs .btnOpen { background-position: -410px 0; }
+.rides-cs .btnCtn { background-position: -450px 0; }
+.rides-cs ul li.top { border-bottom: solid #ACE5F9 1px; }
+.rides-cs ul li.bot { border-bottom: none; }

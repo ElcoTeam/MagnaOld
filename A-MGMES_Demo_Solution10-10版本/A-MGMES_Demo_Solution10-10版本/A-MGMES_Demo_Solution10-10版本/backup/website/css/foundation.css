@@ -1,0 +1,85 @@
+﻿body { font-size: 12px; color: Black; }
+
+.window-mask { background-color: #555; }
+
+.top { top: 20px; padding: 0px; border: 1px solid #CBD0D4; width: 99%; background-color: #F0F3F8; margin-bottom: 10px; }
+.top .title{ margin-left:10px; color:#000; font-weight:bold }
+.top .subDesc{ margin-left:50px; color:#ff0000; }
+
+.top table { border: 0px; }
+.top table tr td { padding: 5px 0px 5px 5px; }
+.top table tr td h4 { font-size: 12px; color: #333; }
+
+.top .searchBtn, .addBtn, .delBtn, saveBtn, .penBtn ,.topaddBtn,.topdelBtn,.toppenBtn,.topsearchBtn,.topexcelBtn{ line-height: 25px; height: 25px; padding: 3px 10px 3px 26px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; }
+.top .searchBtn { background-image: url('/image/admin/Search.png'); }
+.top .searchBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .addBtn { background-image: url('/image/admin/add.png'); }
+.top .addBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .delBtn { background-image: url('/image/admin/Delete.png'); }
+.top .delBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .penBtn { background-image: url('/image/admin/pen.png'); }
+.top .penBtn:hover { border: 1px solid #999; background-color: #eee; }
+
+.top .topexcelBtn { background-image: url('/image/admin/Excel.png'); }
+.top .topexcelBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .topsearchBtn { background-image: url('/image/admin/Search.png'); }
+.top .topsearchBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .topaddBtn { background-image: url('/image/admin/add.png'); }
+.top .topaddBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .topdelBtn { background-image: url('/image/admin/Delete.png'); }
+.top .topdelBtn:hover { border: 1px solid #999; background-color: #eee; }
+.top .toppenBtn { background-image: url('/image/admin/pen.png'); }
+.top .toppenBtn:hover { border: 1px solid #999; background-color: #eee; }
+
+.top table tr td input { line-height: 22px; height: 22px; }
+
+.fixtop { top: 0px; height: 50px; padding: 0px; background-color: #F0F3F8; border: 1px solid #CBD0D4; width: 99%; }
+.fixtop table { border: 0px; }
+.fixtop table tr td { padding: 10px; }
+.fixtop table tr td h4 { font-size: 16px; color: #333; }
+
+#ft .saveBtn { background-image: url('/image/admin/save.png'); line-height: 25px; height: 25px; padding: 3px 20px 3px 36px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; }
+#ft .saveBtn:hover { border: 1px solid #999; background-color: #eee; }
+
+#w td { padding: 10px 5px; text-align: left; vertical-align: top; }
+#w .title { vertical-align: top; text-align: right; width: 80px; background-color: #f9f9f9; }
+#w p { font-size: 14px; margin: 0px; color: #222; }
+#w .text { width: 100%; height: 25px; line-height: 25px; border: 1px solid #D4D4D4; }
+#w .text:hover { border-color: #999999; }
+#w .wrightBtn { background-image: url('/image/admin/pen.png'); line-height: 25px; height: 25px; padding: 3px 20px 3px 36px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; }
+#w .wrightBtn:hover { border: 1px solid #999; background-color: #eee; }
+#w .uploadBtn { background-image: url('/image/admin/upload.png'); line-height: 25px; height: 25px; padding: 3px 20px 3px 36px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; }
+#w .uploadBtn:hover { border: 1px solid #999; background-color: #eee; }
+
+#eft .saveBtn { background-image: url('/image/admin/save.png'); line-height: 25px; height: 25px; padding: 3px 20px 3px 36px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; margin-right: 10px; }
+#eft .saveBtn:hover { border: 1px solid #999; background-color: #eee; }
+#eft .delBtn { background-image: url('/image/admin/delete1.png'); line-height: 25px; height: 25px; padding: 3px 20px 3px 36px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; }
+#eft .delBtn:hover { border: 1px solid #999; background-color: #eee; }
+
+#ew td { padding: 10px 5px; text-align: left; vertical-align: top; }
+#ew .title { vertical-align: top; text-align: right; width: 80px; background-color: #f9f9f9; }
+#ew p { font-size: 14px; margin: 0px; color: #222; }
+#ew .text { width: 100%; height: 25px; line-height: 25px; border: 1px solid #D4D4D4; }
+#ew .text:hover { border-color: #999999; }
+
+.loadinggif { height: 25px; vertical-align: bottom; margin-right: 20px; display: none; }
+
+
+#contenttop { top: 20px; padding: 0px; border: 0px solid #CBD0D4; margin-bottom: 10px; }
+#contenttop table { border: 0px; }
+#contenttop table tr td { padding: 5px 0px 5px 5px; }
+#contenttop table tr td h4 { font-size: 12px; color: #333; }
+
+#contenttop .searchBtn, .addBtn, .delBtn, saveBtn, .penBtn { line-height: 30px; height: 30px; padding: 0px 10px 0px 26px; border: 1px solid #ccc; color: #333; font-size: 14px; cursor: pointer; background-repeat: no-repeat; background-position: 5px 5px; background-color: #fff; }
+#contenttop .searchBtn { background-image: url('/image/admin/Search.png'); }
+#contenttop .searchBtn:hover { border: 1px solid #999; background-color: #eee; }
+#contenttop .addBtn { background-image: url('/image/admin/add.png'); height: 30px; line-height: 30px; }
+#contenttop .addBtn:hover { border: 1px solid #999; background-color: #eee; }
+#contenttop .delBtn { background-image: url('/image/admin/Delete.png'); }
+#contenttop .delBtn:hover { border: 1px solid #999; background-color: #eee; }
+#contenttop .penBtn { background-image: url('/image/admin/pen.png'); }
+#contenttop .penBtn:hover { border: 1px solid #999; background-color: #eee; }
+#contenttop table tr td input { line-height: 28px; height: 28px; border-width: 1px; border-style: solid; border: 1px solid #ccc; }
+.gridview { border-top: 1px solid #ccc; border-left: 1px solid #ccc; }
+.gridview th { padding: 5px 10px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; background-color: #f0f0f0; }
+.gridview td { padding: 5px 10px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }

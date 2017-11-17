@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>ExcelAbstraction</id>
+    <version>0.0.7</version>
+    <authors>Kelly Selden</authors>
+    <owners>Kelly Selden</owners>
+    <projectUrl>https://github.com/kellyselden/ExcelAbstraction</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Excel abstraction for injecting excel implementations</description>
+    <tags>Excel</tags>
+  </metadata>
+</package>
