@@ -21,7 +21,8 @@ namespace website
             string TorqueResult = request["TorqueResult"];
             string scanCode = request["scanCode"];
             string name = request["edit_name"].Trim();
-            DateTime t = DateTime.Now;
+            DateTime dt = DateTime.Now;
+            string t = dt.ToString("yyyy-MM-dd hh:mm:ss");
             string sql1 = "select * from mg_sys_log where sys_id = '" + sys_id + "'";
             FunSql.Init();
             DataTable ResTable = FunSql.GetTable(sql1);     //根据sys_id拿到选中的该记录

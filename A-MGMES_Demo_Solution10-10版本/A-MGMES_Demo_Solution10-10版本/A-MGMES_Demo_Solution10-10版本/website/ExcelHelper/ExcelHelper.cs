@@ -38,9 +38,8 @@ namespace website
 {
     public class ExcelHelper
     {
+        public static int EXCEL03_MaxRow = 10000;
         private static WriteLog wl = new WriteLog();
-
-
         #region 从datatable中将数据导出到excel
         /// <summary>
         /// DataTable导出到Excel的MemoryStream
@@ -50,7 +49,7 @@ namespace website
         public static MemoryStream ExportDT(DataTable dtSource, string strHeaderText)
         {
             HSSFWorkbook workbook = new HSSFWorkbook();
-            HSSFSheet sheet = workbook.CreateSheet() as HSSFSheet;
+            HSSFSheet sheet = null ;
 
             #region 右击文件 属性信息
 
@@ -99,12 +98,11 @@ namespace website
             {
                 #region 新建表，填充表头，填充列头，样式
 
-                if (rowIndex == 65535 || rowIndex == 0)
+                if (rowIndex % EXCEL03_MaxRow == 0)
                 {
-                    if (rowIndex != 0)
-                    {
-                        sheet = workbook.CreateSheet() as HSSFSheet;
-                    }
+                    
+                    sheet = workbook.CreateSheet() as HSSFSheet;
+                    
 
                     #region 表头及样式
 
@@ -228,16 +226,33 @@ namespace website
 
                 rowIndex++;
             }
-            using (MemoryStream ms = new MemoryStream())
+            try
             {
-                workbook.Write(ms);
-                ms.Flush();
-                ms.Position = 0;
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    workbook.Write(ms);
+                    ms.Flush();
+                    ms.Position = 0;
 
-                //sheet.Dispose();
-                //workbook.Dispose();
+                    //sheet.Dispose();
+                    //workbook.Dispose();
+                    workbook.Close();
+                    return ms;
+                }
+            }
+            catch(Exception e)
+            {
+                string s = e.Message;
+               using( MemoryStream ms = new MemoryStream(0))
+               {
 
-                return ms;
+                   return ms;
+               }
+            }
+            finally
+            {
+                workbook.Close();
+
             }
         }
 
@@ -249,7 +264,7 @@ namespace website
         static void ExportDTI(DataTable dtSource, string strHeaderText, FileStream fs)
         {
             XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.CreateSheet() as XSSFSheet;
+            XSSFSheet sheet = null;
 
             #region 右击文件 属性信息
 
@@ -297,27 +312,27 @@ namespace website
             foreach (DataRow row in dtSource.Rows)
             {
                 #region 新建表，填充表头，填充列头，样式
-
-                if (rowIndex == 0)
+                if (rowIndex % EXCEL03_MaxRow== 0)
                 {
+                    sheet = workbook.CreateSheet() as XSSFSheet;
                     #region 表头及样式
-                    //{
-                    //    XSSFRow headerRow = sheet.CreateRow(0) as XSSFRow;
-                    //    headerRow.HeightInPoints = 25;
-                    //    headerRow.CreateCell(0).SetCellValue(strHeaderText);
+                    {
+                        XSSFRow headerRow = sheet.CreateRow(0) as XSSFRow;
+                        headerRow.HeightInPoints = 25;
+                        headerRow.CreateCell(0).SetCellValue(strHeaderText);
 
-                    //    XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
-                    //    headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.CENTER;
-                    //    XSSFFont font = workbook.CreateFont() as XSSFFont;
-                    //    font.FontHeightInPoints = 20;
-                    //    font.Boldweight = 700;
-                    //    headStyle.SetFont(font);
+                        XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
+                        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                        XSSFFont font = workbook.CreateFont() as XSSFFont;
+                        font.FontHeightInPoints = 20;
+                        font.Boldweight = 700;
+                        headStyle.SetFont(font);
 
-                    //    headerRow.GetCell(0).CellStyle = headStyle;
+                        headerRow.GetCell(0).CellStyle = headStyle;
 
-                    //    //sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
-                    //    //headerRow.Dispose();
-                    //}
+                        sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, dtSource.Columns.Count - 1));
+                        //headerRow.Dispose();
+                    }
 
                     #endregion
 
@@ -325,7 +340,7 @@ namespace website
                     #region 列头及样式
 
                     {
-                        XSSFRow headerRow = sheet.CreateRow(0) as XSSFRow;
+                        XSSFRow headerRow = sheet.CreateRow(1) as XSSFRow;
 
 
                         XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
@@ -350,7 +365,7 @@ namespace website
 
                     #endregion
 
-                    rowIndex = 1;
+                    rowIndex = 2;
                 }
 
                 #endregion
@@ -436,10 +451,25 @@ namespace website
 
                 rowIndex++;
             }
-            workbook.Write(fs);
-            fs.Close();
-        }
+            try
+            {
 
+
+                workbook.Write(fs);
+                fs.Close();
+                workbook.Close();
+            }
+            catch(Exception e )
+            {
+                throw new Exception();
+                string s = e.Message;
+            }
+            finally
+            {
+                fs.Close();
+                workbook.Close();
+            }
+        }
         /// <summary>
         /// DataTable导出到Excel文件
         /// </summary>
@@ -448,40 +478,262 @@ namespace website
         /// <param name="strFileName">保存位置</param>
         public static void ExportDTtoExcel(DataTable dtSource, string strHeaderText, string strFileName)
         {
-            if (dtSource == null || dtSource.Rows.Count <1) { }
+            string result = "";
+            if (dtSource == null || dtSource.Rows.Count < 1)
+            {
+                result = "数据源为空";
+            }
             else
             {
                 string[] temp = strFileName.Split('.');
 
                 if (temp[temp.Length - 1] == "xls" && dtSource.Columns.Count < 256 && dtSource.Rows.Count < 65536)
                 {
-                    using (MemoryStream ms = ExportDT(dtSource, strHeaderText))
+                    try
                     {
-                        using (FileStream fs = new FileStream(strFileName, FileMode.Create, FileAccess.Write))
+                        using (MemoryStream ms = ExportDT(dtSource, strHeaderText))
                         {
-                            byte[] data = ms.ToArray();
-                            fs.Write(data, 0, data.Length);
-                            fs.Flush();
+                            using (FileStream fs = new FileStream(strFileName, FileMode.Create, FileAccess.Write))
+                            {
+                                byte[] data = ms.ToArray();
+                                fs.Write(data, 0, data.Length);
+                                fs.Flush();
+                            }
                         }
+                    }
+                    catch
+                    {
+                        throw new Exception();
                     }
                 }
                 else
                 {
                     if (temp[temp.Length - 1] == "xls")
                         strFileName = strFileName + "x";
-
-                    using (FileStream fs = new FileStream(strFileName, FileMode.Create, FileAccess.Write))
+                    try
                     {
-                        ExportDTI(dtSource, strHeaderText, fs);
+                        using (FileStream fs = new FileStream(strFileName, FileMode.Create, FileAccess.Write))
+                        {
+                            ExportDTI(dtSource, strHeaderText, fs);
 
+                        }
                     }
+                    catch
+                    {
+                        throw new Exception();
+                    }
+                   
 
                 }
             }
         }
         #endregion
+        #region test
+        //test begin
+       /// <summary>
+        /// DataTable导出到Excel文件
+        /// </summary>
+        /// <param name="dtSource">源DataTable</param>
+        /// <param name="strHeaderText">表头文本</param>
+        /// <param name="strFileName">保存位置</param>
+        public static byte[] ExportDTtoExcelTest(DataTable dtSource, string strHeaderText, string strFileName)
+        {
+            if (dtSource == null || dtSource.Rows.Count <1) 
+            {
+                byte[] b = new byte[1];
+                 b[0]= 1;
+                return b;
+            }
+            else
+            {
+               return  DataTable2Excel(dtSource,strFileName);
+             }
+        }
+        public static byte[] ExportDTtoExcelTest(DataTable dtSource, string strHeaderText, string strFileName,int i)
+        {
+            if (dtSource == null || dtSource.Rows.Count < 1)
+            {
+                byte[] b = new byte[1];
+                b[0] = 1;
+                return b;
+            }
+            else
+            {
+                IWorkbook book = null;
+                string extension = System.IO.Path.GetExtension(strFileName);
+                if (extension.Equals(".xls"))
+                {
+                    //把xls文件中的数据写入wk中
+                    book = new HSSFWorkbook();
+                }
+                else
+                {
+                    //把xlsx文件中的数据写入wk中
+                    book = new XSSFWorkbook();
+                }
+                
+                return DataTable2Excel(dtSource, strFileName,i,book);
+            }
+        }
 
-        #region 从excel中将数据导出到datatable
+        public static byte[] DataTable2Excel(DataTable dt, string strFileName,int inum,IWorkbook book)
+        {
+            
+            
+            string sheetName = "sheet"+inum.ToString();
+            try
+            {
+                
+                int rowNum = dt.Rows.Count;
+                if (rowNum <= EXCEL03_MaxRow)
+                    DataWrite2Sheet(dt, 0, dt.Rows.Count - 1, book, sheetName);
+                else
+                {
+                    int page = rowNum / EXCEL03_MaxRow;
+                    if (page * EXCEL03_MaxRow < rowNum)//当总行数不被sheetRows整除时，经过四舍五入可能页数不准
+                    {
+                        page = page + 1;
+                    }
+                    for (int i = 0; i < page; i++)
+                    {
+                        int start = i * EXCEL03_MaxRow;
+                        int end = (i * EXCEL03_MaxRow) + EXCEL03_MaxRow - 1;
+                        DataWrite2Sheet(dt, start, end, book, sheetName);
+                    }
+                    int lastPageItemCount = dt.Rows.Count % EXCEL03_MaxRow;
+                    DataWrite2Sheet(dt, dt.Rows.Count - lastPageItemCount, lastPageItemCount, book, sheetName);
+                }
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    book.Write(ms);
+                    book.Close();
+                    return ms.ToArray();
+                }
+            }
+            catch (Exception e)
+            {
+                string s;
+                byte[] b = new byte[1];
+                b[0] = 2;
+                s = e.Message.ToString();
+                return b;
+            }
+            finally
+            {
+                book.Close();
+            }
+        }
+        public static byte[] DataTable2Excel(DataTable dt,   string strFileName)
+        {     
+              IWorkbook book = null;
+              string extension = System.IO.Path.GetExtension(strFileName);
+              string sheetName = "sheet";
+            try
+            {
+               
+                if (extension.Equals(".xls"))
+                {
+                    //把xls文件中的数据写入wk中
+                    book = new HSSFWorkbook();
+                }
+                else
+                {
+                    //把xlsx文件中的数据写入wk中
+                    book = new XSSFWorkbook();
+                }
+           int rowNum = dt.Rows.Count;
+            if (rowNum < EXCEL03_MaxRow)
+                DataWrite2Sheet(dt, 0, dt.Rows.Count - 1, book, sheetName);
+            else
+            {
+                int page = rowNum / EXCEL03_MaxRow;
+                if (page * EXCEL03_MaxRow < rowNum)//当总行数不被sheetRows整除时，经过四舍五入可能页数不准
+                {
+                    page = page + 1;
+                 }
+                for (int i = 0; i < page; i++)
+                {
+                    int start = i * EXCEL03_MaxRow;
+                    int end = (i * EXCEL03_MaxRow) + EXCEL03_MaxRow - 1;
+                    DataWrite2Sheet(dt, start, end, book, sheetName + i.ToString());
+                }
+                int lastPageItemCount = dt.Rows.Count % EXCEL03_MaxRow;
+                DataWrite2Sheet(dt, dt.Rows.Count - lastPageItemCount, lastPageItemCount, book, sheetName + page.ToString());
+            }
+           using( MemoryStream ms = new MemoryStream())
+           {
+            book.Write(ms);
+            book.Close();
+            return ms.ToArray();
+           }
+            }
+            catch(Exception e)
+            {
+                string s;
+                 byte[] b = new byte[1];
+                 b[0]= 2;
+                 s=e.Message.ToString();
+                return b;
+            }
+            finally
+            {
+                book.Close();
+            }
+        }
+
+         private static void DataWrite2Sheet(DataTable dt, int startRow, int endRow, IWorkbook book,string sheetName)
+        {
+            ISheet sheet = book.CreateSheet(sheetName);
+            IRow header = sheet.CreateRow(0);
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ICell cell = header.CreateCell(i);
+                string val = dt.Columns[i].Caption ?? dt.Columns[i].ColumnName;
+                cell.SetCellValue(val);
+            }
+            int rowIndex = 1;
+            for (int i = startRow; i <= endRow; i++)
+            {
+                DataRow dtRow = dt.Rows[i];
+                IRow excelRow = sheet.CreateRow(rowIndex++);
+                for (int j = 0; j < dtRow.ItemArray.Length; j++)
+                {
+                    excelRow.CreateCell(j).SetCellValue(dtRow[j].ToString());
+                }
+            }
+ 
+        }
+        #endregion  //test end
+
+     
+
+        #region 导入Excel到DataTable
+        //从excel中将数据导出到DataSet
+        /// <summary>读取excel
+        /// 默认第一行为标头
+        /// </summary>
+        /// <param name="strFileName">excel文档路径</param>
+        /// <returns></returns>
+        public static DataSet ImportExceltoDs(string strFileName)
+        {
+            DataTable dt = new DataTable();
+            DataSet ds = new DataSet();
+            IWorkbook wb;
+            using (FileStream file = new FileStream(strFileName, FileMode.Open, FileAccess.Read))
+            {
+                wb = WorkbookFactory.Create(file);
+            }
+            int sheetNum = wb.NumberOfSheets;
+            for (int i = 0; i < sheetNum; i++)
+            {
+                ISheet sheet = wb.GetSheetAt(i);
+                dt = ImportDt(sheet, 0, true);
+                ds.Tables.Add(dt);
+            }
+            return ds;
+        }
+
+       
         /// <summary>读取excel
         /// 默认第一行为标头
         /// </summary>
@@ -489,15 +741,32 @@ namespace website
         /// <returns></returns>
         public static DataTable ImportExceltoDt(string strFileName)
         {
-            DataTable dt = new DataTable();
+            DataTable dt = null;
+            DataSet ds = new DataSet();
             IWorkbook wb;
             using (FileStream file = new FileStream(strFileName, FileMode.Open, FileAccess.Read))
             {
                 wb = WorkbookFactory.Create(file);
             }
-            ISheet sheet = wb.GetSheetAt(0);
-            dt = ImportDt(sheet, 0, true);
-            return dt;
+            int sheetNum = wb.NumberOfSheets;
+            for (int i = 0; i < sheetNum; i++)
+            {
+                DataTable dtTemp = new DataTable();
+                ISheet sheet = wb.GetSheetAt(i);
+                dtTemp = ImportDt(sheet, 1, true);
+                ds.Tables.Add(dtTemp);
+            }
+
+            int tableNum = ds.Tables.Count;
+            dt = ds.Tables[0].Clone();
+            if (dt != null)
+            {
+                for (int i = 0; i < tableNum; i++)
+                {
+                    dt.Merge(ds.Tables[i]);
+                }
+            }
+                return dt;
         }
 
         /// <summary>
@@ -596,6 +865,8 @@ namespace website
             return table;
         }
 
+      
+
         /// <summary>
         /// 将制定sheet中的数据导出到datatable中
         /// </summary>
@@ -604,7 +875,7 @@ namespace website
         /// <returns></returns>
         static DataTable ImportDt(ISheet sheet, int HeaderRowIndex, bool needHeader)
         {
-            DataTable table = new DataTable();
+             DataTable table = new DataTable();
             IRow headerRow;
             int cellCount;
             try
@@ -670,7 +941,7 @@ namespace website
 
                         DataRow dataRow = table.NewRow();
 
-                        for (int j = row.FirstCellNum; j <= cellCount; j++)
+                        for (int j = row.FirstCellNum; j < cellCount; j++)
                         {
                             try
                             {
@@ -764,80 +1035,90 @@ namespace website
 
         public static void InsertSheet(string outputFile, string sheetname, DataTable dt)
         {
-            FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read);
-            IWorkbook hssfworkbook = WorkbookFactory.Create(readfile);
-            //HSSFWorkbook hssfworkbook = new HSSFWorkbook(readfile);
-            int num = hssfworkbook.GetSheetIndex(sheetname);
-            ISheet sheet1;
-            if (num >= 0)
-                sheet1 = hssfworkbook.GetSheet(sheetname);
-            else
-            {
-                sheet1 = hssfworkbook.CreateSheet(sheetname);
-            }
 
-
-            try
+            using (FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read))
             {
-                if (sheet1.GetRow(0) == null)
+                IWorkbook hssfworkbook = WorkbookFactory.Create(readfile);
+                //HSSFWorkbook hssfworkbook = new HSSFWorkbook(readfile);
+                int num = hssfworkbook.GetSheetIndex(sheetname);
+                ISheet sheet1;
+                if (num >= 0)
+                    sheet1 = hssfworkbook.GetSheet(sheetname);
+                else
                 {
-                    sheet1.CreateRow(0);
+                    sheet1 = hssfworkbook.CreateSheet(sheetname);
                 }
-                for (int coluid = 0; coluid < dt.Columns.Count; coluid++)
-                {
-                    if (sheet1.GetRow(0).GetCell(coluid) == null)
-                    {
-                        sheet1.GetRow(0).CreateCell(coluid);
-                    }
-
-                    sheet1.GetRow(0).GetCell(coluid).SetCellValue(dt.Columns[coluid].ColumnName);
-                }
-            }
-            catch (Exception ex)
-            {
-                wl.WriteLogs(ex.ToString());
-                throw;
-            }
 
 
-            for (int i = 1; i <= dt.Rows.Count; i++)
-            {
                 try
                 {
-                    if (sheet1.GetRow(i) == null)
+                    if (sheet1.GetRow(0) == null)
                     {
-                        sheet1.CreateRow(i);
+                        sheet1.CreateRow(0);
                     }
                     for (int coluid = 0; coluid < dt.Columns.Count; coluid++)
                     {
-                        if (sheet1.GetRow(i).GetCell(coluid) == null)
+                        if (sheet1.GetRow(0).GetCell(coluid) == null)
                         {
-                            sheet1.GetRow(i).CreateCell(coluid);
+                            sheet1.GetRow(0).CreateCell(coluid);
                         }
 
-                        sheet1.GetRow(i).GetCell(coluid).SetCellValue(dt.Rows[i - 1][coluid].ToString());
+                        sheet1.GetRow(0).GetCell(coluid).SetCellValue(dt.Columns[coluid].ColumnName);
                     }
                 }
                 catch (Exception ex)
                 {
                     wl.WriteLogs(ex.ToString());
-                    //throw;
+                    throw;
+                }
+
+
+                for (int i = 1; i <= dt.Rows.Count; i++)
+                {
+                    try
+                    {
+                        if (sheet1.GetRow(i) == null)
+                        {
+                            sheet1.CreateRow(i);
+                        }
+                        for (int coluid = 0; coluid < dt.Columns.Count; coluid++)
+                        {
+                            if (sheet1.GetRow(i).GetCell(coluid) == null)
+                            {
+                                sheet1.GetRow(i).CreateCell(coluid);
+                            }
+
+                            sheet1.GetRow(i).GetCell(coluid).SetCellValue(dt.Rows[i - 1][coluid].ToString());
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        wl.WriteLogs(ex.ToString());
+                        //throw;
+                    }
+                }
+                try
+                {
+                    readfile.Close();
+
+                    using (FileStream writefile = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write))
+                    {
+                        hssfworkbook.Write(writefile);
+                        writefile.Close();
+                        hssfworkbook.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    wl.WriteLogs(ex.ToString());
+                }
+                finally
+                {
+                    readfile.Close();
+                    hssfworkbook.Close();
                 }
             }
-            try
-            {
-                readfile.Close();
-
-                FileStream writefile = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write);
-                hssfworkbook.Write(writefile);
-                writefile.Close();
-            }
-            catch (Exception ex)
-            {
-                wl.WriteLogs(ex.ToString());
-            }
         }
-
         #region 更新excel中的数据
         /// <summary>
         /// 更新Excel表格
@@ -877,13 +1158,20 @@ namespace website
             try
             {
                 //readfile.Close();
-                FileStream writefile = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write);
-                hssfworkbook.Write(writefile);
-                writefile.Close();
+                using (FileStream writefile = new FileStream(outputFile, FileMode.OpenOrCreate, FileAccess.Write))
+                {
+                    hssfworkbook.Write(writefile);
+                    hssfworkbook.Close();
+                    writefile.Close();
+                }
             }
             catch (Exception ex)
             {
                 wl.WriteLogs(ex.ToString());
+            }
+            finally
+            {
+                hssfworkbook.Close();
             }
 
         }
@@ -927,13 +1215,20 @@ namespace website
             }
             try
             {
-                FileStream writefile = new FileStream(outputFile, FileMode.Create);
-                hssfworkbook.Write(writefile);
-                writefile.Close();
+                using (FileStream writefile = new FileStream(outputFile, FileMode.Create))
+                {
+                    hssfworkbook.Write(writefile);
+                    hssfworkbook.Close();
+                    writefile.Close();
+                }
             }
             catch (Exception ex)
             {
                 wl.WriteLogs(ex.ToString());
+            }
+            finally
+            {
+                hssfworkbook.Close();
             }
         }
 
@@ -975,13 +1270,20 @@ namespace website
             try
             {
                 readfile.Close();
-                FileStream writefile = new FileStream(outputFile, FileMode.Create, FileAccess.Write);
-                hssfworkbook.Write(writefile);
-                writefile.Close();
+                using (FileStream writefile = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
+                {
+                    hssfworkbook.Write(writefile);
+                    writefile.Close();
+                    hssfworkbook.Close();
+                }
             }
             catch (Exception ex)
             {
                 wl.WriteLogs(ex.ToString());
+            }
+            finally
+            {
+                hssfworkbook.Close();
             }
 
         }
@@ -1025,13 +1327,20 @@ namespace website
             }
             try
             {
-                FileStream writefile = new FileStream(outputFile, FileMode.Create);
-                hssfworkbook.Write(writefile);
-                writefile.Close();
+                using (FileStream writefile = new FileStream(outputFile, FileMode.Create))
+                {
+                    hssfworkbook.Write(writefile);
+                    hssfworkbook.Close();
+                    writefile.Close();
+                }
             }
             catch (Exception ex)
             {
                 wl.WriteLogs(ex.ToString());
+            }
+            finally
+            {
+                hssfworkbook.Close();
             }
         }
 
@@ -1039,19 +1348,23 @@ namespace website
 
         public static int GetSheetNumber(string outputFile)
         {
-            int number = 0;
+            int number = -1;
             try
             {
-                FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read);
+                using (FileStream readfile = new FileStream(outputFile, FileMode.Open, FileAccess.Read))
+                {
 
-                HSSFWorkbook hssfworkbook = new HSSFWorkbook(readfile);
-                number = hssfworkbook.NumberOfSheets;
+                    HSSFWorkbook hssfworkbook = new HSSFWorkbook(readfile);
+                    number = hssfworkbook.NumberOfSheets;
+                    hssfworkbook.Close();
+                }
 
             }
             catch (Exception exception)
             {
                 wl.WriteLogs(exception.ToString());
             }
+            
             return number;
         }
 
@@ -1088,5 +1401,8 @@ namespace website
                 return false;
 
         }
+
+
+
     }
 }

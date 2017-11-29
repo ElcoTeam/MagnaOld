@@ -29,10 +29,10 @@ namespace website.Query
 
         private static DataTable GetDtTable()
         {
-            string path = HttpContext.Current.Request.MapPath("~/App_Data/excel2009.xlsx");
+            string path = HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx");
             //调用ZK的ExcelHelper
             DataTable dtTable = ExcelHelper.ImportExceltoDt(path);
-            //   ExcelHelper.ExportDTtoExcel(dtTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2006.xlsx"));
+         
             return dtTable;
         }
 

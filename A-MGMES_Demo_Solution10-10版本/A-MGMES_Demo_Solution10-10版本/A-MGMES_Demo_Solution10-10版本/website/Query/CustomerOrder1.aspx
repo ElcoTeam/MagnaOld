@@ -43,7 +43,7 @@
                     <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">查询</a>
                 </td>
                 <td style="width: 78%">
-                    <asp:Button runat="server" Style="height: 28px; padding: 0px; width: 70px" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />
+                    <input type="button" Style="height: 28px; padding: 0px; width: 70px" class="btn btn-default" value="导出excel" OnClick="excelForm()" />
                 </td>
             </tr>
         </table>
@@ -56,9 +56,23 @@
     </table>
     <script>
         function excelForm() {
-            //alert("----");
-            //$("#form1").submit();
-            $("#sub").click();
+            var OrderType = $('#OrderType').val();
+            var method = "Export";
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: '/Services1008_CustomerOrder.ashx',
+                data: {OrderType:OrderType,method:method},
+                success: function (data) {
+                    if (data == true) {
+                        $("#sub").click();
+                    }
+                    else alert('操作失败');
+                },
+                error: function () {
+                }
+            });
+            
             //alert("11111");
         }
 
@@ -82,6 +96,7 @@
             queryParams.CarType = CarType;
             queryParams.Worker = Worker;
             queryParams.OrderType = OrderType;
+            queryParams.method = "";
             dg.datagrid('reload');
         }
 
@@ -95,6 +110,7 @@
             queryParams.CarType = CarType;
             queryParams.Worker = Worker;
             queryParams.OrderType = OrderType;
+            queryParams.method = "";
             dg.datagrid('reload');
             dg.datagrid('reload');
         }
@@ -120,7 +136,17 @@
             //}
             //数据列表加载
       
-
+            var OrderCode = $('#OrderCode').val();
+            var CarType = $('#CarType').val();
+            var Worker = $('#Worker').val();
+            var OrderType = $('#OrderType').val();
+            var queryParams = {
+                OrderCode : OrderCode,
+            CarType : CarType,
+            Worker : Worker,
+            OrderType : OrderType,
+            method : "",
+        }
             dg = $('#tb').datagrid({
                 //url: "/Services1000_SysLog.ashx",
                 //url: "/HttpHandlers/StepHandler.ashx?method=queryStepList",
@@ -130,6 +156,7 @@
                 striped: true,
                 collapsible: false,
                 url: '/Services1008_CustomerOrder.ashx',
+                queryParams:queryParams,
                 sortName: 'ID',
                 sortOrder: 'asc',
                 remoteSort: true,

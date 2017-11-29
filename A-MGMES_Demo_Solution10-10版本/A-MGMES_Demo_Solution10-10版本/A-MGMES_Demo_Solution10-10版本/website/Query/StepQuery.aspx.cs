@@ -12,6 +12,7 @@ using System.IO;
 using website;
 using System.Text;
 
+using System.Web.Services;
 
 
 public partial class Query_StepQuery : System.Web.UI.Page
@@ -32,11 +33,12 @@ public partial class Query_StepQuery : System.Web.UI.Page
             }
         }
     }
+    
     public static void ExportByWeb()
     {
         HttpContext curContext = HttpContext.Current;
 
-        string outPutZipFile = Path.Combine(curContext.Server.MapPath("~/App_Data"), "excel2006.xlsx");
+        string outPutZipFile = Path.Combine(curContext.Server.MapPath("~/App_Data"), "步骤日志报表.xlsx");
 
         FileStream fileStream = new FileStream(outPutZipFile, FileMode.Open);
         long fileSize = fileStream.Length;

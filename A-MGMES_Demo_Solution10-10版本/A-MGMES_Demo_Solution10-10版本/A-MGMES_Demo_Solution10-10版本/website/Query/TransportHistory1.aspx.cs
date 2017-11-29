@@ -24,7 +24,7 @@ namespace website.Query
         {
             HttpContext curContext = HttpContext.Current;
 
-            string outPutZipFile = Path.Combine(curContext.Server.MapPath("~/App_Data"), "excel2996.xlsx");
+            string outPutZipFile = Path.Combine(curContext.Server.MapPath("~/App_Data"), "发运历史报表.xlsx");
 
             FileStream fileStream = new FileStream(outPutZipFile, FileMode.Open);
             long fileSize = fileStream.Length;

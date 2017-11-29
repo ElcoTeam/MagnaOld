@@ -96,7 +96,89 @@ namespace website
         }
 
 
+        public static DataTable GetAddupProducts(string method,string dti1, string dti2, int flag, string st_no, out DataTable outtable)//产量报表
+        {
+            string SqlStr = "";
+            if(string.IsNullOrWhiteSpace(method))
+            {
+                if (flag == 1)
+                {
+                    if (st_no == "" || st_no == null)
+                    {
+                        SqlStr = "select CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(13),cast(endTime as datetime),120) order by CONVERT(varchar(13),cast(endTime as datetime),120)";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                      
+                    }
+                    else
+                    {
+                        SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                       
+                    }
+                }
+                else
+                {
+                    if (st_no == "" || st_no == null)
+                    {
+                        SqlStr = "select CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(10),cast(endTime as datetime),120) order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                       
+                    }
+                    else
+                    {   //全选
+                        SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                        
+                    }
+                }
 
+               
+            }
+            else 
+            {
+                if (flag == 1)
+                {
+                    if (st_no == "" || st_no == null)
+                    {
+                       
+                         SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(13),cast(a.endTime as datetime),120) = CONVERT(varchar(13),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(13),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(13),cast(endTime as datetime),120)";
+                         FunSql.Init();
+                         outtable = FunSql.GetTable(SqlStr);
+                    }
+                    else
+                    {
+                       
+                        SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                    }
+                }
+                else
+                {
+                    if (st_no == "" || st_no == null)
+                    {
+                       
+                        SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(10),cast(a.endTime as datetime),120) = CONVERT(varchar(10),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(10),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                    }
+                    else
+                    {   //全选
+                       
+                        SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                        FunSql.Init();
+                        outtable = FunSql.GetTable(SqlStr);
+                    }
+                }
+
+
+            }
+            return outtable;
+        }
         public static DataTable GetAddupProducts(string dti1, string dti2, int flag, string st_no, out DataTable outtable)//产量报表
         {
             DataTable ResTable;
@@ -114,8 +196,10 @@ namespace website
                 else
                 {
                     string SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                    FunSql.Init();
                     ResTable = FunSql.GetTable(SqlStr);
                     SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                    FunSql.Init();
                     outtable = FunSql.GetTable(SqlStr);
                 }
             }
@@ -124,6 +208,7 @@ namespace website
                 if (st_no == "" || st_no == null)
                 {
                     string SqlStr = "select CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(10),cast(endTime as datetime),120) order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                    FunSql.Init();
                     ResTable = FunSql.GetTable(SqlStr);
                     SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(10),cast(a.endTime as datetime),120) = CONVERT(varchar(10),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(10),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(10),cast(endTime as datetime),120)";
                     FunSql.Init();
@@ -133,56 +218,69 @@ namespace website
                 {   //全选
                     string SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
                     //string SqlStr = "";
+                    FunSql.Init();
                     ResTable = FunSql.GetTable(SqlStr);
                     SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                    FunSql.Init();
                     outtable = FunSql.GetTable(SqlStr);
                 }
             }
 
             return ResTable;
         }
+
+       
         public static DataTable TimeProducts(string dti1, string dti2, int flag, string st_no)  //时间报表的
         {
             DataTable ResTable;
             if (flag == 1 && !string.IsNullOrEmpty(st_no))  //按小时                   前两个是工站不为空的，后两个是工站位空的，也就是只选时间
             {
-                string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
-                FunSql.Init();
-                ResTable = FunSql.GetTable(SqlStr);
+               // string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
+               // FunSql.Init();
+               // ResTable = FunSql.GetTable(SqlStr);
                 string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
                 FunSql.Init();
-                DataTable ResTable1 = FunSql.GetTable(SqlStr1);
-                ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/excel3012.xlsx"));
+                //DataTable ResTable1 = FunSql.GetTable(SqlStr1);
+                //ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+                ResTable = FunSql.GetTable(SqlStr1);
+                //ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
             }
-            else if (!string.IsNullOrEmpty(st_no))   //按天
+            else if (flag ==2 && !string.IsNullOrEmpty(st_no))   //按天
             {
-                string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
-                FunSql.Init();
-                ResTable = FunSql.GetTable(SqlStr);
+               // string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
+                //FunSql.Init();
+               // ResTable = FunSql.GetTable(SqlStr);
                 string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
                 FunSql.Init();
-                DataTable ResTable1 = FunSql.GetTable(SqlStr1);
-                ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/excel3012.xlsx"));
+                //DataTable ResTable1 = FunSql.GetTable(SqlStr1);
+                //ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+                ResTable = FunSql.GetTable(SqlStr1);
+               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+
             }
             else if (string.IsNullOrEmpty(st_no) && flag == 1)
             {
-                string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
-                FunSql.Init();
-                ResTable = FunSql.GetTable(SqlStr);
+                //string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
+                //FunSql.Init();
+                //ResTable = FunSql.GetTable(SqlStr);
                 string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
                 FunSql.Init();
-                DataTable ResTable1 = FunSql.GetTable(SqlStr1);
-                ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/excel3012.xlsx"));
+                //DataTable ResTable1 = FunSql.GetTable(SqlStr1);
+                //ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+                ResTable = FunSql.GetTable(SqlStr1);
+                //ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
             }
             else
             {
-                string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
-                FunSql.Init();
-                ResTable = FunSql.GetTable(SqlStr);
+                //string SqlStr = "select or_no,station_TimeSpan from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
+               // FunSql.Init();
+                //ResTable = FunSql.GetTable(SqlStr);
                 string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
                 FunSql.Init();
-                DataTable ResTable1 = FunSql.GetTable(SqlStr1);
-                ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/excel3012.xlsx"));
+                ResTable = FunSql.GetTable(SqlStr1);
+                //ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+               // DataTable ResTable1 = FunSql.GetTable(SqlStr1);
+               // ExcelHelper.ExportDTtoExcel(ResTable1, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
             }
             return ResTable;
         }
@@ -216,6 +314,34 @@ namespace website
             SqlConnection conn = new SqlConnection(SqlStr);
             string sql = "";
             sql = "select distinct AlarmStation,AlarmType from mg_Alarm where [AlarmStartTime]>='" + dtb + "' and [AlarmEndTime]<='" + dta + "'  and AlarmType != 4 order by AlarmStation";
+            conn.Open();
+            SqlCommand cmd = new SqlCommand(sql, conn);
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                mg_alarm alarm = new mg_alarm();
+                alarm.AlarmStation = dr["AlarmStation"].ToString();
+                alarm.AlarmType = (int)dr["AlarmType"];
+                allal.Add(alarm);
+            }
+            dr.Close();
+            conn.Close();
+            return allal;
+        }
+
+        //
+        public static List<mg_alarm> getfsabydateNew(string dtb, string dta)
+        {
+            List<mg_alarm> allal = new List<mg_alarm>();
+            string SqlStr = SqlHelper.SqlConnString;
+            SqlConnection conn = new SqlConnection(SqlStr);
+            string sql1 = @"select distinct AlarmStation, 
+case when AlarmType = 1 then 5 when AlarmType = 2 then 4
+when AlarmType = 3 then 3  when AlarmType = 4 then 1
+when AlarmType = 5 then 2 when AlarmType = 6 then 6 else 0 end as AlarmType
+from mg_Alarm where [AlarmStartTime]>='" + dtb + "' and [AlarmEndTime]<='" + dta + "'  and AlarmType != 4 ";
+            string sql =@"select a.AlarmStation as AlarmStation,max(a.AlarmType)as AlarmType  from ( "+sql1+" ) a group by a.AlarmStation";
+            
             conn.Open();
             SqlCommand cmd = new SqlCommand(sql, conn);
             SqlDataReader dr = cmd.ExecuteReader();

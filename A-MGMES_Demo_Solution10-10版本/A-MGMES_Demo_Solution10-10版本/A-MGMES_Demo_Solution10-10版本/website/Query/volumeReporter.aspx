@@ -4,6 +4,7 @@
 	<link href="/js/uploadify/uploadify.css" rel="stylesheet" />
 	<script src="/js/jquery-easyui-1.4.3/datagrid-dnd.js"></script>
 	<script src="/js/jquery-easyui-1.4.3/jquery.edatagrid.js"></script>
+    <script src="/js/echarts.js"></script>
 	<style>
 		html, body,#aspnetForm{
 			height: 100%
@@ -23,6 +24,7 @@
 	</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
 	<div class="top">
 
         <style>
@@ -40,6 +42,7 @@
                 float:left;
             }
         </style>
+  
 		<table cellpadding="0" cellspacing="0" style="width: 100%">
             <thead>
                 <tr>
@@ -62,20 +65,20 @@
                                 <span>工位</span>
                                 <div>
                                     <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
-						                data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
+						                data-options="valueField: 'st_no',textField: 'st_no'">
 					                </select>
                                 </div>
                             </li>
                             <li>
                                 <span>开始时间</span>
                                 <div>
-                                    <input id="start_time"/>
+                                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false"/>
                                 </div>
                             </li>
                             <li>
                                 <span>结束时间</span>
                                 <div>
-                                    <input id="end_time" />
+                                    <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                                 </div>
                             </li>
                             <li>
@@ -101,7 +104,8 @@
             </tfoot>
 			
 		</table>
-         <input id="subs" type="submit" name="name" value="导出Excel" hidden="hidden"/>
+      
+         
 	</div>
 	<div class="easyui-layout" data-options="fit:true">
 		<div id="chart_container" style="height:650px;width:100%">
@@ -112,92 +116,102 @@
 	<script type="text/javascript">
 
 	    function excelFor() {
-	        //alert("----");
-	        //$("#form1").submit();
-	        $("#subs").click();
-	        //alert("11111");
+	        var st_no = $('#_easyui_textbox_input2').val();
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        var flag = $('#reportType').combo('getValue');
+	        if (flag == '1') {  //1是按小时的
+	            var index = start_time.lastIndexOf(':');
+	            start_time = start_time.substr(0, index) + ':00:00';
+	            index = end_time.lastIndexOf(':');
+	            end_time = end_time.substr(0, index) + ':00:00';
+	        }
+	        method = "Export";
+	        $.ajax({
+	            type: 'get',
+	            url: '/Services1001_AddupProduct.ashx',
+	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag,method:method },
+	            dataType: 'json',
+	            cache: false,
+	            success: function (data) {
+	                if (data == true) {
+	                    $("#subs").click();
+	                }
+	                else {
+	                    alert("导出失败");
+	                }
+	            }
+	        });
 	    }
 
 
-		var myChart;
+	    var myChart;
 
 		require.config({
 			paths: {
 				echarts: '/js'
 			}
 		});
-
+	    require(
+	    				[
+	    						'echarts',
+	    						'echarts/chart/line',
+	    				],
+	    				function (ec) {
+	    				    myChart = ec.init(document.getElementById('chart_container'));
+	    				    window.onresize = myChart.resize
+	    				}
+	    );
+	    myChart = require('echarts').init(document.getElementById('chart_container'));
 		function reportTypeChanged() {
 		    var now = new Date();
-		    var parent = $('#start_time').parent().get(0);
-		    parent.innerHTML = '';
-		    var start_time = document.createElement('input');
-		    start_time.id = 'start_time';
-		    parent.appendChild(start_time);
-				
-		    parent = $('#end_time').parent().get(0);
-		    parent.innerHTML = '';
-		    var end_time = document.createElement('input');
-		    end_time.id = 'end_time';
-		    parent.appendChild(end_time);
-
+		    var start_time = $('#start_time').datetimebox('getValue');
+		    if (start_time.length < 1) {
+		        $('#start_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+		        start_time = $('#start_time').datetimebox('getValue');
+		    }
+		    var end_time = $('#end_time').datetimebox('getValue');
+		    if (end_time.length < 1) {
+		        $('#end_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+		        end_time = $('#end_time').datetimebox('getValue');
+		    }
 		    var flag = $('#reportType').combo('getValue');
+		    //var flag = 2;
 		    if (flag == '2') {
-		        $(end_time).datebox({ required: true });
-		        $(end_time).datebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay());
-		        $(start_time).datebox({ required: true });
-		        $(start_time).datebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay());
+		        $('#end_time').datebox({ required: true });
+		        $('#end_time').datebox('setValue', end_time.substr(0, 10));
+		        $('#start_time').datebox({ required: true });
+		        $('#start_time').datebox('setValue', start_time.substr(0, 10));
 		    } else {
-		        $(start_time).datetimebox({ required: true, showSeconds: false });
-		        $(start_time).datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
-		        $(end_time).datetimebox({ required: true, showSeconds: false });
-		        $(end_time).datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+		        $('#start_time').datetimebox({ required: true, showSeconds: false });
+		        $('#start_time').datetimebox('setValue', start_time.substr(0, 16));
+		        $('#end_time').datetimebox({ required: true, showSeconds: false });
+		        $('#end_time').datetimebox('setValue', end_time.substr(0, 16));
 		    }
 		}
 
 		$(function () {
-			require(
-							[
-									'echarts',
-									'echarts/chart/line',
-							],
-							function (ec) {
-								myChart = ec.init(document.getElementById('chart_container'));
-								window.onresize = myChart.resize
-								loadChart();
-							}
-			);
-			//搜索按钮
-			$('.topsearchBtn').first().click(function () {
-				loadChart();
-			});
-			reportTypeChanged();
-		});   //echart
-
-		$(function () {
-		    require(
-							[
-									'echarts',
-									'echarts/chart/line',
-							],
-							function (ec) {
-							    myChart = ec.init(document.getElementById('chart_container'));
-							    window.onresize = myChart.resize
-							}
-			);
-		    //搜索按钮
-		    //$('.topsearchBtn').first().click(function () {
-		    //    loadChart();
-		    //});
+		    $('.topsearchBtn').first().click(function () {
+		        var start_time = $('#start_time').datetimebox('getValue');
+		        var end_time = $('#end_time').datetimebox('getValue');
+		        if (start_time.length == 0 || end_time.length == 0) {
+		            alert("时间信息必须输入");
+		            return false;
+		        }
+		        else {
+		            loadChart();
+		        }
+		    });
+		    reportTypeChanged();
 		    //所属工位下拉框数据加载  
 		    reloadfl_id_s();
 		    reloadst_id_s();
-		    reloadpart_id_s();
+		   
 		    loadChart();
 		});   //echart
 
 		function loadChart() {
-
+		    //var myChart = require('echarts').init(document.getElementById('chart_container'));
 			myChart.showLoading({
 				effect: 'whirling'
 			});
@@ -214,11 +228,11 @@
 			$.ajax({
 				type: 'get',
 				url: '/Services1001_AddupProduct.ashx',
-				data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag },
+				data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag ,method:""},
 				dataType: 'json',
                 cache:false,
                 success: function (data) {
-                    
+                    //var myChart = require('echarts').init(document.getElementById('chart_container'));
 					var option = {
 						title: {
 							text: '产量报表',
@@ -305,7 +319,7 @@
 					option.series = series;
 					option.legend.data = legends;
 					option.xAxis[0].data = xAxis;
-					console.log(data);
+					//console.log(data);
 					for (var index = 0; index < data.length; index++) {
 						var item = data[index];
 						var dayTime = item['dayTime'];
@@ -319,13 +333,14 @@
 						xAxis.push(times);
 						values.push(count);
 					}
-					console.log(xAxis);
-					console.log(values);
+					//console.log(xAxis);
+					//console.log(values);
 					series[0].data = values;
 					myChart.setOption(option, true);
 					myChart.hideLoading();
 				},
-				complete: function () {
+                complete: function () {
+                    //var myChart = require('echarts').init(document.getElementById('chart_container'));
 					myChart.hideLoading();
 				}
 			});
@@ -337,14 +352,6 @@
 		function reloadst_id_s() {
 		    var fl_id = $('#fl_id_s').combobox('getValue');
 		    $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
-		}
-
-		function reloadpart_id_s() {
-		    var fl_id = $('#fl_id_s').combobox('getValue');
-            var st_no = $('#st_id_s').combobox('getValue');
-            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no);
-
-
 		}
 	</script>
 </asp:Content>

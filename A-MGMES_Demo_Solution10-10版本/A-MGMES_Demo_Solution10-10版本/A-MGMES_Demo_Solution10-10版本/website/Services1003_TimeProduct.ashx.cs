@@ -19,14 +19,36 @@ namespace website
             string EndTime = request["EndTime"];
             int Flag = Convert.ToInt32(request["Flag"]);
             string st_no = request["st_no"];
-            DataTable resTable = DataReader.TimeProducts(StartTime, EndTime, Flag,st_no);
-            string JsonStr = "[]";
-            if(resTable != null)
-                JsonStr = FunCommon.DataTableToJson(resTable);
+            string method = request["method"];
+            if (string.IsNullOrWhiteSpace(method))
+            {
+                DataTable resTable = DataReader.TimeProducts(StartTime, EndTime, Flag, st_no);
+                string JsonStr = "[]";
+                if (resTable != null)
+                    JsonStr = FunCommon.DataTableToJson(resTable);
 
-            context.Response.ContentType = "text/plain";
-            context.Response.Write(JsonStr);
-            context.Response.End();
+                context.Response.ContentType = "text/plain";
+                context.Response.Write(JsonStr);
+                context.Response.End();
+            }
+            else
+            {
+                string json = "";
+                try
+                {
+
+
+                    DataTable resTable = DataReader.TimeProducts(StartTime, EndTime, Flag, st_no);
+                    ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+                    json = "true";
+                }
+                catch
+                {
+                    json = "false";
+                }
+                context.Response.ContentType = "json";
+                context.Response.Write(json);
+            }
         }
 
         public bool IsReusable

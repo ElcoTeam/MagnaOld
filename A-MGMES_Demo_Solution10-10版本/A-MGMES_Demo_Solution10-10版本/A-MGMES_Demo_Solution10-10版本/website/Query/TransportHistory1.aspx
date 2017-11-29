@@ -41,9 +41,11 @@
                         <input id="OrderCode" type="text" />
                     </span>
                 </td>
-                <td style="width: 84%;">
+                <td style="width: 8%;">
                     <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">查询</a>
-                    <asp:Button runat="server" Style="height: 28px; padding: 0px; width: 70px" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />
+                    </td>
+                    <td style="width: 76%;">
+                    <input type="button"  Style="height: 28px; padding: 0px; width: 70px" class="btn btn-default" value="导出excel" OnClick="excelForm()" />
                 </td>
             </tr>
         </table>
@@ -56,10 +58,32 @@
     </table>
     <script>
         function excelForm() {
-            //alert("----");
-            //$("#form1").submit();
-            $("#sub").click();
-            //alert("11111");
+            var OrderCode = $('#OrderCode').val();
+            var CarType = $('#CarType').val();
+            var Worker = $('#Worker').val();
+            var TransportType = $('#TransportType').val();
+            var queryParams = Object;
+            queryParams.OrderCode = OrderCode;
+            queryParams.CarType = CarType;
+            queryParams.Worker = Worker;
+            queryParams.TransportType = TransportType;
+            queryParams.method = "Export";
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/TransportHistory.ashx",
+                data:queryParams,
+                success: function (data) {
+                    if (data == true) {
+                        $("#sub").click();
+                    }
+                    else alert('导出失败');
+                },
+                error: function () {
+                }
+            });
+            
+            
         }
 
 
@@ -82,6 +106,7 @@
             queryParams.CarType = CarType;
             queryParams.Worker = Worker;
             queryParams.TransportType = TransportType;
+            queryParams.method = "";
             dg.datagrid('reload');
         }
 
@@ -95,6 +120,7 @@
             queryParams.CarType = CarType;
             queryParams.Worker = Worker;
             queryParams.TransportType = TransportType;
+            queryParams.method = "";
             dg.datagrid('reload');
             dg.datagrid('reload');
         }
@@ -107,7 +133,18 @@
 
             //所属工位下拉框数据加载  
             var now = new Date();
-    
+            var OrderCode = $('#OrderCode').val();
+            var CarType = $('#CarType').val();
+            var Worker = $('#Worker').val();
+            var TransportType = $('#TransportType').val();
+            var queryParams = {
+            OrderCode : OrderCode,
+            CarType : CarType,
+            Worker : Worker,
+            TransportType : TransportType,
+            method :""
+            }
+           
             dg = $('#tb').datagrid({
                 fitColumns: true,
                 nowrap: false,
@@ -118,6 +155,7 @@
                 sortOrder: 'asc',
                 remoteSort: true,
                 idField: 'ID',
+                queryParams:queryParams,
                 columns: [[
 					{ field: 'ID', title: 'ID', hidden: true },
 

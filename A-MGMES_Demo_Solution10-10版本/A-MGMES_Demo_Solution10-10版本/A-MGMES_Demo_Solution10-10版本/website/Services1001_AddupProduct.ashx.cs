@@ -19,16 +19,42 @@ namespace website
             string EndTime = request["EndTime"];
             int Flag = Convert.ToInt32(request["Flag"]);    //按天，flag=2,按小时，flag=1
             string st_no = request["st_no"];
-            DataTable outtable;
-            DataTable resTable = DataReader.GetAddupProducts(StartTime, EndTime, Flag,st_no,out outtable);
+            string method = request["method"];
             string JsonStr = "[]";
-            ExcelHelper.ExportDTtoExcel(outtable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2009.xlsx"));
-            if(resTable != null)
-                JsonStr = FunCommon.DataTableToJson(resTable);
-
-            context.Response.ContentType = "text/plain";
-            context.Response.Write(JsonStr);
-            context.Response.End();
+            DataTable outtable;
+            if (string.IsNullOrWhiteSpace(method))
+            {
+                
+                DataReader.GetAddupProducts(method,StartTime, EndTime, Flag, st_no, out outtable);
+               
+                //ExcelHelper.ExportDTtoExcel(outtable, "产量报表", HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx"));
+                if (outtable != null)
+                {
+                    JsonStr = FunCommon.DataTableToJson(outtable);
+                }
+                context.Response.ContentType = "text/plain";
+                context.Response.Write(JsonStr);
+                context.Response.End();
+            }
+            else
+            {
+                DataReader.GetAddupProducts(method, StartTime, EndTime, Flag, st_no, out outtable);
+                if (outtable != null)
+                {
+                    try
+                    {
+                        ExcelHelper.ExportDTtoExcel(outtable, "产量报表", HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx"));
+                        JsonStr = "true";
+                    }
+                    catch
+                    {
+                        JsonStr = "false";
+                    }
+                }
+                context.Response.ContentType = "json";
+                context.Response.Write(JsonStr);
+                context.Response.End();
+            }
         }
 
         public bool IsReusable

@@ -21,7 +21,7 @@ namespace website
             int SortFlag = Convert.ToInt32(request["SortFlag"]);
             int PageSize = Convert.ToInt32(request["rows"]);
             int PageIndex = Convert.ToInt32(request["page"]);
-
+            string method = request["method"];
             if (string.IsNullOrEmpty(OrderType))
             {
                 OrderType = " 1=1 ";
@@ -33,16 +33,36 @@ namespace website
             string sql = "select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1 and " + OrderType + " order by a.OrderID";
             FunSql.Init();
             DataTable resTable = FunSql.GetTable(sql);
-            DataTable resTable1 = GetPagedTable(resTable, PageIndex, PageSize);
+            string JsonStr ="";
+            if(string.IsNullOrWhiteSpace(method))
+            {
+                DataTable resTable1 = GetPagedTable(resTable, PageIndex, PageSize);
 
-            int totalcount = FunSql.GetInt("select count(0) from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1 and  " + OrderType + "");
+                int totalcount = FunSql.GetInt("select count(0) from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1 and  " + OrderType + "");
 
-            string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable1);
-            //导出
-            ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2112.xlsx"));
-            context.Response.ContentType = "text/plain";
-            context.Response.Write(JsonStr);
-            context.Response.End();
+                JsonStr= FunCommon.DataTableToJson2(totalcount, resTable1);
+                //导出
+                //ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx"));
+                context.Response.ContentType = "text/plain";
+                context.Response.Write(JsonStr);
+                context.Response.End();
+            }
+            if("Export"==method)
+            {
+               try
+               {
+                   ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx"));
+                   JsonStr="true";
+               }
+                catch
+               {
+                    JsonStr="false";
+                }
+                context.Response.ContentType = "json";
+                context.Response.Write(JsonStr);
+                context.Response.End();
+            }
+            
         }
 
         public bool IsReusable

@@ -322,6 +322,10 @@ namespace website
         #region Datatable/Json
         public static string DataTableToJson(DataTable dt)
         {
+            if(dt == null)
+            {
+                return "[]";
+            }
             StringBuilder jsonBuilder = new StringBuilder();
             //jsonBuilder.Append("{\"");
             //jsonBuilder.Append(dt.TableName);

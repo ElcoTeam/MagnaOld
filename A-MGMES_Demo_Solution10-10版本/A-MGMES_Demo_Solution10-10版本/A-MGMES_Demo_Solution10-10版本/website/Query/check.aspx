@@ -125,30 +125,28 @@
 
 	    function reportTypeChanged() {
 	        var now = new Date();
-	        var parent = $('#start_time').parent().get(0);
-	        parent.innerHTML = '';
-	        var start_time = document.createElement('input');
-	        start_time.id = 'start_time';
-	        parent.appendChild(start_time);
-
-	        parent = $('#end_time').parent().get(0);
-	        parent.innerHTML = '';
-	        var end_time = document.createElement('input');
-	        end_time.id = 'end_time';
-	        parent.appendChild(end_time);
-
-	        // var flag = $('#reportType').combo('getValue');
-	        var flag = 2;
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        if (start_time.length < 1) {
+	            $('#start_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            start_time = $('#start_time').datetimebox('getValue');
+	        }
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        if (end_time.length < 1) {
+	            $('#end_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            end_time = $('#end_time').datetimebox('getValue');
+	        }
+	        var flag = $('#reportType').combo('getValue');
+	        //var flag = 2;
 	        if (flag == '2') {
-	            $(end_time).datebox({ required: true });
-	            $(end_time).datebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay());
-	            $(start_time).datebox({ required: true });
-	            $(start_time).datebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay());
+	            $('#end_time').datebox({ required: true });
+	            $('#end_time').datebox('setValue', end_time.substr(0, 10));
+	            $('#start_time').datebox({ required: true });
+	            $('#start_time').datebox('setValue', start_time.substr(0, 10));
 	        } else {
-	            $(start_time).datetimebox({ required: true, showSeconds: false });
-	            $(start_time).datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
-	            $(end_time).datetimebox({ required: true, showSeconds: false });
-	            $(end_time).datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            $('#start_time').datetimebox({ required: true, showSeconds: false });
+	            $('#start_time').datetimebox('setValue', start_time.substr(0, 16));
+	            $('#end_time').datetimebox({ required: true, showSeconds: false });
+	            $('#end_time').datetimebox('setValue', end_time.substr(0, 16));
 	        }
 	    }
 

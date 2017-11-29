@@ -341,6 +341,8 @@
                                     <img src="/image/admin/6.png" /><a>点检记录表</a></li>
                                 <li id="m5_10" runat="server" url='../Query/CustomerOrder1.aspx'>
                                     <img src="/image/admin/6.png" /><a>客户订单报表</a></li>
+                                <%--<li id="m5_12" runat="server" url='../Query/RPT_HOURLY.aspx'>
+                                    <img src="/image/admin/6.png" /><a>生产报表-班次（小时）</a></li>--%>
                             </ul>
                         </li>
                     </ul>

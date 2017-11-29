@@ -21,7 +21,7 @@ namespace website.Query
             {
                 //导出Excel
                 ExportByWeb("检测返修报表.xls");
-                ExportByWeb("ExportDemo3.xls");
+                //ExportByWeb("ExportDemo3.xls");
             }
         }
         public static MemoryStream ExcelStream()
@@ -32,10 +32,10 @@ namespace website.Query
 
         private static DataTable GetDtTable()
         {
-            string path = HttpContext.Current.Request.MapPath("~/App_Data/excel2017.xlsx");
+            string path = HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx");
             //调用ZK的ExcelHelper
             DataTable dtTable = ExcelHelper.ImportExceltoDt(path);
-            //   ExcelHelper.ExportDTtoExcel(dtTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2006.xlsx"));
+           
             return dtTable;
         }
 

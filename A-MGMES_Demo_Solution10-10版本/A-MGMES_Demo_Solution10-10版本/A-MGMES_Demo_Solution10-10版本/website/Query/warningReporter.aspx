@@ -80,6 +80,7 @@
 
 	<div class="top">
 		<table cellpadding="0" cellspacing="0" style="width: 100%">
+           
 			<tr>
 
 				<td><span class="title">报警信息查询</span></td>
@@ -95,7 +96,8 @@
 				<td style="width: 150px;"><a class="topsearchBtn" id="q1">按时间进行查询</a></td>
               <td>  
 <%--                  <asp:Button runat="server" Text="导出excel" OnClick="Button1_Click" />--%>
-                  <asp:Button runat="server" Style="height: 30px; padding: 0px; width: 80px" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />
+                  <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
+                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出Excel</a>
               </td>
 			</tr>
 		</table>
@@ -121,6 +123,8 @@
 
 	    /****************       DOM加载          ***************/
 	    $(function () {
+	        $('#start_time').datetimebox('setValue', Date.now.toString());
+	        $('#end_time').datetimebox('setValue', Date.now.toString());
 	        dg = $('#tb');
 	        $.ajaxSetup({
 	            cache: false //关闭AJAX缓存
@@ -132,7 +136,33 @@
 	        loadInfo();
 	    });
 
-
+	    function excelFor() {
+	        console.log(Date.now());
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        var index = start_time.lastIndexOf(':');
+	        start_time = start_time.substr(0, index) + ':00:00';
+	        index = end_time.lastIndexOf(':');
+	        end_time = end_time.substr(0, index) + ':00:00';
+	        $.ajax({
+	            type: 'post',
+	            url: '/Services1002_WaringList.ashx',
+	            async:false,
+	            cache: false,
+	            dataType: 'json',
+	            data: { "StartTime": "" + start_time + "", "EndTime": "" + end_time + "", "method": "Export" },
+	            cache: false,
+	            success: function (data) {
+	                if (data == true) {
+	                    console.log()
+	                    $("#subs").click();
+	                }
+	                else {
+	                    alert("导出失败");
+	                }
+	            }
+	        });
+	    }
 	    $('#q1').click(function () {
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
@@ -144,8 +174,9 @@
 	            type: 'post',
 	            url: '/Services1002_WaringList.ashx',
 	            cache: false,
+	            async: false,
 	            dataType: 'json',
-	            data:{"StartTime":""+start_time+"","EndTime":""+end_time+""},
+	            data: { "StartTime": "" + start_time + "", "EndTime": "" + end_time + "", "method": "" },
 	            success: function (list) {
 	                console.log(list);
 	                var tbody = dg.children('tbody').get(0);
@@ -194,11 +225,20 @@
 	    });
 
 	    function loadInfo() {
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        var index = start_time.lastIndexOf(':');
+	        start_time = start_time.substr(0, index) + ':00:00';
+	        index = end_time.lastIndexOf(':');
+	        end_time = end_time.substr(0, index) + ':00:00';
+	        method = "";
 	        $.ajax({
 	            type: 'post',
 	            url: '/Services1002_WaringList.ashx',
 	            cache: false,
+	            async: false,
 	            dataType: 'json',
+	            data: { "StartTime": "" + start_time + "", "EndTime": "" + end_time + "", "method": "" },
 	            success: function (list) {
 	                console.log(list);
 	                var tbody = dg.children('tbody').get(0);

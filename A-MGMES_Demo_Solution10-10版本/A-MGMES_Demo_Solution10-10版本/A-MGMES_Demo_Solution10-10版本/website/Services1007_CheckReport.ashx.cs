@@ -32,6 +32,9 @@ namespace website
                 case "SelectCheckReport":
                     SelectCheckReport();
                     break;
+                case "Export":
+                    Export();
+                    break;
             }
         }
         void SelectAssemblyLine()    //查询流水线
@@ -79,7 +82,7 @@ namespace website
                 string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
                 Response.Write(json);
                 #region 导出代码   
-                ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2027.xlsx"));
+                //ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
                 #endregion
             }
             else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))   //流水线选择，工位选择，时间没有选择的状态
@@ -94,7 +97,7 @@ namespace website
                 string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
                 Response.Write(json);
                 #region 导出代码   
-                ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2027.xlsx"));
+               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
                 #endregion
             }
             else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //流水线选择，工位选择，时间选择的状态
@@ -109,7 +112,7 @@ namespace website
                 string json = FunCommon.DataTableToJson2(totalcount, NewResTable);
                 Response.Write(json);
                 #region 导出代码   
-                ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2027.xlsx"));
+               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
                 #endregion
             }
             else if (string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //只选时间的状态
@@ -124,7 +127,7 @@ namespace website
                 string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
                 Response.Write(json);
                 #region 导出代码   
-                ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2027.xlsx"));
+               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
                 #endregion
             }
             else    //均没有选择，即为显示全部
@@ -139,9 +142,75 @@ namespace website
                 string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
                 Response.Write(json);
                 #region 导出代码   
-                ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/excel2027.xlsx"));
+               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
                 #endregion
             }
+        }
+
+
+        void Export()    //点检查询结果导出
+        {
+            string json = "";
+            DataTable ResTable = new DataTable();
+            JavaScriptSerializer s = new JavaScriptSerializer();
+            HttpRequest request = HttpContext.Current.Request;
+            string AssemblyLine = request.Params["fl_name"];
+            string Station = request.Params["st_id"];
+            string StartTime = request.Params["StartTime"];
+            string EndTime = request.Params["EndTime"];
+            //string pageNumber = request.Params["PageIndex"];
+            //string pageSize = request.Params["PageSize"];
+            int PageIndex = Convert.ToInt32(request["page"]);
+            int PageSize = Convert.ToInt32(request["rows"]); //            string.IsNullOrEmpty(StartTime)
+            if (!string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))    //流水线选择，工位没有选择，时间没有选择的状态
+            {
+                string sql = "select a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO LIKE '" + AssemblyLine + "%' order by a.ID";
+                FunSql.Init();
+                ResTable = FunSql.GetTable(sql);
+        
+            }
+            else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))   //流水线选择，工位选择，时间没有选择的状态
+            {
+                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' order by a.ID";
+                FunSql.Init();
+                 ResTable = FunSql.GetTable(sql);
+                
+            }
+            else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //流水线选择，工位选择，时间选择的状态
+            {
+                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' and cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "' order by a.ID";
+                FunSql.Init();
+                 ResTable = FunSql.GetTable(sql);
+               
+            }
+            else if (string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //只选时间的状态
+            {
+                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "' order by a.ID";
+                FunSql.Init();
+               ResTable = FunSql.GetTable(sql);
+                
+            }
+            else    //均没有选择，即为显示全部
+            {
+                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id  order by a.ID";
+                FunSql.Init();
+                ResTable = FunSql.GetTable(sql);
+               
+               
+            }
+            try
+            {
+                 #region 导出代码   
+                 ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
+                 json = "true";
+                 #endregion
+            }
+            catch
+            {
+                json = "false";
+            }
+           
+            Response.Write(json);
         }
         public DataTable GetPagedTable(DataTable dt, int PageIndex, int PageSize)//PageIndex表示第几页，PageSize表示每页的记录数
         {

@@ -28,7 +28,7 @@ namespace website.Query
 
         private static DataTable GetDtTable()
         {
-            string path = HttpContext.Current.Request.MapPath("~/App_Data/excel3012.xlsx");
+            string path = HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx");
             //调用ZK的ExcelHelper
             DataTable dtTable = ExcelHelper.ImportExceltoDt(path);
             return dtTable;

@@ -76,9 +76,37 @@
     </table>
     <script>
         function excelForm() {
-            //alert("----");
-            //$("#form1").submit();
-            $("#sub").click();
+            var fl_id = $('#fl_id_s').combo('getValue');
+            //alert(fl_id);
+            var fl_name = $('#fl_id_s').combobox('getText');
+            //alert(fl_name);
+            var st_id = $('#st_id_s').combo('getValue');
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            var queryParams =
+                {
+      
+             fl_id : fl_id,
+             fl_name : fl_name,
+             st_id : st_id,
+             StartTime : start_time,
+             EndTime : end_time,
+                }
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/Services1007_CheckReport.ashx?method=Export",
+                data: queryParams,
+                success: function (data) {
+                    if (data == "true") {
+                        $("#sub").click();
+                    }
+                    else alert('操作失败');
+                },
+                error: function () {
+                }
+            });
+          
             //alert("11111");
         }
 

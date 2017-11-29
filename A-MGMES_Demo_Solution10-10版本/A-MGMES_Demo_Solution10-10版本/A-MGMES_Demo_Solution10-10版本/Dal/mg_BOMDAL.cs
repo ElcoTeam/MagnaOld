@@ -401,7 +401,7 @@ namespace DAL
                 total = DataHelper.GetCellDataToStr(dt1.Rows[0], "total");
                 DataTable dt2 = ds.Tables["data"];
 
-                //ExcelHelper2.ExportDTtoExcel(dt2, "", @"~/ App_Data / excel2112.xlsx");
+              
 
                 list = new List<mg_BOMModel>();
                 foreach (DataRow row in dt2.Rows)

@@ -31,7 +31,7 @@
                 <td style="width: 12.5%">
                     <span>工位：</span>
                     <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
-                        data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
+                        data-options="valueField: 'st_no',textField: 'st_no'">
                     </select>
                 </td>
                 <td style="width:15%">
@@ -39,9 +39,11 @@
                         <input id="orderid" style="width: 180px" type="text" />
                 </td>
                 <td style="width: 10%">
+                     <span>开始时间：</span>
                     <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
                 <td style="width: 10%">
+                     <span>结束时间：</span>
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
                 <td style="width: 10%;"><a class="topsearchBtn" href="javascript:;" onclick="searchInfos(1,1)">查询</a></td>
@@ -52,37 +54,10 @@
                     <a style="font-size: 12px; font-weight: 700; color: #000000" class="easyui-linkbutton" href="javascript:;" onclick="excelForm()">导出Excel</a>
                 </td>
             </tr>
-<%--                <td style="width: 150px;"></td>
-                <td style="width: 150px;">
-                    <div>
-                    <span>订单号：</span>
-                        <input id="orderid" style="width: 180px" type="text" />
-                    </div>
-                </td>--%>
-<%--                <td style="width: 150px;">
-                    <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">输入订单号并查询</a>
-                </td>--%>
         </table>
 
     </div>
 
-    <%--    <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 100%">
-            <tr>
-                <td><span class="title">整车座椅档案</span> <span class="subDesc">一套整车座椅包含多个不同的部件</span>
-                </td>
-                <td style="width: 120px">
-                    <a class="topaddBtn">新增档案</a>
-                </td>
-                <td style="width: 120px">
-                    <a class="toppenBtn">编辑所选</a>
-                </td>
-                <td style="width: 120px">
-                    <a class="topdelBtn">删除所选</a>
-                </td>
-            </tr>
-        </table>
-    </div>--%>
 
     <!-- 数据表格  -->
     <table id="tb" title="工位列表" style="width: 99%;">
@@ -132,12 +107,7 @@
     </div>
 
     <script>
-        function excelForm() {
-            //alert("----");
-            //$("#form1").submit();
-            $("#sub").click();
-            //alert("11111");
-        }
+        
 
         /****************       全局变量          ***************/
         var stepid;               //要编辑的id
@@ -145,39 +115,25 @@
         var isEdit = false;     //是否为编辑状态
         var tmpNO;              //工号
         var queryParams;
-
-        //function searchOrder(num) {
-        //    var st_no = $('#st_id_s').combobox('getValue');
-
-        //    var orderid = $('#orderid').val();
-        //    var queryParams = dg.datagrid('options').queryParams;
-
-        //    queryParams.st_no = st_no;
-
-
-        //    queryParams.OrderId = orderid;
-        //    queryParams.Num = num;
-        //    dg.datagrid('reload');
-        //}
-
+        var sort;
+        var order;
         function searchInfos(sort, num) {
             var fl_name = $('#fl_id_s').combobox('getText');
             //alert(fl_name);
-            var st_no = $('#st_id_s').combobox('getValue');
+            var st_no = $('#st_id_s').combobox('getText');
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
 
             var orderid = $('#orderid').val();
 
             var queryParams = dg.datagrid('options').queryParams;
-            queryParams.SortFlag = sort;
-            queryParams.Num = num;
             queryParams.fl_name = fl_name;
             queryParams.st_no = st_no;
             queryParams.StartTime = start_time;
             queryParams.EndTime = end_time;
 
             queryParams.OrderId = orderid;
+            queryParams.method = "";
 
             dg.datagrid('reload');
         }
@@ -188,9 +144,9 @@
 
             reloadfl_id_s();
             reloadst_id_s();
-            reloadpart_id_s();
-
-            $.ajaxSetup({
+            $('#start_time').datetimebox('setValue', Date.now.toString());
+            $('#end_time').datetimebox('setValue', Date.now.toString());
+  $.ajaxSetup({
                 cache: false //关闭AJAX缓存
             });
 
@@ -219,15 +175,34 @@
                 onBeforeOpen: function () { $('#w').css('visibility', 'visible'); $('#ft').css('visibility', 'visible'); }
             });
             var now = new Date();
+            var fl_name = $('#fl_id_s').combobox('getText');
+            //alert(fl_name);
+            var st_no = $('#st_id_s').combobox('getValue');
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+
+            var orderid = $('#orderid').val();
             dg = $('#tb').datagrid({
+
                 url: '/Services1000_SysLog.ashx',   //从远程站点请求数据的 URL。
                 rownumbers: true,
                 pagination: true,
-                rownumbers: true,   //写了两遍
                 singleSelect: true,
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                sortName: "AngleResult",
+                sortOrder: "desc",
+                queryParams:
+                    {
+                        fl_name: fl_name,
+                        st_no: st_no,
+                        StartTime: start_time,
+                        EndTime: end_time,
+
+                        OrderId: orderid,
+                        method:""
+                    },
                 columns: [[ //数据表格列配置对象，查看列属性以获取更多细节
 							{ field: 'step_id', title: 'id', hidden: true },
 							{ field: 'fl_id', title: '流水线id', hidden: true },
@@ -261,7 +236,13 @@
                                 field: 'ReviseTime', title: '修改时间', width: 230, align: "center", sortable: true,
                                 editor: { type: 'validatebox', options: { required: false } }
                             }
-                ]]
+                ]],
+                onSortColum: function (sort, order) {
+                    $('#tb').datagrid('reload', {
+                        sort: sort,
+                        order: order
+                    });
+                }
             });
             //数据列表分页
             dg.datagrid('getPager').pagination({
@@ -334,8 +315,9 @@
                 url: "/Services1000_SysLog_Add.ashx",
                 data: model,
                 success: function (data) {
+                    console.log(data);
                     //alert(data.Result);
-                    if (data.Result) {
+                    if (data.Result=="true") {
                         alert('已保存');
                         dg.datagrid('reload');
                     }
@@ -404,6 +386,50 @@
             }
         }
 
+
+        function excelForm() {
+            // $("#sub").click();
+            var fl_name = $('#fl_id_s').combobox('getText');
+            //alert(fl_name);
+            var st_no = $('#st_id_s').combobox('getText');
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+
+            var orderid = $('#orderid').val();
+
+            var queryParams = dg.datagrid('options').queryParams;
+            queryParams.fl_name = fl_name;
+            queryParams.st_no = st_no;
+            queryParams.StartTime = start_time;
+            queryParams.EndTime = end_time;
+
+            queryParams.OrderId = orderid;
+            
+            queryParams.method = "Export";
+
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/Services1000_SysLog.ashx",
+                data: queryParams,
+                success: function (data) {
+                    console.log(data);
+                    //alert(data.Result);
+                    if (data.Result == "true") {
+                        
+                        alert('导出成功');
+                        $("#sub").click();
+                        //dg.datagrid('reload');
+                    }
+                    else alert('导出失败');
+                    $('#w').window('close');
+                },
+                error: function () {
+                }
+            });
+
+        }
+
         /****************       辅助业务程序          ***************/
 
 
@@ -416,12 +442,12 @@
             $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
         }
 
-        function reloadpart_id_s() {
-            var st_no = $('#st_id_s').combobox('getValue');
-            var fl_id = $('#fl_id_s').combobox('getValue');
-            var st_id = $('#st_id_s').combobox('getValue');
-            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no);
-        }
+        //function reloadpart_id_s() {
+        //    var st_no = $('#st_id_s').combobox('getValue');
+        //    var fl_id = $('#fl_id_s').combobox('getValue');
+        //    var st_id = $('#st_id_s').combobox('getValue');
+        //    $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no);
+        //}
 
 
     </script>

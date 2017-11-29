@@ -17,7 +17,7 @@ namespace website.Query
             if (IsPostBack)
             {
                 //导出Excel
-                ExportByWeb("ExportDemo.xls");
+                ExportByWeb("点检记录表.xls");
             }
         }
         public static MemoryStream ExcelStream()
@@ -28,7 +28,7 @@ namespace website.Query
 
         private static DataTable GetDtTable()
         {
-            string path = HttpContext.Current.Request.MapPath("~/App_Data/excel2027.xlsx");
+            string path = HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx");
             //调用ZK的ExcelHelper
             DataTable dtTable = ExcelHelper.ImportExceltoDt(path);
             return dtTable;
@@ -51,7 +51,7 @@ namespace website.Query
         protected void Button1_Click(object sender, EventArgs e)
         {
             //导出Excel
-            ExportByWeb("ExportDemo.xls");
+            ExportByWeb("点检记录表.xls");
         }
     }
 }

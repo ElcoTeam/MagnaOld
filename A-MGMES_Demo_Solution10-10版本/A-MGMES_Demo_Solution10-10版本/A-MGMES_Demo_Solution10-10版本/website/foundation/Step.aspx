@@ -410,6 +410,7 @@
 				url: "/HttpHandlers/ExcelHandler.ashx",
 				data: "method=createCX11",
 				success: function (data) {
+				    
 					if (data == 'true')
 						alert('已生成');
 					else

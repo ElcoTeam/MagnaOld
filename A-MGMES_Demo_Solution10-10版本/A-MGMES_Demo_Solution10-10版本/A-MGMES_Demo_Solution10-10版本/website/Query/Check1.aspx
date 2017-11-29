@@ -66,7 +66,7 @@
                             <li>
                                 <span>开始时间</span>
                                 <div>
-                                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false"/>
+                                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false,onChange:function(){reloadpart_id_s();}"/>
                                 </div>
                             </li>
                             <li>
@@ -103,7 +103,7 @@
                 <tr>
                     <td align="right">
                         <a class="topsearchBtn" href="javascript:;">生成图表</a>
-                        <asp:Button runat="server"  style="height:36px;" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />
+                        <input type="button" style="height:36px;" class="btn btn-default" value="导出excel" onclick="excelFor()" />
                     </td>
                 </tr>
             </tfoot>
@@ -137,7 +137,7 @@
           <td></td>
           <td></td>
           <td></td>
-          <td align="right">报表生成时间：<span id="date_show">2017-05-01 05:16:50</span></td>
+          <td align="right">报表生成时间：<span id="date_show"></span></td>
         </tr>
          
       </tbody>
@@ -184,10 +184,27 @@
 	    
 
 	    function excelFor() {
-	        //alert("----");
-	        //$("#form1").submit();
-	        $("#subs").click();
-	        //alert("11111");
+	        var OrderCode = $('#OrderCode').combo('getValue');
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        var StationNo = $('#_easyui_textbox_input2').val();
+	        var method = "Export";
+	        $.ajax({
+	            type: 'get',
+	            url: '/Services1004_Checks.ashx',
+	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo,method:method},
+	            dataType: 'json',
+	            async: false,
+	            cache: false,
+	            success: function (data) {
+	                if (data == true) {
+	                    $("#subs").click();
+	                } else {
+	                    alert("导出失败");
+	                }
+
+	            }
+	        });
 	    }
 
 
@@ -202,39 +219,32 @@
 
 	    function reportTypeChanged() {
 	        var now = new Date();
-	        
-	        $('#start_time').datetimebox({ required: true });
-	        $('#start_time').datetimebox('setValue', now.getFullYear() + '/' + (now.getMonth()+1) + '/' + (now.getDate()-1));
-	        $('#end_time').datetimebox({ required: true });
-	        $('#end_time').datetimebox('setValue', now.getFullYear() + '/' + (now.getMonth() + 1) + '/' + now.getDate());
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        if (start_time.length < 1) {
+	            $('#start_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            start_time = $('#start_time').datetimebox('getValue');
+	        }
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        if (end_time.length < 1) {
+	            $('#end_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            end_time = $('#end_time').datetimebox('getValue');
+	        }
+	        var flag = $('#reportType').combo('getValue');
+	        //var flag = 2;
+	        if (flag == '2') {
+	            $('#end_time').datebox({ required: true });
+	            $('#end_time').datebox('setValue', end_time.substr(0, 10));
+	            $('#start_time').datebox({ required: true });
+	            $('#start_time').datebox('setValue', start_time.substr(0, 10));
+	        } else {
+	            $('#start_time').datetimebox({ required: true, showSeconds: false });
+	            $('#start_time').datetimebox('setValue', start_time.substr(0, 16));
+	            $('#end_time').datetimebox({ required: true, showSeconds: false });
+	            $('#end_time').datetimebox('setValue', end_time.substr(0, 16));
+	        }
 	    }
-
 	    $(function () {
-	        //搜索按钮
-	        $('.topsearchBtn').first().click(function () {
-	            
-	            loadChart();
-	            var _number = $('.topsearchBtn').attr('data-number');
-	            var _page = $('.topsearchBtn').attr('data-page');
-	            if (!_page) {
-	                _page = 1;
-	            }
-	            fn_init_page(_number, _page);
-	        });
-
-	        reportTypeChanged();
-
-	        //$('#end_time').datetimebox({
-	        //    stopFirstChangeEvent: true,
-	        //    onChange: function () {
-	        //        console.log(1);
-	        //        reloadpart_id_s();
-	        //    }
-	        //});
-	    });
-
-	    $(function () {
-	        
+	        $('#date_show').html(new Date().toString("yyyy-MM-dd hh:mm:ss"));
 	        
 
 	        require(
@@ -248,9 +258,15 @@
 							}
 			);
 	        //搜索按钮
-	        //$('.topsearchBtn').first().click(function () {
-	        //    loadChart();
-	        //});
+	        $('.topsearchBtn').first().click(function () {
+	            loadChart();
+	            var _number = $('.topsearchBtn').attr('data-number');
+	            var _page = $('.topsearchBtn').attr('data-page');
+	            if (!_page) {
+	                _page = 1;
+	            }
+	            fn_init_page(_number, _page);
+	        });
 	        //所属工位下拉框数据加载  
 	        //reloadfl_id_s();
 	        //reloadst_id_s();
@@ -268,7 +284,7 @@
 	    
 	    function loadChart() {
 
-        
+	        var method = "";
 	        var OrderCode = $('#OrderCode').combo('getValue');
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
@@ -286,14 +302,14 @@
 	        $.ajax({
 	            type: 'get',
 	            url: '/Services1004_Checks.ashx',
-	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo, page: page },
+	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo, page: page ,method:method},
 	            dataType: 'json',
 	            async: false,
 	            cache: false,
 	            success: function (json) {
 
 
-	                //console.log(json);
+	                console.log(json);
 
 	                $('#data_box').html('');
 	                var data = json.data;
@@ -304,7 +320,7 @@
 	                var StationNo = json.StationNo;
 
 	                var neirong = json.neirong;
-
+                    
 	                $('.topsearchBtn').attr('data-number',number);
 
 	                $('#date_show').html(date);

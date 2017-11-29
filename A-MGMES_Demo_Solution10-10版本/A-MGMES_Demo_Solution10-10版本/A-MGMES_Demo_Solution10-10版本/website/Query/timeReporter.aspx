@@ -66,20 +66,20 @@
                                 <span>工位</span>
                                 <div>
                                     <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
-						                data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
+						                data-options="valueField: 'st_no',textField: 'st_no'">
 					                </select>
                                 </div>
                             </li>
                             <li>
                                 <span>开始时间</span>
                                 <div>
-                                    <input id="start_time"/>
+                                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false"/>
                                 </div>
                             </li>
                             <li>
                                 <span>结束时间</span>
                                 <div>
-                                    <input id="end_time" />
+                                    <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                                 </div>
                             </li>
                             <li>
@@ -99,7 +99,9 @@
                 <tr>
                     <td align="right">
                         <a class="topsearchBtn" href="javascript:;">生成图表</a>
-                        <asp:Button runat="server"  style="height:28px;" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />
+                         <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
+                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出Excel</a>
+                       <%-- <asp:Button runat="server"  style="height:28px;" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />--%>
                     <%--修改一下按钮的样式，位置--%>
                     </td>
                 </tr>
@@ -118,10 +120,51 @@
 	<script type="text/javascript">
 
 	    function excelFor() {
-	        //alert("----");
-	        //$("#form1").submit();
-	        $("#subs").click();
-	        //alert("11111");
+	        
+	        console.log(new Date());
+	        var st_no = $('#_easyui_textbox_input2').val();
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        var flag = $('#reportType').combo('getValue');
+	        var method = "Export";
+	        if (flag == '1') {
+	            var index = start_time.lastIndexOf(':');
+	            if (index < 0) {
+	                index = start_time.length;
+	                start_time = start_time.substr(0, index) + '00:00:00';
+	            }
+	            else {
+	                start_time = start_time.substr(0, index) + ':00:00';
+	            }
+	            index = end_time.lastIndexOf(':');
+	            if (index < 0) {
+	                index = start_time.length;
+	                end_time = end_time.substr(0, index) + '00:00:00';
+	            }
+	            else {
+	                end_time = end_time.substr(0, index) + ':00:00';
+	            }
+	        }
+	        $.ajax({
+	            type: 'get',
+	            url: '/Services1003_TimeProduct.ashx',
+	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag ,method:method},
+	            dataType: 'json',
+	            cache: false,
+	            async: false,
+	            success: function (data) {
+	                if (data == true) {
+	                    console.log("等待导出"+new Date());
+	                    console.log(new Date());
+	                    $("#subs").click();
+	                    console.log(new Date());
+	                    }
+	                    else {
+	                        alert("导出失败");
+	                    }
+	                }
+	            });
+	        
 	    }
 
 
@@ -133,74 +176,61 @@
 	            echarts: '/js'
 	        }
 	    });
+	    require(
+               [
+                       'echarts',
+                       'echarts/chart/bar',
+               ],
+               function (ec) {
+                   myChart = ec.init(document.getElementById('chart_container'));
+                   window.onresize = myChart.resize
+                   
+               }
+           );
 
+	    myChart = require('echarts').init(document.getElementById('chart_container'));
 	    function reportTypeChanged() {
 	        var now = new Date();
-	        var parent = $('#start_time').parent().get(0);
-	        parent.innerHTML = '';
-	        var start_time = document.createElement('input');
-	        start_time.id = 'start_time';
-	        parent.appendChild(start_time);
-
-	        parent = $('#end_time').parent().get(0);
-	        parent.innerHTML = '';
-	        var end_time = document.createElement('input');
-	        end_time.id = 'end_time';
-	        parent.appendChild(end_time);
-
+	        var start_time = $('#start_time').datetimebox('getValue');
+	        if (start_time.length < 1)
+	        {
+	            $('#start_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            start_time = $('#start_time').datetimebox('getValue');
+	        }
+	        var end_time = $('#end_time').datetimebox('getValue');
+	        if (end_time.length < 1)
+	        {
+	            $('#end_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            end_time = $('#end_time').datetimebox('getValue');
+	        }
 	        var flag = $('#reportType').combo('getValue');
 	        //var flag = 2;
 	        if (flag == '2') {
-	            $(end_time).datebox({ required: true });
-	            $(end_time).datebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay());
-	            $(start_time).datebox({ required: true });
-	            $(start_time).datebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay());
+	            $('#end_time').datebox({ required: true });
+	            $('#end_time').datebox('setValue',end_time.substr(0,10));
+	            $('#start_time').datebox({ required: true });
+	            $('#start_time').datebox('setValue', start_time.substr(0,10));
 	        } else {
-	            $(start_time).datetimebox({ required: true, showSeconds: false });
-	            $(start_time).datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
-	            $(end_time).datetimebox({ required: true, showSeconds: false });
-	            $(end_time).datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
+	            $('#start_time').datetimebox({ required: true, showSeconds: false });
+	            $('#start_time').datetimebox('setValue', start_time.substr(0,16));
+	            $('#end_time').datetimebox({ required: true, showSeconds: false });
+	            $('#end_time').datetimebox('setValue', end_time.substr(0,16));
 	        }
 	    }
 
 	    $(function () {
-	        require(
-				[
-						'echarts',
-						'echarts/chart/bar',
-				],
-				function (ec) {
-					myChart = ec.init(document.getElementById('chart_container'));
-					window.onresize = myChart.resize
-					loadChart();
-				}
-			);
+
+	        $('#start_time').datetimebox('setValue', Date.now.toString());
+	        $('#end_time').datetimebox('setValue', Date.now.toString());
+	       
 	        //搜索按钮
 	        $('.topsearchBtn').first().click(function () {
 	            loadChart();
 	        });
-	        reportTypeChanged();
-	    });
-
-	    $(function () {
-	        require(
-				[
-						'echarts',
-						'echarts/chart/bar',
-				],
-				function (ec) {
-					myChart = ec.init(document.getElementById('chart_container'));
-					window.onresize = myChart.resize
-				}
-			);
-	        //搜索按钮
-	        //$('.topsearchBtn').first().click(function () {
-	        //    loadChart();
-	        //});
-	        //所属工位下拉框数据加载  
+	         
 	        reloadfl_id_s();
 	        reloadst_id_s();
-	        reloadpart_id_s();
+	        reportTypeChanged();
 	        loadChart();
 	    });
 
@@ -213,20 +243,35 @@
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
 	        var flag = $('#reportType').combo('getValue');
-	        //if (flag == '1') {
-	        //    var index = start_time.lastIndexOf(':');
-	        //    start_time = start_time.substr(0, index) + ':00:00';
-	        //    index = end_time.lastIndexOf(':');
-	        //    end_time = end_time.substr(0, index) + ':00:00';
-	        //}
+	        var method = "";
+	        if (flag == '1') {
+	            var index = start_time.lastIndexOf(':');
+	            if (index < 0) {
+	                index = start_time.length;
+	                start_time = start_time.substr(0, index) + '00:00:00';
+	            }
+	            else
+	            {
+	                start_time = start_time.substr(0, index) + ':00:00';
+	            }
+	            index = end_time.lastIndexOf(':');
+	            if (index < 0) {
+	                index = start_time.length;
+	                end_time = end_time.substr(0, index) + '00:00:00';
+	            }
+	            else {
+	                end_time = end_time.substr(0, index) + ':00:00';
+	            }
+	        }
 	        $.ajax({
 	            type: 'get',
 	            url: '/Services1003_TimeProduct.ashx',
-	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag },
+	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag ,method:method},
 	            dataType: 'json',
 	            cache: false,
+	            async: false,
 	            success: function (data) {
-
+	                //console.log(data);
 	                var option = {
 	                    title: {
 	                        text: '时间报表',
@@ -321,12 +366,12 @@
 	                option.series = series;
 	                option.legend.data = legends;
 	                option.xAxis[0].data = xAxis;
-	                console.log(data);
+	                //console.log(data);
 	                for (var index = 0; index < data.length; index++) {
 	                    var item = data[index];
-	                    var dayTime = item['or_no'];
+	                    var dayTime = item['订单号'];
 	                    //var dayTime = item[''];
-	                    var count = item['station_TimeSpan'];
+	                    var count = item['耗时'];
 	                    if (flag == '1') {
 	                        var index11 = dayTime.lastIndexOf(' ');
 	                        dayTime = dayTime.substr(index11 + 1, 2);
@@ -335,8 +380,8 @@
 	                    xAxis.push(times);
 	                    values.push(count);
 	                }
-	                console.log(xAxis);
-	                console.log(values);
+	                //console.log(xAxis);
+	                //console.log(values);
 	                series[0].data = values;
 	                myChart.setOption(option, true);
 	                myChart.hideLoading();
@@ -355,10 +400,6 @@
 	        $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
 	    }
 
-	    function reloadpart_id_s() {
-	        var fl_id = $('#fl_id_s').combobox('getValue');
-            var st_no = $('#st_id_s').combobox('getValue');
-	        $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no);
-	    }
+	    
 	</script>
 </asp:Content>
