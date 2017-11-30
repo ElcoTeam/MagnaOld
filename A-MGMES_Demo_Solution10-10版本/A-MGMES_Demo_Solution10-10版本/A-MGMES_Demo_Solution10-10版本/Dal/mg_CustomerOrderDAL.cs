@@ -5,7 +5,7 @@ using System.Text;
 using System.Data;
 using System.Data.SqlClient;
 using Tools;
-using DBUtility;
+using DbUtility;
 using Model;
 
 
@@ -13,6 +13,78 @@ namespace DAL
 {
     public class mg_CustomerOrderDAL
     {
+
+        public static DataTable getTable(int Pagesize, int pageIndex, int StartIndex, int EndIndex, string SortFlag, string sortOrder, string wherestr, out int total)
+        {
+            if(string.IsNullOrEmpty(SortFlag))
+            {
+                SortFlag = "OrderID";
+            }
+            if(string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "asc";
+            }
+            StringBuilder commandText = new StringBuilder();
+            commandText.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            commandText.Append(wherestr);//这里修改条件语句
+            commandText.Append(" order by a."+SortFlag+" "+ sortOrder);
+            string query_sql = commandText.ToString();
+            StringBuilder commandText1 = new StringBuilder();
+            commandText1.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            commandText1.Append(wherestr);//这里修改条件语句
+            string count_sql = "select count(*) as total from  (" + commandText1.ToString() + " ) result ";
+           
+            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
+            if (DataHelper.HasData(ds))
+            {
+                DataTable dt1 = ds.Tables["count"];
+                total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
+                DataTable dt2 = ds.Tables["data"];
+                return dt2;
+            }
+            else
+            {
+                total = 0;
+                return null;
+            }
+        }
+
+
+        public static DataTable getTableExcel(string SortFlag, string sortOrder, string wherestr, out int total)
+        {
+            if (string.IsNullOrEmpty(SortFlag))
+            {
+                SortFlag = "OrderID";
+            }
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                sortOrder = "asc";
+            }
+            StringBuilder commandText = new StringBuilder();
+            commandText.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            commandText.Append(wherestr);//这里修改条件语句
+            commandText.Append(" order by a." + SortFlag + " " + sortOrder);
+            string query_sql = commandText.ToString();
+            StringBuilder commandText1 = new StringBuilder();
+            commandText1.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            commandText1.Append(wherestr);//这里修改条件语句
+            string count_sql = "select count(*) as total from  (" + commandText1.ToString() + " ) result ";
+
+            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
+            if (DataHelper.HasData(ds))
+            {
+                DataTable dt1 = ds.Tables["count"];
+                total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
+                DataTable dt2 = ds.Tables["data"];
+                return dt2;
+            }
+            else
+            {
+                total = 0;
+                return null;
+            }
+        }
+
         public static int AddOrder(string co_no, int all_id, int co_count, string co_customer)
         {
             string sql = @"INSERT INTO [mg_CustomerOrder] ([co_no],[all_id],[co_count],[co_customer]) VALUES ('" + co_no + "'," + all_id + "," + co_count + ",'" + co_customer + @"')";

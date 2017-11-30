@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using Model;
 using System.Reflection;
+using Bll;
 namespace website
 {
     /// <summary>
@@ -91,8 +92,8 @@ namespace website
                 List<mg_alarm> fsc = new List<mg_alarm>();
                 List<mg_alarm> rsb = new List<mg_alarm>();
                 List<mg_alarm> rsc = new List<mg_alarm>();
-                alls = DataReader.getfsabydateNew(dt1, dt2);
-
+                //alls = DataReader.getfsabydateNew(dt1, dt2);
+                alls = mg_alarmBLL.getfsabydateNew(dt1, dt2);
                 int numOfAll = alls.Count;
                 for (int i = 0; i < numOfAll; i++)
                 {
@@ -160,8 +161,7 @@ namespace website
                     afteralarm.Add(rsb.ElementAt(i));
                     afteralarm.Add(rsc.ElementAt(i));
                 }
-                //ExcelHelper.ExportDTtoExcel(  hehe.ToDataTable<mg_alarm>(excel), "", HttpContext.Current.Request.MapPath("~/App_Data/报警信息报表.xlsx"));
-                //  ExcelHelper.ExportDTtoExcel(excel, "", HttpContext.Current.Request.MapPath("~/App_Data/报警信息报表.xlsx"));
+                
 
                 string json = Newtonsoft.Json.JsonConvert.SerializeObject(afteralarm);
                 context.Response.ContentType = "text/plain";
@@ -173,8 +173,8 @@ namespace website
                 try
                 {
 
-                    
-                    excel = DataReader.getfsabydateexcel(dt1, dt2);
+
+                    excel = mg_alarmBLL.getfsabydateexcel(dt1, dt2);
                     ExcelHelper.ExportDTtoExcel(excel, "", HttpContext.Current.Request.MapPath("~/App_Data/报警信息报表.xlsx"));
                     json = "true";
                 }catch

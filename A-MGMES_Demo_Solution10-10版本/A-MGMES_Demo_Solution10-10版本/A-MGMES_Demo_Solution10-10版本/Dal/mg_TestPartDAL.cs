@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Model;
 using Tools;
-using DBUtility;
+using DbUtility;
 using System.Data;
 using System.Data.SqlClient;
 

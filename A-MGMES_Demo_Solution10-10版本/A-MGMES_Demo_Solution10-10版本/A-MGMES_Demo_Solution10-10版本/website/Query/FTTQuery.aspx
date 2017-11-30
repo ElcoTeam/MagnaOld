@@ -110,14 +110,14 @@
                 collapsible: false,
                 url: '/Services1006_FTT.ashx',
                 
-                //sortName: 'sortNumber',
-                //sortOrder: 'asc'
+                sortName: 'id',
+                sortOrder: 'asc',
                 columns: [[
 							{ field: 'id', title: 'id', hidden: true },
-							{ field: 'cl_name', title: '班次名', width: 200, align: "center" },
-							{ field: 'FTT', title: 'FTT值', width: 200, align: "center" },
-							{ field: 'cl_starttime', title: '开始时间', width: 200, align: "center" },
-							{ field: 'cl_endtime', title: '结束时间', width: 200, align: "center" },
+							{ field: 'cl_name', title: '班次名', width: 200, align: "center",sortable:true },
+							{ field: 'FTT', title: 'FTT值', width: 200, align: "center", sortable: true },
+							{ field: 'cl_starttime', title: '开始时间', width: 200, align: "center", sortable: true },
+							{ field: 'cl_endtime', title: '结束时间', width: 200, align: "center", sortable: true },
                 ]],
 
                 rownumbers: true,

@@ -11,7 +11,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 
 using System.Runtime.Serialization.Formatters.Binary;
-
+using Bll;
+using Model;
 namespace website
 {
     /// <summary>
@@ -21,7 +22,8 @@ namespace website
     {
         HttpRequest Request = null;
         HttpResponse Response = null;
-
+        public static string sort = "-1";
+        public static string order = "-1";
         public void ProcessRequest(HttpContext context)
         {
             HttpRequest request = System.Web.HttpContext.Current.Request;
@@ -44,8 +46,7 @@ namespace website
             //ygy 
             string wherestr = " ";
             string JsonStr="";
-            string sort = "-1";
-            string order = "-1";
+           
             if (!string.IsNullOrWhiteSpace(AssemblyLine))
             {
                 wherestr += "  and fl_name ='" + AssemblyLine + "'";
@@ -75,17 +76,9 @@ namespace website
                 order = sortOrder;
                 int StartIndex = PageSize * (PageIndex - 1) + 1;
                 int EndIndex = StartIndex + PageSize - 1;
-                string query_sql = " select * from(select row_number() over(order by " + SortFlag + " " + sortOrder + " ) as rowid,report.* from mg_sys_log report  where 1 = 1 " + wherestr + ") as Results where rowid >=" + StartIndex + " and rowid <=" + EndIndex + " ";
-                string count_sql = "select  count(*) from mg_sys_log where 1 = 1" + wherestr;
-                FunSql.Init();
-                resTable = FunSql.GetTable(query_sql);
-                FunSql.Init();
-                totalcount = FunSql.GetInt(count_sql);
-                JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
-                //
-                string sql = "select  * from mg_sys_log where 1 = 1" + wherestr;
-                resTable = FunSql.GetTable(sql);
-                
+                //string   
+                JsonStr = mg_sys_logBll.getList(PageSize, StartIndex, EndIndex, sort, order, wherestr);
+
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(JsonStr);
 
@@ -107,44 +100,10 @@ namespace website
                 string fileName = HttpContext.Current.Request.MapPath("~/App_Data/步骤日志报表.xlsx");
                 try
                 {
-                    string count_sql = "select  count(*) from mg_sys_log where 1 = 1" + wherestr;
-                    FunSql.Init();
-                    totalcount = FunSql.GetInt(count_sql);
-                    int start = 0;
-                    int end = 0;
-                    string query_sql = "";
-                    DataTable dt = new DataTable();
-                    int page = totalcount / ExcelHelper.EXCEL03_MaxRow;
-
-                    string sheetName = "sheet";
-                    if (page * ExcelHelper.EXCEL03_MaxRow < totalcount)//当总行数不被sheetRows整除时，经过四舍五入可能页数不准
-                    {
-                        page = page + 1;
-                    }
-                    for (int i = 0; i < page; i++)
-                    {
-                        sheetName ="sheet"+i.ToString();
-                        start = i * ExcelHelper.EXCEL03_MaxRow + 1;
-                        end = (i * ExcelHelper.EXCEL03_MaxRow) + ExcelHelper.EXCEL03_MaxRow;
-                        if (end > totalcount)
-                        {
-                            end = totalcount;
-                        }
-                        query_sql = " select * from(select row_number() over(order by " + sort + "  " + order + " ) as rowid,report.* from mg_sys_log report  where 1 = 1 " + wherestr + ") as Results where rowid >=" + start + " and rowid <=" + end + " ";
-                        dt = FunSql.GetTable(query_sql);
-                        if (i == 0)
-                        {
-                            byte[] data = ExcelHelper.ExportDTtoExcelTest(dt, "HeaderText", fileName, i);
-                            FileStream fs = new FileStream(fileName, FileMode.Create);
-                            fs.Write(data, 0, data.Length);
-                            fs.Close();
-                        }
-
-                        else
-                        {
-                            ExcelHelper.InsertSheet(fileName, sheetName, dt);
-                        }
-                    }
+                    int StartIndex = 1;
+                    int EndIndex = -1;
+                    resTable = mg_sys_logBll.getList(PageSize, StartIndex, EndIndex, sort, order, wherestr,out totalcount );
+                    ExcelHelper.ExportDTtoExcel(resTable, "步骤日志报表", fileName);
                     string ss = "true";
                     json = "{\"Result\":\"" + ss + "\"}";
                    

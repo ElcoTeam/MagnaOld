@@ -187,7 +187,7 @@
                 striped: true,
                 collapsible: false,
                 url: '/Services1007_CheckReport.ashx?method=SelectCheckReport',
-                sortName: 'sortNumber',
+                sortName: 'ID',
                 sortOrder: 'asc',
                 remoteSort: true,
                 idField: 'id',
@@ -307,8 +307,8 @@
 
         function reloadpart_id_s() {
             var fl_id = $('#fl_id_s').combobox('getValue');
-            var st_no = $('#st_id_s').combobox('getValue');
-            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no);
+            var st_id = $('#st_id_s').combobox('getValue');
+            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_id=' + st_id);
         }
     </script>
 </asp:Content>

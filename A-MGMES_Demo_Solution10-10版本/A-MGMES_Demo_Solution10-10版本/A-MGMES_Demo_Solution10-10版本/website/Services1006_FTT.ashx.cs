@@ -6,7 +6,7 @@ using System.Data;
 using System.IO;
 using System.Text;
 using System.Reflection;
-
+using Bll;
 namespace website
 {
     /// <summary>
@@ -14,6 +14,8 @@ namespace website
     /// </summary>
     public class Services1006_FTT : IHttpHandler
     {
+        public static string sort = "-1";
+        public static string order = "-1";
 
         public void ProcessRequest(HttpContext context)
         {
@@ -23,85 +25,36 @@ namespace website
             string clnameid = request["clnameid"];
             int PageSize = Convert.ToInt32(request["rows"]);
             int PageIndex = Convert.ToInt32(request["page"]);
-
-            StringBuilder commandText = new StringBuilder();
-
-            if (string.IsNullOrEmpty(clnameid) && string.IsNullOrEmpty(StartTime) && string.IsNullOrEmpty(EndTime))
+            string SortFlag = request["sort"];
+            string sortOrder = request["order"];
+            string where = "";
+            if(!string.IsNullOrEmpty(StartTime))
             {
+                where += " and cl_starttime>='" + StartTime + "'";
+            }
+            if(!string.IsNullOrEmpty(EndTime))
+            {
+                where += " and cl_endtime<='" + EndTime + "'";
+            }
+            if(!string.IsNullOrEmpty(clnameid))
+            {
+                where += " and cl_name like'%" + clnameid + "%'"; 
+            }
+            int totalcount;
+            DataTable resTable = new DataTable();
+            sort = SortFlag;
+            order = sortOrder;
+            int StartIndex = PageSize * (PageIndex - 1) + 1;
+            int EndIndex = StartIndex + PageSize - 1;
 
-                commandText.Append("SELECT top " + PageSize + "  * FROM mg_Report_FTT WHERE id NOT IN(SELECT TOP (" + PageSize + "*(" + PageIndex + "-1)) id FROM  mg_Report_FTT ORDER BY id DESC) ORDER BY id DESC");
-                FunSql.Init();
-                DataTable resTable = FunSql.GetTable(commandText.ToString());
-                int totalcount = FunSql.GetInt("select count(id) from mg_Report_FTT");
+
+            resTable = FTT_BLL.getTable(PageSize,PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
                 string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
 
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(JsonStr);
                 context.Response.End();
-            }
-            else if (clnameid != "" && clnameid != null && StartTime != "" && EndTime != "")
-            {
-                commandText.Append("SELECT TOP " + PageSize + " * FROM (SELECT ROW_NUMBER() OVER (ORDER BY ID) AS RowNumber,* FROM mg_Report_FTT ");
-                commandText.Append(" WHERE cl_name like'%" + clnameid + "%' and cl_starttime>='" + StartTime + "' and cl_endtime<='" + EndTime + "'");//这里修改条件语句
-                commandText.Append(" ) AS T  WHERE RowNumber > (" + PageSize + "*(" + PageIndex + "-1))");
-
-                FunSql.Init();
-                DataTable resTable = FunSql.GetTable(commandText.ToString());
-
-                int totalcount = FunSql.GetInt("select count(id) from mg_Report_FTT  WHERE cl_name like'%" + clnameid + "%' and cl_starttime>='" + StartTime + "' and cl_endtime<='" + EndTime + "'");
-
-                string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
-
-                context.Response.ContentType = "text/plain";
-                context.Response.Write(JsonStr);
-                context.Response.End();
-            }
-            else if (string.IsNullOrEmpty(clnameid) && StartTime != "" && EndTime != "") 
-            {
-                commandText.Append("SELECT TOP " + PageSize + " * FROM (SELECT ROW_NUMBER() OVER (ORDER BY ID) AS RowNumber,* FROM mg_Report_FTT ");
-                commandText.Append(" WHERE cl_starttime>='" + StartTime + "' and cl_endtime<='" + EndTime + "'");//这里修改条件语句
-                commandText.Append(" ) AS T  WHERE RowNumber > (" + PageSize + "*(" + PageIndex + "-1))");
-
-                FunSql.Init();
-                DataTable resTable = FunSql.GetTable(commandText.ToString());
-
-                int totalcount = FunSql.GetInt("select count(id) from mg_Report_FTT  WHERE cl_starttime>='" + StartTime + "' and cl_endtime<='" + EndTime + "'");
-
-                string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
-
-                context.Response.ContentType = "text/plain";
-                context.Response.Write(JsonStr);
-                context.Response.End();
-            }
-            else if (clnameid != "" && StartTime == "" && EndTime == "")
-            {
-                commandText.Append("SELECT TOP " + PageSize + " * FROM (SELECT ROW_NUMBER() OVER (ORDER BY ID) AS RowNumber,* FROM mg_Report_FTT ");
-                commandText.Append(" WHERE cl_name like'%" + clnameid + "%'");//这里修改条件语句
-                commandText.Append(" ) AS T  WHERE RowNumber > (" + PageSize + "*(" + PageIndex + "-1))");
-
-                FunSql.Init();
-                DataTable resTable = FunSql.GetTable(commandText.ToString());
-
-                int totalcount = FunSql.GetInt("select count(id) from mg_Report_FTT  WHERE cl_name like'%" + clnameid + "%'");
-
-                string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
-
-                context.Response.ContentType = "text/plain";
-                context.Response.Write(JsonStr);
-                context.Response.End();
-            }
-            else
-            {
-                commandText.Append("SELECT top " + PageSize + "  * FROM mg_Report_FTT WHERE id NOT IN(SELECT TOP (" + PageSize + "*(" + PageIndex + "-1)) id FROM  mg_Report_FTT ORDER BY id DESC) ORDER BY id DESC");
-                FunSql.Init();
-                DataTable resTable = FunSql.GetTable(commandText.ToString());
-                int totalcount = FunSql.GetInt("select count(id) from mg_Report_FTT");
-                string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
-
-                context.Response.ContentType = "text/plain";
-                context.Response.Write(JsonStr);
-                context.Response.End();
-            }
+            
         }
 
         public bool IsReusable

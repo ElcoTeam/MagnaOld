@@ -217,7 +217,7 @@
 	        }
 	    });
 
-	    function reportTypeChanged() {
+	    function InitTime() {
 	        var now = new Date();
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        if (start_time.length < 1) {
@@ -229,21 +229,11 @@
 	            $('#end_time').datetimebox('setValue', now.getFullYear() + '/' + now.getMonth() + '/' + now.getDay() + ' ' + now.getHours() + ':' + now.getMinutes());
 	            end_time = $('#end_time').datetimebox('getValue');
 	        }
-	        var flag = $('#reportType').combo('getValue');
-	        //var flag = 2;
-	        if (flag == '2') {
-	            $('#end_time').datebox({ required: true });
-	            $('#end_time').datebox('setValue', end_time.substr(0, 10));
-	            $('#start_time').datebox({ required: true });
-	            $('#start_time').datebox('setValue', start_time.substr(0, 10));
-	        } else {
-	            $('#start_time').datetimebox({ required: true, showSeconds: false });
-	            $('#start_time').datetimebox('setValue', start_time.substr(0, 16));
-	            $('#end_time').datetimebox({ required: true, showSeconds: false });
-	            $('#end_time').datetimebox('setValue', end_time.substr(0, 16));
-	        }
+	       
 	    }
 	    $(function () {
+	        var Number;
+	        InitTime();
 	        $('#date_show').html(new Date().toString("yyyy-MM-dd hh:mm:ss"));
 	        
 
@@ -265,7 +255,7 @@
 	            if (!_page) {
 	                _page = 1;
 	            }
-	            fn_init_page(_number, _page);
+	            //fn_init_page(_number, _page);
 	        });
 	        //所属工位下拉框数据加载  
 	        //reloadfl_id_s();
@@ -295,10 +285,6 @@
 	            page = 1;
 	        }
 	        var StationNo = $('#_easyui_textbox_input2').val();
-
-
-
-	     
 	        $.ajax({
 	            type: 'get',
 	            url: '/Services1004_Checks.ashx',
@@ -322,7 +308,7 @@
 	                var neirong = json.neirong;
                     
 	                $('.topsearchBtn').attr('data-number',number);
-
+	                fn_init_page(number, yee);
 	                $('#date_show').html(date);
 	                $('#order_show').html(OrderNo);
 	                $('#page_show').html(yee);

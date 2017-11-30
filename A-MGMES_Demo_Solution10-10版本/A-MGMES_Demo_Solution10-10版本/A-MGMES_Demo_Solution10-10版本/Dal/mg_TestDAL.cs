@@ -5,7 +5,7 @@ using System.Text;
 using Model;
 using System.Data;
 using System.Data.SqlClient;
-using DBUtility;
+using DbUtility;
 using Tools;
 
 namespace Dal

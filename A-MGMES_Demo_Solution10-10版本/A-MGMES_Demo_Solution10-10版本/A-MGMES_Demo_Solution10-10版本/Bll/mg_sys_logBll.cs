@@ -5,14 +5,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Tools;
-
+using System.Data;
 namespace Bll
 {
     public class mg_sys_logBll
     {
-        public static string getTorqueAndAngleInfo(string fl_id, string st_no, string part_no)
+        public static int InsertLog(mg_sys_log model)
         {
-            List<mg_sys_log> result = mg_sys_LogDal.getTorqueAndAngleInfo(fl_id, st_no, part_no);
+            return mg_sys_LogDal.InsertLog(model);
+        }
+        public static DataTable GetTableByID(string ID)
+        {
+            return mg_sys_LogDal.GetTableByID(ID);
+        }
+        public static string getList(int Pagesize,int StartIndex, int EndIndex,string SortFlag, string sortOrder,string wherestr)
+        {
+            return mg_sys_LogDal.getList(Pagesize,StartIndex, EndIndex, SortFlag, sortOrder, wherestr);
+        }
+        public static DataTable getList(int Pagesize, int StartIndex, int EndIndex, string SortFlag, string sortOrder, string wherestr,out int total)
+        {
+            return mg_sys_LogDal.getList(Pagesize, StartIndex, EndIndex, SortFlag, sortOrder, wherestr,out total);
+        }
+        public static string getTorqueAndAngleInfo(string fl_id, string st_id, string part_no)
+        {
+            List<mg_sys_log> result = mg_sys_LogDal.getTorqueAndAngleInfo(fl_id, st_id, part_no);
 
             return JSONTools.ScriptSerialize<List<mg_sys_log>>(result);
 
@@ -30,9 +46,9 @@ namespace Bll
             return JSONTools.ScriptSerialize(result);
         }
 
-        public static string getpart_idList(string fl_id, string st_no)
+        public static string getpart_idList(string fl_id, string st_id)
         {
-            List<object> result = mg_sys_LogDal.getpart_idList(fl_id, st_no);
+            List<object> result = mg_sys_LogDal.getpart_idList(fl_id, st_id);
             return JSONTools.ScriptSerialize(result);
         }
 

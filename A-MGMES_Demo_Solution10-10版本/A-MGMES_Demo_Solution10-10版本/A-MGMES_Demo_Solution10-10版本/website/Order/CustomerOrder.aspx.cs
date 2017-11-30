@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using Bll;
-using DBUtility;
+using DbUtility;
 using Microsoft.SqlServer.Server;
 using Tools;
 

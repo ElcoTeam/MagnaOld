@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-
+using Bll;
 namespace website
 {
     /// <summary>
@@ -22,11 +22,12 @@ namespace website
             string method = request["method"];
             string JsonStr = "[]";
             DataTable outtable;
+
             if (string.IsNullOrWhiteSpace(method))
             {
                 
-                DataReader.GetAddupProducts(method,StartTime, EndTime, Flag, st_no, out outtable);
                
+                volumn_report_BLL.GetAddupProducts(method, StartTime, EndTime, Flag, st_no, out outtable);
                 //ExcelHelper.ExportDTtoExcel(outtable, "产量报表", HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx"));
                 if (outtable != null)
                 {
@@ -38,7 +39,9 @@ namespace website
             }
             else
             {
-                DataReader.GetAddupProducts(method, StartTime, EndTime, Flag, st_no, out outtable);
+                //DataReader.GetAddupProducts(method, StartTime, EndTime, Flag, st_no, out outtable);
+                volumn_report_BLL.GetAddupProducts(method, StartTime, EndTime, Flag, st_no, out outtable);
+               
                 if (outtable != null)
                 {
                     try

@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
-
+using Bll;
 namespace website
 {
     /// <summary>
@@ -12,6 +12,8 @@ namespace website
     /// </summary>
     public class Services1007_CheckReport : IHttpHandler
     {
+        public static string sort = "-1";
+        public static string order = "-1";
         HttpRequest Request = null;
         HttpResponse Response = null;
         public void ProcessRequest(HttpContext context)
@@ -37,26 +39,23 @@ namespace website
                     break;
             }
         }
+        public static string RequstString(string sParam)
+        {
+            return (HttpContext.Current.Request[sParam] == null ? string.Empty
+                  : HttpContext.Current.Request[sParam].ToString().Trim());
+        }
         void SelectAssemblyLine()    //查询流水线
         {
-            JavaScriptSerializer s = new JavaScriptSerializer();
-            HttpRequest request = HttpContext.Current.Request;
-            string sql = "select fl_name from mg_FlowLine order by fl_name";
-            FunSql.Init();
-            DataTable ResTable = FunSql.GetTable(sql);
-            string json = FunCommon.DataTableToJson(ResTable);
-            Response.Write(json);
+
+            string a = mg_sys_logBll.getfl_idList();
+            Response.Write(a);
+            Response.End();
         }
         void SelectStation()    //查询工位
         {
-            JavaScriptSerializer s = new JavaScriptSerializer();
-            HttpRequest request = HttpContext.Current.Request;
-            string AssemblyLine = request.Params["AssemblyLine"];
-            string sql = @"select distinct st_no from mg_station a left join mg_FlowLine b on a.fl_id = b.fl_id where b.fl_name = '" + AssemblyLine + "' order by a.st_no";
-            FunSql.Init();
-            DataTable ResTable = FunSql.GetTable(sql);
-            string json = FunCommon.DataTableToJson(ResTable);
-            Response.Write(json);
+            string a = mg_sys_logBll.getst_idList(RequstString("fl_id"));
+            Response.Write(a);
+            Response.End();
         }
         void SelectCheckReport()    //点检查询结果
         {
@@ -66,85 +65,42 @@ namespace website
             string Station = request.Params["st_id"];
             string StartTime = request.Params["StartTime"];
             string EndTime = request.Params["EndTime"];
-            //string pageNumber = request.Params["PageIndex"];
-            //string pageSize = request.Params["PageSize"];
+            
             int PageIndex = Convert.ToInt32(request["page"]);
             int PageSize = Convert.ToInt32(request["rows"]); //            string.IsNullOrEmpty(StartTime)
-            if (!string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))    //流水线选择，工位没有选择，时间没有选择的状态
+            string SortFlag = request["sort"];
+            string sortOrder = request["order"];
+            sort = SortFlag;
+            order = sortOrder;
+            string where="";
+            if (!string.IsNullOrEmpty(AssemblyLine))
             {
-                string sql = "select a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO LIKE '" + AssemblyLine + "%' order by a.ID";
-                FunSql.Init();
-                DataTable ResTable = FunSql.GetTable(sql);
-                //string sql2 = "select count(0) from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.PI_ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO LIKE '" + AssemblyLine + "%'";
-                //int totalcount = FunSql.GetInt(sql2);
-                int totalcount = ResTable.Rows.Count;
-                DataTable NewResTable = GetPagedTable(ResTable,PageIndex,PageSize);
-                string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
-                Response.Write(json);
-                #region 导出代码   
-                //ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
-                #endregion
+                where = " and a.StationNO LIKE '" + AssemblyLine + "%'";
             }
-            else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))   //流水线选择，工位选择，时间没有选择的状态
+            if (!string.IsNullOrEmpty(Station))
             {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' order by a.ID";
-                FunSql.Init();
-                DataTable ResTable = FunSql.GetTable(sql);
-                //string sql2 = "select count(0) from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.PI_ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "'"; 
-                //int totalcount = FunSql.GetInt(sql2);
-                int totalcount = ResTable.Rows.Count;
-                DataTable NewResTable = GetPagedTable(ResTable, PageIndex, PageSize);
-                string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
-                Response.Write(json);
-                #region 导出代码   
-               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
-                #endregion
+                where = " and a.StationNO = '" + Station + "'";
             }
-            else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //流水线选择，工位选择，时间选择的状态
+
+            if(!string.IsNullOrEmpty(StartTime))
             {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' and cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "' order by a.ID";
-                FunSql.Init();
-                DataTable ResTable = FunSql.GetTable(sql);
-                //string sql2 = "select count(0) from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.PI_ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' and cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "'";
-                //int totalcount = FunSql.GetInt(sql2);
-                int totalcount = ResTable.Rows.Count;
-                DataTable NewResTable = GetPagedTable(ResTable, PageIndex, PageSize);
-                string json = FunCommon.DataTableToJson2(totalcount, NewResTable);
-                Response.Write(json);
-                #region 导出代码   
-               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
-                #endregion
+                where +=" and cast(a.CreateTime as datetime) > '" + StartTime + "'"; 
             }
-            else if (string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //只选时间的状态
+
+            if(!string.IsNullOrEmpty(EndTime))
             {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "' order by a.ID";
-                FunSql.Init();
-                DataTable ResTable = FunSql.GetTable(sql);
-                //string sql2 = "select count(0) from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.PI_ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "'";
-                //int totalcount = FunSql.GetInt(sql2);
-                int totalcount = ResTable.Rows.Count;
-                DataTable NewResTable = GetPagedTable(ResTable, PageIndex, PageSize);
-                string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
-                Response.Write(json);
-                #region 导出代码   
-               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
-                #endregion
+                where += " and cast(a.CreateTime as datetime) < '" + EndTime + "'";
             }
-            else    //均没有选择，即为显示全部
-            {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id  order by a.ID";
-                FunSql.Init();
-                DataTable ResTable = FunSql.GetTable(sql);
-                //string sql2 = "select distinct count(0) from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.PI_ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id";
-                //int totalcount = FunSql.GetInt(sql2);
-                int totalcount = ResTable.Rows.Count;
-                DataTable NewResTable = GetPagedTable(ResTable, PageIndex, PageSize);
-                string json = FunCommon.DataTableToJson2(totalcount,NewResTable);
-                Response.Write(json);
-                #region 导出代码   
-               // ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
-                #endregion
-            }
+            int StartIndex = PageSize * (PageIndex - 1) + 1;
+            int EndIndex = StartIndex + PageSize - 1;
+            int totalcount;
+            DataTable ResTable = checkReport_BLL.getTable(PageSize, PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
+            DataTable NewResTable = GetPagedTable(ResTable, PageIndex, PageSize);
+            string json = FunCommon.DataTableToJson2(totalcount, NewResTable);
+            Response.Write(json);
+
+
+           
         }
 
 
@@ -158,46 +114,35 @@ namespace website
             string Station = request.Params["st_id"];
             string StartTime = request.Params["StartTime"];
             string EndTime = request.Params["EndTime"];
-            //string pageNumber = request.Params["PageIndex"];
-            //string pageSize = request.Params["PageSize"];
             int PageIndex = Convert.ToInt32(request["page"]);
-            int PageSize = Convert.ToInt32(request["rows"]); //            string.IsNullOrEmpty(StartTime)
-            if (!string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))    //流水线选择，工位没有选择，时间没有选择的状态
+            int PageSize = Convert.ToInt32(request["rows"]);
+            string where = "";
+            if (!string.IsNullOrEmpty(AssemblyLine))
             {
-                string sql = "select a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO LIKE '" + AssemblyLine + "%' order by a.ID";
-                FunSql.Init();
-                ResTable = FunSql.GetTable(sql);
-        
+                where = " and a.StationNO LIKE '" + AssemblyLine + "%'";
             }
-            else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(StartTime))   //流水线选择，工位选择，时间没有选择的状态
+            if (!string.IsNullOrEmpty(Station))
             {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' order by a.ID";
-                FunSql.Init();
-                 ResTable = FunSql.GetTable(sql);
-                
+                where = " and a.StationNO = '" + Station + "'";
             }
-            else if (!string.IsNullOrEmpty(AssemblyLine) && !string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //流水线选择，工位选择，时间选择的状态
+
+            if (!string.IsNullOrEmpty(StartTime))
             {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE a.StationNO = '" + Station + "' and cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "' order by a.ID";
-                FunSql.Init();
-                 ResTable = FunSql.GetTable(sql);
-               
+                where += " and cast(a.CreateTime as datetime) > '" + StartTime + "'";
             }
-            else if (string.IsNullOrEmpty(AssemblyLine) && string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(StartTime))  //只选时间的状态
+
+            if (!string.IsNullOrEmpty(EndTime))
             {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id WHERE cast(a.CreateTime as datetime) > '" + StartTime + "' and cast(a.CreateTime as datetime) < '" + EndTime + "' order by a.ID";
-                FunSql.Init();
-               ResTable = FunSql.GetTable(sql);
-                
+                where += " and cast(a.CreateTime as datetime) < '" + EndTime + "'";
             }
-            else    //均没有选择，即为显示全部
-            {
-                string sql = "select distinct a.ID,a.StationNO,d.op_name,c.PI_Item,case when a.IsPass = 1 then '合格' when a.IsPass = 0 then '不合格' else '未点检' end as IsPass,a.CreateTime from mg_PointInspection_Item_Value a left join mg_PointInspection_Item_StationNo b on a.PIS_ID = b.ID left join mg_PointInspection_Item c on b.PI_ID = c.ID left join mg_Operator d on a.OperatorID = d.op_id  order by a.ID";
-                FunSql.Init();
-                ResTable = FunSql.GetTable(sql);
+            int StartIndex = PageSize * (PageIndex - 1) + 1;
+            int EndIndex = StartIndex + PageSize - 1;
+            int totalcount;
+            ResTable = checkReport_BLL.getTableExcel(PageSize, PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
+           
                
                
-            }
+            //}
             try
             {
                  #region 导出代码   

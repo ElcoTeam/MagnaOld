@@ -216,6 +216,11 @@
 
         }
         function saveData(model) {
+            if (model.Name == '' || model.Code == '')
+            {
+                alert("请输入故障原因和代码");
+                return false;
+            }
             $.ajax({
                 type: "POST",
                 async: false,

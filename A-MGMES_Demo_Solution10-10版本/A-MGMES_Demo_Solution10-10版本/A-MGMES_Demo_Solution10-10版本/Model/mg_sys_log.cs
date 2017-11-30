@@ -12,6 +12,7 @@ namespace Model
         public string op_name { get; set; }
         public string fl_id { get; set; }
         public string fl_name { get; set; }
+        public string PartOrderID { get; set; }
         public string st_id { get; set; }
         public string st_no { get; set; }
         public string or_no { get; set; }
@@ -20,10 +21,13 @@ namespace Model
         public string step_startTime { get; set; }
         public string step_endTime { get; set; }
         public string step_duringtime { get; set; }
-        public decimal AngleResult { get; set; }
-        public decimal TorqueResult { get; set; }
+        public string AngleResult { get; set; }
+        public string TorqueResult { get; set; }
         public string scanCode { get; set; }
         public string scanResult { get; set; }
         public string sys_desc { get; set; }
+        public string ScrewCount { get; set; }
+        public string MenderName { get; set; }
+        public string ReviseTime { get; set; }
     }
 }

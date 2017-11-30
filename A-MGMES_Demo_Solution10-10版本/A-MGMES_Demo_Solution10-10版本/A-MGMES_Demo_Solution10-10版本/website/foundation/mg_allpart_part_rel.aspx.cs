@@ -8,7 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
 using Bll;
-using DBUtility;
+using DbUtility;
 using Tools;
 
 public partial class foundation_mg_allpart_part_rel : System.Web.UI.Page

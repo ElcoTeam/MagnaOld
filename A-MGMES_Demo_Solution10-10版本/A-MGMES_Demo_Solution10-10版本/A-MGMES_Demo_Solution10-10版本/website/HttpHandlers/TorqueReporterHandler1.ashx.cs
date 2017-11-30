@@ -1,5 +1,5 @@
 ﻿using Bll;
-using DBUtility;
+using DbUtility;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -49,23 +49,14 @@ namespace website.HttpHandlers
         }
         void Select()    //查询扭矩
         {
-            //JavaScriptSerializer s = new JavaScriptSerializer();
-            //HttpRequest request = HttpContext.Current.Request;
-            //string fl_id = request.Params["fl_id"];
-            //string st_no = request.Params["st_no"];
-            //string part_no = request.Params["part_no"];
-            //string sql = "SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  mg_sys_log where 1=1 and Len(AngleResult) > 0 and fl_id='" + fl_id + "'  and st_no='" + st_no + "' and part_no='" + part_no + "'";
-            //FunSql.Init();
-            //DataTable ResTable1 = FunSql.GetTable(sql);
-            //string json = FunCommon.DataTableToJson(ResTable1);
-            //Response.Write(json);
-            //Response.End();
             JavaScriptSerializer s = new JavaScriptSerializer();
             HttpRequest request = HttpContext.Current.Request;
             string fl_id = request.Params["fl_id"];
             string st_id = request.Params["st_id"];
             string part_no = request.Params["part_no"];
+
             List<mg_sys_log> result = new List<mg_sys_log>();
+      
             StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.mg_sys_log where 1=1 and Len(AngleResult) > 0");
             List<SqlParameter> parameters = new List<SqlParameter>();
             //System.Diagnostics.Debug.Write();
@@ -108,8 +99,8 @@ namespace website.HttpHandlers
                     st_no = Tools.DataHelper.GetCellDataToStr(row, "st_no"),
                     part_no = Tools.DataHelper.GetCellDataToStr(row, "part_no"),
                     step_order = Tools.NumericParse.StringToInt(row["step"] as string),
-                    TorqueResult = TorqueResult,
-                    AngleResult = AngleResult
+                    TorqueResult = TorqueResult.ToString(),
+                    AngleResult = AngleResult.ToString()
                 });
             }
             //return result;
@@ -126,8 +117,8 @@ namespace website.HttpHandlers
             JavaScriptSerializer s = new JavaScriptSerializer();
             HttpRequest request = HttpContext.Current.Request;
             string sql = "select fl_id, fl_name from dbo.mg_FlowLine order by fl_name";
-            FunSql.Init();
-            DataTable ResTable3 = FunSql.GetTable(sql);
+          
+            DataTable ResTable3 = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             //string json = FunCommon.DataTableToJson(ResTable1);
             if (ResTable3 == null)
             {
@@ -150,8 +141,8 @@ namespace website.HttpHandlers
             string StartTime = request.Params["StartTime"];
             string EndTime = request.Params["EndTime"];
             string sql = "select distinct  REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') as OrderNo from mg_Test_Part_Record a where(a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "') order by OrderNo";
-            FunSql.Init();
-            DataTable ResTable1 = FunSql.GetTable(sql);
+
+            DataTable ResTable1 = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             string json = FunCommon.DataTableToJson(ResTable1);
             Response.Write(json);
             Response.End();
@@ -162,8 +153,8 @@ namespace website.HttpHandlers
             HttpRequest request = HttpContext.Current.Request;
             string fl_id = request.Params["fl_id"];
             string sql = "select distinct a.st_no,a.st_id from mg_station a LEFT JOIN mg_sys_log b ON a.st_no=b.st_no  where  a.fl_id='" + fl_id + "' and len(b.AngleResult) > 0 order by a.st_no";
-            FunSql.Init();
-            DataTable ResTable = FunSql.GetTable(sql);
+          
+            DataTable ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
 
             if (ResTable == null)
             {
@@ -187,8 +178,8 @@ namespace website.HttpHandlers
             string fl_id = request.Params["fl_id"];
             string st_id = request.Params["st_id"];
             string sql = "select distinct part_no from mg_sys_log where fl_id='"+ fl_id + "' and st_id='" + st_id + "'";
-            FunSql.Init();
-            DataTable ResTable = FunSql.GetTable(sql);
+          
+            DataTable ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
 
             if (ResTable == null)
             {

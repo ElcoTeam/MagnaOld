@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
-
+using Bll;
 namespace website
 {
     /// <summary>
@@ -12,7 +12,8 @@ namespace website
     /// </summary>
     public class Services1008_CustomerOrder : IHttpHandler
     {
-
+        public static string sort = "-1";
+        public static string order = "-1";
         public void ProcessRequest(HttpContext context)
         {
             HttpRequest request = System.Web.HttpContext.Current.Request;
@@ -22,27 +23,26 @@ namespace website
             int PageSize = Convert.ToInt32(request["rows"]);
             int PageIndex = Convert.ToInt32(request["page"]);
             string method = request["method"];
-            if (string.IsNullOrEmpty(OrderType))
+            sort = request["sort"];
+            order = request["order"];
+            string where = "";
+            if (!string.IsNullOrEmpty(OrderType))
             {
-                OrderType = " 1=1 ";
+                where = " and OrderType = " + OrderType + " ";
             }
-            else
-            {
-                OrderType = " OrderType = " + OrderType + " ";
-            }
-            string sql = "select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1 and " + OrderType + " order by a.OrderID";
-            FunSql.Init();
-            DataTable resTable = FunSql.GetTable(sql);
+           
+
             string JsonStr ="";
             if(string.IsNullOrWhiteSpace(method))
             {
+                int StartIndex = PageSize * (PageIndex - 1) + 1;
+                int EndIndex = StartIndex + PageSize - 1;
+                int totalcount;
+                DataTable resTable = mg_CustomerOrderBLL.getTable(PageSize, PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
                 DataTable resTable1 = GetPagedTable(resTable, PageIndex, PageSize);
 
-                int totalcount = FunSql.GetInt("select count(0) from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1 and  " + OrderType + "");
-
                 JsonStr= FunCommon.DataTableToJson2(totalcount, resTable1);
-                //导出
-                //ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx"));
+                
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(JsonStr);
                 context.Response.End();
@@ -51,6 +51,8 @@ namespace website
             {
                try
                {
+                   int totalcount;
+                   DataTable resTable = mg_CustomerOrderBLL.getTableExcel(sort, order, where, out totalcount);
                    ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx"));
                    JsonStr="true";
                }

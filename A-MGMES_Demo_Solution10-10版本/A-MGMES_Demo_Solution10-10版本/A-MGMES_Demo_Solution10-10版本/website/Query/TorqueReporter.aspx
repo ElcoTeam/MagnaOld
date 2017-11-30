@@ -65,7 +65,7 @@
                                 <span>流水线</span>
                                 <div>
                                     <select id="fl_id_s" class="easyui-combobox" style="width: 200px; height: 25px;"
-                                      data-options="valueField: 'fl_id',textField: 'fl_name',onChange:reloadst_no_s">
+                                      data-options="valueField: 'fl_id',textField: 'fl_name',onChange:function(){reloadst_no_s();}">
                                     </select>
                                 </div>
                             </li>
@@ -140,43 +140,43 @@
             });
 
             //所属工位下拉框数据加载  
-             //reloadfl_id_s();
-             //reloadst_no_s();
-             //reloadpart_id_s();
-             //loadChart();
-            $('#fl_id_s').combobox({
-                url: '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_fl_list1',
-                method: "post",
-               valueField: 'fl_id',
-               textField: 'fl_name',
-               onChange: function(){
-                   reloadst_no_s();
-                    },
-                onLoadSuccess: function () {
-                    var data = $(this).combobox("getData");
-                    if (data.length > 0) {
-                        $('#fl_id_s').combobox('select', data[0].fl_id);
-                        $('#st_no_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_st_list1&fl_id=' + data[0].fl_id);
-                    }
-                }
-            });
-            $('#st_no_s').combobox({
-                url: '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_st_list1',
-                method: "post",
-                valueField: 'st_id',
-                textField: 'st_no',
-                onChange: function(){
-                    reloadpart_id_s();
-                },
-                onLoadSuccess: function () {
-                    var data = $(this).combobox("getData");
-                    if (data.length > 0) {
-                        $('#st_no_s').combobox('select', data[0].st_id);
-                        reloadpart_id_s();
-                        loadChart();
-                    }
-                }
-            });
+             reloadfl_id_s();
+             reloadst_no_s();
+             reloadpart_id_s();
+             loadChart();
+            //$('#fl_id_s').combobox({
+            //    url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list',
+            //    method: "post",
+            //   valueField: 'fl_id',
+            //   textField: 'fl_name',
+            //   onChange: function(){
+            //       reloadst_no_s();
+            //        },
+            //    onLoadSuccess: function () {
+            //        var data = $(this).combobox("getData");
+            //        if (data.length > 0) {
+            //            $('#fl_id_s').combobox('select', data[0].fl_id);
+            //            $('#st_no_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + data[0].fl_id);
+            //        }
+            //    }
+            //});
+            //$('#st_no_s').combobox({
+            //    url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list',
+            //    method: "post",
+            //    valueField: 'st_id',
+            //    textField: 'st_no',
+            //    onChange: function(){
+            //        reloadpart_id_s();
+            //    },
+            //    onLoadSuccess: function () {
+            //        var data = $(this).combobox("getData");
+            //        if (data.length > 0) {
+            //            $('#st_no_s').combobox('select', data[0].st_id);
+            //            reloadpart_id_s();
+            //            loadChart();
+            //        }
+            //    }
+            //});
            
            
         });
@@ -193,7 +193,7 @@
             var chart_Type = $('#data_type').combo('getValue');
             $.ajax({
                 type: 'get',
-                url: '/HttpHandlers/TorqueReporterHandler1.ashx',
+                url: '/HttpHandlers/TorqueReporterHandler.ashx',
                 data: { Fl_id: fl_id, St_id: st_id, Part_no: part_no },
                 dataType: 'json',
                 cache: false,
@@ -343,22 +343,24 @@
 
         function reloadfl_id_s() {
             $('#fl_id_s').combobox('clear')
-            $('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_fl_list1');
+            $('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list');
             
         }
 
         function reloadst_no_s() {
-            var fl_id = $('#fl_id_s').combobox('getValue');
             $('#st_no_s').combobox('clear');
-            $('#st_no_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_st_list1&fl_id=' + fl_id);
+            var fl_id = $('#fl_id_s').combobox('getValue');
+            
+            $('#st_no_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
            
         }
 
         function reloadpart_id_s() {
+            $('#part_id_s').combobox('clear');
             var fl_id = $('#fl_id_s').combobox('getValue');
             var st_id = $('#st_no_s').combobox('getValue');
-            $('#part_id_s').combobox('clear');
-            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_part_list1&fl_id=' + fl_id + '&st_id=' + st_id);
+            
+            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_id=' + st_id);
             
         }
     </script>

@@ -4,7 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
-
+using DbUtility;
+using Bll;
+using Model;
+using Tools;
 namespace website
 {
     /// <summary>
@@ -23,9 +26,8 @@ namespace website
             string name = request["edit_name"].Trim();
             DateTime dt = DateTime.Now;
             string t = dt.ToString("yyyy-MM-dd hh:mm:ss");
-            string sql1 = "select * from mg_sys_log where sys_id = '" + sys_id + "'";
-            FunSql.Init();
-            DataTable ResTable = FunSql.GetTable(sql1);     //根据sys_id拿到选中的该记录
+
+            DataTable ResTable = mg_sys_logBll.GetTableByID(sys_id);     //根据sys_id拿到选中的该记录 ;     //根据sys_id拿到选中的该记录
             string op_id = ResTable.Rows[0][1].ToString();  //拿到该记录的op_id的值   [op_name]，[fl_id]，[fl_name]，[st_id]，[st_no]，[PartOrderID]，[or_no]，[part_no]，[step_order]，[step_startTime]，[step_endTime]，[step_duringtime]，[sys_desc]，[ScrewCount]
             string op_name = ResTable.Rows[0][2].ToString();
             string fl_id = ResTable.Rows[0][3].ToString();
@@ -50,10 +52,33 @@ namespace website
             {
                 ScrewCount = int.Parse(ResTable.Rows[0][19].ToString());
             }
-            string sql2 = "INSERT INTO mg_sys_log (AngleResult,TorqueResult,scanCode,MenderName,ReviseTime,op_id,op_name,fl_id,fl_name,st_id,st_no,PartOrderID,or_no,part_no,step_order,step_startTime,step_endTime,step_duringtime,scanResult,sys_desc,ScrewCount) VALUES ('" + AngleResult + "', '" + TorqueResult + "', '" + scanCode + "', '" + name + "', '" + t + "', '" + op_id + "', '" + op_name + "', '" + fl_id + "', '" + fl_name + "', '" + st_id + "', '" + st_no + "', '" + PartOrderID + "', '" + or_no + "', '" + part_no + "', '" + step_order + "', '" + step_startTime + "', '" + step_endTime + "', '" + step_duringtime + "', '" + scanResult + "', '" + sys_desc + "', '" + ScrewCount + "')";
-            int a = FunSql.Exec(sql2);
+            mg_sys_log model = new mg_sys_log();
+            model.sys_id = sys_id;
+            model.op_id = op_id;
+            model.op_name = op_name;
+            model.fl_id = fl_id;
+            model.fl_name = fl_name;
+            model.st_id = st_id;
+            model.st_no = st_no;
+            model.PartOrderID = PartOrderID.ToString();
+            model.or_no = or_no;
+            model.part_no = part_no;
+            model.step_order = NumericParse.StringToInt(step_order);
+            model.step_startTime = step_startTime;
+            model.step_endTime = step_endTime;
+            model.step_duringtime = step_duringtime;
+            model.AngleResult = AngleResult;
+            model.TorqueResult = TorqueResult;
+            model.scanCode = scanCode;
+            model.scanResult = scanResult;
+            model.sys_desc = sys_desc;
+            model.ScrewCount = ScrewCount.ToString();
+            model.MenderName = name;
+            model.ReviseTime = t;
+            int a = mg_sys_logBll.InsertLog(model);
+           
             string ss;
-            if (a == 0)
+            if (a > 0)
             {
                 ss = "true";
             }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-
+using Bll;
 namespace website
 {
     /// <summary>
@@ -22,7 +22,7 @@ namespace website
             string method = request["method"];
             if (string.IsNullOrWhiteSpace(method))
             {
-                DataTable resTable = DataReader.TimeProducts(StartTime, EndTime, Flag, st_no);
+                DataTable resTable = Time_ReportBLL.TimeProducts(StartTime, EndTime, Flag, st_no);
                 string JsonStr = "[]";
                 if (resTable != null)
                     JsonStr = FunCommon.DataTableToJson(resTable);
@@ -38,7 +38,7 @@ namespace website
                 {
 
 
-                    DataTable resTable = DataReader.TimeProducts(StartTime, EndTime, Flag, st_no);
+                    DataTable resTable = Time_ReportBLL.TimeProducts(StartTime, EndTime, Flag, st_no);
                     ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
                     json = "true";
                 }

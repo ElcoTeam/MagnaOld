@@ -157,7 +157,7 @@
                 collapsible: false,
                 url: '/Services1008_CustomerOrder.ashx',
                 queryParams:queryParams,
-                sortName: 'ID',
+                sortName: 'OrderID',
                 sortOrder: 'asc',
                 remoteSort: true,
                 idField: 'ID',

@@ -1,4 +1,4 @@
-﻿using DBUtility;
+﻿using DbUtility;
 using Model;
 using System;
 using System.Collections.Generic;
@@ -69,8 +69,8 @@ namespace Dal
                         st_no = Tools.DataHelper.GetCellDataToStr(row, "st_no"),
                         part_no = Tools.DataHelper.GetCellDataToStr(row, "part_no"),
                         step_order = Tools.NumericParse.StringToInt(row["step"] as string),
-                        TorqueResult = TorqueResult,
-                        AngleResult = AngleResult
+                        TorqueResult = TorqueResult.ToString(),
+                        AngleResult = AngleResult.ToString()
                     });
                 }
                 return result;

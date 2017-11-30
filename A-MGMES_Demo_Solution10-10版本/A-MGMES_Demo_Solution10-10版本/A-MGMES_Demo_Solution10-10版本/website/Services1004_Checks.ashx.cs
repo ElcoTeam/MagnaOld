@@ -37,15 +37,10 @@ namespace website
             string JsonStr3 = "";
             string neirong = "";
             string yee = "";
-//            string JsonStr5 = null;
-//            string SqlStr5 = null;
-//            SqlStr5 = @"select distinct a.OrderNo from mg_Test_Part_Record a 
-//where (a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "') order by a.OrderNo";
-//            FunSql.Init();
-//            DataTable ResTable5 = FunSql.GetTable(SqlStr5);
-//            JsonStr5 = FunCommon.DataTableToJson(ResTable5);    //获取全部订单号
+
             if (string.IsNullOrWhiteSpace(method))
             {
+               
                 if (OrderCode != "" && StationNo != "")    //输入订单号，输入工位的时候
                 {
                     if (StationNo == "FSA210")  //FSA210

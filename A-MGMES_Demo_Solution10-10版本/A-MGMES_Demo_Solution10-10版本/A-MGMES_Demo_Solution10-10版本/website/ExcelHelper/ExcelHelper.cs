@@ -74,7 +74,7 @@ namespace website
             HSSFCellStyle dateStyle = workbook.CreateCellStyle() as HSSFCellStyle;
             HSSFDataFormat format = workbook.CreateDataFormat() as HSSFDataFormat;
             dateStyle.DataFormat = format.GetFormat("yyyy-mm-dd");
-
+            
             //取得列宽
             int[] arrColWidth = new int[dtSource.Columns.Count];
             foreach (DataColumn item in dtSource.Columns)
@@ -166,7 +166,13 @@ namespace website
                 foreach (DataColumn column in dtSource.Columns)
                 {
                     HSSFCell newCell = dataRow.CreateCell(column.Ordinal) as HSSFCell;
-
+                    newCell.SetCellType(CellType.String);
+                    
+                    //新增的四句话，设置CELL格式为文本格式   
+                    //HSSFCellStyle dateStyle2 = workbook.CreateCellStyle() as HSSFCellStyle;
+                    //HSSFDataFormat format2 = workbook.CreateDataFormat() as HSSFDataFormat;
+                    //dateStyle2.DataFormat = format.GetFormat("@");
+                    //newCell.CellStyle = dateStyle2;
                     string drValue = row[column].ToString();
 
                     switch (column.DataType.ToString())
@@ -177,6 +183,7 @@ namespace website
                             {
 
                                 double.TryParse(drValue, out result);
+                               
                                 newCell.SetCellValue(result);
                                 break;
                             }
@@ -377,6 +384,13 @@ namespace website
                 {
                     XSSFCell newCell = dataRow.CreateCell(column.Ordinal) as XSSFCell;
 
+                    newCell.SetCellType(CellType.String);
+
+                    ////新增的四句话，设置CELL格式为文本格式   
+                    //XSSFCellStyle dateStyle2 = workbook.CreateCellStyle() as XSSFCellStyle;
+                    //XSSFDataFormat format2 = workbook.CreateDataFormat() as XSSFDataFormat;
+                    //dateStyle2.DataFormat = format.GetFormat("@");
+                    //newCell.CellStyle = dateStyle2;
                     string drValue = row[column].ToString();
 
                     switch (column.DataType.ToString())

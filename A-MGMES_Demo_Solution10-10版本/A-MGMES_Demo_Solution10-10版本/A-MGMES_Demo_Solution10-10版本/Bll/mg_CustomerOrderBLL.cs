@@ -13,6 +13,14 @@ namespace Bll
 {
     public class mg_CustomerOrderBLL
     {
+        public static DataTable getTable(int Pagesize, int pageIndex, int StartIndex, int EndIndex, string SortFlag, string sortOrder, string wherestr, out int total)
+        {
+            return mg_CustomerOrderDAL.getTable(Pagesize, pageIndex, StartIndex, EndIndex, SortFlag, sortOrder, wherestr, out total);
+        }
+        public static DataTable getTableExcel(string SortFlag, string sortOrder, string wherestr, out int total)
+        {
+            return mg_CustomerOrderDAL.getTableExcel(SortFlag, sortOrder, wherestr, out total);
+        }
         public static bool AdddOrder(string co_no, int all_id, int co_count, string co_customer)
         {
             return mg_CustomerOrderDAL.AddOrder(co_no, all_id, co_count, co_customer) > 0 ? true : false;

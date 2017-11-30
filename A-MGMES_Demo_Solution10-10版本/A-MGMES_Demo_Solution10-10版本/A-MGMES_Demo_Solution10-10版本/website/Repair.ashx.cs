@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Web;
+using DbUtility;
 namespace website
 {
     /// <summary>
@@ -46,9 +47,9 @@ namespace website
             commandText.Append(" WHERE " + Or_no + " and " + St_no );//这里修改条件语句
             commandText.Append(" ) AS T  WHERE RowNumber > (" + PageSize + "*(" + PageIndex + "-1))");
 
-            DataTable resTable = FunSql.GetTable(commandText.ToString());
-
-            int totalcount = FunSql.GetInt("select count(0) from ViewBigScreen3 WHERE " + Or_no + " and " + St_no );
+            DataTable resTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, commandText.ToString(), null);
+            string sql = " select count(0) from ViewBigScreen3 WHERE " + Or_no + " and " + St_no + " ";
+            int totalcount = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
 
             string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
             //string JsonStr = "[]";

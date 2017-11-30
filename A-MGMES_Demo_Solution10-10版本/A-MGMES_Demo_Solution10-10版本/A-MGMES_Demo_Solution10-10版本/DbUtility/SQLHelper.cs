@@ -1,4 +1,4 @@
-﻿namespace DBUtility
+﻿namespace DbUtility
 {
     using System;
     using System.Collections;
@@ -17,7 +17,19 @@
         protected SqlHelper()
         {
         }
+        public static void Insert(string Table, string Column, object[] Values)
+        {
+            string SqlStr = "insert into " + Table + "(" + Column + ") values (";
 
+            for (int i = 0; i < Values.Length; i++)
+            {
+                SqlStr += "'" + Values[i] + "',";
+            }
+            SqlStr = SqlStr.Remove(SqlStr.Length - 1);
+            SqlStr += ")";
+
+            ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
+        }
         private static SqlCommand BuildQueryCommand(SqlConnection connection, string storedProcName, IDataParameter[] parameters)
         {
             SqlCommand command = new SqlCommand(storedProcName, connection);
