@@ -30,6 +30,18 @@ namespace website.HttpHandlers
                     st();
                     //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
                     break;
+                case "get_st_listForStep":
+                    st_for_step();
+                    //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
+                    break;
+                case "get_st_listForVolume":
+                    st_for_volume();
+                    //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
+                    break;
+                case "get_st_listForTime":
+                    st_for_time();
+                    //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
+                    break;
                 case "get_part_list":
                     part();
                     //context.Response.Write(mg_sys_logBll.getpart_idList(context.Request["fl_id"], context.Request["st_id"]));
@@ -49,6 +61,24 @@ namespace website.HttpHandlers
         void fl()
         {
             string a = mg_sys_logBll.getfl_idList();
+            Response.Write(a);
+            Response.End();
+        }
+        void st_for_step()
+        {
+            string a = mg_sys_logBll.getst_idListForStep(RequstString("fl_id"));
+            Response.Write(a);
+            Response.End();
+        }
+        void st_for_time()
+        {
+            string a = mg_sys_logBll.getst_idListForTime(RequstString("fl_id"));
+            Response.Write(a);
+            Response.End();
+        }
+        void st_for_volume()
+        {
+            string a = mg_sys_logBll.getst_idListForVolume(RequstString("fl_id"));
             Response.Write(a);
             Response.End();
         }

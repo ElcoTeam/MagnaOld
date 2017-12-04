@@ -33,7 +33,7 @@ namespace website
             string StartTime = request["StartTime"];
             string EndTime = request["EndTime"];
             string OrderId = request["OrderId"];
-
+            string scancode = request["scancodenum"];
             string SortFlag = request["sort"];
             string sortOrder = request["order"];
             int PageSize = Convert.ToInt32(request["rows"]);
@@ -59,7 +59,10 @@ namespace website
             {
                 wherestr += " and or_no = '" + OrderId + @"'";
             }
-
+            if (!string.IsNullOrWhiteSpace(scancode))
+            {
+                wherestr += " and scanCode = '" + scancode + @"'";
+            }
             if (!string.IsNullOrWhiteSpace(StartTime))
             {
                 wherestr += " and cast(step_startTime as datetime) >= '" + StartTime + "' ";

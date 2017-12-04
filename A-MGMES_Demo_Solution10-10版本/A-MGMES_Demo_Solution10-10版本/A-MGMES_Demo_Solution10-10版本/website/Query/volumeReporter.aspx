@@ -65,7 +65,7 @@
                                 <span>工位</span>
                                 <div>
                                     <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
-						                data-options="valueField: 'st_no',textField: 'st_no'">
+						                data-options="valueField: 'st_id',textField: 'st_no'">
 					                </select>
                                 </div>
                             </li>
@@ -116,7 +116,7 @@
 	<script type="text/javascript">
 
 	    function excelFor() {
-	        var st_no = $('#_easyui_textbox_input2').val();
+	        var st_no = $('#st_id_s').combobox('getText');
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
 	        var flag = $('#reportType').combo('getValue');
@@ -215,7 +215,7 @@
 			myChart.showLoading({
 				effect: 'whirling'
 			});
-			var st_no = $('#_easyui_textbox_input2').val();
+			var st_no = $('#st_id_s').combobox('getText');
 			var start_time = $('#start_time').datetimebox('getValue');
 			var end_time = $('#end_time').datetimebox('getValue');
 			var flag = $('#reportType').combo('getValue');
@@ -351,7 +351,7 @@
 
 		function reloadst_id_s() {
 		    var fl_id = $('#fl_id_s').combobox('getValue');
-		    $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
+		    $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForVolume&fl_id=' + fl_id);
 		}
 	</script>
 </asp:Content>

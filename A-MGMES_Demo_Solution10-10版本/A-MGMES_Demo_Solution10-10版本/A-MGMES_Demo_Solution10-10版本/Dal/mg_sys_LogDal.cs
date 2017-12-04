@@ -204,7 +204,7 @@ namespace Dal
             //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
             if (!string.IsNullOrEmpty(fl_id))
             {
-                sql = "select distinct dbo.mg_station.st_no,dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no    and dbo.mg_station.fl_id=@fl_id  and len(b.AngleResult) > 0 order by dbo.mg_station.st_no";
+                sql = "select distinct dbo.mg_station.st_no,dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  and len(b.AngleResult) > 0 order by dbo.mg_station.st_no";
                  parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
             }
             else
@@ -222,6 +222,100 @@ namespace Dal
                 });
             }
            
+            return result;
+        }
+        #endregion
+        #region 获取工序步骤日志查询中的 工位号
+        public static List<object> getst_idListForStep(string fl_id)
+        {
+
+            List<object> result = new List<object>();
+            string sql = "";
+            SqlParameter[] parameters = null;
+            //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
+            if (!string.IsNullOrEmpty(fl_id))
+            {
+                sql = "select distinct dbo.mg_station.st_no,dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  order by dbo.mg_station.st_no";
+                parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
+            }
+            else
+            {
+                sql = "select distinct dbo.mg_station.st_no, dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no where 1=1  by dbo.mg_station.st_no";
+                parameters = null;
+            }
+            DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
+            foreach (DataRow row in table.Rows)
+            {
+                result.Add(new
+                {
+                    st_id = row["st_id"],
+                    st_no = row["st_no"]
+                });
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region 获取产量报表查询中的 工位号
+        public static List<object> getst_idListForVolume(string fl_id)
+        {
+
+            List<object> result = new List<object>();
+            string sql = "";
+            SqlParameter[] parameters = null;
+            //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
+            if (!string.IsNullOrEmpty(fl_id))
+            {
+                sql = "select distinct dbo.mg_station.st_no,dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  order by dbo.mg_station.st_no";
+                parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
+            }
+            else
+            {
+                sql = "select distinct dbo.mg_station.st_no, dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no where 1=1  by dbo.mg_station.st_no";
+                parameters = null;
+            }
+            DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
+            foreach (DataRow row in table.Rows)
+            {
+                result.Add(new
+                {
+                    st_id = row["st_id"],
+                    st_no = row["st_no"]
+                });
+            }
+
+            return result;
+        }
+        #endregion
+        #region 获取时间报表查询中的 工位号
+        public static List<object> getst_idListForTime(string fl_id)
+        {
+
+            List<object> result = new List<object>();
+            string sql = "";
+            SqlParameter[] parameters = null;
+            //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
+            if (!string.IsNullOrEmpty(fl_id))
+            {
+                sql = "select distinct dbo.mg_station.st_no,dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  order by dbo.mg_station.st_no";
+                parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
+            }
+            else
+            {
+                sql = "select distinct dbo.mg_station.st_no, dbo.mg_station.st_id from dbo.mg_station LEFT JOIN dbo.mg_sys_log b ON dbo.mg_station.st_no=b.st_no where 1=1  by dbo.mg_station.st_no";
+                parameters = null;
+            }
+            DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
+            foreach (DataRow row in table.Rows)
+            {
+                result.Add(new
+                {
+                    st_id = row["st_id"],
+                    st_no = row["st_no"]
+                });
+            }
+
             return result;
         }
         #endregion

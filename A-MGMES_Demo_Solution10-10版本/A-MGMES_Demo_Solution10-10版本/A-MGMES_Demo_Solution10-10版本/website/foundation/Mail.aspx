@@ -12,6 +12,7 @@
     <script src="/js/uploadify/jquery.uploadify.min.js"></script>
     <script src="/js/validate.js" type="text/javascript"></script>
     <script src="../js/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+    <script src="../js/jquery-easyui-1.4.3/locale/easyui-lang-zh_CN.js"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -46,11 +47,21 @@
                     </p>
                 </td>
                 <td style="padding-left: 10px;">
-                     <select id="com_ReceiptType" class="easyui-combobox" style="width: 100px; height: 25px;"
+                     <select id="com_ReceiptType" class="easyui-combobox" style="width: 230px; height: 25px;"
                         data-options="required:true">
-                        <option value="1">LineUp</option>
+                        <%--<option value="1">LineUp</option>
                         <option value="2">Delgit</option>
-                        <option value="3">回冲</option>
+                        <option value="3">回冲</option>--%>
+                         	<option value="1">LineUpTxt加载失败</option>
+			                <option value="2">LineUp订单的ProductNo在MES系统中不匹配或为空</option>
+			                <option value="3">DelJetTxt加载失败</option>
+			                <option value="4">DelJet订单的在LineUp订单中不匹配或对应的ProductNo不匹配</option>
+			                <option value="5">DelJet订单自动拆单失败</option>
+			                <option value="6">SAP手动插单Txt加载失败</option>
+			                <option value="7">SAP手动插单订单自动拆单失败</option>
+			                <option value="8">SAP手动插单订单的ProductNo在MES系统中不匹配或为空</option>
+			                <option value="9">DelJet订单的SEQNR不连续</option>
+			                <option value="10">DelJet缓存文件夹写入失败</option>
                     </select>
                 </td>
                

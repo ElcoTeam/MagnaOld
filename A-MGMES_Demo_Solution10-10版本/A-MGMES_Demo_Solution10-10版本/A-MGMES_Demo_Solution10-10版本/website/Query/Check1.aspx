@@ -56,7 +56,7 @@
 		<table cellpadding="0" cellspacing="0" style="width: 100%">
             <thead>
                 <tr>
-                    <td>扭矩/角度信息分析</td>
+                    <td>检测返修报表</td>
                 </tr>
             </thead>
             <tbody>

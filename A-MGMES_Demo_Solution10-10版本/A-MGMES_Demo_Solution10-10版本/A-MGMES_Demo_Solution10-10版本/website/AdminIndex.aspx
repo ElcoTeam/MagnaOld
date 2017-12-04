@@ -307,6 +307,8 @@
                                     <img src="/image/admin/2.png" /><a>紧急插入订单</a></li>
 <%--                                <li id="m4_2" runat="server" url='../Order/mg_Order.aspx'>
                                     <img src="/image/admin/2.png" /><a>生产通知单</a></li>--%>
+                                <li id ="m4_5" url='../Order/mg_DelJetSEQNR.aspx'>
+                                     <img src="/image/admin/2.png" /><a>DelJet订单号</a></li>
                             </ul>
                         </li>
                     </ul>

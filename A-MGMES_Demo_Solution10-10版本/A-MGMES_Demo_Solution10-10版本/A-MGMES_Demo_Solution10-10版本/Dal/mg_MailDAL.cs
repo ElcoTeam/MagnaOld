@@ -22,15 +22,25 @@ namespace Dal
                            SELECT top " + pagesize + @" ID mid
                                       ,ReceiptType
                                       ,case ReceiptType
-                                             when 1 then 'LineUp'
-                                             when 2 then 'Delgit'
-                                             when 3 then '回冲' end as ReceiptTypeName
+                                             --when 1 then 'LineUp'
+                                             --when 2 then 'Delgit'
+                                            -- when 3 then '回冲' end as ReceiptTypeName
+	                                    when 1 then 'LineUpTxt加载失败'
+			                            when 2 then 'LineUp订单的ProductNo在MES系统中不匹配或为空'
+			                            when 3 then 'DelJetTxt加载失败'
+			                            when 4 then 'DelJet订单的在LineUp订单中不匹配或对应的ProductNo不匹配'
+			                            when 5 then 'DelJet订单自动拆单失败'
+			                            when 6 then 'SAP手动插单Txt加载失败'
+			                            when 7 then 'SAP手动插单订单自动拆单失败'
+			                            when 8 then 'SAP手动插单订单的ProductNo在MES系统中不匹配或为空'
+			                            when 9 then 'DelJet订单的SEQNR不连续'
+			                            when 10 then 'DelJet缓存文件夹写入失败' end as ReceiptTypeName
                                       ,MailRecipient
                                       ,RecipientType
                                       ,case RecipientType
                                             when 1 then '收件人'
                                             when 2 then '抄送人' end as RecipientTypeName
-                                  FROM [mg_MailConfig]
+                                  FROM [mg_MailConfig] t1
                                      where  t1.ID not in (
                                                         select top ((" + page + @"-1)*" + pagesize + @") ID from  [mg_MailConfig] order by ID desc)
                                          order by ID desc ";
@@ -71,9 +81,19 @@ namespace Dal
                               SELECT top " + pagesize + @" ID mid
                                       ,ReceiptType
                                       ,case ReceiptType
-                                             when 1 then 'LineUp'
-                                             when 2 then 'Delgit'
-                                             when 3 then '回冲' end as ReceiptTypeName
+                                            -- when 1 then 'LineUp'
+                                            -- when 2 then 'Delgit'
+                                            -- when 3 then '回冲' end as ReceiptTypeName
+                                            	when 1 then 'LineUpTxt加载失败'
+			                                    when 2 then 'LineUp订单的ProductNo在MES系统中不匹配或为空'
+			                                    when 3 then 'DelJetTxt加载失败'
+			                                    when 4 then 'DelJet订单的在LineUp订单中不匹配或对应的ProductNo不匹配'
+			                                    when 5 then 'DelJet订单自动拆单失败'
+			                                    when 6 then 'SAP手动插单Txt加载失败'
+			                                    when 7 then 'SAP手动插单订单自动拆单失败'
+			                                    when 8 then 'SAP手动插单订单的ProductNo在MES系统中不匹配或为空'
+			                                    when 9 then 'DelJet订单的SEQNR不连续'
+			                                    when 10 then 'DelJet缓存文件夹写入失败' end as ReceiptTypeName
                                       ,MailRecipient
                                       ,RecipientType
                                       ,case RecipientType

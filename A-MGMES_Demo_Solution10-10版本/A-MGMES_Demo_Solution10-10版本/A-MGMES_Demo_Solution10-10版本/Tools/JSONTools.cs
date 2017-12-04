@@ -119,6 +119,43 @@ namespace Tools
         {
             return ObjectToJSON(DataTableToList(dt));
         }
+        #region Datatable/Json
+        public static string DataTableToJson(DataTable dt)
+        {
+            if (dt == null)
+            {
+                return "[]";
+            }
+            StringBuilder jsonBuilder = new StringBuilder();
+            //jsonBuilder.Append("{\"");
+            //jsonBuilder.Append(dt.TableName);
+            //jsonBuilder.Append("[");
+
+            jsonBuilder.Append("[");
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                jsonBuilder.Append("{");
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    jsonBuilder.Append("\"");
+                    jsonBuilder.Append(dt.Columns[j].ColumnName);
+                    jsonBuilder.Append("\":\"");
+                    jsonBuilder.Append(dt.Rows[i][j].ToString());
+                    jsonBuilder.Append("\",");
+                }
+                jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+                jsonBuilder.Append("},");
+            }
+            if (dt.Rows.Count > 0)
+            {
+                jsonBuilder.Remove(jsonBuilder.Length - 1, 1);
+            }
+            jsonBuilder.Append("]");
+            // jsonBuilder.Append("}");
+            return jsonBuilder.ToString();    //生成json
+            //return jsonBuilder.ToString().Substring(0, 2);
+        }
+        #endregion
         public static string ObjectToJSON(object obj)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();

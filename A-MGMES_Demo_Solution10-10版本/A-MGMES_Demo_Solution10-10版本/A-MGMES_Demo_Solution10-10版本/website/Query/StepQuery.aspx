@@ -19,6 +19,7 @@
     </div>
     <div class="top">
         <table cellpadding="0" cellspacing="0" style="width: 100%">
+
             <tr>
                 <td style="width:7.5%"><span class="title">步骤日志查询</span> <%--<span class="subDesc">拖拽数据行进行排序</span>--%>
                 </td>
@@ -31,12 +32,21 @@
                 <td style="width: 12.5%">
                     <span>工位：</span>
                     <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
-                        data-options="valueField: 'st_no',textField: 'st_no'">
+                        data-options="valueField: 'st_id',textField: 'st_no'">
                     </select>
                 </td>
                 <td style="width:15%">
                     <span>订单号：</span>
                         <input id="orderid" style="width: 180px" type="text" />
+                </td>
+                
+                </tr>
+              <tr>
+                  <td style="width:7.5%"><span class="title"></span> <%--<span class="subDesc">拖拽数据行进行排序</span>--%>
+                </td>
+                <td style="width:12.5%">
+                    <span>扫描值:</span>
+                    <input id="scancodenum" style="width: 180px" type="text" />
                 </td>
                 <td style="width: 10%">
                      <span>开始时间：</span>
@@ -46,9 +56,9 @@
                      <span>结束时间：</span>
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
-                <td style="width: 10%;"><a class="topsearchBtn" href="javascript:;" onclick="searchInfos(1,1)">查询</a></td>
-                <td style="width: 7.5%">
-                    <a class="toppenBtn">编辑所选</a>
+                <td style="width: 5%;"><a class="topsearchBtn" href="javascript:;" onclick="searchInfos(1,1)">查询</a></td>
+                <td style="width: 5%">
+                    <a class="toppenBtn" style="font-size: 12px; font-weight: 700; color: #000000">编辑</a>
                 </td>
                 <td style="width: 5%;">
                     <a style="font-size: 12px; font-weight: 700; color: #000000" class="easyui-linkbutton" href="javascript:;" onclick="excelForm()">导出Excel</a>
@@ -158,13 +168,13 @@
             var now = new Date();
             var fl_name = $('#fl_id_s').combobox('getText');
             //alert(fl_name);
-            var st_no = $('#st_id_s').combobox('getValue');
+            var st_no = $('#st_id_s').combobox('getText');
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
 
             var orderid = $('#orderid').val();
-
-            data = {"rows":[{"sys_id":"1011439","op_id":"4","op_name":"林峰","fl_id":"3","fl_name":"FSA","PartOrderID":"14513","st_id":"18","st_no":"FSA040","or_no":"FS7013118600021710100058","part_no":"701311860002","step_order":4,"step_startTime":"2017-10-10 15:38:40","step_endTime":"2017-10-10 15:39:19","step_duringtime":"39","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款高配副驾驶座椅","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986036","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":4,"step_startTime":"2017-10-09 15:43:12","step_endTime":"2017-10-09 15:43:12","step_duringtime":"0","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986037","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":6,"step_startTime":"2017-10-09 15:43:12","step_endTime":"2017-10-09 15:43:14","step_duringtime":"2","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986167","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":7,"step_startTime":"2017-10-09 15:43:14","step_endTime":"2017-10-09 15:46:13","step_duringtime":"179","AngleResult":0,"TorqueResult":0,"scanCode":"70130551 12A 1709280011","scanResult":"匹配","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986196","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":8,"step_startTime":"2017-10-09 15:46:13","step_endTime":"2017-10-09 15:46:51","step_duringtime":"38","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1064081","op_id":"34","op_name":"管理","fl_id":"3","fl_name":"FSA","PartOrderID":"19990","st_id":"18","st_no":"FSA040","or_no":"FS7012206300011710300004","part_no":"701220630001","step_order":3,"step_startTime":"2017-10-30 09:41:48","step_endTime":"2017-10-30 09:42:29","step_duringtime":"41","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配副驾驶座椅","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086263","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":4,"step_startTime":"2017-11-06 08:41:35","step_endTime":"2017-11-06 08:41:35","step_duringtime":"0","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086264","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":5,"step_startTime":"2017-11-06 08:41:35","step_endTime":"2017-11-06 08:41:35","step_duringtime":"0","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086265","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":6,"step_startTime":"2017-11-06 08:41:35","step_endTime":"2017-11-06 08:41:37","step_duringtime":"2","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086266","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":7,"step_startTime":"2017-11-06 08:41:37","step_endTime":"2017-11-06 08:41:40","step_duringtime":"3","AngleResult":0,"TorqueResult":0,"scanCode":"70108072 12A 170915","scanResult":"匹配","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""}],"total":"154179","pages":"15418","from":"1","to":"10"};
+            var scancodenum = $('#scancodenum').val();
+            //data = {"rows":[{"sys_id":"1011439","op_id":"4","op_name":"林峰","fl_id":"3","fl_name":"FSA","PartOrderID":"14513","st_id":"18","st_no":"FSA040","or_no":"FS7013118600021710100058","part_no":"701311860002","step_order":4,"step_startTime":"2017-10-10 15:38:40","step_endTime":"2017-10-10 15:39:19","step_duringtime":"39","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款高配副驾驶座椅","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986036","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":4,"step_startTime":"2017-10-09 15:43:12","step_endTime":"2017-10-09 15:43:12","step_duringtime":"0","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986037","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":6,"step_startTime":"2017-10-09 15:43:12","step_endTime":"2017-10-09 15:43:14","step_duringtime":"2","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986167","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":7,"step_startTime":"2017-10-09 15:43:14","step_endTime":"2017-10-09 15:46:13","step_duringtime":"179","AngleResult":0,"TorqueResult":0,"scanCode":"70130551 12A 1709280011","scanResult":"匹配","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"986196","op_id":"22","op_name":"林宇轩","fl_id":"7","fl_name":"RSB60","PartOrderID":"13530","st_id":"61","st_no":"RSB040","or_no":"B67013069100011710090021","part_no":"701306910001","step_order":8,"step_startTime":"2017-10-09 15:46:13","step_endTime":"2017-10-09 15:46:51","step_duringtime":"38","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"时尚款高配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1064081","op_id":"34","op_name":"管理","fl_id":"3","fl_name":"FSA","PartOrderID":"19990","st_id":"18","st_no":"FSA040","or_no":"FS7012206300011710300004","part_no":"701220630001","step_order":3,"step_startTime":"2017-10-30 09:41:48","step_endTime":"2017-10-30 09:42:29","step_duringtime":"41","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配副驾驶座椅","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086263","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":4,"step_startTime":"2017-11-06 08:41:35","step_endTime":"2017-11-06 08:41:35","step_duringtime":"0","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086264","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":5,"step_startTime":"2017-11-06 08:41:35","step_endTime":"2017-11-06 08:41:35","step_duringtime":"0","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086265","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":6,"step_startTime":"2017-11-06 08:41:35","step_endTime":"2017-11-06 08:41:37","step_duringtime":"2","AngleResult":0,"TorqueResult":0,"scanCode":"","scanResult":"","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""},{"sys_id":"1086266","op_id":"34","op_name":"管理","fl_id":"7","fl_name":"RSB60","PartOrderID":"21774","st_id":"61","st_no":"RSB010","or_no":"B67012202400011711020015","part_no":"701220240001","step_order":7,"step_startTime":"2017-11-06 08:41:37","step_endTime":"2017-11-06 08:41:40","step_duringtime":"3","AngleResult":0,"TorqueResult":0,"scanCode":"70108072 12A 170915","scanResult":"匹配","sys_desc":"城市款中配60%后排座椅靠背","ScrewCount":"","MenderName":"","ReviseTime":""}],"total":"154179","pages":"15418","from":"1","to":"10"};
             //var datanew = $.parseJSON(data);
             //console.log(datanew);
             dg = $('#tb').datagrid({
@@ -184,7 +194,7 @@
                         st_no: st_no,
                         StartTime: start_time,
                         EndTime: end_time,
-
+                        scancodenum:scancodenum,
                         OrderId: orderid,
                         method:""
                     },
@@ -286,13 +296,13 @@
             var end_time = $('#end_time').datetimebox('getValue');
 
             var orderid = $('#orderid').val();
-
+            var scancodenum = $('#scancodenum').val();
             var queryParams = dg.datagrid('options').queryParams;
             queryParams.fl_name = fl_name;
             queryParams.st_no = st_no;
             queryParams.StartTime = start_time;
             queryParams.EndTime = end_time;
-
+            queryParams.scancodenum = scancodenum;
             queryParams.OrderId = orderid;
             queryParams.method = "";
 
@@ -411,7 +421,7 @@
             queryParams.st_no = st_no;
             queryParams.StartTime = start_time;
             queryParams.EndTime = end_time;
-
+            queryParams.scancodenum = $('#scancodenum').val();
             queryParams.OrderId = orderid;
             
             queryParams.method = "Export";
@@ -447,8 +457,9 @@
         }
 
         function reloadst_id_s() {
+            $('#st_id_s').combobox('clear');
             var fl_id = $('#fl_id_s').combobox('getValue');
-            $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
+            $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForStep&fl_id=' + fl_id);
         }
 
         //function reloadpart_id_s() {
