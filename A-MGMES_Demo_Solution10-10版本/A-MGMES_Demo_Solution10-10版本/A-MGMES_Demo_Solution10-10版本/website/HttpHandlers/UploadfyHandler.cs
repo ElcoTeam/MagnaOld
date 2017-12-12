@@ -39,12 +39,17 @@ public class UploadfyHandler : IHttpHandler
                 UploadStationPDF();
                 break;
 
-                
+            case "uploadQualityAlarmPathPDF":
+                uploadQualityAlarmPathPDF();
+                break;
         }
 
 
     }
-
+    void uploadQualityAlarmPathPDF()
+    {
+        UpdaloadImg("QualityAlarmPath");
+    }
     void UploadStationPDF()
     {
         UpdaloadImg("StationPDF");

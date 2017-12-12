@@ -62,7 +62,7 @@ namespace website
             JavaScriptSerializer s = new JavaScriptSerializer();
             HttpRequest request = HttpContext.Current.Request;
             string AssemblyLine = request.Params["fl_name"];
-            string Station = request.Params["st_id"];
+            string Station = request.Params["st_no"];
             string StartTime = request.Params["StartTime"];
             string EndTime = request.Params["EndTime"];
             
@@ -111,7 +111,7 @@ namespace website
             JavaScriptSerializer s = new JavaScriptSerializer();
             HttpRequest request = HttpContext.Current.Request;
             string AssemblyLine = request.Params["fl_name"];
-            string Station = request.Params["st_id"];
+            string Station = request.Params["st_no"];
             string StartTime = request.Params["StartTime"];
             string EndTime = request.Params["EndTime"];
             int PageIndex = Convert.ToInt32(request["page"]);

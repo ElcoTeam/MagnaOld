@@ -26,9 +26,9 @@ namespace Bll
         {
             return mg_sys_LogDal.getList(Pagesize, StartIndex, EndIndex, SortFlag, sortOrder, wherestr,out total);
         }
-        public static string getTorqueAndAngleInfo(string fl_id, string st_id, string part_no)
+        public static string getTorqueAndAngleInfo(string fl_id, string st_no, string part_no)
         {
-            List<mg_sys_log> result = mg_sys_LogDal.getTorqueAndAngleInfo(fl_id, st_id, part_no);
+            List<mg_sys_log> result = mg_sys_LogDal.getTorqueAndAngleInfo(fl_id, st_no, part_no);
 
             return JSONTools.ScriptSerialize<List<mg_sys_log>>(result);
 
@@ -43,6 +43,11 @@ namespace Bll
         public static string getst_idList(string fl_id)
         {
             List<object> result = mg_sys_LogDal.getst_idList(fl_id);
+            return JSONTools.ScriptSerialize(result);
+        }
+        public static string getst_idListForCheck(string fl_id)
+        {
+            List<object> result = mg_sys_LogDal.getst_idListForCheck(fl_id);
             return JSONTools.ScriptSerialize(result);
         }
         public static string getst_idListForStep(string fl_id)
@@ -60,9 +65,9 @@ namespace Bll
             List<object> result = mg_sys_LogDal.getst_idListForVolume(fl_id);
             return JSONTools.ScriptSerialize(result);
         }
-        public static string getpart_idList(string fl_id, string st_id)
+        public static string getpart_idList(string fl_id, string st_no)
         {
-            List<object> result = mg_sys_LogDal.getpart_idList(fl_id, st_id);
+            List<object> result = mg_sys_LogDal.getpart_idList(fl_id, st_no);
             return JSONTools.ScriptSerialize(result);
         }
 

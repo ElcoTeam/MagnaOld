@@ -57,7 +57,7 @@ namespace website.HttpHandlers
 
             List<mg_sys_log> result = new List<mg_sys_log>();
       
-            StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.mg_sys_log where 1=1 and Len(AngleResult) > 0");
+            StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.View_mg_sys_log where 1=1 and Len(AngleResult) > 0");
             List<SqlParameter> parameters = new List<SqlParameter>();
             //System.Diagnostics.Debug.Write();
             if (string.IsNullOrEmpty(fl_id) == false)
@@ -152,7 +152,7 @@ namespace website.HttpHandlers
             JavaScriptSerializer s = new JavaScriptSerializer();
             HttpRequest request = HttpContext.Current.Request;
             string fl_id = request.Params["fl_id"];
-            string sql = "select distinct a.st_no,a.st_id from mg_station a LEFT JOIN mg_sys_log b ON a.st_no=b.st_no  where  a.fl_id='" + fl_id + "' and len(b.AngleResult) > 0 order by a.st_no";
+            string sql = "select distinct a.st_no,a.st_id from mg_station a LEFT JOIN View_mg_sys_log b ON a.st_no=b.st_no  where  a.fl_id='" + fl_id + "' and len(b.AngleResult) > 0 order by a.st_no";
           
             DataTable ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
 
@@ -177,7 +177,7 @@ namespace website.HttpHandlers
             HttpRequest request = HttpContext.Current.Request;
             string fl_id = request.Params["fl_id"];
             string st_id = request.Params["st_id"];
-            string sql = "select distinct part_no from mg_sys_log where fl_id='"+ fl_id + "' and st_id='" + st_id + "'";
+            string sql = "select distinct part_no from View_mg_sys_log where fl_id='"+ fl_id + "' and st_id='" + st_id + "'";
           
             DataTable ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
 

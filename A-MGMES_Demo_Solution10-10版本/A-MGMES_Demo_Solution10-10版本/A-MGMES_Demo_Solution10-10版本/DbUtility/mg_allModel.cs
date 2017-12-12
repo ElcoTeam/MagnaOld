@@ -12,5 +12,6 @@ namespace DbUtility
        // public string from { get; set; }
        // public string to { get; set; }
         public List<T> rows;
+        public List<T> footer;
     }
 }

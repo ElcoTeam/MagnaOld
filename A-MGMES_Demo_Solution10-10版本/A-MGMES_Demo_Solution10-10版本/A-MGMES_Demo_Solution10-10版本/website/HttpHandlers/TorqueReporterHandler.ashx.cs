@@ -30,6 +30,10 @@ namespace website.HttpHandlers
                     st();
                     //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
                     break;
+                case "get_st_listforcheck":
+                    st_for_check();
+                    //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
+                    break;
                 case "get_st_listForStep":
                     st_for_step();
                     //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
@@ -64,6 +68,12 @@ namespace website.HttpHandlers
             Response.Write(a);
             Response.End();
         }
+        void st_for_check()
+        {
+            string a = mg_sys_logBll.getst_idListForCheck(RequstString("fl_id"));
+            Response.Write(a);
+            Response.End();
+        }
         void st_for_step()
         {
             string a = mg_sys_logBll.getst_idListForStep(RequstString("fl_id"));
@@ -90,7 +100,7 @@ namespace website.HttpHandlers
         }
         void part()
         {
-            string a = mg_sys_logBll.getpart_idList(RequstString("fl_id"), RequstString("st_id"));
+            string a = mg_sys_logBll.getpart_idList(RequstString("fl_id"), RequstString("st_no"));
             Response.Write(a);
             Response.End();
         }
@@ -102,7 +112,7 @@ namespace website.HttpHandlers
         }
         void Select()
         {
-            string a = mg_sys_logBll.getTorqueAndAngleInfo(RequstString("fl_id"), RequstString("st_id"), RequstString("part_no"));
+            string a = mg_sys_logBll.getTorqueAndAngleInfo(RequstString("fl_id"), RequstString("st_no"), RequstString("part_no"));
             Response.Write(a);
             Response.End();
         }

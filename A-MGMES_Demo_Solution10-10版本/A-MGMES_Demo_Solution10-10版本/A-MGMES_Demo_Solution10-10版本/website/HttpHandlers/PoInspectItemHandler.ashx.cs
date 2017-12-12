@@ -32,6 +32,9 @@ namespace website.HttpHandlers
                 case "QueryPoInspectItemList":
                     QueryPoInspectItemList();
                     break;
+                case "QueryPoInspectItemListALL":
+                    QueryPoInspectItemListALL();
+                    break;
                 case "DeletePoInspectItem":
                     DeletePoInspectItem();
                     break;
@@ -67,6 +70,13 @@ namespace website.HttpHandlers
                 pagesize = "15";
             }
             string json = mg_PoInspectItemBLL.QueryPoInspectItemList(page, pagesize);
+            Response.Write(json);
+            Response.End();
+        }
+        void QueryPoInspectItemListALL()
+        {
+       
+            string json = mg_PoInspectItemBLL.QueryPoInspectItemListALL();
             Response.Write(json);
             Response.End();
         }

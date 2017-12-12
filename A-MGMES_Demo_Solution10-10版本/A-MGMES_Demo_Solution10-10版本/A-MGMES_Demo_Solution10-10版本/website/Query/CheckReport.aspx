@@ -80,7 +80,7 @@
             //alert(fl_id);
             var fl_name = $('#fl_id_s').combobox('getText');
             //alert(fl_name);
-            var st_id = $('#st_id_s').combo('getValue');
+            var st_no = $('#st_id_s').combo('getValue');
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
             var queryParams =
@@ -88,7 +88,7 @@
       
              fl_id : fl_id,
              fl_name : fl_name,
-             st_id : st_id,
+             st_no : st_no,
              StartTime : start_time,
              EndTime : end_time,
                 }
@@ -133,7 +133,7 @@
             //alert(fl_id);
             var fl_name = $('#fl_id_s').combobox('getText');
             //alert(fl_name);
-            var st_id = $('#st_id_s').combo('getValue');
+            var st_no = $('#st_id_s').combo('getValue');
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
             //var index = start_time.lastIndexOf(':');
@@ -159,7 +159,7 @@
             queryParams.Num = num;
             queryParams.fl_id = fl_id;
             queryParams.fl_name = fl_name;
-            queryParams.st_id = st_id;
+            queryParams.st_no = st_no;
             queryParams.StartTime = start_time;
             queryParams.EndTime = end_time;
             //$('#tb').datagrid({
@@ -171,6 +171,8 @@
         /****************       DOM加载          ***************/
         $(function () {
 
+            $('#start_time').datetimebox('setValue', Date.now.toString());
+            $('#end_time').datetimebox('setValue', Date.now.toString());
             reloadfl_id_s();
             reloadst_id_s();
             //reloadpart_id_s();
@@ -181,11 +183,28 @@
                 cache: false //关闭AJAX缓存
             });
             var now = new Date();
+            var fl_id = $('#fl_id_s').combo('getValue');
+            //alert(fl_id);
+            var fl_name = $('#fl_id_s').combobox('getText');
+            //alert(fl_name);
+            var st_no = $('#st_id_s').combo('getValue');
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            var queryParams =
+                {
+
+                    fl_id: fl_id,
+                    fl_name: fl_name,
+                    st_no: st_no,
+                    StartTime: start_time,
+                    EndTime: end_time,
+                }
             dg = $('#tb').datagrid({
                 fitColumns: true,
                 nowrap: false,
                 striped: true,
                 collapsible: false,
+                queryParams:queryParams,
                 url: '/Services1007_CheckReport.ashx?method=SelectCheckReport',
                 sortName: 'ID',
                 sortOrder: 'asc',
@@ -296,19 +315,93 @@
 
         /****************       辅助业务程序          ***************/
 
+        //function reloadfl_id_s() {
+        //    $('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list');
+        //}
+
+        //function reloadst_id_s() {
+        //    var fl_id = $('#fl_id_s').combobox('getValue');
+        //    $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listforcheck&fl_id=' + fl_id);
+        //}
+
+        //function reloadpart_id_s() {
+        //    var fl_id = $('#fl_id_s').combobox('getValue');
+        //    var st_no = $('#st_id_s').combobox('getValue');
+        //    $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no);
+        //}
+
         function reloadfl_id_s() {
-            $('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list');
+            //$('#fl_id_s').combobox('clear')
+            //$('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list');
+            //var data = $('#fl_id_s').combobox("getData");
+            //if (data.length > 0) {
+            //    $('#fl_id_s').combobox('select', data[0].fl_id);
+            //}
+            $('#fl_id_s').combobox({
+                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list',
+                method: "post",
+                valueField: 'fl_id',
+                textField: 'fl_name',
+                onChange: function () {
+                    reloadst_id_s();
+                },
+                onLoadSuccess: function () {
+                    var data = $(this).combobox("getData");
+                    if (data.length > 0) {
+                        $('#fl_id_s').combobox('select', data[0].fl_id);
+
+                    }
+                }
+            });
+
         }
 
         function reloadst_id_s() {
+            $('#st_id_s').combobox('clear');
             var fl_id = $('#fl_id_s').combobox('getValue');
-            $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
+            $('#st_id_s').combobox({
+                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listforcheck&fl_id=' + fl_id,
+                method: "post",
+                valueField: 'st_no',
+                textField: 'st_no',
+                onChange: function () {
+                    reloadpart_id_s();
+                },
+                onLoadSuccess: function () {
+                    var data = $(this).combobox("getData");
+                    if (data.length > 0) {
+                        $('#st_id_s').combobox('select', data[0].st_no);
+
+                    }
+                }
+            });
         }
 
         function reloadpart_id_s() {
+            $('#part_id_s').combobox('clear');
             var fl_id = $('#fl_id_s').combobox('getValue');
-            var st_id = $('#st_id_s').combobox('getValue');
-            $('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_id=' + st_id);
+            var st_no = $('#st_id_s').combobox('getValue');
+            $('#part_id_s').combobox({
+                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no,
+                method: "post",
+                valueField: 'part_no',
+                textField: 'part_no',
+                onLoadSuccess: function () {
+                    var data = $(this).combobox("getData");
+                    if (data.length > 0) {
+                        $('#part_id_s').combobox('select', data[0].part_no);
+
+                    }
+
+                }
+            });
+
+            //$('#part_id_s').combobox('clear');
+            //var fl_id = $('#fl_id_s').combobox('getValue');
+            //var st_id = $('#st_no_s').combobox('getValue');
+
+            //$('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_id=' + st_id);
+
         }
     </script>
 </asp:Content>

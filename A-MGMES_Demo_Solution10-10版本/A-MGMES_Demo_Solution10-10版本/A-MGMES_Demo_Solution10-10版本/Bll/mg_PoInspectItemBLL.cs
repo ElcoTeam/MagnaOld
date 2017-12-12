@@ -34,6 +34,23 @@ namespace Bll
             jsonStr = JSONTools.ScriptSerialize<mg_PoInspectItemPageModel>(model);
             return jsonStr;
         }
+        public static string QueryPoInspectItemListALL()
+        {
+            string jsonStr = "[]";
+            List<mg_PoInspectItemModel> list = null;
+            string total = "0";
+            list = QueryListALL(out  total);
+            mg_PoInspectItemPageModel model = new mg_PoInspectItemPageModel();
+            model.total = total;
+            model.rows = list;
+            jsonStr = JSONTools.ScriptSerialize<mg_PoInspectItemPageModel>(model);
+            return jsonStr;
+        }
+         private static List<mg_PoInspectItemModel> QueryListALL( out string total)
+        {
+            List<mg_PoInspectItemModel> list = mg_PoInspectItemDAL.QueryListALL( out total);
+            return list;
+        }
         private static List<mg_PoInspectItemModel> QueryListForPaging(string page, string pagesize, out string total)
         {
             List<mg_PoInspectItemModel> list = mg_PoInspectItemDAL.QueryListForPaging(page, pagesize, out total);

@@ -65,8 +65,11 @@ namespace Dal
                    model.testtypename = DataHelper.GetCellDataToStr(row, "TestTypeName");
                    model.testcalculatetypename = DataHelper.GetCellDataToStr(row, "TestCalculateTypeName");
                    model.testcaption = DataHelper.GetCellDataToStr(row, "TestCaption");
-                   model.testvaluemin = float.Parse(DataHelper.GetCellDataToStr(row, "TestValueMin"));
-                   model.testvaluemax = float.Parse(DataHelper.GetCellDataToStr(row, "TestValueMax"));
+                   string TestValueMin = DataHelper.GetCellDataToStr(row, "TestValueMin") == "" ? "0" : DataHelper.GetCellDataToStr(row, "TestValueMin");
+                   string TestValueMax = DataHelper.GetCellDataToStr(row, "TestValueMax") == "" ? "0" : DataHelper.GetCellDataToStr(row, "TestValueMax");
+
+                   model.testvaluemin = float.Parse(TestValueMin);
+                   model.testvaluemax = float.Parse(TestValueMax);
                    model.testvalueiscontainname = DataHelper.GetCellDataToStr(row, "TestValueIsContainName");
                    model.testvalueunit = DataHelper.GetCellDataToStr(row, "TestValueUnit");
                    model.plcname = DataHelper.GetCellDataToStr(row, "PLCName");
@@ -138,8 +141,11 @@ namespace Dal
                    model.testtypename = DataHelper.GetCellDataToStr(row, "TestTypeName");
                    model.testcalculatetypename = DataHelper.GetCellDataToStr(row, "TestCalculateTypeName");
                    model.testcaption = DataHelper.GetCellDataToStr(row, "TestCaption");
-                   model.testvaluemin = float.Parse(DataHelper.GetCellDataToStr(row, "TestValueMin"));
-                   model.testvaluemax = float.Parse(DataHelper.GetCellDataToStr(row, "TestValueMax"));
+                   string TestValueMin = DataHelper.GetCellDataToStr(row, "TestValueMin") == "" ? "0" : DataHelper.GetCellDataToStr(row, "TestValueMin");
+                   string TestValueMax = DataHelper.GetCellDataToStr(row, "TestValueMax") == "" ? "0" : DataHelper.GetCellDataToStr(row, "TestValueMax");
+
+                   model.testvaluemin = float.Parse(TestValueMin);
+                   model.testvaluemax = float.Parse(TestValueMax);
                    model.testvalueiscontainname = DataHelper.GetCellDataToStr(row, "TestValueIsContainName");
                    model.testvalueunit = DataHelper.GetCellDataToStr(row, "TestValueUnit");
                    model.plcname = DataHelper.GetCellDataToStr(row, "PLCName");

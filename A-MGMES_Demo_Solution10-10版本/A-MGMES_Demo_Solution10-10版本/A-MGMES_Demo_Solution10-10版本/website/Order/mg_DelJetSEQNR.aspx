@@ -1,7 +1,4 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/AdminMasterPage.master"  AutoEventWireup="true" CodeBehind="mg_DelJetSEQNR.aspx.cs" Inherits="website.Order.mg_DelJetSEQNR" %>
-
-
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="/css/foundation.css" rel="stylesheet" type="text/css" />
 </asp:Content>
@@ -22,7 +19,7 @@
                     DelJet订单的顺序号：&nbsp;
                 </td>
                 <td style="width: 200px;">
-                    <input type ="text" id="seqnr" Width="200px"></input>
+                    <input type ="text" id="seqnr" Width="200px" ></input>
                 </td>
                 <td style="width: 100px; text-align: right">
                     <input type="button" id="edit"  value="修改顺序号"/>

@@ -73,7 +73,7 @@
                                 <span>工位</span>
                                 <div>
                                     <select id="st_no_s" class="easyui-combobox" style="width: 200px; height: 25px;"
-                                       data-options="valueField: 'st_id',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
+                                       data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
                                     </select>
                                 </div>
                             </li>
@@ -158,13 +158,13 @@
              //});
             
             var fl_id = $('#fl_id_s').combo('getValue');
-            var st_id = $('#st_no_s').combo('getValue');
+            var st_no = $('#st_no_s').combo('getValue');
             var part_no = $('#part_id_s').combo('getValue');
             var chart_Type = $('#data_type').combo('getValue');
             $.ajax({
                 type: 'get',
                 url: '/HttpHandlers/TorqueReporterHandler.ashx',
-                data: { Fl_id: fl_id, St_id: st_id, Part_no: part_no },
+                data: { fl_id: fl_id, st_no: st_no, part_no: part_no },
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
@@ -343,7 +343,7 @@
             $('#st_no_s').combobox({
                 url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id,
                 method: "post",
-                valueField: 'st_id',
+                valueField: 'st_no',
                 textField: 'st_no',
                 onChange: function(){
                     reloadpart_id_s();
@@ -351,7 +351,7 @@
                 onLoadSuccess: function () {
                     var data = $(this).combobox("getData");
                     if (data.length > 0) {
-                        $('#st_no_s').combobox('select', data[0].st_id);
+                        $('#st_no_s').combobox('select', data[0].st_no);
                        
                     }
                 }
@@ -361,9 +361,9 @@
         function reloadpart_id_s() {
             $('#part_id_s').combobox('clear');
             var fl_id = $('#fl_id_s').combobox('getValue');
-            var st_id = $('#st_no_s').combobox('getValue');
+            var st_no = $('#st_no_s').combobox('getValue');
             $('#part_id_s').combobox({
-                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_id=' + st_id,
+                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no,
                 method: "post",
                 valueField: 'part_no',
                 textField: 'part_no',

@@ -54,7 +54,20 @@ namespace Model
         private string _st_odsfile;
         private string _st_mushifile;
         private string _st_odsfilename;
+        private string _st_alarmfile;
+       
+        private string _st_alarmfilename;
+        public string st_alarmfilename
+        {
+            get { return _st_alarmfilename; }
+            set { _st_alarmfilename = value; }
+        }
 
+        public string st_alarmfile
+        {
+            get { return _st_alarmfile; }
+            set { _st_alarmfile = value; }
+        }
         public string st_odsfilename
         {
             get { return _st_odsfilename; }

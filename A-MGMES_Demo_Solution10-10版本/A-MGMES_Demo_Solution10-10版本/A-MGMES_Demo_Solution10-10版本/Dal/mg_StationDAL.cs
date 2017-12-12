@@ -197,7 +197,7 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update mg_station set ");
-            strSql.Append("fl_id=@fl_id,");
+            strSql.Append(" fl_id=@fl_id,");
             strSql.Append("st_no=@st_no,");
             strSql.Append("st_name=@st_name,");
             strSql.Append("st_mac=@st_mac,");
@@ -206,9 +206,11 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
             strSql.Append("st_isfirst=@st_isfirst,");
             strSql.Append("st_isend=@st_isend,");
             strSql.Append("st_odsfile=@st_odsfile,");
+            
             strSql.Append("st_clock_Start=@st_clock_Start,");
-            strSql.Append("st_clock=@st_clock");
-            strSql.Append(" where st_id=@st_id;");
+            strSql.Append("st_clock=@st_clock,");
+            strSql.Append("st_QualityAlarm=@st_alarmfile  ");
+            strSql.Append("  where st_id=@st_id;");
             SqlParameter[] parameters = {
 					new SqlParameter("@st_id", SqlDbType.Int),
 					new SqlParameter("@fl_id", SqlDbType.Int),
@@ -221,7 +223,8 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
 					new SqlParameter("@st_isfirst", SqlDbType.Int),
 					new SqlParameter("@st_isend", SqlDbType.Int),
                     new SqlParameter("@st_clock_Start", SqlDbType.Int),
-                    new SqlParameter("@st_clock", SqlDbType.Int)
+                    new SqlParameter("@st_clock", SqlDbType.Int),
+                    new SqlParameter("@st_alarmfile", SqlDbType.VarChar),
                                         };
             parameters[0].Value = model.st_id;
             parameters[1].Value = model.fl_id;
@@ -235,6 +238,7 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
             parameters[9].Value = model.st_isend;
             parameters[10].Value = model.st_clock_Start;
             parameters[11].Value = model.st_clock;
+            parameters[12].Value = model.st_alarmfile;
 
             int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text, strSql.ToString(), parameters);
             return rows;
@@ -266,9 +270,9 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
                                 ";
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into mg_station(");
-            strSql.Append("st_id,fl_id,st_no,st_name,st_mac,st_typeid,st_order,st_mushifile,st_odsfile,st_isfirst,st_isend,st_clock_Start,st_clock)");
+            strSql.Append("st_id,fl_id,st_no,st_name,st_mac,st_typeid,st_order,st_mushifile,st_odsfile,st_QualityAlarm,st_isfirst,st_isend,st_clock_Start,st_clock)");
             strSql.Append(" values (");
-            strSql.Append("@i,@fl_id,@st_no,@st_name,@st_mac,@st_typeid,@o,@st_mushifile,@st_odsfile,@st_isfirst,@st_isend,@st_clock_Start,@st_clock)");
+            strSql.Append("@i,@fl_id,@st_no,@st_name,@st_mac,@st_typeid,@o,@st_mushifile,@st_odsfile,@st_alarmfile,@st_isfirst,@st_isend,@st_clock_Start,@st_clock)");
             SqlParameter[] parameters = {
 					new SqlParameter("@fl_id", SqlDbType.Int),
 					new SqlParameter("@st_no", SqlDbType.NVarChar),
@@ -277,6 +281,7 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
 					new SqlParameter("@st_typeid", SqlDbType.Int),
 					new SqlParameter("@st_mushifile", SqlDbType.VarChar),
 					new SqlParameter("@st_odsfile", SqlDbType.VarChar),
+                    new SqlParameter("@st_alarmfile", SqlDbType.VarChar),
 					new SqlParameter("@st_isfirst", SqlDbType.Int),
 					new SqlParameter("@st_isend", SqlDbType.Int),
                     new SqlParameter("@st_clock_Start", SqlDbType.Int),
@@ -289,10 +294,11 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
             parameters[4].Value = model.st_typeid;
             parameters[5].Value = model.st_mushifile;
             parameters[6].Value = model.st_odsfile;
-            parameters[7].Value = model.st_isfirst;
-            parameters[8].Value = model.st_isend;
-            parameters[9].Value = model.st_clock_Start;
-            parameters[10].Value = model.st_clock;
+            parameters[7].Value = model.st_alarmfile;
+            parameters[8].Value = model.st_isfirst;
+            parameters[9].Value = model.st_isend;
+            parameters[10].Value = model.st_clock_Start;
+            parameters[11].Value = model.st_clock;
 
             int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text, maxid + strSql, parameters);
             return rows;
@@ -316,6 +322,7 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
                                       ,[st_order]
                                       ,[st_odsfile]
                                       ,[st_mushifile]
+,[st_QualityAlarm]
 ,st_isfirst
  ,CASE st_isfirst WHEN 1 THEN '是' WHEN 0 THEN '否' END AS st_isfirstname
 ,st_isend
@@ -357,6 +364,9 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
                     model.st_mushifile = DataHelper.GetCellDataToStr(row, "st_mushifile");
                     string pdf = DataHelper.GetCellDataToStr(row, "st_odsfile");
                     model.st_odsfilename = (!string.IsNullOrEmpty(pdf)) ? pdf.Substring(pdf.LastIndexOf('/') + 1) : "";
+                    string alarmpdf = DataHelper.GetCellDataToStr(row, "st_QualityAlarm");
+                    model.st_alarmfile = alarmpdf;
+                    model.st_alarmfilename = (!string.IsNullOrEmpty(alarmpdf)) ? alarmpdf.Substring(alarmpdf.LastIndexOf('/') + 1) : "";
                     model.st_isfirst = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "st_isfirst"));
                     model.st_isend = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "st_isend"));
                     model.st_isendname = DataHelper.GetCellDataToStr(row, "st_isendname");
@@ -387,6 +397,7 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
                                       ,[st_order]
                                         ,[st_odsfile]
                                       ,[st_mushifile]
+ ,[st_QualityAlarm]
 ,st_isfirst
  ,CASE st_isfirst WHEN 1 THEN '是' WHEN 0 THEN '否' END AS st_isfirstname
 ,st_isend
@@ -424,6 +435,9 @@ FROM      dbo.mg_FlowLine RIGHT OUTER JOIN
                     model.st_mushifile = DataHelper.GetCellDataToStr(row, "st_mushifile");
                     string pdf = DataHelper.GetCellDataToStr(row, "st_odsfile");
                     model.st_odsfilename = (!string.IsNullOrEmpty(pdf)) ? pdf.Substring(pdf.LastIndexOf('/') + 1) : "";
+                    string alarmpdf = DataHelper.GetCellDataToStr(row, "st_QualityAlarm");
+                    model.st_alarmfile = alarmpdf;
+                    model.st_alarmfilename = (!string.IsNullOrEmpty(alarmpdf)) ? alarmpdf.Substring(alarmpdf.LastIndexOf('/') + 1) : "";
                     model.st_isfirst = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "st_isfirst"));
                     model.st_isend = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "st_isend"));
                     model.st_isendname = DataHelper.GetCellDataToStr(row, "st_isendname");

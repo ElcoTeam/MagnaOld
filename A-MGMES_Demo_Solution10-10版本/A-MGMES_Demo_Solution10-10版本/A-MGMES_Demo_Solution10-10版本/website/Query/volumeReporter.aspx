@@ -65,7 +65,7 @@
                                 <span>工位</span>
                                 <div>
                                     <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
-						                data-options="valueField: 'st_id',textField: 'st_no'">
+						                data-options="valueField: 'st_no',textField: 'st_no'">
 					                </select>
                                 </div>
                             </li>
@@ -345,13 +345,78 @@
 				}
 			});
 		}   //echart
+		//function reloadfl_id_s() {
+		//    $('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list');
+		//}
+
+		//function reloadst_id_s() {
+		//    var fl_id = $('#fl_id_s').combobox('getValue');
+		//    $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForVolume&fl_id=' + fl_id);
+	    //}
+
 		function reloadfl_id_s() {
-		    $('#fl_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list');
+		   
+		    $('#fl_id_s').combobox({
+		        url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list',
+		        method: "post",
+		        valueField: 'fl_id',
+		        textField: 'fl_name',
+		        onChange: function () {
+		            reloadst_id_s();
+		        },
+		        onLoadSuccess: function () {
+		            var data = $(this).combobox("getData");
+		            if (data.length > 0) {
+		                $('#fl_id_s').combobox('select', data[0].fl_id);
+
+		            }
+		        }
+		    });
+
 		}
 
 		function reloadst_id_s() {
+		    $('#st_id_s').combobox('clear');
 		    var fl_id = $('#fl_id_s').combobox('getValue');
-		    $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForVolume&fl_id=' + fl_id);
+		    $('#st_id_s').combobox({
+		        url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForVolume&fl_id=' + fl_id,
+		        method: "post",
+		        valueField: 'st_no',
+		        textField: 'st_no',
+		        onChange: function () {
+		            reloadpart_id_s();
+		        },
+		        onLoadSuccess: function () {
+		            var data = $(this).combobox("getData");
+		            if (data.length > 0) {
+		                $('#st_id_s').combobox('select', data[0].st_no);
+
+		            }
+		        }
+		    });
+		}
+
+		function reloadpart_id_s() {
+		    $('#part_id_s').combobox('clear');
+		    var fl_id = $('#fl_id_s').combobox('getValue');
+		    var st_no = $('#st_id_s').combobox('getValue');
+		    $('#part_id_s').combobox({
+		        url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no,
+		        method: "post",
+		        valueField: 'part_no',
+		        textField: 'part_no',
+		        onLoadSuccess: function () {
+		            var data = $(this).combobox("getData");
+		            if (data.length > 0) {
+		                $('#part_id_s').combobox('select', data[0].part_no);
+
+		            }
+
+		        }
+		    });
+
+		    
+
 		}
 	</script>
 </asp:Content>

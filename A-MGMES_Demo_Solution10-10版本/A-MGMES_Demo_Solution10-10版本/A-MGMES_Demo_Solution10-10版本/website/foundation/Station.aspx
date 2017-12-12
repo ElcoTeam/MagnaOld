@@ -149,6 +149,7 @@
                     <img id="st_odsfile" src="/image/admin/OK.png" style="visibility: hidden" alt="" /><br />
                 </td>
             </tr>
+           
 
             <tr>
                 <td class="title">目视图片：
@@ -157,6 +158,17 @@
                     <br />
                     <input type="file" name="uploadify" id="uploadify" />
                     <div id="uploadify-queue" style="height: 0px; width: 0px"></div>
+                </td>
+            </tr>
+             <tr>
+                <td class="title">质量警报PDF文件：
+                </td>
+                <td>
+                    <input type="file" name="pdfuploadify" id="Alarmpdfuploadify" />
+                    <div id="Alarmpdfuploadify-queue" style="height: 0px; width: 0px"></div>
+                </td>
+                <td style="text-align: left">
+                    <img id="st_alarmfile" src="/image/admin/OK.png" style="visibility: hidden" alt="" /><br />
                 </td>
             </tr>
             <%-- <tr>
@@ -267,6 +279,7 @@
                       { field: 'fl_id', title: '流水线id', hidden: true },
                       { field: 'st_typeid', title: '工位类型id', hidden: true },
                       { field: 'st_odsfile', title: 'PDF文件原路径', hidden: true },
+                       { field: 'st_alarmfile', title: '质量报警PDF文件原路径', hidden: true },
                       { field: 'st_isfirst', title: '是首位吗', hidden: true },
                       { field: 'st_isend', title: '是末位吗', hidden: true },
                         { field: 'st_mushifile', title: '图片', formatter: function (value, row, index) { return '<img src="' + row.st_mushifile + '" style="height:80px;" />'; }, align: "center", width: 100 },
@@ -280,7 +293,8 @@
                         { field: 'st_clock', title: '计时节拍(秒)', width: 70, align: "center" },
                       { field: 'st_name', title: '工位描述', width: 100, align: "center" },
                       { field: 'st_mac', title: 'MAC地址', width: 100, align: "center" },
-                { field: 'st_odsfilename', title: 'PDF文件' }
+                { field: 'st_odsfilename', title: 'PDF文件' },
+                { field: 'st_alarmfilename', title: '质量警报PDF文件' }
                 ]],
                 onLoadSuccess: function () {
                     $(this).datagrid('enableDnd');
@@ -335,6 +349,24 @@
                     //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
                 }
             });
+        
+        //Alarmpdf上传
+        $("#Alarmpdfuploadify").uploadify({
+            'swf': '/js/uploadify/uploadify.swf',
+            'uploader': '/HttpHandlers/UploadfyHandler.ashx?method=uploadQualityAlarmPathPDF',
+            'buttonText': '上传PDF',
+            //'formData': { 'someKey': 'someValue', 'someOtherKey': 1 },
+            //上传文件页面中，你想要用来作为文件队列的元素的id, 默认为false  自动生成,  不带#
+            'queueID': 'fileQueue',
+            //选择文件后自动上传
+            'auto': true,
+            //设置为true将允许多文件上传
+            'multi': false,
+            'onUploadSuccess': function (file, data, response) {
+                setAlarmPDF(file, data, response);
+                //alert('The file ' + file.name + ' was successfully uploaded with a response of ' + response + ':' + data);
+            }
+        });
         });
 
 
@@ -370,6 +402,7 @@
             var st_mac = $('#st_mac').val();
             var st_mushifile = $('#st_mushifile').attr('src');
             var st_odsfile = $('#st_odsfile').attr('alt');
+            var st_alarmfile = $('#st_alarmfile').attr('alt');
             
             var st_isfirst = ($('#st_isfirst').switchbutton('options').checked == true) ? 1 : 0;
             var st_isend = ($('#st_isend').switchbutton('options').checked == true) ? 1 : 0;
@@ -397,6 +430,7 @@
                 st_mac: st_mac,
                 st_mushifile: st_mushifile,
                 st_odsfile: st_odsfile,
+                st_alarmfile: st_alarmfile,
                 st_isfirst: st_isfirst,
                 st_isend: st_isend,
                 st_clock_Start: st_clock_Start,
@@ -440,7 +474,12 @@
             var row = selRows[0];
             stid = row.st_id;
 
+          
+            $('#st_odsfile').css("visibility", "visible");
+
+            $('#st_alarmfile').css("visibility", "visible");
             $('#st_odsfile').attr('alt', row.st_odsfile);
+            $('#st_alarmfile').attr('alt', row.st_alarmfile);
             $('#st_mushifile').attr('src', row.st_mushifile);
 
             $('#fl_id').combobox('select', row.fl_id);
@@ -514,6 +553,7 @@
 
         //上传完图片后，给编辑框中图片附链接
         function setImg(file, data, response) {
+            console.log("图片"+data);
             $('#st_mushifile').attr('src', data);
             // $('#imgurl').val(data);
         }
@@ -521,6 +561,11 @@
         function setPDF(file, data, response) {
             $('#st_odsfile').attr('alt', data);
             $('#st_odsfile').css("visibility", "visible");
+            // $('#imgurl').val(data);
+        }
+        function setAlarmPDF(file, data, response) {
+            $('#st_alarmfile').attr('alt', data);
+            $('#st_alarmfile').css("visibility", "visible");
             // $('#imgurl').val(data);
         }
 
@@ -538,6 +583,8 @@
             $('#st_mushifile').attr('src', '/image/admin/camera.png');
             $('#st_odsfile').attr('alt', '');
             $('#st_odsfile').css("visibility", "hidden");
+            $('#st_alarmfile').attr('alt', '');
+            $('#st_alarmfile').css("visibility", "hidden");
             $('#st_isfirst').switchbutton('uncheck');
             $('#st_isend').switchbutton('uncheck');
             $('#st_clock_Start').val('');

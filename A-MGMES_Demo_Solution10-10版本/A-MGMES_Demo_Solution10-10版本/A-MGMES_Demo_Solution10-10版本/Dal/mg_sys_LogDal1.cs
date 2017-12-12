@@ -18,7 +18,7 @@ namespace Dal
         public static List<mg_sys_log> getTorqueAndAngleInfo1(string fl_id, string st_no, string part_no)
         {
             List<mg_sys_log> result = new List<mg_sys_log>();
-            StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.mg_sys_log where 1=1 and Len(AngleResult) > 0");
+            StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.View_mg_sys_log where 1=1 and Len(AngleResult) > 0");
             List<SqlParameter> parameters = new List<SqlParameter>();
             //System.Diagnostics.Debug.Write();
 
@@ -107,7 +107,7 @@ namespace Dal
         {
             List<object> result = new List<object>();
             //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
-            string sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.mg_sys_log ON dbo.mg_station.st_no=dbo.mg_sys_log.st_no  where  dbo.mg_station.fl_id=@fl_id and len(AngleResult) > 0 order by dbo.mg_station.st_no";
+            string sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log ON dbo.mg_station.st_no=dbo.mg_sys_log.st_no  where  dbo.mg_station.fl_id=@fl_id and len(AngleResult) > 0 order by dbo.mg_station.st_no";
             SqlParameter[] parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
             DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
             foreach (DataRow row in table.Rows)
@@ -131,7 +131,7 @@ namespace Dal
             List<object> result = new List<object>();
             //string sql = "select distinct part_no from dbo.mg_sys_log where fl_id=@fl_id and st_id=@st_id and len(AngleResult) > 0";
             //string sql1 = "select distinct st_id from mg_station where fl_id=@fl_id";
-            string sql = "select distinct part_no from dbo.mg_sys_log where fl_id=@fl_id and st_no=@st_no";
+            string sql = "select distinct part_no from dbo.View_mg_sys_log where fl_id=@fl_id and st_no=@st_no";
             SqlParameter[] parameters = new SqlParameter[] { 
                 new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id },
             new SqlParameter("@st_no", SqlDbType.NVarChar) { Value = st_no }};

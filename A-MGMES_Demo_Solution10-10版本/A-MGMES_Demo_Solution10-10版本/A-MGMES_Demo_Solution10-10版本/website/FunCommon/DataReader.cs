@@ -16,7 +16,7 @@ namespace website
         {
             int TotalPage = PageSize * PageIndex;
             int CurrentPage = PageSize * (PageIndex - 1);
-            string SqlStr = "SELECT top " + PageSize + "  * FROM mg_sys_log WHERE (cast(Step_StartTime as datetime) >= '" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "') and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  mg_sys_log where (cast(Step_StartTime as datetime) >='" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "') ORDER BY fl_name,step_startTime,sys_id) ORDER BY fl_name,step_startTime,sys_id";
+            string SqlStr = "SELECT top " + PageSize + "  * FROM View_mg_sys_log WHERE (cast(Step_StartTime as datetime) >= '" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "') and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  mg_sys_log where (cast(Step_StartTime as datetime) >='" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "') ORDER BY fl_name,step_startTime,sys_id) ORDER BY fl_name,step_startTime,sys_id";
            
             DataTable ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
             return ResTable;
@@ -32,19 +32,19 @@ namespace website
             }
             if (!string.IsNullOrEmpty(Station) && !string.IsNullOrEmpty(Dti1))  //工位选，时间选
             {
-                string SqlStr = "SELECT top " + PageSize + "  * FROM mg_sys_log WHERE (cast(Step_StartTime as datetime) >= '" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "')and st_no='" + Station + "' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  mg_sys_log where (cast(Step_StartTime as datetime) >='" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "')and st_no='" + Station + "' ORDER BY st_no,step_startTime,sys_id) ORDER BY st_no,step_startTime,sys_id";
+                string SqlStr = "SELECT top " + PageSize + "  * FROM View_mg_sys_log WHERE (cast(Step_StartTime as datetime) >= '" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "')and st_no='" + Station + "' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  View_mg_sys_log where (cast(Step_StartTime as datetime) >='" + Dti1 + "' and cast(step_endTime as datetime) <= '" + Dti2 + "')and st_no='" + Station + "' ORDER BY st_no,step_startTime,sys_id) ORDER BY st_no,step_startTime,sys_id";
                 
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
             }
             else if (!string.IsNullOrEmpty(Station) && string.IsNullOrEmpty(Dti1)) //工位选，时间不选
             {
-                string SqlStr = "SELECT top " + PageSize + "  * FROM mg_sys_log WHERE st_no='" + Station + "' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  mg_sys_log where st_no='" + Station + "' ORDER BY st_no,sys_id) ORDER BY st_no,sys_id";
+                string SqlStr = "SELECT top " + PageSize + "  * FROM View_mg_sys_log WHERE st_no='" + Station + "' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  View_mg_sys_log where st_no='" + Station + "' ORDER BY st_no,sys_id) ORDER BY st_no,sys_id";
 
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
             }
             else   //就选流水线
             {
-                string SqlStr = "SELECT top " + PageSize + "  * FROM mg_sys_log where st_no like '" + AssemblyLine + "%' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  mg_sys_log where st_no like '" + AssemblyLine + "%' ORDER BY st_no,sys_id) ORDER BY st_no,sys_id";
+                string SqlStr = "SELECT top " + PageSize + "  * FROM View_mg_sys_log where st_no like '" + AssemblyLine + "%' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  View_mg_sys_log where st_no like '" + AssemblyLine + "%' ORDER BY st_no,sys_id) ORDER BY st_no,sys_id";
 
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
             }
@@ -60,7 +60,7 @@ namespace website
             {
                 CurrentPage = 0;
             }
-            string sql = "SELECT top " + PageSize + "  * FROM mg_sys_log WHERE or_no='" + Dti + "' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  mg_sys_log where or_no='" + Dti + "' ORDER BY sys_id) ORDER BY sys_id";   //按生成顺序排序
+            string sql = "SELECT top " + PageSize + "  * FROM View_mg_sys_log WHERE or_no='" + Dti + "' and sys_id NOT IN(SELECT TOP " + CurrentPage + " sys_id FROM  View_mg_sys_log where or_no='" + Dti + "' ORDER BY sys_id) ORDER BY sys_id";   //按生成顺序排序
 
             ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             return ResTable;

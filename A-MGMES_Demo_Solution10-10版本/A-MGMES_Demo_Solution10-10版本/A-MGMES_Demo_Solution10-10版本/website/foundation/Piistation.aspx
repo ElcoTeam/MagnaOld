@@ -158,7 +158,7 @@
 
             //点检项加载
             pitemdg = $('#piitemtb').datagrid({
-                url: "/HttpHandlers/PoInspectItemHandler.ashx?method=QueryPoInspectItemList",
+                url: "/HttpHandlers/PoInspectItemHandler.ashx?method=QueryPoInspectItemListALL",
                 rownumbers: true,
                 collapsible: false,
                 columns: [[

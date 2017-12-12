@@ -125,6 +125,7 @@ public class StationHandler : IHttpHandler
         string st_mac = Request.Params["st_mac"];
         string st_mushifile = Request.Params["st_mushifile"];
         string st_odsfile = Request.Params["st_odsfile"];
+        string st_alarmfile = Request.Params["st_alarmfile"];
         string st_isfirst = Request.Params["st_isfirst"];
         string st_isend = Request.Params["st_isend"];
         string st_clock_Start = Request.Params["st_clock_Start"];
@@ -152,6 +153,7 @@ public class StationHandler : IHttpHandler
         model.st_mac = st_mac;
         model.st_mushifile = st_mushifile;
         model.st_odsfile = st_odsfile;
+        model.st_alarmfile = st_alarmfile;
         model.st_isfirst = NumericParse.StringToInt(st_isfirst);
         model.st_isend = NumericParse.StringToInt(st_isend);
         model.st_clock_Start = NumericParse.StringToInt(st_clock_Start);
