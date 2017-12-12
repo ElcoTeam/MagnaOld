@@ -141,7 +141,7 @@ namespace Dal
                 sql.Append(" and part_no=@part_no");
                 parameters.Add(new SqlParameter("@part_no", SqlDbType.NVarChar) { Value = part_no });
             }
-            sql.Append(" order by or_no,fl_name, st_no, part_no, step");
+            sql.Append(" order by step_startTime,or_no,fl_name, st_no, part_no, step");
             DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql.ToString(), parameters.ToArray());
             foreach (DataRow row in table.Rows)
             {
@@ -389,7 +389,7 @@ namespace Dal
 left join mg_Test_Part b on a.Test_PartID = b.ID
 left join mg_test c on b.TestID = c.id
 left join mg_Operator d on a.operatorid = d.op_id
-left join mg_station_log e on a.OrderNo = e.or_no
+left join View_mg_station_log e on a.OrderNo = e.or_no
 left join mg_Test_Repair_Item_Record f on a.OrderNo = f.OrderNo
 left join mg_Test_Repair_Item g on f.Repair_ItemID = g.ID
 where e.station_startTime > '" + StartTime + "' and e.station_endTime < '" + EndTime + "'";

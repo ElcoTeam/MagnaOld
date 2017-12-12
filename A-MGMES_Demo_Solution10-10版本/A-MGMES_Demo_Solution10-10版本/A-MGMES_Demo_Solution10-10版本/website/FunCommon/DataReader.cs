@@ -105,14 +105,14 @@ namespace website
                 {
                     if (st_no == "" || st_no == null)
                     {
-                        SqlStr = "select CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(13),cast(endTime as datetime),120) order by CONVERT(varchar(13),cast(endTime as datetime),120)";
+                        SqlStr = "select CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(13),cast(endTime as datetime),120) order by CONVERT(varchar(13),cast(endTime as datetime),120)";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                       
                     }
                     else
                     {
-                        SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                        SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                        
@@ -122,14 +122,14 @@ namespace website
                 {
                     if (st_no == "" || st_no == null)
                     {
-                        SqlStr = "select CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(10),cast(endTime as datetime),120) order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                        SqlStr = "select CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(10),cast(endTime as datetime),120) order by CONVERT(varchar(10),cast(endTime as datetime),120)";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                        
                     }
                     else
                     {   //全选
-                        SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                        SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                         
@@ -145,14 +145,14 @@ namespace website
                     if (st_no == "" || st_no == null)
                     {
                        
-                         SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(13),cast(a.endTime as datetime),120) = CONVERT(varchar(13),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(13),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(13),cast(endTime as datetime),120)";
+                         SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from View_mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(13),cast(a.endTime as datetime),120) = CONVERT(varchar(13),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(13),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(13),cast(endTime as datetime),120)";
 
                          outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                     }
                     else
                     {
                        
-                        SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                        SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                     }
@@ -162,14 +162,14 @@ namespace website
                     if (st_no == "" || st_no == null)
                     {
                        
-                        SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(10),cast(a.endTime as datetime),120) = CONVERT(varchar(10),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(10),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                        SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from View_mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(10),cast(a.endTime as datetime),120) = CONVERT(varchar(10),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(10),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(10),cast(endTime as datetime),120)";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                     }
                     else
                     {   //全选
                        
-                        SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                        SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
 
                         outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                     }
@@ -186,19 +186,19 @@ namespace website
             {
                 if (st_no == "" || st_no == null)
                 {
-                    string SqlStr = "select CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(13),cast(endTime as datetime),120) order by CONVERT(varchar(13),cast(endTime as datetime),120)";
+                    string SqlStr = "select CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(13),cast(endTime as datetime),120) order by CONVERT(varchar(13),cast(endTime as datetime),120)";
 
                     ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
-                    SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(13),cast(a.endTime as datetime),120) = CONVERT(varchar(13),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(13),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(13),cast(endTime as datetime),120)";
+                    SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(13),cast(endTime as datetime),120) as dayTime,count(*) as c from View_mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(13),cast(a.endTime as datetime),120) = CONVERT(varchar(13),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(13),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(13),cast(endTime as datetime),120)";
 
                     outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                 }
                 else
                 {
-                    string SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                    string SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
 
                     ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
-                    SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                    SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(13),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
                   
                     outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                 }
@@ -207,20 +207,20 @@ namespace website
             {
                 if (st_no == "" || st_no == null)
                 {
-                    string SqlStr = "select CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(10),cast(endTime as datetime),120) order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                    string SqlStr = "select CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040' or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >= 5 group by CONVERT(varchar(10),cast(endTime as datetime),120) order by CONVERT(varchar(10),cast(endTime as datetime),120)";
 
                     ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
-                    SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(10),cast(a.endTime as datetime),120) = CONVERT(varchar(10),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(10),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(10),cast(endTime as datetime),120)";
+                    SqlStr = "select[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],CONVERT(varchar(10),cast(endTime as datetime),120) as dayTime,count(*) as c from View_mg_station_log b,(select  right(or_no,10) as orderCode,COUNT(right(or_no,10)) as counts,Max(station_endTime) as endTime from dbo.View_mg_station_log  where or_no<>'' and (st_no='FSA200' or  st_no='RSC040'or st_no='RSB070')  and station_startTime>='" + dti1 + "' and station_endTime <='" + dti2 + "' group by right(or_no,10))a where counts >=  5 and right(b.or_no,10) = a.orderCode and CONVERT(varchar(10),cast(a.endTime as datetime),120) = CONVERT(varchar(10),cast(b.station_endTime as datetime),120)group by CONVERT(varchar(10),cast(endTime as datetime),120),[sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan] order by CONVERT(varchar(10),cast(endTime as datetime),120)";
                    
                     outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                 }
                 else
                 {   //全选
-                    string SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
+                    string SqlStr = "select dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by dayTime order by dayTime";
                     //string SqlStr = "";
                    
                     ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
-                    SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
+                    SqlStr = "select [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime,COUNT(*) as c  from (select CONVERT(varchar(10),cast(station_endTime as datetime),120) as dayTime , [sys_id][sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan]  from dbo.View_mg_station_log where station_startTime >= '" + dti1 + "' and station_endTime <= '" + dti2 + "' and st_no = '" + st_no + "') a group by  [sys_id],[op_id],[op_name] ,[fl_id],[fl_name],[st_id] ,[st_no],[or_no] ,[part_no],[station_startTime] ,[station_endTime],[station_TimeSpan],dayTime order by dayTime";
                   
                     outtable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                 }
@@ -236,7 +236,7 @@ namespace website
             if (flag == 1 && !string.IsNullOrEmpty(st_no))  //按小时                   前两个是工站不为空的，后两个是工站位空的，也就是只选时间
             {
                
-                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
+                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.View_mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
                
               
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr1, null);
@@ -245,7 +245,7 @@ namespace website
             else if (flag ==2 && !string.IsNullOrEmpty(st_no))   //按天
             {
                
-                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
+                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.View_mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 and st_no = '" + st_no + "' order by sys_id";
                 
                
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr1, null);
@@ -255,7 +255,7 @@ namespace website
             else if (string.IsNullOrEmpty(st_no) && flag == 1)
             {
                 
-                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
+                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.View_mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
                
                 
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr1, null);
@@ -264,7 +264,7 @@ namespace website
             else
             {
                 
-                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
+                string SqlStr1 = "select sys_id 序号,or_no 订单号,st_no 工站,station_startTime 开始时间,station_endTime 结束时间,station_TimeSpan 耗时 from dbo.View_mg_station_log where cast(station_startTime as datetime) >= '" + dti1 + "' and cast(station_endTime as datetime) <= '" + dti2 + "' and station_TimeSpan < 500 order by sys_id";
               
                 ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr1, null);
                
