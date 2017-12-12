@@ -36,129 +36,128 @@ public partial class AdminCMS_AdminIndex : System.Web.UI.Page
 
 
             if (Request.Cookies["admininfo"] != null)
-
             {
                 this.namelit.Text = Request.Cookies["admininfo"]["name"];
                 this.tellit.Text = HttpUtility.UrlDecode(Request.Cookies["admininfo"]["user_posiid_name"]);
             }
 
 
-            SetttingMenu();
+            //SetttingMenu();
 
 
         }
     }
 
-    private void SetttingMenu()
-    {
-        this.m1.Visible = false;
-        this.m1_1.Visible = false;
-        this.m1_2.Visible = false;
-        this.m1_3.Visible = false;
-        this.m1_4.Visible = false;
-        this.m1_5.Visible = false;
-        this.m1_6.Visible = false;
+    //private void SetttingMenu()
+    //{
+    //    this.m1.Visible = false;
+    //    this.m1_1.Visible = false;
+    //    this.m1_2.Visible = false;
+    //    this.m1_3.Visible = false;
+    //    this.m1_4.Visible = false;
+    //    this.m1_5.Visible = false;
+    //    this.m1_6.Visible = false;
 
-        this.m2.Visible = false;
-        this.m2_1.Visible = false;
-        this.m2_2.Visible = false;
-        this.m2_3.Visible = false;
-        this.m2_4.Visible = false;
-        this.m2_5.Visible = false;
-        this.m2_6.Visible = false;
-        this.m2_7.Visible = false;
-        this.m2_8.Visible = false;
-        this.m2_9.Visible = false;
-        this.m2_10.Visible = false;
-        this.m2_11.Visible = false;
+    //    this.m2.Visible = false;
+    //    this.m2_1.Visible = false;
+    //    this.m2_2.Visible = false;
+    //    this.m2_3.Visible = false;
+    //    this.m2_4.Visible = false;
+    //    this.m2_5.Visible = false;
+    //    this.m2_6.Visible = false;
+    //    this.m2_7.Visible = false;
+    //    this.m2_8.Visible = false;
+    //    this.m2_9.Visible = false;
+    //    this.m2_10.Visible = false;
+    //    this.m2_11.Visible = false;
 
-        this.m3.Visible = false;
-        this.m3_1.Visible = false;
-        this.m3_2.Visible = false;
-        this.m3_3.Visible = false;
+    //    this.m3.Visible = false;
+    //    this.m3_1.Visible = false;
+    //    this.m3_2.Visible = false;
+    //    this.m3_3.Visible = false;
 
 
-        this.m4.Visible = false;
-        this.m4_1.Visible = false;
-        this.m4_3.Visible = false;
+    //    this.m4.Visible = false;
+    //    this.m4_1.Visible = false;
+    //    this.m4_3.Visible = false;
 
-        this.m5.Visible = false;
-        this.m5_1.Visible = false;
-        this.m5_2.Visible = false;
-        this.m5_3.Visible = false;
-        this.m5_4.Visible = false;
-        this.m5_5.Visible = false;
-        this.m5_6.Visible = false;
-        this.m5_7.Visible = false;
-        this.m5_8.Visible = false;
-        this.m5_9.Visible = false;
-        this.m5_10.Visible = false;
-        this.m5_11.Visible = false;
+    //    this.m5.Visible = false;
+    //    this.m5_1.Visible = false;
+    //    this.m5_2.Visible = false;
+    //    this.m5_3.Visible = false;
+    //    this.m5_4.Visible = false;
+    //    this.m5_5.Visible = false;
+    //    this.m5_6.Visible = false;
+    //    this.m5_7.Visible = false;
+    //    this.m5_8.Visible = false;
+    //    this.m5_9.Visible = false;
+    //    this.m5_10.Visible = false;
+    //    this.m5_11.Visible = false;
 
-        this.m6.Visible = false;
-        this.m6_1.Visible = false;
+    //    this.m6.Visible = false;
+    //    this.m6_1.Visible = false;
 
-        string menuids = "";
-        if (Request.Cookies["admininfo"] != null)
-        {
-            menuids = HttpUtility.UrlDecode(Request.Cookies["admininfo"]["menuids"]);
-        }
-        string[] menuidArr = menuids.Split(',');
-        foreach (string item in menuidArr)
-        {
-            //14 23 34 42 53
-            switch (item)
-            {
-                case "m1": this.m1.Visible = true; break;
-                case "m1_1": this.m1_1.Visible = true; break;
-                case "m1_2": this.m1_2.Visible = true; break;
-                case "m1_3": this.m1_3.Visible = true; break;
-                case "m1_4": this.m1_4.Visible = true; break;
-                case "m1_5": this.m1_5.Visible = true; break;
-                case "m1_6": this.m1_6.Visible = true; break;
+    //    string menuids = "";
+    //    if (Request.Cookies["admininfo"] != null)
+    //    {
+    //        menuids = HttpUtility.UrlDecode(Request.Cookies["admininfo"]["menuids"]);
+    //    }
+    //    string[] menuidArr = menuids.Split(',');
+    //    foreach (string item in menuidArr)
+    //    {
+    //        //14 23 34 42 53
+    //        switch (item)
+    //        {
+    //            case "m1": this.m1.Visible = true; break;
+    //            case "m1_1": this.m1_1.Visible = true; break;
+    //            case "m1_2": this.m1_2.Visible = true; break;
+    //            case "m1_3": this.m1_3.Visible = true; break;
+    //            case "m1_4": this.m1_4.Visible = true; break;
+    //            case "m1_5": this.m1_5.Visible = true; break;
+    //            case "m1_6": this.m1_6.Visible = true; break;
                     
-                case "m2": this.m2.Visible = true; break;
-                case "m2_1": this.m2_1.Visible = true; break;
-                case "m2_2": this.m2_2.Visible = true; break;
-                case "m2_3": this.m2_3.Visible = true; break;
-                case "m2_4": this.m2_4.Visible = true; break;
-                case "m2_5": this.m2_5.Visible = true; break;
-                case "m2_6": this.m2_6.Visible = true; break;
-                case "m2_7": this.m2_7.Visible = true; break;
-                case "m2_8": this.m2_8.Visible = true; break;
-                case "m2_9": this.m2_9.Visible = true; break;
-                case "m2_10": this.m2_10.Visible = true; break;
-                case "m2_11": this.m2_11.Visible = true; break;
+    //            case "m2": this.m2.Visible = true; break;
+    //            case "m2_1": this.m2_1.Visible = true; break;
+    //            case "m2_2": this.m2_2.Visible = true; break;
+    //            case "m2_3": this.m2_3.Visible = true; break;
+    //            case "m2_4": this.m2_4.Visible = true; break;
+    //            case "m2_5": this.m2_5.Visible = true; break;
+    //            case "m2_6": this.m2_6.Visible = true; break;
+    //            case "m2_7": this.m2_7.Visible = true; break;
+    //            case "m2_8": this.m2_8.Visible = true; break;
+    //            case "m2_9": this.m2_9.Visible = true; break;
+    //            case "m2_10": this.m2_10.Visible = true; break;
+    //            case "m2_11": this.m2_11.Visible = true; break;
 
-                case "m3": this.m3.Visible = true; break;
-                case "m3_1": this.m3_1.Visible = true; break;
-                case "m3_2": this.m3_2.Visible = true; break;
-                case "m3_3": this.m3_3.Visible = true; break;
+    //            case "m3": this.m3.Visible = true; break;
+    //            case "m3_1": this.m3_1.Visible = true; break;
+    //            case "m3_2": this.m3_2.Visible = true; break;
+    //            case "m3_3": this.m3_3.Visible = true; break;
 
-                // case "m3_4": this.m3_4.Visible = true; break;
-                case "m4": this.m4.Visible = true; break;
-                case "m4_1": this.m4_1.Visible = true; break;
-                case "m4_3": this.m4_3.Visible = true; break;
+    //            // case "m3_4": this.m3_4.Visible = true; break;
+    //            case "m4": this.m4.Visible = true; break;
+    //            case "m4_1": this.m4_1.Visible = true; break;
+    //            case "m4_3": this.m4_3.Visible = true; break;
 
-                //case "m4_2": this.m4_2.Visible = true; break;
-                case "m5": this.m5.Visible = true; break;
-                case "m5_1": this.m5_1.Visible = true; break;
-                case "m5_2": this.m5_2.Visible = true; break;
-                case "m5_3": this.m5_3.Visible = true; break;
-                case "m5_4": this.m5_4.Visible = true; break;
-                case "m5_5": this.m5_5.Visible = true; break;
-                case "m5_6": this.m5_6.Visible = true; break;
-                case "m5_7": this.m5_7.Visible = true; break;
-                case "m5_8": this.m5_8.Visible = true; break;
-                case "m5_9": this.m5_9.Visible = true; break;
-                case "m5_10": this.m5_10.Visible = true; break;
-                case "m5_11": this.m5_11.Visible = true; break;
+    //            //case "m4_2": this.m4_2.Visible = true; break;
+    //            case "m5": this.m5.Visible = true; break;
+    //            case "m5_1": this.m5_1.Visible = true; break;
+    //            case "m5_2": this.m5_2.Visible = true; break;
+    //            case "m5_3": this.m5_3.Visible = true; break;
+    //            case "m5_4": this.m5_4.Visible = true; break;
+    //            case "m5_5": this.m5_5.Visible = true; break;
+    //            case "m5_6": this.m5_6.Visible = true; break;
+    //            case "m5_7": this.m5_7.Visible = true; break;
+    //            case "m5_8": this.m5_8.Visible = true; break;
+    //            case "m5_9": this.m5_9.Visible = true; break;
+    //            case "m5_10": this.m5_10.Visible = true; break;
+    //            case "m5_11": this.m5_11.Visible = true; break;
 
-                case "m6": this.m6.Visible = true; break;
-                case "m6_1": this.m6_1.Visible = true; break;
-        }
-        }
-    }
+    //            case "m6": this.m6.Visible = true; break;
+    //            case "m6_1": this.m6_1.Visible = true; break;
+    //    }
+    //    }
+    //}
 
 
     protected void Button1_Click(object sender, EventArgs e)

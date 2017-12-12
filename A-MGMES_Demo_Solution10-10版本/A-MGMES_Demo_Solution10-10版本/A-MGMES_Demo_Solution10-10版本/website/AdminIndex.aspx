@@ -226,155 +226,8 @@
         <div class="clear">
         </div>
         <div class="menu">
-            <div class="easyui-accordion" style="width: 180px;">
-                <div title="行政人事档案" data-options="iconCls:'folder_edit_16px'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px"
-                    id="m1" runat="server">
-                    <ul class="first">
-                        <li>
-                            <ul class="second">
-                                <li url='../foundation/department.aspx' id="m1_1" runat="server">
-                                    <img src="/image/admin/1.png" /><a>部门档案</a></li>
-                                <li url='../foundation/Position.aspx' id="m1_2" runat="server">
-                                    <img src="/image/admin/2.png" /><a>职位档案</a></li>
-                                <li url='../foundation/Mail.aspx' id="m1_6" runat="server">
-                                    <img src="/image/admin/6.png" /><a>邮件档案</a></li>
-                                <li url='../foundation/Operator.aspx' id="m1_3" runat="server">
-                                    <img src="/image/admin/5.png" /><a>操作工档案</a></li>
-                                <li url='../foundation/User.aspx' id="m1_4" runat="server">
-                                    <img src="/image/admin/3.png" /><a>用户权限管理</a></li>
-                                <li url="../foundation/AndonTaglines.aspx" id="m1_5" runat="server">
-                                    <img src="/image/admin/4.png" /><a>口号宣传维护</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div title="部件零件档案" data-options="iconCls:'puzzle_15'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px"
-                    id="m2" runat="server">
-                    <ul class="first">
-                        <li>
-                            <ul class="second">
-                                <li id="m2_1" runat="server" url='../foundation/allpart.aspx'>
-                                    <img src="/image/admin/1.png" /><a>ALL&nbsp;整车座椅</a></li>
-                                <%--<li id="li8" runat="server" url='#'>
-                                    <img src="/image/admin/2.png" /><a>部分座椅配置</a></li>--%>
-                                <%--<li id="li9" runat="server" url='../foundation/Part.aspx'>
-                                    <img src="/image/admin/3.png" /><a>部分座椅配置</a></li>--%>
-                                <li id="m2_2" runat="server" url='../foundation/Part1.aspx'>
-                                    <img src="/image/admin/3.png" /><a>POA&nbsp;部件档案</a></li>
-                                <li id="m2_3" runat="server" url='../foundation/Bom.aspx'>
-                                    <img src="/image/admin/4.png" /><a>BOM&nbsp;零件档案</a></li>
-                                <li id="m2_4" runat="server" url='../foundation/BomTest.aspx'>
-                                    <img src="/image/admin/5.png" /><a>检测项配置</a></li>
-                                <li id="m2_5" runat="server" url='../foundation/BomTestGroup.aspx'>
-                                    <img src="/image/admin/2.png" /><a>检测项分组</a></li>
-                                <li id="m2_6" runat="server" url='../foundation/PointIspectionItem.aspx'>
-                                    <img src="/image/admin/9.png" /><a>点检项</a></li>
-                                 <li id="m2_7" runat="server" url='../foundation/Piistation.aspx'>
-                                    <img src="/image/admin/8.png" /><a>点检站</a></li>
-                                 <li id="m2_8" runat="server" url='../foundation/TestPart.aspx'>
-                                    <img src="/image/admin/7.png" /><a>检测配件</a></li>
-                                <li id="m2_9" runat="server" url='../foundation/Color.aspx'>
-                                    <img src="/image/admin/6.png" /><a>颜色配置</a></li>
-                                <li id="m2_10" runat="server" url='../foundation/TestRepairItem.aspx'>
-                                    <img src="/image/admin/1.png" /><a>返修项</a></li>
-                                <li id="m2_11" runat="server" url='../foundation/Product.aspx'>
-                                    <img src="/image/admin/3.png" /><a>产品信息配置</a></li>
-                            </ul>
-                        </li>
-                </div>
-                <div title="生产线档案" data-options="iconCls:'computer_17'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px" id="m3" runat="server">
-                    <ul class="first">
-                        <li>
-                            <ul class="second">
-                                <li id="m3_1" runat="server" url='../foundation/FlowLine1.aspx'>
-                                    <img src="/image/admin/1.png" /><a>流水线档案</a></li>
-                                <li id="m3_2" runat="server" url='../foundation/Station.aspx'>
-                                    <img src="/image/admin/2.png" /><a>工位档案</a></li>
-                                <li id="m3_3" runat="server" url='../foundation/Step.aspx'>
-                                    <img src="/image/admin/3.png" /><a>工序步骤管理</a></li>
-                                
-                            </ul>
-                        </li>
-                </div>
-                <div title="订单管理" data-options="iconCls:'list_12'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px" id="m4" runat="server">
-                    <ul class="first">
-                        <li>
-                            <ul class="second">
-                                <li id="m4_1" runat="server" url='../Order/CustomerOrder.aspx'>
-                                    <img src="/image/admin/1.png" /><a>销售订单</a></li>
-                                <li id="m4_3" runat="server" url='../Order/InsertCustomOrder.aspx'>
-                                    <img src="/image/admin/2.png" /><a>紧急插入订单</a></li>
-<%--                                <li id="m4_2" runat="server" url='../Order/mg_Order.aspx'>
-                                    <img src="/image/admin/2.png" /><a>生产通知单</a></li>--%>
-                                <li id ="m4_5" url='../Order/mg_DelJetSEQNR.aspx'>
-                                     <img src="/image/admin/2.png" /><a>DelJet订单号</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div title="查询统计" data-options="iconCls:'icon-search'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px" id="m5" runat="server">
-                    <ul class="first">
-                        <li>
-                            <ul class="second">
-                                <li id="m5_1" runat="server" url='../Query/StepQuery.aspx'>
-                                    <img src="/image/admin/1.png" /><a>工序步骤日志查询</a></li>
-                                <li id="m5_2" runat="server" url='../Query/volumeReporter.aspx'>
-                                    <img src="/image/admin/1.png" /><a>产量报表查询</a></li>
-                                <li id="m5_3" runat="server" url='../Query/warningReporter.aspx'>
-                                    <img src="/image/admin/1.png" /><a>报警信息查询</a></li>
-                                <li id="m5_4" runat="server" url='../Query/timeReporter.aspx'>
-                                    <img src="/image/admin/1.png" /><a>时间信息查询</a></li>
-                                <%--<li id="m5_2" runat="server" url='#'>
-									<img src="/image/admin/2.png" /><a>客户订单统计</a></li>
-								<li id="m5_3" runat="server" url='#'>
-									<img src="/image/admin/3.png" /><a>生产通知单统计</a></li>--%>
-                                <li id="m5_5" runat="server" url='../Query/TorqueReporter.aspx'>
-                                    <img src="/image/admin/4.png" /><a>扭矩/角度信息分析</a></li>
-                                <li id="m5_6" runat="server" url='../Query/TransportHistory1.aspx'>
-                                    <img src="/image/admin/4.png" /><a>发运历史</a></li>
-                                <li id="m5_7" runat="server" url='../Query/Check1.aspx'>
-                                    <img src="/image/admin/4.png" /><a>检测返修</a></li>
-                                <li id="m5_8" runat="server" url='../foundation/MachineStop.aspx'>
-                                    <img src="/image/admin/5.png" /><a>设备停机记录</a></li>
-                                <li id="m5_11" runat="server" url='../Query/FTTQuery.aspx'>
-                                    <img src="/image/admin/6.png" /><a>FTT查询</a></li>
-                                <li id="m5_9" runat="server" url='../Query/CheckReport.aspx'>
-                                    <img src="/image/admin/6.png" /><a>点检记录表</a></li>
-                                <li id="m5_10" runat="server" url='../Query/CustomerOrder1.aspx'>
-                                    <img src="/image/admin/6.png" /><a>客户订单报表</a></li>
-                                <%--<li id="m5_12" runat="server" url='../Query/RPT_HOURLY.aspx'>
-                                    <img src="/image/admin/6.png" /><a>生产报表-班次（小时）</a></li>--%>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-                <div title="MES发运设置" data-options="iconCls:'dialog_shutdown_16px1'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px" id="m6" runat="server">
-					<ul class="first">
-						<li>
-							<ul class="second">
-                                <li id="m6_1" runat="server" url='../Query/CauseOfFailure.aspx'>
-									<img src="/image/admin/4.png" /><a>故障原因</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-                <div title="注销" data-options="iconCls:'dialog_shutdown_16px'" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px">
-                    <ul class="first">
-                        <li>
-                            <ul class="second">
-                                <%--<li id="li3" runat="server" url='System/adminpwd.aspx'>
-                                    <img src="/image/admin/1.png" /><a>修改密码</a></li>--%>
-                                <li url=''>
-                                    <img src="/image/admin/banner.png" /><a><asp:Button ID="Button1" runat="server" Text="退出系统"
-                                        OnClick="Button1_Click" BorderWidth="0" BackColor="#31353e" ForeColor="#ffffff"
-                                        Font-Names="微软雅黑" Font-Size="14px" /></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+            <div class="easyui-accordion" style="width: 180px;" id="menu">
             </div>
-
         </div>
     </div>
     <div class="right">
@@ -407,7 +260,7 @@
 
         $(function () {
 
-
+            
             var leftDiv = $('.left').first();
 
             var rightDiv = $('.right').first();
@@ -446,15 +299,71 @@
 
             });
 
+            var _html = '';
+            var currentuser = '<%= Request.Cookies["admininfo"]["name"] %>'
+            $.ajax({
+                url: "Menu/GetMenuList.ashx",
+                type: "post",
+                dataType: "json",
+                data: {
+                    "menuid": "",
+                    "ACTION": "usermenulist",
+                    "currentuser": currentuser
+                },
+                success: function (data) {
+                    console.log(data);
+                    $.each(data, function (i, n) {
+                        //显示第一个一级菜单下的二级菜单  
+                        $('#menu').accordion('add', {
+                            title: n.MenuName,
+                            iconCls: n.Image,
+                            selected: true,
+                            content: '<div style="padding:10px" style="overflow: hidden; padding: 0px 10px; margin: 0px 0px 0px 0px"><ul class="first" name="' + n.MenuName + '"></ul></div>',
+                        });
+                        //$('#menu').accordion('select', 0)//选择第一个
+                        
+                    })
+                   
+                    $('#menu').accordion({
+                        onSelect: function (title, index) {
+                            
+                            $('ul[name=' + title + ']').empty();
+                            $.ajax({
+                                type: "GET",
+                                dataType: "json",
+                                url: 'Menu/GetMenuList.ashx',
+                                data: {
+                                    "menuid": title,
+                                    "ACTION": "usermenulist",
+                                    "currentuser": currentuser
+                                },
+                                success: function (data) {
+                                    var ahtml = '<ul  class="second">';
+                                    $.each(data, function (i, n) {
+                                        ahtml += '<li url="' + n.MenuAddr + '"><img src="' + n.Image + '" /><a>' + n.MenuName + '</a></li>';
 
-            var lis = $(' .first .second li');
+                                    });
+                                    ahtml += '</ul>';
+                                    //alert(ahtml);            
+                                    $('ul[name=' + title + ']').append(ahtml);
+                                    var lis = $(' .first .second li');
 
-            lis.click(function () {
+                                    lis.click(function () {
 
-                showTab(this);
+                                        showTab(this);
 
+                                    });
+                                }
+                            });
+                        }
+                    });
+
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    dialogMsg(errorThrown, -1);
+                }
             });
-
+           
         });
 
 
@@ -568,6 +477,6 @@
             $('#aaa').tabs('resize');
 
         }
-
+        
     </script>
 </asp:Content>

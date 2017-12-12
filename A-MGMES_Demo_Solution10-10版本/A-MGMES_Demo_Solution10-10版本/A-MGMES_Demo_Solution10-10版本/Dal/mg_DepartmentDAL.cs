@@ -15,7 +15,7 @@ namespace DAL
         public static int AddDepartmentByName(string depname)
         {
             string maxidSql = @"declare @i int;
-                                SELECT @i=max([dep_id])  FROM [mg_Department];
+                                SELECT @i=max([dep_id])  FROM [Sys_DeptInfo];
                                 if @i is null
                                     begin
                                         set @i=1
@@ -24,25 +24,25 @@ namespace DAL
                                     begin
                                         set @i=@i+1
                                     end;";
-            string sql = maxidSql + @"INSERT INTO [mg_Department] ([dep_id],[dep_name]) VALUES (@i,'" + depname + @"')";
+            string sql = maxidSql + @"INSERT INTO [Sys_DeptInfo] ([dep_id],[dep_name]) VALUES (@i,'" + depname + @"')";
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
         public static DataTable GetAllData()
         {
-            string sql = @"select * from [mg_Department] order by dep_id";
+            string sql = @"select * from [Sys_DeptInfo] order by dep_id";
             return SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
         public static int UpDateDepartmentByName(int dep_id,string dep_name)
         {
-            string sql = @"update [mg_Department] set dep_name='" + dep_name + "' where dep_id="+dep_id;
+            string sql = @"update [Sys_DeptInfo] set dep_name='" + dep_name + "' where dep_id=" + dep_id;
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
         public static int DelDepartmentByName(int dep_id)
         {
-            string sql = @"delete from [mg_Department] where dep_id=" + dep_id;
+            string sql = @"delete from [Sys_DeptInfo] where dep_id=" + dep_id;
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
@@ -53,11 +53,11 @@ namespace DAL
             
             if (a == 1)
             {
-                sql = @"select * from [mg_Department] where dep_name='" + dep_name + "'";
+                sql = @"select * from [Sys_DeptInfo] where dep_name='" + dep_name + "'";
             }
             else if (a==2)
             {
-                sql = @"select * from [mg_Department] where dep_name='" + dep_name + "' and dep_id <>" + dep_id;
+                sql = @"select * from [Sys_DeptInfo] where dep_name='" + dep_name + "' and dep_id <>" + dep_id;
             }
             tb = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             if (tb.Rows.Count != 0)
@@ -73,7 +73,7 @@ namespace DAL
         public static List<mg_DepartmentModel> QueryDepartmentsForUser()
         {
             List<mg_DepartmentModel> list = null;
-            string sql = @"SELECT [dep_id],[dep_name]  FROM [mg_Department] order by dep_name ";
+            string sql = @"SELECT [dep_id],[dep_name]  FROM [Sys_DeptInfo] order by dep_name ";
             DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
             if (DataHelper.HasData(dt))
             {

@@ -167,7 +167,13 @@
 
             //菜单权限树
             $('#menuTree').tree({
-                data: menuJSON
+                //data: menuJSON
+                url: "../Menu/GetMenuList.ashx?ACTION=menutree",
+               
+            });
+            $('#menuTreeShow').tree({
+                //data: menuJSON
+                url: "../Menu/GetMenuList.ashx?ACTION=menutree",
             });
            
             //数据列表加载
@@ -394,9 +400,7 @@
         //查看菜单权限
         function showMenuRole(value) {
             var menuidArr = value.split(',');
-            $('#menuTreeShow').tree({
-                data: menuJSON
-            });
+           
             //expendMenuTree();
             var nodes = $('#menuTreeShow').tree('getChildren');
             for (var i = 0; i < nodes.length; i++) {
@@ -422,205 +426,207 @@
         }
 
         //菜单json数据
-        menuJSON = [
-                     {
-                         "id": "m1",
-                         "text": "行政人事档案",
-                         "state": "closed",
-                         "checked": true,
-                         "children": [
-                             {
-                                 "id": "m1_1",
-                                 "text": "部门档案"
-                             },
-                             {
-                                 "id": "m1_2",
-                                 "text": "职位档案"
-                             },
-                             {
-                                 "id": "m1_3",
-                                 "text": "操作工档案"
-                             },
-                             {
-                                 "id": "m1_4",
-                                 "text": "用户权限管理"
-                             },
-                             {
-                                 "id": "m1_5",
-                                 "text": "口号宣传维护"
-                             },
-                             {
-                                 "id": "m1_6",
-                                 "text": "邮件档案"
-                             }
-                         ]
-                     },
-                     {
-                         "id": "m2",
-                         "text": "部件零件档案",
-                         "state": "closed",
-                         "checked": true,
-                         "children": [
-                             {
-                                 "id": "m2_1",
-                                 "text": "ALL 整车座椅"
-                             },
-                             {
-                                 "id": "m2_2",
-                                 "text": "POA 部件档案"
-                             },
-                             {
-                                 "id": "m2_3",
-                                 "text": "BOM 零件档案"
-                             },
-                             {
-                                 "id": "m2_4",
-                                 "text": "检测项配置"
-                             },
-                             {
-                                 "id": "m2_5",
-                                 "text": "检测项分组"
-                             },
-                             {
-                                 "id": "m2_6",
-                                 "text": "点检项"
-                             },
-                             {
-                                 "id": "m2_7",
-                                 "text": "点检站"
-                             },
-                             {
-                                 "id": "m2_8",
-                                 "text": "检测配件"
-                             },
-                             {
-                                 "id": "m2_9",
-                                 "text": "颜色配置"
-                             },
-                             {
-                                 "id": "m2_10",
-                                 "text": "返修项"
-                             },
-                             {
-                                 "id": "m2_11",
-                                 "text": "产品信息配置"
-                             }
+
+
+        //menuJSON = [
+        //             {
+        //                 "id": "m1",
+        //                 "text": "行政人事档案",
+        //                 "state": "closed",
+        //                 "checked": true,
+        //                 "children": [
+        //                     {
+        //                         "id": "m1_1",
+        //                         "text": "部门档案"
+        //                     },
+        //                     {
+        //                         "id": "m1_2",
+        //                         "text": "职位档案"
+        //                     },
+        //                     {
+        //                         "id": "m1_3",
+        //                         "text": "操作工档案"
+        //                     },
+        //                     {
+        //                         "id": "m1_4",
+        //                         "text": "用户权限管理"
+        //                     },
+        //                     {
+        //                         "id": "m1_5",
+        //                         "text": "口号宣传维护"
+        //                     },
+        //                     {
+        //                         "id": "m1_6",
+        //                         "text": "邮件档案"
+        //                     }
+        //                 ]
+        //             },
+        //             {
+        //                 "id": "m2",
+        //                 "text": "部件零件档案",
+        //                 "state": "closed",
+        //                 "checked": true,
+        //                 "children": [
+        //                     {
+        //                         "id": "m2_1",
+        //                         "text": "ALL 整车座椅"
+        //                     },
+        //                     {
+        //                         "id": "m2_2",
+        //                         "text": "POA 部件档案"
+        //                     },
+        //                     {
+        //                         "id": "m2_3",
+        //                         "text": "BOM 零件档案"
+        //                     },
+        //                     {
+        //                         "id": "m2_4",
+        //                         "text": "检测项配置"
+        //                     },
+        //                     {
+        //                         "id": "m2_5",
+        //                         "text": "检测项分组"
+        //                     },
+        //                     {
+        //                         "id": "m2_6",
+        //                         "text": "点检项"
+        //                     },
+        //                     {
+        //                         "id": "m2_7",
+        //                         "text": "点检站"
+        //                     },
+        //                     {
+        //                         "id": "m2_8",
+        //                         "text": "检测配件"
+        //                     },
+        //                     {
+        //                         "id": "m2_9",
+        //                         "text": "颜色配置"
+        //                     },
+        //                     {
+        //                         "id": "m2_10",
+        //                         "text": "返修项"
+        //                     },
+        //                     {
+        //                         "id": "m2_11",
+        //                         "text": "产品信息配置"
+        //                     }
  
-                         ]
-                     },
-                     {
-                         "id": "m3",
-                         "text": "生产线档案",
-                         "state": "closed",
-                         "checked": true,
-                         "children": [
-                             {
-                                 "id": "m3_1",
-                                 "text": "流水线档案"
-                             },
-                             {
-                                 "id": "m3_2",
-                                 "text": "工位档案"
-                             },
-                             {
-                                 "id": "m3_3",
-                                 "text": "工序步骤管理"
-                             }
-                             //{
-                             //    "id": "m3_4",
-                             //    "text": "班次档案"
-                             //}
-                         ]
-                     },
-                     {
-                         "id": "m4",
-                         "text": "订单管理",
-                         "state": "closed",
-                         "checked": true,
-                         "children": [
-                             {
-                                 "id": "m4_1",
-                                 "text": "销售订单"
-                             },
-                             {
-                                 "id": "m4_3",
-                                 "text": "紧急插入订单"
-                             }
-                             //{
-                             //    "id": "m4_2",
-                             //    "text": "生产通知单"
-                             //}
-                         ]
-                     },
-                     {
-                         "id": "m5",
-                         "text": "查询统计",
-                         "state": "closed",
-                         "checked": true,
-                         "children": [
-                             {
-                                 "id": "m5_1",
-                                 "text": "工序步骤日志查询"
-                             },
-                             {
-                                 "id": "m5_2",
-                                 "text": "产量报表查询"
-                             },
-                             {
-                                 "id": "m5_3",
-                                 "text": "报警信息查询"
-                             },
-                             {
-                                 "id": "m5_4",
-                                 "text": "时间信息查询"
-                             },
-                             {
-                                 "id": "m5_5",
-                                 "text": "扭矩/角度信息分析"
-                             },
-                             {
-                                 "id": "m5_6",
-                                 "text": "发运历史"
-                             },
-                             {
-                                 "id": "m5_7",
-                                 "text": "检测返修"
-                             },
-                             {
-                                 "id": "m5_8",
-                                 "text": "设备停机记录"
-                             },
-                             {
-                                 "id": "m5_9",
-                                 "text": "点检记录表"
-                             },
-                             {
-                                 "id": "m5_10",
-                                 "text": "客户订单报表"
-                             },
-                             {
-                                 "id": "m5_11",
-                                 "text": "FTT查询"
-                             }
-                         ]
-                     },
-                     {
-                         "id": "m6",
-                         "text": "MES 发运设置",
-                         "state": "closed",
-                         "checked": true,
-                         "children": [
-                             {
-                                 "id": "m6_1",
-                                 "text": "故障原因"
-                             }
-                             //{
-                             //    "id": "m4_2",
-                             //    "text": "生产通知单"
-                             //}
-                         ]
-                     }
-        ];
+        //                 ]
+        //             },
+        //             {
+        //                 "id": "m3",
+        //                 "text": "生产线档案",
+        //                 "state": "closed",
+        //                 "checked": true,
+        //                 "children": [
+        //                     {
+        //                         "id": "m3_1",
+        //                         "text": "流水线档案"
+        //                     },
+        //                     {
+        //                         "id": "m3_2",
+        //                         "text": "工位档案"
+        //                     },
+        //                     {
+        //                         "id": "m3_3",
+        //                         "text": "工序步骤管理"
+        //                     }
+        //                     //{
+        //                     //    "id": "m3_4",
+        //                     //    "text": "班次档案"
+        //                     //}
+        //                 ]
+        //             },
+        //             {
+        //                 "id": "m4",
+        //                 "text": "订单管理",
+        //                 "state": "closed",
+        //                 "checked": true,
+        //                 "children": [
+        //                     {
+        //                         "id": "m4_1",
+        //                         "text": "销售订单"
+        //                     },
+        //                     {
+        //                         "id": "m4_3",
+        //                         "text": "紧急插入订单"
+        //                     }
+        //                     //{
+        //                     //    "id": "m4_2",
+        //                     //    "text": "生产通知单"
+        //                     //}
+        //                 ]
+        //             },
+        //             {
+        //                 "id": "m5",
+        //                 "text": "查询统计",
+        //                 "state": "closed",
+        //                 "checked": true,
+        //                 "children": [
+        //                     {
+        //                         "id": "m5_1",
+        //                         "text": "工序步骤日志查询"
+        //                     },
+        //                     {
+        //                         "id": "m5_2",
+        //                         "text": "产量报表查询"
+        //                     },
+        //                     {
+        //                         "id": "m5_3",
+        //                         "text": "报警信息查询"
+        //                     },
+        //                     {
+        //                         "id": "m5_4",
+        //                         "text": "时间信息查询"
+        //                     },
+        //                     {
+        //                         "id": "m5_5",
+        //                         "text": "扭矩/角度信息分析"
+        //                     },
+        //                     {
+        //                         "id": "m5_6",
+        //                         "text": "发运历史"
+        //                     },
+        //                     {
+        //                         "id": "m5_7",
+        //                         "text": "检测返修"
+        //                     },
+        //                     {
+        //                         "id": "m5_8",
+        //                         "text": "设备停机记录"
+        //                     },
+        //                     {
+        //                         "id": "m5_9",
+        //                         "text": "点检记录表"
+        //                     },
+        //                     {
+        //                         "id": "m5_10",
+        //                         "text": "客户订单报表"
+        //                     },
+        //                     {
+        //                         "id": "m5_11",
+        //                         "text": "FTT查询"
+        //                     }
+        //                 ]
+        //             },
+        //             {
+        //                 "id": "m6",
+        //                 "text": "MES 发运设置",
+        //                 "state": "closed",
+        //                 "checked": true,
+        //                 "children": [
+        //                     {
+        //                         "id": "m6_1",
+        //                         "text": "故障原因"
+        //                     }
+        //                     //{
+        //                     //    "id": "m4_2",
+        //                     //    "text": "生产通知单"
+        //                     //}
+        //                 ]
+        //             }
+        //];
 
 
 
@@ -642,21 +648,26 @@
             collapseMenuTree();
         }
         function collapseMenuTree() {
-            var node = $('#menuTree').tree('find', "m1");
-            $('#menuTree').tree('check', node.target);
-            $('#menuTree').tree('collapse', node.target);
-            node = $('#menuTree').tree('find', "m2");
-            $('#menuTree').tree('check', node.target);
-            $('#menuTree').tree('collapse', node.target);
-            node = $('#menuTree').tree('find', "m3");
-            $('#menuTree').tree('check', node.target);
-            $('#menuTree').tree('collapse', node.target);
-            node = $('#menuTree').tree('find', "m4");
-            $('#menuTree').tree('check', node.target);
-            $('#menuTree').tree('collapse', node.target);
-            node = $('#menuTree').tree('find', "m5");
-            $('#menuTree').tree('check', node.target);
-            $('#menuTree').tree('collapse', node.target);
+            //var node = $('#menuTree').tree('find', "1000");
+            //$('#menuTree').tree('uncheck', node.target);
+            //$('#menuTree').tree('collapse', node.target);
+            //node = $('#menuTree').tree('find', "m2");
+            //$('#menuTree').tree('check', node.target);
+            //$('#menuTree').tree('collapse', node.target);
+            //node = $('#menuTree').tree('find', "m3");
+            //$('#menuTree').tree('check', node.target);
+            //$('#menuTree').tree('collapse', node.target);
+            //node = $('#menuTree').tree('find', "m4");
+            //$('#menuTree').tree('check', node.target);
+            //$('#menuTree').tree('collapse', node.target);
+            //node = $('#menuTree').tree('find', "m5");
+            //$('#menuTree').tree('check', node.target);
+            //$('#menuTree').tree('collapse', node.target);
+            var nodes = $('#menuTree').tree('getChildren');
+            for (var i = 0; i < nodes.length; i++) {
+                $('#menuTree').tree('uncheck', nodes[i].target);
+                $('#menuTree').tree('collapse', nodes[i].target);
+            }
         }
         function expendMenuTree() {
             var nodes = $('#menuTreeShow').tree('getChildren');

@@ -15,7 +15,7 @@ namespace DAL
         public static int AddPositionByName(string posi_name)
         {
             string maxidSql = @"declare @i int;
-                                SELECT @i=max([posi_id])  FROM [mg_Position];
+                                SELECT @i=max([posi_id])  FROM [Sys_RoleInfo];
                                 if @i is null
                                     begin
                                         set @i=1
@@ -24,25 +24,25 @@ namespace DAL
                                     begin
                                         set @i=@i+1
                                     end;";
-            string sql = maxidSql + @"INSERT INTO [mg_Position] ([posi_id],[posi_name]) VALUES (@i,'" + posi_name + @"')";
+            string sql = maxidSql + @"INSERT INTO [Sys_RoleInfo] ([posi_id],[posi_name]) VALUES (@i,'" + posi_name + @"')";
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
         public static DataTable GetAllData()
         {
-            string sql = @"select * from [mg_Position] order by posi_id";
+            string sql = @"select * from [Sys_RoleInfo] order by posi_id";
             return SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
         public static int UpDatePositionByName(int posi_id, string posi_name)
         {
-            string sql = @"update [mg_Position] set posi_name='" + posi_name + "' where posi_id=" + posi_id;
+            string sql = @"update [Sys_RoleInfo] set posi_name='" + posi_name + "' where posi_id=" + posi_id;
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
         public static int DelPositionByName(int posi_id)
         {
-            string sql = @"delete from [mg_Position] where posi_id=" + posi_id;
+            string sql = @"delete from [Sys_RoleInfo] where posi_id=" + posi_id;
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
@@ -53,11 +53,11 @@ namespace DAL
             int i;
             if (a == 1)
             {
-                sql = @"select * from [mg_Position] where posi_name='" + posi_name + "'";
+                sql = @"select * from [Sys_RoleInfo] where posi_name='" + posi_name + "'";
             }
             if (a == 2)
             {
-                sql = @"select * from [mg_Position] where posi_name='" + posi_name + "' and posi_id <>" + posi_id;
+                sql = @"select * from [Sys_RoleInfo] where posi_name='" + posi_name + "' and posi_id <>" + posi_id;
             }
             tb = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             if (tb.Rows.Count != 0)
@@ -75,7 +75,7 @@ namespace DAL
         public static List<mg_PositionModel> QueryPositionsForUser()
         {
             List<mg_PositionModel> list = null;
-            string sql = @"SELECT [posi_id],[posi_name]  FROM [mg_Position] order by posi_name ";
+            string sql = @"SELECT [posi_id],[posi_name]  FROM [Sys_RoleInfo] order by posi_name ";
             DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
             if (DataHelper.HasData(dt))
             {

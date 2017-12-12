@@ -15,14 +15,40 @@ namespace website.Menu
         {
             context.Response.ContentType = "text/plain";
             string menuid = RequstString("menuid");
-            context.Response.Write(GetUserMenu(menuid));
+            string action = RequstString("ACTION");
+            string currentuser = RequstString("currentuser");
+
+            if (action == "usermenulist")
+            {
+                context.Response.Write(GetUserMenu(menuid,currentuser));
+            }
+            else if (action == "menutree")
+            {
+                context.Response.Write(GetMenuTree());
+            }
         }
 
-        public string GetUserMenu(string menuid)
+        /// <summary>
+        /// 用户菜单
+        /// </summary>
+        /// <param name="menuid"></param>
+        /// <returns></returns>
+        public string GetUserMenu(string menuid,string currentuser)
         {
-            string json = Sys_MenuBLL.GetMenuList(menuid);
+            string json = Sys_MenuBLL.GetMenuList(menuid,currentuser);
             return json;
         }
+
+        /// <summary>
+        /// 菜单树
+        /// </summary>
+        /// <returns></returns>
+        public string GetMenuTree()
+        {
+            string json = Sys_MenuBLL.GetMenuTree();
+            return json;
+        }
+
         public bool IsReusable
         {
             get

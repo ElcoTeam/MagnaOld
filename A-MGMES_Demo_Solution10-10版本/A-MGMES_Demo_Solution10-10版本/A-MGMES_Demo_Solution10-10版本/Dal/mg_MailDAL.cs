@@ -17,7 +17,7 @@ namespace Dal
             total = "0";
             List<mg_MailModel> list = null;
 
-            string sql1 = @"select count(ID) total from [mg_MailConfig];";
+            string sql1 = @"select count(ID) total from [Sys_EmailInfo];";
             string sql2 = @" 
                            SELECT top " + pagesize + @" ID mid
                                       ,ReceiptType
@@ -40,9 +40,9 @@ namespace Dal
                                       ,case RecipientType
                                             when 1 then '收件人'
                                             when 2 then '抄送人' end as RecipientTypeName
-                                  FROM [mg_MailConfig] t1
+                                  FROM [Sys_EmailInfo] t1
                                      where  t1.ID not in (
-                                                        select top ((" + page + @"-1)*" + pagesize + @") ID from  [mg_MailConfig] order by ID desc)
+                                                        select top ((" + page + @"-1)*" + pagesize + @") ID from  [Sys_EmailInfo] order by ID desc)
                                          order by ID desc ";
             DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql1 + sql2, new string[] { "count", "data" }, null);
             if (DataHelper.HasData(ds))
@@ -76,7 +76,7 @@ namespace Dal
             total = "0";
             List<mg_MailModel> list = null;
 
-            string sql1 = @"select count(ID) total from [mg_MailConfig];";
+            string sql1 = @"select count(ID) total from [Sys_EmailInfo];";
             string sql2 = @" 
                               SELECT top " + pagesize + @" ID mid
                                       ,ReceiptType
@@ -99,7 +99,7 @@ namespace Dal
                                       ,case RecipientType
                                             when 1 then '收件人'
                                             when 2 then '抄送人' end as RecipientTypeName
-                                  FROM [mg_MailConfig] order by ID desc
+                                  FROM [Sys_EmailInfo] order by ID desc
                                 ";
             DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql1 + sql2, new string[] { "count", "data" }, null);
             if (DataHelper.HasData(ds))
@@ -136,7 +136,7 @@ namespace Dal
                 string[] idArr = model.MailName.Split(',');
                 foreach (string MailName in idArr)
                 {
-                    strSql.Append("INSERT INTO [mg_MailConfig](");
+                    strSql.Append("INSERT INTO [Sys_EmailInfo](");
                     strSql.Append("ReceiptType,MailRecipient,RecipientType)");
                     strSql.Append(" values (");
                     strSql.Append("convert(int, (" + model.ReceiptType + ")),'" + MailName + "',convert(int,(" + model.RecipientType + ")));");
@@ -156,7 +156,7 @@ namespace Dal
             if (idArr.Length == 1)
             {
                 StringBuilder strSql = new StringBuilder();
-                strSql.Append("update mg_MailConfig set ");
+                strSql.Append("update Sys_EmailInfo set ");
                 strSql.Append("ReceiptType=@ReceiptType,");
                 strSql.Append("MailRecipient=@MailRecipient,");
                 strSql.Append("RecipientType=@RecipientType");
@@ -188,11 +188,11 @@ namespace Dal
 
                 if (!string.IsNullOrEmpty(model.MailName))
                 {
-                    strSql.Append("delete from [mg_MailConfig]  where ID=@ID ;");
+                    strSql.Append("delete from [Sys_EmailInfo]  where ID=@ID ;");
                     
                     foreach (string id in idArr)
                     {
-                        strSql.Append("INSERT INTO [mg_MailConfig] ([ID],[ReceiptType],[MailRecipient],[RecipientType]) VALUES (convert(int, (" + id + ")),@ReceiptType,@MailRecipient,@RecipientType);");
+                        strSql.Append("INSERT INTO [Sys_EmailInfo] ([ID],[ReceiptType],[MailRecipient],[RecipientType]) VALUES (convert(int, (" + id + ")),@ReceiptType,@MailRecipient,@RecipientType);");
                     }
                 }
 
@@ -215,7 +215,7 @@ namespace Dal
         }
         public static int DeleteMail(string mail_id)
         {
-            string sql = @"delete from [mg_MailConfig] where [ID]=" + mail_id + ";";
+            string sql = @"delete from [Sys_EmailInfo] where [ID]=" + mail_id + ";";
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 

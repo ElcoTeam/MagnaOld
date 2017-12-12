@@ -7,7 +7,9 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-
-
-public partial class foundation_User {
+namespace website.Order {
+    
+    
+    public partial class DeliveryOrder {
+    }
 }

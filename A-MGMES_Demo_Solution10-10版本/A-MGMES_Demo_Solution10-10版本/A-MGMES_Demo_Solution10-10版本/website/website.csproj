@@ -365,7 +365,9 @@
     <Content Include="js\validate.js" />
     <Content Include="js\waypoints.js" />
     <Content Include="Order\CustomerOrder.aspx" />
+    <Content Include="Order\DeliveryOrder.aspx" />
     <Content Include="Order\InsertCustomOrder.aspx" />
+    <Content Include="Order\mg_DelJetSEQNR.aspx" />
     <Content Include="Order\mg_Order.aspx" />
     <Content Include="Query\CauseOfFailure.aspx" />
     <Content Include="Query\check.aspx" />
@@ -719,8 +721,18 @@
     <Compile Include="HttpHandlers\UserHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Menu\GetMenuList.ashx.cs">
+      <DependentUpon>GetMenuList.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Order\CustomerOrder.aspx.designer.cs">
       <DependentUpon>CustomerOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Order\DeliveryOrder.aspx.cs">
+      <DependentUpon>DeliveryOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Order\DeliveryOrder.aspx.designer.cs">
+      <DependentUpon>DeliveryOrder.aspx</DependentUpon>
     </Compile>
     <Compile Include="Order\InsertCustomOrder.aspx.cs">
       <DependentUpon>InsertCustomOrder.aspx</DependentUpon>
@@ -728,6 +740,13 @@
     </Compile>
     <Compile Include="Order\InsertCustomOrder.aspx.designer.cs">
       <DependentUpon>InsertCustomOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Order\mg_DelJetSEQNR.aspx.cs">
+      <DependentUpon>mg_DelJetSEQNR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Order\mg_DelJetSEQNR.aspx.designer.cs">
+      <DependentUpon>mg_DelJetSEQNR.aspx</DependentUpon>
     </Compile>
     <Compile Include="Order\mg_Order.aspx.designer.cs">
       <DependentUpon>mg_Order.aspx</DependentUpon>
@@ -988,6 +1007,7 @@
     <Content Include="HttpHandlers\Part1Handler.ashx" />
     <Content Include="HttpHandlers\InsertCustomOrderHandler.ashx" />
     <Content Include="excel\CX11 FS Passenger Configuration.xlsx" />
+    <Content Include="Menu\GetMenuList.ashx" />
     <None Include="Properties\PublishProfiles\config.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

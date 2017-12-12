@@ -148,9 +148,7 @@
             method : "",
         }
             dg = $('#tb').datagrid({
-                //url: "/Services1000_SysLog.ashx",
-                //url: "/HttpHandlers/StepHandler.ashx?method=queryStepList",
-
+                
                 fitColumns: true,
                 nowrap: false,
                 striped: true,
@@ -163,7 +161,6 @@
                 idField: 'ID',
                 columns: [[
 					{ field: 'ID', title: 'ID', hidden: true },
-
 					{ field: 'OrderID', title: 'OrderID', width: 200, align: "center" },
 					{ field: 'CustomerNumber', title: 'CustomerNumber', width: 200, align: "center" },
 					{ field: 'JITCallNumber', title: 'JITCallNumber', width: 200, align: "center" },
