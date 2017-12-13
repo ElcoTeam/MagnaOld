@@ -354,8 +354,8 @@
 
 	                        if (neirong == '检测') {  //检测的了
 	                            var Cts = value.TestCaption;
-	                            if (Cts.indexOf("气囊电阻") >= 0) {
-	                                _str += "<td>" + value.TestCaption + "【最小值：1.4，最大值：2.6】" + "</td>";
+	                            if (Cts.indexOf("安全气囊电阻") >= 0) {
+	                                _str += "<td>" + value.TestCaption + "【最小值：1.7，最大值：2.3】" + "</td>";
 	                                _str += "<td>" + value.TestValue + "</td>";
 	                                _str += "<td>" + value.IsQualified + "</td>";
 	                                _str += "<td>" + value.CreateTime + "</td>";
@@ -366,14 +366,26 @@
 	                                _str += "<td>" + value.IsQualified + "</td>";
 	                                _str += "<td>" + value.CreateTime + "</td>";
 	                            }
-	                            else if (Cts.indexOf("插入电流") >= 0) {
+	                            else if (Cts.indexOf("安全带插入电流") >= 0) {
 	                                _str += "<td>" + value.TestCaption + "【最小值：12，最大值：17】" + "</td>";
 	                                _str += "<td>" + value.TestValue + "</td>";
 	                                _str += "<td>" + value.IsQualified + "</td>";
 	                                _str += "<td>" + value.CreateTime + "</td>";
 	                            }
-	                            else if (Cts.indexOf("拔出电流") >= 0) {
+	                            else if (Cts.indexOf("安全带拔出电流") >= 0) {
 	                                _str += "<td>" + value.TestCaption + "【最小值：5，最大值：6.9】" + "</td>";
+	                                _str += "<td>" + value.TestValue + "</td>";
+	                                _str += "<td>" + value.IsQualified + "</td>";
+	                                _str += "<td>" + value.CreateTime + "</td>";
+	                            }
+	                            else if (Cts.indexOf("SBR断路电阻") >= 0) {
+	                                _str += "<td>" + value.TestCaption + "【最小值：12000，最大值：32768】" + "</td>";
+	                                _str += "<td>" + value.TestValue + "</td>";
+	                                _str += "<td>" + value.IsQualified + "</td>";
+	                                _str += "<td>" + value.CreateTime + "</td>";
+	                            }
+	                            else if (Cts.indexOf("SBR下压前断路电阻") >= 0) {
+	                                _str += "<td>" + value.TestCaption + "【最小值：12000，最大值：32768】" + "</td>";
 	                                _str += "<td>" + value.TestValue + "</td>";
 	                                _str += "<td>" + value.IsQualified + "</td>";
 	                                _str += "<td>" + value.CreateTime + "</td>";
