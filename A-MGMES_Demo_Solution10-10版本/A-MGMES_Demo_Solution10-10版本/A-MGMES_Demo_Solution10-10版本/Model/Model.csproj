@@ -49,6 +49,7 @@
     <Compile Include="mg_BOMTestModel.cs" />
     <Compile Include="mg_BOM_MatchModel.cs" />
     <Compile Include="mg_CustomerOrderModel.cs" />
+    <Compile Include="mg_CustomerOrder_3.cs" />
     <Compile Include="mg_DepartmentModel.cs" />
     <Compile Include="mg_ProductModel.cs" />
     <Compile Include="mg_FlowlingModel.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="mg_userModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="mg_Repair.cs" />
+    <Compile Include="Sys_Menu.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
