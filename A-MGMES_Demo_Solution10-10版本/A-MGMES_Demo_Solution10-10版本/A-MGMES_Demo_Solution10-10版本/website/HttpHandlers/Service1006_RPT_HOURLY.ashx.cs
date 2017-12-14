@@ -11,7 +11,7 @@ using Tools;
 using Bll;
 using DbUtility;
 using Model;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Service1006_RPT_HOURLY 的摘要说明

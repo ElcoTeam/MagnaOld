@@ -13,7 +13,7 @@ using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using Bll;
 using Model;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1000_SysLog 的摘要说明

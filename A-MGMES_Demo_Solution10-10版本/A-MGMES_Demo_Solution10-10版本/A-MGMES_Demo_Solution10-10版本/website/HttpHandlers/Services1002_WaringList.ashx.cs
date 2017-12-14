@@ -7,7 +7,7 @@ using System.Text;
 using Model;
 using System.Reflection;
 using Bll;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1002_WaringList 的摘要说明

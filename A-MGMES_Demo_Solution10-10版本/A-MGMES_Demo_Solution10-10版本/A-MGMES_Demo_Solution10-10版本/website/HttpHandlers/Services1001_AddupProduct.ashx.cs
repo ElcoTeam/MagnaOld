@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using Bll;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Service1001_AddupProduct 的摘要说明

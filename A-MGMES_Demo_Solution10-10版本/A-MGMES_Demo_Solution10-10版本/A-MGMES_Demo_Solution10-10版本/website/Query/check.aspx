@@ -200,7 +200,7 @@
 	     
 	        $.ajax({
 	            type: 'get',
-	            url: '/Services1004_Checks.ashx',
+	            url: '/HttpHandlers/Services1004_Checks.ashx',
 	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo },
 	            dataType: 'json',
 	            cache: false,

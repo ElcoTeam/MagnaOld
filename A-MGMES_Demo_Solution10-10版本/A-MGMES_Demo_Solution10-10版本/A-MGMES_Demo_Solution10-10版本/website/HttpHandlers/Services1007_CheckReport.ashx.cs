@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Script.Serialization;
 using Bll;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1007_CheckReport 的摘要说明

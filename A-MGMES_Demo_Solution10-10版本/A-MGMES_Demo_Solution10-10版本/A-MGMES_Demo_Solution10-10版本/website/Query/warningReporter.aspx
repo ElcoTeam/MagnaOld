@@ -146,7 +146,7 @@
 	        end_time = end_time.substr(0, index) + ':00:00';
 	        $.ajax({
 	            type: 'post',
-	            url: '/Services1002_WaringList.ashx',
+	            url: '/HttpHandlers/Services1002_WaringList.ashx',
 	            async:false,
 	            cache: false,
 	            dataType: 'json',
@@ -172,7 +172,7 @@
 	        end_time = end_time.substr(0, index) + ':00:00';
 	        $.ajax({
 	            type: 'post',
-	            url: '/Services1002_WaringList.ashx',
+	            url: '/HttpHandlers/Services1002_WaringList.ashx',
 	            cache: false,
 	            async: false,
 	            dataType: 'json',
@@ -234,7 +234,7 @@
 	        method = "";
 	        $.ajax({
 	            type: 'post',
-	            url: '/Services1002_WaringList.ashx',
+	            url: '/HttpHandlers/Services1002_WaringList.ashx',
 	            cache: false,
 	            async: false,
 	            dataType: 'json',

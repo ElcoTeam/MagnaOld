@@ -114,7 +114,7 @@
                     nowrap: false,
                     striped: true,
                     collapsible: false,
-                    url: 'hs/Service1006_RPT_HOURLY.ashx?method=GetList',
+                    url: '/HttpHandlers/Service1006_RPT_HOURLY.ashx?method=GetList',
                     showFooter:true,
                     sortName: 'id',
                     sortOrder: 'asc',
@@ -351,7 +351,7 @@
                 var optionstring = "";
 
                 $.ajax({
-                    url: "hs/Service1006_RPT_HOURLY.ashx?method=GetClassInfo",
+                    url: "/HttpHandlers/Service1006_RPT_HOURLY.ashx?method=GetClassInfo",
                     type: "post",
                     dataType: "json",
 

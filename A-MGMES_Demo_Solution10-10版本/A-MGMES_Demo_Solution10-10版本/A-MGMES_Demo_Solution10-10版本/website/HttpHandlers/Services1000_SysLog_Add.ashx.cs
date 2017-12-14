@@ -8,7 +8,7 @@ using DbUtility;
 using Bll;
 using Model;
 using Tools;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1000_SysLog_Add 的摘要说明

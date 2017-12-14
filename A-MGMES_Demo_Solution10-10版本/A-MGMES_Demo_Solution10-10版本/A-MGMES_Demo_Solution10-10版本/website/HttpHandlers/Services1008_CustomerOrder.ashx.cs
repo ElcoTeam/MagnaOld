@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using Bll;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Service1008_CustomerOrder 的摘要说明

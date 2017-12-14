@@ -95,7 +95,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/Services1007_CheckReport.ashx?method=Export",
+                url: "/HttpHandlers/Services1007_CheckReport.ashx?method=Export",
                 data: queryParams,
                 success: function (data) {
                     if (data == "true") {
@@ -205,7 +205,7 @@
                 striped: true,
                 collapsible: false,
                 queryParams:queryParams,
-                url: '/Services1007_CheckReport.ashx?method=SelectCheckReport',
+                url: '/HttpHandlers/Services1007_CheckReport.ashx?method=SelectCheckReport',
                 sortName: 'ID',
                 sortOrder: 'asc',
                 remoteSort: true,

@@ -7,7 +7,7 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 using Bll;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1000_SysLog 的摘要说明

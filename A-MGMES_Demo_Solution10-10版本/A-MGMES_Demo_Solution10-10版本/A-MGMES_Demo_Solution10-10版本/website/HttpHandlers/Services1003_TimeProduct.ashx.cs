@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using Bll;
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1003_TimeProduct 的摘要说明

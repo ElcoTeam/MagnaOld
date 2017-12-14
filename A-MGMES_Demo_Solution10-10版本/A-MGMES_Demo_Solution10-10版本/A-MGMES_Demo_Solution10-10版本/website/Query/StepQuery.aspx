@@ -179,7 +179,7 @@
             //console.log(datanew);
             dg = $('#tb').datagrid({
 
-                url: '/Services1000_SysLog.ashx',   //从远程站点请求数据的 URL。
+                url: '/HttpHandlers/Services1000_SysLog.ashx',   //从远程站点请求数据的 URL。
                 rownumbers: true,
                 pagination: true,
                 singleSelect: true,
@@ -331,7 +331,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/Services1000_SysLog_Add.ashx",
+                url: "/HttpHandlers/Services1000_SysLog_Add.ashx",
                 data: model,
                 success: function (data) {
                     console.log(data);
@@ -429,7 +429,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/Services1000_SysLog.ashx",
+                url: "/HttpHandlers/Services1000_SysLog.ashx",
                 data: queryParams,
                 success: function (data) {
                     console.log(data);

@@ -7,7 +7,7 @@
         <table cellpadding="0" cellspacing="0" style="width: 100%">
             <tr>
                 <td>
-                    &nbsp;DelJet订单的顺序号 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;企业职员所属部门数据
+                    &nbsp;DelJet订单的顺序号 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
                 </td>
             </tr>
         </table>
@@ -63,7 +63,7 @@
             });
             dg = $('#tb').datagrid({
 
-                url: '/DelJetSEQNR.ashx',   //从远程站点请求数据的 URL。
+                url: '/HttpHandlers/DelJetSEQNR.ashx',   //从远程站点请求数据的 URL。
                 queryParams:
                     {
                         method: "select",

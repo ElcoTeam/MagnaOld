@@ -168,7 +168,7 @@
             //数据列表加载
             dg = $('#tb').datagrid({
                 ///Services1004_Checks.ashx
-                url: "/Services1005_CauseOfFailure.ashx?method=SelectCauseOfFailure",
+                url: "/HttpHandlers/Services1005_CauseOfFailure.ashx?method=SelectCauseOfFailure",
                 rownumbers: true,
                 pagination: false,
                 rownumbers: true,
@@ -224,7 +224,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/Services1005_CauseOfFailure.ashx",
+                url: "/HttpHandlers/Services1005_CauseOfFailure.ashx",
                 data: model,
                 success: function (data) {
                     var _data = JSON.parse(data);
@@ -274,7 +274,7 @@
             var row = selRows[0];
 
             $.ajax({
-                url: "/Services1005_CauseOfFailure.ashx",
+                url: "/HttpHandlers/Services1005_CauseOfFailure.ashx",
                 data: encodeURI("ID=" + row.ID + "&method=DelectCauseOfFailure"),
                 async: false,
                 success: function (data) {

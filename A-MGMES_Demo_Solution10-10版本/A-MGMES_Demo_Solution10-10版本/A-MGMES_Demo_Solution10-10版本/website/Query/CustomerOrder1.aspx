@@ -61,7 +61,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: '/Services1008_CustomerOrder.ashx',
+                url: '/HttpHandlers/Services1008_CustomerOrder.ashx',
                 data: {OrderType:OrderType,method:method},
                 success: function (data) {
                     if (data == true) {
@@ -153,7 +153,7 @@
                 nowrap: false,
                 striped: true,
                 collapsible: false,
-                url: '/Services1008_CustomerOrder.ashx',
+                url: '/HttpHandlers/Services1008_CustomerOrder.ashx',
                 queryParams:queryParams,
                 sortName: 'OrderID',
                 sortOrder: 'asc',

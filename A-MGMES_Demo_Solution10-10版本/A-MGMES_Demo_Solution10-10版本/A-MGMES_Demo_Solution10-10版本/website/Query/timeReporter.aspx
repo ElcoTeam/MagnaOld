@@ -147,7 +147,7 @@
 	        }
 	        $.ajax({
 	            type: 'get',
-	            url: '/Services1003_TimeProduct.ashx',
+	            url: '/HttpHandlers/Services1003_TimeProduct.ashx',
 	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag ,method:method},
 	            dataType: 'json',
 	            cache: false,
@@ -265,7 +265,7 @@
 	        }
 	        $.ajax({
 	            type: 'get',
-	            url: '/Services1003_TimeProduct.ashx',
+	            url: '/HttpHandlers/Services1003_TimeProduct.ashx',
 	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag ,method:method},
 	            dataType: 'json',
 	            cache: false,

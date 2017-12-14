@@ -26406,3 +26406,27 @@ System.IndexOutOfRangeException: 无法找到列 1。
 2017-09-01 14:04:25.938
 System.NullReferenceException: 未将对象引用设置到对象的实例。
    在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 C:\Users\Administrator\Desktop\zbl\A-MGMES_Demo_Solution8-25版本\website\ExcelHelper\ExcelHelper.cs:行号 626
+2017-12-14 14:13:33.433
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:14:15.737
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:23:34.906
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:25:55.443
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:27:01.875
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:27:34.548
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:31:26.443
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911
+2017-12-14 14:51:15.842
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 website.ExcelHelper.ImportDt(ISheet sheet, Int32 HeaderRowIndex, Boolean needHeader) 位置 e:\MagnaOld\trunk\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\A-MGMES_Demo_Solution10-10版本\website\ExcelHelper\ExcelHelper.cs:行号 911

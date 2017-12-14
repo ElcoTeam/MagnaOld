@@ -191,7 +191,7 @@
 	        var method = "Export";
 	        $.ajax({
 	            type: 'get',
-	            url: '/Services1004_Checks.ashx',
+	            url: '/HttpHandlers/Services1004_Checks.ashx',
 	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo,method:method},
 	            dataType: 'json',
 	            async: false,
@@ -287,7 +287,7 @@
 	        var StationNo = $('#_easyui_textbox_input2').val();
 	        $.ajax({
 	            type: 'get',
-	            url: '/Services1004_Checks.ashx',
+	            url: '/HttpHandlers/Services1004_Checks.ashx',
 	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo, page: page ,method:method},
 	            dataType: 'json',
 	            async: false,

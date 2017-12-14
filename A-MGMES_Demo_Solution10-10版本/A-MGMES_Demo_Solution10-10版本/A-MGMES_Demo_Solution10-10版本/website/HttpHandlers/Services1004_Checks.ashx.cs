@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Bll;
 
 
-namespace website
+namespace website.HttpHandlers
 {
     /// <summary>
     /// Services1004_Checks 的摘要说明

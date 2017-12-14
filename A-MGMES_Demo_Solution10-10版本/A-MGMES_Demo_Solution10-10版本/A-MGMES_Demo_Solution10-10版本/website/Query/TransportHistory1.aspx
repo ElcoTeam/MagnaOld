@@ -71,7 +71,7 @@
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/TransportHistory.ashx",
+                url: "/HttpHandlers/TransportHistory.ashx",
                 data:queryParams,
                 success: function (data) {
                     if (data == true) {
@@ -150,7 +150,7 @@
                 nowrap: false,
                 striped: true,
                 collapsible: false,
-                url: '/TransportHistory.ashx',
+                url: '/HttpHandlers/TransportHistory.ashx',
                 sortName: 'ID',
                 sortOrder: 'asc',
                 remoteSort: true,

@@ -26,11 +26,11 @@ public partial class Query_StepQuery : System.Web.UI.Page
         }
         else
         {
-            if (Request.Cookies["admininfo"] != null)
-            {
-                this.namelit.Text = Request.Cookies["admininfo"]["name"];
-                this.tellit.Text = HttpUtility.UrlDecode(Request.Cookies["admininfo"]["user_posiid_name"]);
-            }
+            //////////if (Request.Cookies["admininfo"] != null)
+            //////////{
+            //////////    this.namelit.Text = Request.Cookies["admininfo"]["name"];
+            //////////    this.tellit.Text = HttpUtility.UrlDecode(Request.Cookies["admininfo"]["user_posiid_name"]);
+            //////////}
         }
     }
     

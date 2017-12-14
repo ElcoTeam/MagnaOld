@@ -173,7 +173,7 @@
                 nowrap: false,
                 striped: true,
                 collapsible: false,
-                url: '/TransportHistory.ashx',
+                url: '/HttpHandlers/TransportHistory.ashx',
                 sortName: 'sortNumber',
                 sortOrder: 'asc',
                 remoteSort: true,

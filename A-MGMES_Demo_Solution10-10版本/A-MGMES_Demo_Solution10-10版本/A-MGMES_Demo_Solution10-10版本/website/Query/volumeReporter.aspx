@@ -129,7 +129,7 @@
 	        method = "Export";
 	        $.ajax({
 	            type: 'get',
-	            url: '/Services1001_AddupProduct.ashx',
+	            url: '/HttpHandlers/Services1001_AddupProduct.ashx',
 	            data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag,method:method },
 	            dataType: 'json',
 	            cache: false,
@@ -227,7 +227,7 @@
 			}
 			$.ajax({
 				type: 'get',
-				url: '/Services1001_AddupProduct.ashx',
+				url: '/HttpHandlers/Services1001_AddupProduct.ashx',
 				data: { st_no: st_no, StartTime: start_time, EndTime: end_time, Flag: flag ,method:""},
 				dataType: 'json',
                 cache:false,

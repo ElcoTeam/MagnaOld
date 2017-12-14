@@ -108,7 +108,7 @@
                 nowrap: false,
                 striped: true,
                 collapsible: false,
-                url: '/Services1006_FTT.ashx',
+                url: '/HttpHandlers/Services1006_FTT.ashx',
                 
                 sortName: 'id',
                 sortOrder: 'asc',
