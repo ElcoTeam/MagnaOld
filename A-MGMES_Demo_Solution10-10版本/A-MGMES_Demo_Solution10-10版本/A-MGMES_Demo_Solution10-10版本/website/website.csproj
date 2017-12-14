@@ -57,6 +57,7 @@
       <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -104,6 +105,7 @@
     <Content Include="css\reset.css" />
     <Content Include="css\simpleDetail.css" />
     <Content Include="default.aspx" />
+    <Content Include="ExtraMenu.aspx" />
     <Content Include="foundation\adminrole.aspx" />
     <Content Include="foundation\allpart.aspx" />
     <Content Include="foundation\AndonTaglines.aspx" />
@@ -588,6 +590,7 @@
     <Content Include="Query\check.aspx" />
     <Content Include="Query\Check1.aspx" />
     <Content Include="Query\CheckReport.aspx" />
+    <Content Include="Query\Config\printExcel.aspx" />
     <Content Include="Query\CustomerOrder1.aspx" />
     <Content Include="Query\exportExcel.aspx" />
     <Content Include="Query\FTTQuery.aspx" />
@@ -599,6 +602,7 @@
     <Content Include="Query\TransportHistory1.aspx" />
     <Content Include="System\adminpwd.aspx" />
     <Content Include="System\adminrole.aspx" />
+    <Content Include="testform.aspx" />
     <Content Include="UploadImages\BOMImages\1_20160819022959.png" />
     <Content Include="UploadImages\BOMImages\flag_20160819033830.png" />
     <Content Include="UploadImages\BOMImages\flag_20160830043336.png" />
@@ -693,12 +697,19 @@
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="DelJetSEQNR.ashx.cs">
+    <Compile Include="HttpHandlers\DelJetSEQNR.ashx.cs">
       <DependentUpon>DelJetSEQNR.ashx</DependentUpon>
     </Compile>
     <Compile Include="ExcelHelper\ExcelHelper.cs" />
     <Compile Include="ExcelHelper\WriteLog.cs" />
     <Compile Include="ExcelHelper\dataTableToListview.cs" />
+    <Compile Include="ExtraMenu.aspx.cs">
+      <DependentUpon>ExtraMenu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExtraMenu.aspx.designer.cs">
+      <DependentUpon>ExtraMenu.aspx</DependentUpon>
+    </Compile>
     <Compile Include="foundation\adminrole.aspx.designer.cs">
       <DependentUpon>adminrole.aspx</DependentUpon>
     </Compile>
@@ -847,6 +858,7 @@
     <Compile Include="FunCommon\Part_TimeCuter.ascx.designer.cs">
       <DependentUpon>Part_TimeCuter.ascx</DependentUpon>
     </Compile>
+    <Compile Include="hehe.cs" />
     <Compile Include="HttpHandlers\AllPartHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -990,6 +1002,13 @@
     <Compile Include="Query\CheckReport.aspx.designer.cs">
       <DependentUpon>CheckReport.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Query\Config\printExcel.aspx.cs">
+      <DependentUpon>printExcel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Query\Config\printExcel.aspx.designer.cs">
+      <DependentUpon>printExcel.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Query\CustomerOrder1.aspx.cs">
       <DependentUpon>CustomerOrder1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1011,7 +1030,7 @@
     <Compile Include="Query\FTTQuery.aspx.designer.cs">
       <DependentUpon>FTTQuery.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Query\hs\Service1006_RPT_HOURLY.ashx.cs">
+    <Compile Include="HttpHandlers\Service1006_RPT_HOURLY.ashx.cs">
       <DependentUpon>Service1006_RPT_HOURLY.ashx</DependentUpon>
     </Compile>
     <Compile Include="Query\RPT_HOURLY.aspx.cs">
@@ -1055,34 +1074,34 @@
     <Compile Include="Repair.ashx.cs">
       <DependentUpon>Repair.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1008_CustomerOrder.ashx.cs">
+    <Compile Include="HttpHandlers\Services1008_CustomerOrder.ashx.cs">
       <DependentUpon>Services1008_CustomerOrder.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1000_SysLog_Add.ashx.cs">
+    <Compile Include="HttpHandlers\Services1000_SysLog_Add.ashx.cs">
       <DependentUpon>Services1000_SysLog_Add.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1006_FTT.ashx.cs">
+    <Compile Include="HttpHandlers\Services1006_FTT.ashx.cs">
       <DependentUpon>Services1006_FTT.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1001_AddupProduct.ashx.cs">
+    <Compile Include="HttpHandlers\Services1001_AddupProduct.ashx.cs">
       <DependentUpon>Services1001_AddupProduct.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1000_SysLog.ashx.cs">
+    <Compile Include="HttpHandlers\Services1000_SysLog.ashx.cs">
       <DependentUpon>Services1000_SysLog.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1002_WaringList.ashx.cs">
+    <Compile Include="HttpHandlers\Services1002_WaringList.ashx.cs">
       <DependentUpon>Services1002_WaringList.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1003_TimeProduct.ashx.cs">
+    <Compile Include="HttpHandlers\Services1003_TimeProduct.ashx.cs">
       <DependentUpon>Services1003_TimeProduct.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1004_Checks.ashx.cs">
+    <Compile Include="HttpHandlers\Services1004_Checks.ashx.cs">
       <DependentUpon>Services1004_Checks.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1005_CauseOfFailure.ashx.cs">
+    <Compile Include="HttpHandlers\Services1005_CauseOfFailure.ashx.cs">
       <DependentUpon>Services1005_CauseOfFailure.ashx</DependentUpon>
     </Compile>
-    <Compile Include="Services1007_CheckReport.ashx.cs">
+    <Compile Include="HttpHandlers\Services1007_CheckReport.ashx.cs">
       <DependentUpon>Services1007_CheckReport.ashx</DependentUpon>
     </Compile>
     <Compile Include="System\adminpwd.aspx.designer.cs">
@@ -1174,6 +1193,13 @@
       <DependentUpon>adminrole.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
+    <Compile Include="testform.aspx.cs">
+      <DependentUpon>testform.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="testform.aspx.designer.cs">
+      <DependentUpon>testform.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Query\volumeReporter.aspx.cs">
       <DependentUpon>volumeReporter.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1188,7 +1214,7 @@
     <Compile Include="Query\warningReporter.aspx.designer.cs">
       <DependentUpon>warningReporter.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TransportHistory.ashx.cs">
+    <Compile Include="HttpHandlers\TransportHistory.ashx.cs">
       <DependentUpon>TransportHistory.ashx</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -1209,9 +1235,9 @@
     <Content Include="js\uploadify\index.php" />
     <Content Include="js\uploadify\uploadify.php" />
     <Content Include="HttpHandlers\TorqueReporterHandler.ashx" />
-    <Content Include="Services1000_SysLog.ashx" />
-    <Content Include="Services1001_AddupProduct.ashx" />
-    <Content Include="Services1002_WaringList.ashx" />
+    <Content Include="HttpHandlers\Services1000_SysLog.ashx" />
+    <Content Include="HttpHandlers\Services1001_AddupProduct.ashx" />
+    <Content Include="HttpHandlers\Services1002_WaringList.ashx" />
     <Content Include="packages.config" />
     <Content Include="HttpHandlers\TorqueReporterHandler1.ashx" />
     <Content Include="HttpHandlers\RepairHandler.ashx" />
@@ -1229,7 +1255,8 @@
     <Content Include="HttpHandlers\InsertCustomOrderHandler.ashx" />
     <Content Include="excel\CX11 FS Passenger Configuration.xlsx" />
     <Content Include="Menu\GetMenuList.ashx" />
-    <Content Include="DelJetSEQNR.ashx" />
+    <Fakes Include="Fakes\Aspose.Cells.fakes" />
+    <Content Include="HttpHandlers\DelJetSEQNR.ashx" />
     <Content Include="js\highcharts\css\highcharts.scss" />
     <Content Include="js\highcharts\css\js\highcharts-3d.js.map" />
     <Content Include="js\highcharts\css\js\highcharts-more.js.map" />
@@ -1337,18 +1364,19 @@
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Services1003_TimeProduct.ashx" />
-    <Content Include="TransportHistory.ashx" />
+    <Content Include="HttpHandlers\Services1003_TimeProduct.ashx" />
+    <Content Include="HttpHandlers\TransportHistory.ashx" />
     <Content Include="Repair.ashx" />
-    <Content Include="Services1004_Checks.ashx" />
-    <Content Include="Services1005_CauseOfFailure.ashx" />
-    <Content Include="Services1006_FTT.ashx" />
-    <Content Include="Services1007_CheckReport.ashx" />
-    <Content Include="Services1000_SysLog_Add.ashx" />
-    <Content Include="Services1008_CustomerOrder.ashx" />
+    <Content Include="HttpHandlers\Services1004_Checks.ashx" />
+    <Content Include="HttpHandlers\Services1005_CauseOfFailure.ashx" />
+    <Content Include="HttpHandlers\Services1006_FTT.ashx" />
+    <Content Include="HttpHandlers\Services1007_CheckReport.ashx" />
+    <Content Include="HttpHandlers\Services1000_SysLog_Add.ashx" />
+    <Content Include="HttpHandlers\Services1008_CustomerOrder.ashx" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
-    <Content Include="Query\hs\Service1006_RPT_HOURLY.ashx" />
+    <Content Include="HttpHandlers\Service1006_RPT_HOURLY.ashx" />
+    <Content Include="Query\Config\SearchBoxCtrler\ViewLogs.cfg" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1378,7 +1406,9 @@
       <Name>Tools</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Query\hs\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
