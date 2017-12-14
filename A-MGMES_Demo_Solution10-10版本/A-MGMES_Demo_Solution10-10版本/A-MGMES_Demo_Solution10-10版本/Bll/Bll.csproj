@@ -46,6 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndonTaglinesBLL.cs" />
+    <Compile Include="checkRepair_BLL.cs" />
+    <Compile Include="checkReport_BLL.cs" />
+    <Compile Include="DelJetSEQNR_BLL.cs" />
+    <Compile Include="Failure_BLL.cs" />
+    <Compile Include="FTT_BLL.cs" />
+    <Compile Include="mg-CustomerOrder_3BLL.cs" />
+    <Compile Include="mg_alarmBLL.cs" />
     <Compile Include="mg_Part1BLL.cs" />
     <Compile Include="mg_BOMTestBLL.cs" />
     <Compile Include="mg_ProductBLL.cs" />
@@ -81,6 +88,10 @@
     <Compile Include="mg_workqueueBLL.cs" />
     <Compile Include="mg_PoInspectItemBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sys_MenuBLL.cs" />
+    <Compile Include="Time_ReportBLL.cs" />
+    <Compile Include="TransportHistory_BLL.cs" />
+    <Compile Include="volumn_report_BLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service References\" />
