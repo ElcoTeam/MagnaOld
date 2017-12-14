@@ -58,6 +58,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AndonTaglinesDAL.cs" />
+    <Compile Include="checkRepair_Dal.cs" />
+    <Compile Include="checkReport_Dal.cs" />
+    <Compile Include="DelJetSEQNR_Dal.cs" />
+    <Compile Include="Failure_DAL.cs" />
+    <Compile Include="FTT_Dal.cs" />
+    <Compile Include="mg_alarmDAL.cs" />
+    <Compile Include="mg_CustomerOrder_3DAL.cs" />
     <Compile Include="mg_Part1DAL.cs" />
     <Compile Include="mg_ProductDAL.cs" />
     <Compile Include="mg_FlowLine1DAL.cs" />
@@ -93,6 +100,10 @@
     <Compile Include="mg_workqueueDAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="mg_sys_LogDal.cs" />
+    <Compile Include="Sys_MenuDAL.cs" />
+    <Compile Include="Time_ReportDal.cs" />
+    <Compile Include="TransportHistory_Dal.cs" />
+    <Compile Include="volumn_report_Dal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DbUtility\DbUtility.csproj">
