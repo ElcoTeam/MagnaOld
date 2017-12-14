@@ -42,6 +42,11 @@ public class CustomerOrderHandler : IHttpHandler
                  case "cuttingOrder":
                 CuttingOrder();
                 break;
+
+            case "editDeliveryOrder":
+                EditDeliveryOrder();
+                break;
+
              
         }
     }
@@ -134,6 +139,21 @@ public class CustomerOrderHandler : IHttpHandler
         Response.End();
     }
 
+    void EditDeliveryOrder()
+    {
+        string OrderID = Request.Params["OrderID"];
+        string VinNumber = Request.Params["VinNumber"];
+        string OrderIsHistory = Request.Params["OrderIsHistory"];
+
+        mg_CustomerOrder_3 model = new mg_CustomerOrder_3();
+        model.OrderID1 = NumericParse.StringToInt(OrderID);
+        model._VinNumber = VinNumber;
+        model._OrderIsHistory = NumericParse.StringToInt(OrderIsHistory);
+
+        string json = mg_CustomerOrder_3BLL.EditDeliveryOrder(model);
+        Response.Write(json);
+        Response.End();
+    }
 
 
 

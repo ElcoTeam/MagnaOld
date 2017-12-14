@@ -33,55 +33,44 @@
  
 
      <!-- 编辑窗口 -->
-    <div id="w" style="padding: 10px; visibility: hidden" title="销售订单编辑">
+    <div id="w" style="padding: 10px; visibility: hidden" title="订单编辑">
         <table cellpadding="0" cellspacing="0">
             <tr>
                 <td class="title" style="width: 100px">
                     <p>
-                        销售订单号：
+                        订单号：
                     </p>
                 </td>
                 <td>
-                    <input id="co_no" type="text" class="text" style="width: 230px;" />
+                    <input id="OrderID" type="text" class="text" style="width: 230px;" disabled />
                 </td>
-                <td rowspan="4" style="width: 450px; padding-left: 20px; vertical-align: top">
-                    <!-- 整车座椅数据表格  -->
-                    <table id="allpartTB" title="整车座椅选取" style="width: 100%; height: 430px;">
-                    </table>
-
+                
+            </tr>
+             <tr>
+                <td class="title" style="width: 100px">
+                    <p>
+                        车身号：
+                    </p>
                 </td>
+                <td>
+                    <input id="VinNumber" type="text" class="text" style="width: 230px;"  disabled/>
+                </td>
+                
             </tr>
             <tr>
                 <td class="title">
                     <p>
-                        客户：
+                        进入生产：
                     </p>
                 </td>
                 <td>
-                    <select id="co_cutomerid" class="easyui-combobox" style="width: 230px; height: 25px;"
-                        data-options="valueField: 'prop_id',textField: 'prop_name'">
+                    <select id="OrderIsHistory" class="easyui-combobox" style="width: 230px; height: 25px;">
+                        <option value="0">进入生产</option>
+                        <option value="1">不进入生产</option>
                     </select>
                 </td>
             </tr>
-            <tr>
-                <td class="title">
-                    <p>
-                        立即拆单：
-                    </p>
-                </td>
-                <td>
-                    <input id="co_isCutted" class="easyui-switchbutton" data-options="onText:'是',offText:'否'">
-                </td>
-            </tr>
-            <tr>
-                <td class="title"></td>
-                <td>
-                    <!-- 所选整车座椅数据表格  -->
-                    <table id="selectedAllpartTB" title="所选整车座椅" style="width: 100%; height: 320px;">
-                    </table>
-
-                </td>
-            </tr>
+            
 
         </table>
     </div>
@@ -112,7 +101,7 @@
 
             //保存按钮
             $('#saveBtn').bind('click', function () {
-                savePart(isEdit);
+                savePart();
             });
 
             //编辑窗口加载
@@ -122,8 +111,8 @@
                 minimizable: false,
                 maximizable: false,
                 collapsible: false,
-                width: 850,
-                height: 560,
+                width: 450,
+                height: 260,
                 footer: '#ft',
                 top: 20,
                 border: 'thin',
@@ -154,7 +143,7 @@
                     { field: 'OrderIsHistory', title: 'OrderIsHistory', width: 100, align: "center" },
                 ]]
             });
-            cuttedGrid.datagrid('getPager').pagination({
+            orderTB.datagrid('getPager').pagination({
                 pageList: [1, 5, 10, 15, 20],
                 layout: ['list', 'sep', 'first', 'prev', 'sep', 'links', 'sep', 'next', 'last', 'sep', 'refresh']
             });
@@ -163,51 +152,21 @@
 
         /****************       主要业务程序          ***************/
 
-        //新增 / 编辑  
+        //编辑  
         function savePart() {
-            //       
-            if (endEditing()) {
-                selectedAllPartdg.datagrid('acceptChanges');
-            }
-
-
-            // co_no    co_cutomerid     selectedAllpartTB
-            var rows = selectedAllPartdg.datagrid('getRows');
-
-            var all_idArr = new Array();
-            var co_countArr = new Array();
-
-            for (var i = 0; i < rows.length; i++) {
-                var all_id = selectedAllPartdg.datagrid('getRows')[i]["all_id"];
-                var co_count = selectedAllPartdg.datagrid('getRows')[i]["co_count"];
-                all_idArr.push(all_id);
-                co_countArr.push(co_count);
-            }
-            // alert(all_idArr);
-
-            var co_id = isEdit == true ? coid : 0;
-            var co_cutomerid = $('#co_cutomerid').combo('getValue');
-            var co_no = $('#co_no').val();
-            var all_ids = (all_idArr.length > 0) ? all_idArr.join('|') : "";
-            var co_counts = (co_countArr.length > 0) ? co_countArr.join('|') : "";
-            var co_isCutted = ($('#co_isCutted').switchbutton('options').checked == true) ? 1 : 0;
-            //alert(all_ids);
-            //}co_isCutted
-            //alert('abc');
-           // alert(all_ids);
+            var OrderID = $("#OrderID").val();
+            var VinNumber = $("#VinNumber").val();
+            var OrderIsHistory = $("#OrderIsHistory").combo('getValue');
             var model = {
-                co_id: co_id,
-                co_cutomerid: co_cutomerid,
-                co_no: co_no,
-                all_ids: all_ids,
-                co_counts: co_counts,
-                co_isCutted: co_isCutted,
-                method: 'saveCustomerOrder'
+                OrderID: OrderID,
+                VinNumber: VinNumber,
+                OrderIsHistory: OrderIsHistory,
+                method: 'editDeliveryOrder'
             };
 
-           saveTheCustomerOrder(model);
+            editDeliveryOrder(model);
         }
-        function saveTheCustomerOrder(model) {
+        function editDeliveryOrder(model) {
             $.ajax({
                 type: "POST",
                 async: false,
@@ -216,7 +175,7 @@
                 success: function (data) {
                     if (data == 'true') {
                         alert('已保存');
-                        uncuttedGrid.datagrid('reload');
+                        orderTB.datagrid('reload');
                     }
                     else alert('保存失败');
                     $('#w').window('close');
@@ -228,7 +187,7 @@
 
         //编辑时加载窗体数据
         function initEidtWidget() {
-            var selRows = uncuttedGrid.datagrid('getSelections');
+            var selRows = orderTB.datagrid('getSelections');
             if (selRows.length > 1) {
                 alert('每次只能编辑一条记录，请重新选取');
                 return;
@@ -236,8 +195,10 @@
                 alert('请选择一条记录进行编辑');
                 return;
             }
-
-            
+            var row = selRows[0];
+            $("#OrderID").val(row.OrderID);
+            $("#VinNumber").val(row.VinNumber);
+            $('#OrderIsHistory').combobox('select', row.OrderIsHistory);
             $('#w').window('open');
         }
       
@@ -245,7 +206,12 @@
 
         /****************       辅助业务程序          ***************/
       
-
+        //编辑窗口关闭清空数据
+        function clearw() {
+            $("#OrderID").val();
+            $("#VinNumber").val();
+            $('#OrderIsHistory').combobox('select', 0);
+        }
     </script>
 
 </asp:Content>
