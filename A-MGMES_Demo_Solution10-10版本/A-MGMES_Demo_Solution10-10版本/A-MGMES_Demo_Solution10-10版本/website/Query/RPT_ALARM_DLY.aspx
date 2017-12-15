@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/AdminMasterPage.master"  AutoEventWireup="true" CodeBehind="RPT_ALARM_DLY.aspx.cs" Inherits="website.Query.RPT_HOURLY" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/AdminMasterPage.master"  AutoEventWireup="true" CodeBehind="RPT_ALARM_DLY.aspx.cs" Inherits="website.Query.RPT_ALARM_DLY" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     
 	<link href="/js/uploadify/uploadify.css" rel="stylesheet" />
