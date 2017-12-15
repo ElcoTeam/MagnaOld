@@ -57,7 +57,7 @@ namespace website.HttpHandlers
             }
             if (!string.IsNullOrWhiteSpace(OrderId))
             {
-                wherestr += " and or_no = '" + OrderId + @"'";
+                wherestr += " and or_no like '%" + OrderId + @"%'";
             }
             if (!string.IsNullOrWhiteSpace(scancode))
             {

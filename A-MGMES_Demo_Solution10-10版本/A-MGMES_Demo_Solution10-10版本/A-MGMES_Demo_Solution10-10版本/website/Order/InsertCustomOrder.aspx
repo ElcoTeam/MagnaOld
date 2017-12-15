@@ -31,9 +31,9 @@
                 <!--<td style="width: 120px">
                     <a class="toppenBtn">编辑所选</a>
                 </td>-->
-                <!--<td style="width: 120px">
+                <td style="width: 120px">
                     <a class="topdelBtn">删除所选</a>
-                </td>-->
+                </td>
             </tr>
         </table>
     </div>
@@ -122,7 +122,10 @@
             $.ajaxSetup({
                 cache: false //关闭AJAX缓存
             });
-
+            //删除按钮
+            $('.topdelBtn').first().click(function () {
+                deleteInfos();
+            });
             //新增按钮点击
             $('.topaddBtn').first().click(function () {
                 $('#EditWin').window('open');
@@ -140,6 +143,7 @@
                     alert("必须选择部件！");
                     return;
                 }
+
 
                 var mPartIDList = '';
                 for (i = 0; i < rows.length; i++) {
@@ -202,6 +206,30 @@
             $('#ProductSelect').combobox('clear');
             $('#PartSelect').datagrid('loadData', { 'total': '0', 'rows': [] }).datagrid('clearSelections').datagrid('clearChecked');
         }
-
+        function deleteInfos() {
+            var selRows = $('#CustomOrder').datagrid('getSelections');
+            if (selRows.length > 1) {
+                alert('每次只能删除一条记录，请重新选取');
+                return;
+            } else if (selRows.length == 0) {
+                alert('请选择一条记录进行删除');
+                return;
+            }
+            var row = selRows[0];
+            $.ajax({
+                url: "/HttpHandlers/InsertCustomOrderHandler.ashx",
+                data: encodeURI("CustomerOrderID=" + row.OrderID + "&method=delete"),
+                async: false,
+                success: function (data) {
+                    if (data == 'true') {
+                        alert('已删除');
+                        $('#CustomOrder').datagrid('reload');
+                    }
+                    else alert('删除失败');
+                },
+                error: function () {
+                }
+            });
+        }
     </script>
 </asp:Content>

@@ -98,7 +98,7 @@ namespace website.HttpHandlers
                 int EndIndex = -1;
                 int totalcount = 0;
                 DataTable resTable = Production_Report_BLL.getTable(PageSize, StartIndex, EndIndex, sort, order, where, out totalcount);
-                ExcelHelper.ExportDTtoExcel(resTable, "步骤日志报表", fileName);
+                ExcelHelper.ExportDTtoExcel(resTable, "生产报表", fileName);
                 string ss = "true";
                 json = "{\"Result\":\"" + ss + "\"}";
 

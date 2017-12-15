@@ -78,7 +78,7 @@
                     <select id="com_ProductType" class="easyui-combobox" style="width: 100px; height: 25px;"
                         data-options="required:true">
                         <option value="1">前排主驾</option>
-                        <option value="2">前排后驾</option>
+                        <option value="2">前排副驾</option>
                         <option value="3">后排</option>
                     </select></td>
             </tr>

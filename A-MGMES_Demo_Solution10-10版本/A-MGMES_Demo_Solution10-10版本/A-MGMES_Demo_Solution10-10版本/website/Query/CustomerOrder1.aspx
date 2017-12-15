@@ -39,6 +39,12 @@
                         <option value="3">紧急插单</option>
                     </select>
                 </td>
+                <td style="width: 6%">
+                    <span>SerialNumber：</span>
+                </td>
+                <td style="width: 8%">
+                    <input id ="SerialNumber"/>
+                </td>
                 <td style="width: 8%">
                     <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">查询</a>
                 </td>
@@ -57,12 +63,13 @@
     <script>
         function excelForm() {
             var OrderType = $('#OrderType').val();
+            var SerialNumber = $('#SerialNumber').val();
             var method = "Export";
             $.ajax({
                 type: "POST",
                 async: false,
                 url: '/HttpHandlers/Services1008_CustomerOrder.ashx',
-                data: {OrderType:OrderType,method:method},
+                data: { OrderType: OrderType, SerialNumber:SerialNumber,method: method },
                 success: function (data) {
                     if (data == true) {
                         $("#sub").click();
@@ -87,6 +94,7 @@
         var queryParams;
 
         function searchOrder(num) {     //后台传值
+            var SerialNumber = $('#SerialNumber').val();
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
             var Worker = $('#Worker').val();
@@ -96,11 +104,13 @@
             queryParams.CarType = CarType;
             queryParams.Worker = Worker;
             queryParams.OrderType = OrderType;
+            queryParams.SerialNumber = SerialNumber;
             queryParams.method = "";
             dg.datagrid('reload');
         }
 
-        function searchInfos(sort,num) {
+        function searchInfos(sort, num) {
+            var SerialNumber = $('#SerialNumber').val();
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
             var Worker = $('#Worker').val();
@@ -110,6 +120,7 @@
             queryParams.CarType = CarType;
             queryParams.Worker = Worker;
             queryParams.OrderType = OrderType;
+            queryParams.SerialNumber = SerialNumber;
             queryParams.method = "";
             dg.datagrid('reload');
             dg.datagrid('reload');
@@ -140,11 +151,13 @@
             var CarType = $('#CarType').val();
             var Worker = $('#Worker').val();
             var OrderType = $('#OrderType').val();
+            var SerialNumber = $('#SerialNumber').val();
             var queryParams = {
                 OrderCode : OrderCode,
             CarType : CarType,
             Worker : Worker,
-            OrderType : OrderType,
+            OrderType: OrderType,
+            SerialNumber:SerialNumber,
             method : "",
         }
             dg = $('#tb').datagrid({
@@ -162,7 +175,7 @@
                 columns: [[
 					{ field: 'ID', title: 'ID', hidden: true },
 					{ field: 'OrderID', title: 'OrderID', width: 200, align: "center" },
-					{ field: 'CustomerNumber', title: 'CustomerNumber', width: 200, align: "center" },
+					{ field: 'CustomerNumber', title: 'CustomerNumber', width: 200, align: "center",hidden:true },
 					{ field: 'JITCallNumber', title: 'JITCallNumber', width: 200, align: "center" },
 					{ field: 'SerialNumber', title: 'SerialNumber', width: 200, align: "center" },
 					{ field: 'SerialNumber_MES', title: 'SerialNumber_MES', width: 200, align: "center" },
@@ -174,7 +187,7 @@
 					{ field: 'ProductName', title: 'ProductName', width: 200, align: "center" }
                 ]],
 
-                rownumbers: true,
+                rownumbers: false,
                 loadMsg: '正在加载数据...',
                 toolbar: '#navigationSearch',
                 pagination: true,

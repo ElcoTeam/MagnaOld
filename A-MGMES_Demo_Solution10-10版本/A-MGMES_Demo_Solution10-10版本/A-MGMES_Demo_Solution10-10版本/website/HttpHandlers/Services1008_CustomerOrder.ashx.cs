@@ -18,6 +18,7 @@ namespace website.HttpHandlers
         {
             HttpRequest request = System.Web.HttpContext.Current.Request;
             string OrderType = request["OrderType"];
+            string SerialNumber = request["SerialNumber"];
 
             int SortFlag = Convert.ToInt32(request["SortFlag"]);
             int PageSize = Convert.ToInt32(request["rows"]);
@@ -28,10 +29,13 @@ namespace website.HttpHandlers
             string where = "";
             if (!string.IsNullOrEmpty(OrderType))
             {
-                where = " and OrderType = " + OrderType + " ";
+                where += " and OrderType = " + OrderType + " ";
             }
-           
-
+           if (!string.IsNullOrEmpty(SerialNumber))
+            {
+                where += "  and SerialNumber like '%" + SerialNumber + "%' ";
+            }
+            
             string JsonStr ="";
             if(string.IsNullOrWhiteSpace(method))
             {

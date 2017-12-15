@@ -186,7 +186,23 @@ namespace website.HttpHandlers
 
         void Delete()
         {
+            string CustomerOrderID = Request.Params["CustomerOrderID"];
 
+            string sql = @"DeleteCustomerOrder";
+            SqlParameter[] sqlParms = new SqlParameter[1];
+            sqlParms[0] = new SqlParameter("CustomerOrderID", SqlDbType.Decimal);
+            sqlParms[0].Value = CustomerOrderID;
+            try
+            {
+                SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.StoredProcedure, "DeleteCustomerOrder", sqlParms);
+                Response.Write("true");
+            }
+            catch (Exception ex)
+            {
+                Response.Write("false");
+            }
+            Response.End();
+            return;
         }
 
         public bool IsReusable
