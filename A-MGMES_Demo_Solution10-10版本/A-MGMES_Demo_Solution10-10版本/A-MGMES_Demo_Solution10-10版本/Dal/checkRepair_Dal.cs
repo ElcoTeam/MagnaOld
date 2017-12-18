@@ -27,7 +27,7 @@ left join mg_Operator d on a.operatorid = d.op_id
 left join mg_Test_Repair_Item g on a.Repair_ItemID = g.ID 
 where (a.StartTime > '" + StartTime + "' and a.EndTime < '" + EndTime + "'  ";
                    SqlStr += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode + "'";
-                   SqlStr += " and a.stationno='FSA210') order by a.OrderNo,a.StartTime  ";
+                   SqlStr += " and a.stationno='FSA210') order by g.ItemCaption, a.OrderNo,a.StartTime  ";
                     ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                    if (ResTable.Rows.Count < 1)
                    {
@@ -53,11 +53,11 @@ where (a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
 
                    if (StationNo == "FSA160")   //160内容
                    {
-                       SqlStr += " and a.stationno='FSA160') order by a.OrderNo,a.CreateTime ";
+                       SqlStr += " and a.stationno='FSA160') order by c.TestCaption, a.OrderNo,a.CreateTime ";
                    }
                    else  //=1  170内容
                    {
-                       SqlStr += " and a.stationno='FSA170') order by a.OrderNo,a.CreateTime ";
+                       SqlStr += " and a.stationno='FSA170') order by c.TestCaption,a.OrderNo,a.CreateTime ";
                    }
                    ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                    if (ResTable.Rows.Count < 1)
@@ -83,7 +83,7 @@ left join mg_Operator d on a.operatorid = d.op_id
 left join mg_Test_Repair_Item g on a.Repair_ItemID = g.ID 
 where (a.StartTime > '" + StartTime + "' and a.EndTime < '" + EndTime + "'  ";
                    SqlStr += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode + "'";
-                   SqlStr += " and a.stationno='FSA210') order by a.OrderNo,a.StartTime  ";
+                   SqlStr += " and a.stationno='FSA210') order by g.ItemCaption,a.OrderNo,a.StartTime  ";
                     ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                    if (ResTable.Rows.Count < 1)
                    {
@@ -109,7 +109,7 @@ where( a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
                    SqlStr += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode + "'";
                    if ((PageIndex - 1) % 3 == 0)  //FSA160
                    {
-                       SqlStr += " and a.stationno='FSA160') order by a.OrderNo,a.CreateTime ";
+                       SqlStr += " and a.stationno='FSA160') order by c.TestCaption,  a.OrderNo,a.CreateTime ";
                        ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                        if (ResTable.Rows.Count < 1)
                        {
@@ -127,7 +127,7 @@ where( a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
                    }
                    else  //FSA170
                    {
-                       SqlStr += " and a.stationno='FSA170') order by a.OrderNo,a.CreateTime ";
+                       SqlStr += " and a.stationno='FSA170') order by c.TestCaption,a.OrderNo,a.CreateTime ";
                        ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                        if (ResTable.Rows.Count < 1)
                        {
@@ -165,8 +165,8 @@ where (a.StartTime > '" + StartTime + "' and a.EndTime < '" + EndTime + "'  ";
                    {
                        SqlStr += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode + "'";
                    }
-                   
-                   SqlStr += " and a.stationno='FSA210') order by a.OrderNo,a.StartTime  ";
+
+                   SqlStr += " and a.stationno='FSA210') order by g.ItemCaption,a.OrderNo,a.StartTime  ";
                    ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                    if (ResTable.Rows.Count < 1)
                    {
@@ -206,7 +206,7 @@ where( a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
                    SqlStr += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode + "'";
                    if ((PageIndex - 1) % 3 == 0)  //FSA160
                    {
-                       SqlStr += " and a.stationno='FSA160') order by a.OrderNo,a.CreateTime ";
+                       SqlStr += " and a.stationno='FSA160') order by c.TestCaption, a.OrderNo,a.CreateTime ";
                        ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                        if (ResTable.Rows.Count < 1)
                        {
@@ -239,7 +239,7 @@ where( a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
                    }
                    else  //FSA170
                    {
-                       SqlStr += " and a.stationno='FSA170') order by a.OrderNo,a.CreateTime ";
+                       SqlStr += " and a.stationno='FSA170') order by c.TestCaption, a.OrderNo,a.CreateTime ";
                        ResTable = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr, null);
                        if (ResTable.Rows.Count < 1)
                        {
@@ -288,7 +288,7 @@ left join mg_Operator d on a.operatorid = d.op_id
 left join mg_Test_Repair_Item g on a.Repair_ItemID = g.ID
 where (a.starttime > '" + StartTime + "' and a.endtime < '" + EndTime + "'  ";
                         SqlStr4 += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode1 + "'";
-                        SqlStr4 += " and a.stationno='FSA210' )order by a.OrderNo  ";
+                        SqlStr4 += " and a.stationno='FSA210' )order by g.ItemCaption, a.OrderNo  ";
                     }
                     else
                     {
@@ -300,11 +300,11 @@ where (a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
                         SqlStr4 += " and REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') = '" + OrderCode1 + "'";
                         if (StationNo1 == "FSA160")   //160内容
                         {
-                            SqlStr4 += " and a.stationno='FSA160' )order by a.OrderNo ";
+                            SqlStr4 += " and a.stationno='FSA160' )order by c.TestCaption, a.OrderNo ";
                         }
                         else  //=1  170内容
                         {
-                            SqlStr4 += " and a.stationno='FSA170' )order by a.OrderNo ";
+                            SqlStr4 += " and a.stationno='FSA170' )order by c.TestCaption,a.OrderNo ";
                         }
                     }
                     ResTable4 = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, SqlStr4, null);
@@ -314,7 +314,7 @@ where (a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "' "
                         for (int i = 0; i < ResTable4.Rows.Count; i++)
                         {
                             string value = ResTable4.Rows[i]["检测内容"].ToString();
-                            if (value != "安全气囊电阻" && value != "SBR电阻" && value != "安全带插入电流" && value != "安全带拔出电流")
+                            if (value != "安全气囊电阻" && value != "SBR电阻" && value != "安全带插入电流" && value != "安全带拔出电流" && value != "SBR断路电阻" && value != "SBR下压前断路电阻")
                             {
                                 //string aa ;
                                 //aa = ResTable4.Rows[i]["真实值"].ToString();
@@ -354,7 +354,7 @@ where (a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "'  
                     for (int i = 0; i < ResTable4.Rows.Count; i++)
                     {
                         string value = ResTable4.Rows[i]["检测内容"].ToString();
-                        if (value != "安全气囊电阻" && value != "SBR电阻" && value != "安全带插入电流" && value != "安全带拔出电流")
+                        if (value != "安全气囊电阻" && value != "SBR电阻" && value != "安全带插入电流" && value != "安全带拔出电流" && value != "SBR断路电阻" && value != "SBR下压前断路电阻")
                         {
                             //string aa ;
                             //aa = ResTable4.Rows[i]["真实值"].ToString();

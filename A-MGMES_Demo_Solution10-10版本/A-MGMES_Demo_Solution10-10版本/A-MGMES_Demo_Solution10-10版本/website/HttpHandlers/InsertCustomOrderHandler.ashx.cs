@@ -188,13 +188,13 @@ namespace website.HttpHandlers
         {
             string CustomerOrderID = Request.Params["CustomerOrderID"];
 
-            string sql = @"DeleteCustomerOrder";
+            string sql = @"Proc_Rpt_DeleteCustomerOrder";
             SqlParameter[] sqlParms = new SqlParameter[1];
             sqlParms[0] = new SqlParameter("CustomerOrderID", SqlDbType.Decimal);
             sqlParms[0].Value = CustomerOrderID;
             try
             {
-                SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.StoredProcedure, "DeleteCustomerOrder", sqlParms);
+                SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.StoredProcedure, "Proc_Rpt_DeleteCustomerOrder", sqlParms);
                 Response.Write("true");
             }
             catch (Exception ex)

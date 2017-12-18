@@ -88,7 +88,7 @@ namespace DAL
                                   FROM [Sys_UserInfo] u
                                   left join Sys_DeptInfo d on u.user_depid = d.dep_id
                                   left join Sys_RoleInfo p on u.user_posiid = p.posi_id 
-                                    where user_name='" + uname +@"';
+                                    where Lower(user_name)='" + uname.ToLower() +@"';
                                     ";
             DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
             if (DataHelper.HasData(dt))
@@ -146,11 +146,11 @@ namespace DAL
             int i;
             if (a == 1)
             {
-                sql = @"select * from [Sys_UserInfo] where user_name='" + name + "'";
+                sql = @"select * from [Sys_UserInfo] where Lower(user_name)='" + name.ToLower() + "'";
             }
             if (a == 2)
             {
-                sql = @"select * from [Sys_UserInfo] where user_name='" + name + "' and user_id <>" + userid;
+                sql = @"select * from [Sys_UserInfo] where Lower(user_name)='" + name.ToLower() + "' and user_id <>" + userid;
             }
             tb = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             if (tb.Rows.Count != 0)

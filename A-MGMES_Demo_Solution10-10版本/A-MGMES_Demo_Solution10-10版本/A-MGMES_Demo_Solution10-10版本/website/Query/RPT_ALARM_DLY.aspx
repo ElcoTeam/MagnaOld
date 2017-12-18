@@ -15,9 +15,9 @@
     <script src="../js/highcharts/modules/exporting.js"></script>
     <style type="text/css">
 
- #left{width: 50%;float: left; background: #f00;}
+ #left{width: 50%;float: left; background: #fff;}
 
- #right{width: 40%;float: left;background: #c00;}
+ #right{width: 40%;float: left;background: #fff;}
 
 </style>
 </asp:Content>
@@ -61,10 +61,10 @@
             </table>
         </div>
         <div id="right" class="chart-Panel">
-              <div id="upright_container" style="width: 100%; height: 50%; text-align:center;  margin: 0 auto">
+              <div id="upright_container" style="width: 100%; height: 50%; text-align:center;  margin: 0 auto;border:1px">
 
               </div>
-              <div id="downright_container" style="width: 100%; height: 50%; text-align:center;  margin: 0 auto">
+              <div id="downright_container" style="width: 100%; height: 50%; text-align:center;  margin: 0 auto;border:1px">
            
               </div>
          </div>
@@ -140,7 +140,7 @@
                        
                         
                         sumPrice();
-                        //paint();
+                        paint();
                     }
 
                 });
@@ -200,156 +200,184 @@
 
             function paint() {
                 //横轴坐标 小时代号
-                var x_categories = getCol('hourid', false, '');
+                var x_categories = getCol('stationNo', false, '');
 
-                var customer_num = getCol('customer_num', false, '');
-                var real_num = getCol('real_num', false, '');
-                //var real_customer = getCol('real_customer', false, '');
-                var plan_pro_num = getCol('plan_pro_num', false, '');
-                var real_pro_num = getCol('real_pro_num', false, '');
-                //var real_plan = getCol('real_plan', false, '');
-                var line1_finish_num = getCol('line1_finish_num', false, '');
-                //var line1_repair_num = getCol('line1_repair_num', false, '');
-                var line2_finish_num = getCol('line2_finish_num', false, '');
-                //var line2_repair_num = getCol('line2_repair_num', false, '');
-                var line3_finish_num = getCol('line3_finish_num', false, '');
-                //var line3_repair_num = getCol('line3_repair_num', false, '');
-                var line4_finish_num = getCol('line4_finish_num', false, '');
-                //var line4_repair_num = getCol('line4_repair_num', false, '');
-                var line5_finish_num = getCol('line5_finish_num', false, '');
-                //var line5_repair_num = getCol('line5_repair_num', false, '');
-                var line6_finish_num = getCol('line6_finish_num', false, '');
-                //var line6_repair_num = getCol('line6_repair_num', false, '');
-                customer_num = JSON.parse('[' + customer_num + ']');
-                real_num = JSON.parse('[' + real_num + ']');
-                plan_pro_num = JSON.parse('[' + plan_pro_num + ']');
-                real_pro_num = JSON.parse('[' + real_pro_num + ']');
-                line1_finish_num = JSON.parse('[' + line1_finish_num + ']');
-                line2_finish_num = JSON.parse('[' + line2_finish_num + ']');
-                line3_finish_num = JSON.parse('[' + line3_finish_num + ']');
-                line4_finish_num = JSON.parse('[' + line4_finish_num + ']');
+                var material_num = getCol('material_num', false, '');
+                var production_num = getCol('production_num', false, '');
+                
+                var maintenance_num = getCol('maintenance_num', false, '');
+                var quality_num = getCol('quality_num', false, '');
+                
+                var overcycle_num = getCol('overcycle_num', false, '');
+               
+                material_num = JSON.parse('[' + material_num + ']');
+                production_num = JSON.parse('[' + production_num + ']');
+                maintenance_num = JSON.parse('[' + maintenance_num + ']');
+                quality_num = JSON.parse('[' + quality_num + ']');
+                overcycle_num = JSON.parse('[' + overcycle_num + ']');
                 $('#upright_container').highcharts({
                     chart: {
+                        type:'column',
                         zoomType: 'xy'
                     },
                     title: {
-                        text: '生产线MES Alarm Data Analysis'
+                        text: '生产线MES 报警数据分析'
                     },
                     subtitle: {
-                        text: '生产报表'
+                        text: 'Production Line MES Alarm Data Analysis'
                     },
                     xAxis: [{
                         categories: x_categories,
                         crosshair: true
                     }],
-                    yAxis: [{ // Primary yAxis
-                        labels: {
-                            format: '{value}套',
-                            style: {
-                                color: Highcharts.getOptions().colors[2]
-                            }
-                        },
+                    yAxis: {
+                        min: 0,
                         title: {
-                            text: '套数',
-                            style: {
-                                color: Highcharts.getOptions().colors[2]
-                            }
+                            text: ''
                         },
-                        opposite: true
-                    }, { // Secondary yAxis
-                        gridLineWidth: 0,
-                        title: {
-                            text: '',
+                        stackLabels: {
+                            enabled: true,
                             style: {
-                                color: Highcharts.getOptions().colors[0]
-                            }
-                        },
-                        labels: {
-                            format: '{value} ',
-                            style: {
-                                color: Highcharts.getOptions().colors[0]
+                                fontWeight: 'bold',
+                                color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
                             }
                         }
-                    }, { // Tertiary yAxis
-                        gridLineWidth: 0,
-                        title: {
-                            text: '',
-                            style: {
-                                color: Highcharts.getOptions().colors[1]
-                            }
-                        },
-                        labels: {
-                            format: '{value} ',
-                            style: {
-                                color: Highcharts.getOptions().colors[1]
-                            }
-                        },
-                        opposite: true
-                    }],
+                    },
+                    //legend: {
+                    //    align: 'center',
+                    //    x: -15,
+                    //    verticalAlign: 'bottom',
+                    //    y: -5,
+                    //    floating: true,
+                    //    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                    //    borderColor: '#CCC',
+                    //    borderWidth: 1,
+                    //    shadow: false
+                    //},
                     tooltip: {
-                        shared: true
+                        formatter: function () {
+                            return '<b>' + this.x + '</b><br/>' +
+                                this.series.name + ': ' + this.y + '<br/>' +
+                                '总量: ' + this.point.stackTotal;
+                        }
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white',
+                                style: {
+                                    textShadow: '0 0 3px black'
+                                }
+                            }
+                        }
                     },
                     series: [{
-                        type: 'column',
-                        yAxis: 2,
-                        name: '实际发运（套）',
-                        data: real_num,
-                        tooltip: {
-                            valueSuffix: ' 套'
-                        }
+                       
+                        name: '超时',
+                        data: overcycle_num,
+                        
                     },
                              {
-                                 name: '实际生产（套）',
-                                 data: real_pro_num,
-                                 type: 'column',
-                                 yAxis: 2,
-                                 tooltip: {
-                                     valueSuffix: ' 套'
-                                 }
+                                 name: '质量',
+                                 data: quality_num,
+                                 
                              }, {
-                                 type: 'column',
-                                 yAxis: 2,
-                                 name: '生产线1完成订单数',
-                                 data: line1_finish_num,
-                             }, {
-                                 type: 'column',
-                                 yAxis: 2,
-                                 name: '生产线2完成订单数',
-                                 data: line2_finish_num
-                             }, {
-                                 type: 'column',
-                                 yAxis: 2,
-                                 name: '生产线3完成订单数',
-                                 data: line3_finish_num
-                             },
+                                 
+                                 name: '维修',
+                                 data: maintenance_num,
+                             }, 
                              {
-                                 type: 'column',
-                                 yAxis: 2,
-                                 name: '生产线4完成订单数',
-                                 data: line4_finish_num
-                             },
-                             {
-                                 name: '客户需求(套)',
-                                 type: 'line',
-                                 yAxis: 1,
-                                 data: customer_num,
-                                 tooltip: {
-                                     valueSuffix: ' 套'
-                                 }
+                                 name: '生产',
+                                
+                                 data: production_num,
+                                 
                              }, {
-                                 name: '计划生产（套）',
-                                 type: 'line',
-                                 yAxis: 1,
-                                 data: plan_pro_num,
-                                 marker: {
-                                     enabled: false
-                                 },
-                                 tooltip: {
-                                     valueSuffix: ' 套'
-                                 }
+                                 name: '物料',
+                                 
+                                 data: material_num,
+                                
                              }
                     ]
                 });
+                var date_time = $('#start_time').datetimebox('getValue');
+                var material_sum= compute("material_num");
+                var production_sum = compute("production_num");
+                var maintenance_sum = compute("maintenance_num");
+
+                var quality_sum  = compute("quality_num");
+                var overcycle_sum = compute("overcycle_num");
+                material_sum = JSON.parse('[' + material_sum + ']');
+                production_sum = JSON.parse('[' + production_sum + ']');
+                maintenance_sum = JSON.parse('[' + maintenance_sum + ']');
+                quality_sum = JSON.parse('[' + quality_sum + ']');
+                overcycle_sum = JSON.parse('[' + overcycle_sum + ']');
+                $('#downright_container').highcharts({
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: '生产线MES报警数据分析'
+                    },
+                    subtitle: {
+                        text: 'Production Line MES Alarm Data Anlaysis'
+                    },
+                    xAxis: {
+                        categories: [],
+                        gridLineWidth: 0,
+                        title: {
+                            text: date_time
+                        }
+                    },
+                    yAxis: {
+                        gridLineWidth: 0,
+                        title: {
+                            text: '报警',
+                            align: 'high'
+                        },
+                    },
+                    tooltip: {
+                        valueSuffix: ' '
+                    },
+                    plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true,
+                                allowOverlap: false
+                            }
+                        }
+                    },
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom',
+                        floating: true,
+                        borderWidth: 0,
+                        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                        shadow: false
+                    },
+                    credits: {
+                        enabled: false
+                    },
+                    series: [{
+                        name: '质量',
+                        data: quality_sum
+                    },
+                             {
+                                 name: '维修',
+                                 data: maintenance_sum
+                             },
+                             {
+                                 name: '生产',
+                                 data: production_sum
+                             },
+                             {
+                                 name: '物料',
+                                 data: material_sum
+                             }]
+                });
+
 
             }
 

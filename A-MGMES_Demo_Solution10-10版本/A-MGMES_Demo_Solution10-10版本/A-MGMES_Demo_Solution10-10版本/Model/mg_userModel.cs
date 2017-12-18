@@ -25,7 +25,12 @@ namespace Model
         private string _machineno;
         private int? _gongwei;
         private string _st_no;
-
+        private string _user_NewPassword;
+        public string user_NewPassword
+        {
+            get { return _user_NewPassword; }
+            set { _user_NewPassword = value; }
+        }
         public string st_no
         {
             get { return _st_no; }
