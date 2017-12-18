@@ -140,7 +140,7 @@ namespace website.HttpHandlers
             HttpRequest request = HttpContext.Current.Request;
             string StartTime = request.Params["StartTime"];
             string EndTime = request.Params["EndTime"];
-            string sql = "select distinct  REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') as OrderNo from mg_Test_Part_Record a where(a.CreateTime > '" + StartTime + "' and a.CreateTime < '" + EndTime + "') order by OrderNo";
+            string sql = "select distinct  REPLACE(a.OrderNo, CHAR(13) + CHAR(10), '') as OrderNo from mg_Test_Part_Record a where a.CreateTime >'"+ StartTime +"'  and a.CreateTime < '"+ EndTime +"' order by OrderNo";
 
             DataTable ResTable1 = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             string json = FunCommon.DataTableToJson(ResTable1);

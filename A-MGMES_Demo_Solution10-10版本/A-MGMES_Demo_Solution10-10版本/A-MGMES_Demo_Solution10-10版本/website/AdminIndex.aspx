@@ -341,16 +341,17 @@
                                 success: function (data) {
                                     var ahtml = '<ul  class="second">';
                                     $.each(data, function (i, n) {
+
                                         ahtml += '<li url="' + n.MenuAddr + '"><img src="' + n.Image + '" /><a>' + n.MenuName + '</a></li>';
 
                                     });
                                     ahtml += '</ul>';
-                                    //alert(ahtml);            
+                                              
                                     $('ul[name=' + title + ']').append(ahtml);
                                     var lis = $(' .first .second li');
 
                                     lis.click(function () {
-
+                                        
                                         showTab(this);
 
                                     });
@@ -385,7 +386,11 @@
 
             var hasShow = false;
 
-
+            if (title == "退出系统")
+            {
+                
+                window.location = "AdminLogin.aspx"
+            }
             if (url != null && url != '') {
 
                 if (tabIndexArr.length > 0) {

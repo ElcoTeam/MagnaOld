@@ -31,7 +31,7 @@ namespace Dal
                 else
                 {
 
-                    string sql1 = @"select MenuNo,MenuName,MenuAddr,ParentNo,MenuTag,Image from View_Sys_UserLimitInfo  where ParentNo in (select MenuNo from Sys_Menu where MenuName='{0}' and ParentNo='0000')  and user_name= '" + currentuser + "'";     
+                    string sql1 = @"select MenuNo,MenuName,MenuAddr,ParentNo,MenuTag,Image from View_Sys_UserLimitInfo  where ParentNo in (select MenuNo from Sys_MenuInfo where MenuName='{0}' and ParentNo='0000')  and user_name= '" + currentuser + "'";     
                     sql = string.Format(sql1, menutitle);
                 }
 
@@ -66,7 +66,7 @@ namespace Dal
             using (var conn = new SqlConnection(SqlHelper.SqlConnString))
             {
 
-                sql = "select MenuNo,MenuName,ParentNo from Sys_Menu where ParentNo='0000'";
+                sql = "select MenuNo,MenuName,ParentNo from Sys_MenuInfo where ParentNo='0000'";
                
                 DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
                 foreach (DataRow row in dt.Rows)
@@ -77,7 +77,7 @@ namespace Dal
                     model.text = DataHelper.GetCellDataToStr(row, "MenuName");
                     model.state = "closed";
                    
-                    string childrensql = @"select MenuNo,MenuName,ParentNo from Sys_Menu where ParentNo={0}";
+                    string childrensql = @"select MenuNo,MenuName,ParentNo from Sys_MenuInfo where ParentNo={0}";
                     DataTable childrendt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text,string.Format(childrensql,model.id), null);
                     foreach (DataRow childrenrow in childrendt.Rows)
                     {

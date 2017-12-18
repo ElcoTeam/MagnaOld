@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -174,4 +175,6 @@ public partial class AdminCMS_AdminIndex : System.Web.UI.Page
         this.Response.Redirect("/AdminIndex.aspx");
         this.Response.End();
     }
+
+    
 }
