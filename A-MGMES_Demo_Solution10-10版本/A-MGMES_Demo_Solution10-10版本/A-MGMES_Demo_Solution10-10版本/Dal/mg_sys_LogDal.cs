@@ -119,7 +119,7 @@ namespace Dal
 
         }
         #region 获取
-        public static List<mg_sys_log> getTorqueAndAngleInfo(string fl_id, string st_no, string part_no)
+        public static List<mg_sys_log> getTorqueAndAngleInfo(string fl_id, string st_no, string part_no, string starttime, string endtime)
         {
             List<mg_sys_log> result = new List<mg_sys_log>();
 
@@ -140,6 +140,13 @@ namespace Dal
             {
                 sql.Append(" and part_no=@part_no");
                 parameters.Add(new SqlParameter("@part_no", SqlDbType.NVarChar) { Value = part_no });
+            }
+            //时间条件查询
+            if (!string.IsNullOrEmpty(starttime) && !string.IsNullOrEmpty(endtime))
+            {
+                sql.Append(" and step_startTime >=@starttime and step_endTime<=@endtime");
+                parameters.Add(new SqlParameter("@starttime", SqlDbType.NVarChar) { Value = starttime });
+                parameters.Add(new SqlParameter("@endtime", SqlDbType.NVarChar) { Value = endtime });
             }
             sql.Append(" order by step_startTime,or_no,fl_name, st_no, part_no, step");
             DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql.ToString(), parameters.ToArray());

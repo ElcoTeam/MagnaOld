@@ -26,9 +26,9 @@ namespace Bll
         {
             return mg_sys_LogDal.getList(Pagesize, StartIndex, EndIndex, SortFlag, sortOrder, wherestr,out total);
         }
-        public static string getTorqueAndAngleInfo(string fl_id, string st_no, string part_no)
+        public static string getTorqueAndAngleInfo(string fl_id, string st_no, string part_no,string starttime, string endtime)
         {
-            List<mg_sys_log> result = mg_sys_LogDal.getTorqueAndAngleInfo(fl_id, st_no, part_no);
+            List<mg_sys_log> result = mg_sys_LogDal.getTorqueAndAngleInfo(fl_id, st_no, part_no, starttime, endtime);
 
             return JSONTools.ScriptSerialize<List<mg_sys_log>>(result);
 
