@@ -27,7 +27,7 @@
         }
     </style>
      
-    
+    <script src="../My97DatePicker/WdatePicker.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="top">
@@ -93,13 +93,15 @@
                             <li>
                                 <span>开始时间</span>
                                 <div>
-                                    <input id="start_time" class="easyui-datetimebox" data-options="showSeconds:false"/>
+                                    <%--<input id="start_time" class="easyui-datetimebox" data-options="showSeconds:false"/>--%>
+                                    <input id="start_time"  type="text" onclick="WdatePicker()" class="Wdate" style="height:25px;" />
                                 </div>
                             </li>
                             <li>
                                 <span>结束时间</span>
                                 <div>
-                                    <input id="end_time" class="easyui-datetimebox" data-options="showSeconds:false"/>
+                                    <%--<input id="end_time" class="easyui-datetimebox" data-options="showSeconds:false"/>--%>
+                                    <input id="end_time"  type="text" onclick="WdatePicker()" class="Wdate" style="height:25px;" />
                                 </div>
                             </li>
                             <li>
@@ -180,8 +182,8 @@
             var st_no = $('#st_no_s').combo('getValue');
             var part_no = $('#part_id_s').combo('getValue');
             var chart_Type = $('#data_type').combo('getValue');
-            var starttime = $('#start_time').datetimebox('getValue');
-            var endtime = $('#end_time').datetimebox('getValue');
+            var starttime = $('#start_time').val().trim();;
+            var endtime = $('#end_time').val().trim();;
 
             $.ajax({
                 type: 'get',
