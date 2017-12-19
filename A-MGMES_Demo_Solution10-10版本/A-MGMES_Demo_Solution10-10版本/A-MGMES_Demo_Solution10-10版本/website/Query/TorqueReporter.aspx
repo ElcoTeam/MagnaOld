@@ -6,7 +6,7 @@
     <script src="/js/jquery-easyui-1.4.3/datagrid-dnd.js"></script>
     <script src="/js/jquery-easyui-1.4.3/jquery.edatagrid.js"></script>
     <style>
-        html, body, #aspnetForm, .panel-noscroll {
+        html, body, #aspnetForm, .panel-noscroll{
             height: 100%;
         }
 
@@ -22,7 +22,12 @@
             width: 80px;
             background-color: #f9f9f9;
         }
+        .calendar-day {
+	        height:auto!important;
+        }
     </style>
+     
+    
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="top">
@@ -64,7 +69,7 @@
                             <li>
                                 <span>流水线</span>
                                 <div>
-                                    <select id="fl_id_s" class="easyui-combobox" style="width: 200px; height: 25px;"
+                                    <select id="fl_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
                                       data-options="valueField: 'fl_id',textField: 'fl_name',onChange:function(){reloadst_no_s();}">
                                     </select>
                                 </div>
@@ -72,7 +77,7 @@
                             <li>
                                 <span>工位</span>
                                 <div>
-                                    <select id="st_no_s" class="easyui-combobox" style="width: 200px; height: 25px;"
+                                    <select id="st_no_s" class="easyui-combobox" style="width: 150px; height: 25px;"
                                        data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
                                     </select>
                                 </div>
@@ -80,14 +85,26 @@
                             <li>
                                 <span>部件</span>
                                 <div>
-                                    <select id="part_id_s" class="easyui-combobox" style="width: 250px; height: 25px;"
+                                    <select id="part_id_s" class="easyui-combobox" style="width: 200px; height: 25px;"
                                         data-options="valueField: 'part_no',textField: 'part_no'">
                                     </select>
                                 </div>
                             </li>
                             <li>
+                                <span>开始时间</span>
                                 <div>
-                                    <select id="data_type" class="easyui-combobox" style="width: 250px; height: 25px;"
+                                    <input id="start_time" class="easyui-datetimebox" data-options="showSeconds:false"/>
+                                </div>
+                            </li>
+                            <li>
+                                <span>结束时间</span>
+                                <div>
+                                    <input id="end_time" class="easyui-datetimebox" data-options="showSeconds:false"/>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <select id="data_type" class="easyui-combobox" style="width: 100px; height: 25px;"
                                         data-options="valueField: 'type_name',textField: 'type_name',onChange:function(){loadChart();}">
                                         <option value="扭矩" selected>扭矩</option>
                                         <option value="角度">角度</option>
@@ -124,6 +141,8 @@
         });
 
         $(function () {
+            //$('#start_time').datetimebox('setValue', Date.now.toString());
+            //$('#end_time').datetimebox('setValue', Date.now.toString());
             require(
 							[
 									'echarts',
@@ -161,10 +180,13 @@
             var st_no = $('#st_no_s').combo('getValue');
             var part_no = $('#part_id_s').combo('getValue');
             var chart_Type = $('#data_type').combo('getValue');
+            var starttime = $('#start_time').datetimebox('getValue');
+            var endtime = $('#end_time').datetimebox('getValue');
+
             $.ajax({
                 type: 'get',
                 url: '/HttpHandlers/TorqueReporterHandler.ashx',
-                data: { fl_id: fl_id, st_no: st_no, part_no: part_no },
+                data: { fl_id: fl_id, st_no: st_no, part_no: part_no,starttime: starttime, endtime: endtime },
                 dataType: 'json',
                 cache: false,
                 success: function (data) {

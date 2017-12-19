@@ -112,7 +112,8 @@ namespace website.HttpHandlers
         }
         void Select()
         {
-            string a = mg_sys_logBll.getTorqueAndAngleInfo(RequstString("fl_id"), RequstString("st_no"), RequstString("part_no"));
+            string a = mg_sys_logBll.getTorqueAndAngleInfo(RequstString("fl_id"), RequstString("st_no"), RequstString("part_no"),
+                RequstString("starttime"), RequstString("endtime"));
             Response.Write(a);
             Response.End();
         }
