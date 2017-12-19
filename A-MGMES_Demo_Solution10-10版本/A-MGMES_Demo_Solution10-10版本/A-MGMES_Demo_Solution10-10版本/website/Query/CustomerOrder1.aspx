@@ -178,7 +178,8 @@
 					{ field: 'CustomerNumber', title: 'CustomerNumber', width: 200, align: "center",hidden:true },
 					{ field: 'JITCallNumber', title: 'JITCallNumber', width: 200, align: "center" },
 					{ field: 'SerialNumber', title: 'SerialNumber', width: 200, align: "center" },
-					{ field: 'SerialNumber_MES', title: 'SerialNumber_MES', width: 200, align: "center" },
+					{ field: 'SerialNumber_MES', title: 'SerialNumber_MES', width: 200, align: "center", hidden: true },
+                    { field: 'MES_ORDER', title: 'SerialNumber_MES', width: 200, align: "center" },
 					{ field: 'VinNumber', title: 'VinNumber', width: 200, align: "center" },
 					{
 					    field: 'PlanDeliverTime', title: 'PlanDeliverTime', width: 200, align: "center",

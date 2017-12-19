@@ -25,12 +25,39 @@ namespace DAL
                 sortOrder = "asc";
             }
             StringBuilder commandText = new StringBuilder();
-            commandText.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            string str = @"select 
+a.OrderID,
+a.CustomerNumber,
+a.JITCallNumber,
+a.SerialNumber,
+a.SerialNumber_MES,
+a.VinNumber,
+a.PlanDeliverTime,
+a.CreateTime,
+case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,
+case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发'
+ when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,
+ LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,
+ a.OrderIsHistory 
+ ,mg_FlowLine1.flowflag+mg_part1.part_no+substring(convert(char(8),a.CreateTime,112),3,6)+convert(varchar(10),a.SerialNumber_MES) as MES_ORDER
+ from mg_CustomerOrder_3 a 
+left join mg_Customer_Product b
+ on b.CustomerOrderID = a.OrderID 
+ left join mg_Product c 
+ on c.ID = b.ProductID 
+
+ left join mg_PartOrder mg_PartOrder1 on  mg_PartOrder1.CustomerProductID = b.ID
+ left join mg_part mg_part1 on mg_PartOrder1.PartID = mg_part1.part_id
+ left join mg_FlowLine  mg_FlowLine1 on mg_part1.FlowLineID = mg_FlowLine1.fl_id
+ where c.ProductType = 1  ";
+            //commandText.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            commandText.Append(str);
             commandText.Append(wherestr);//这里修改条件语句
             commandText.Append(" order by a."+SortFlag+" "+ sortOrder);
             string query_sql = commandText.ToString();
             StringBuilder commandText1 = new StringBuilder();
-            commandText1.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            //commandText1.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when a.OrderType = 1 then 'DelJit订单' when a.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when a.OrderState = 1 then '未拆分' when a.OrderState = 2 then '未下发' when a.OrderState = 3 then '已下发' when a.OrderState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
+            commandText1.Append(str);
             commandText1.Append(wherestr);//这里修改条件语句
             string count_sql = "select count(*) as total from  (" + commandText1.ToString() + " ) result ";
            

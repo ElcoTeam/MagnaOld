@@ -47,23 +47,24 @@ namespace website.HttpHandlers
         public void Export(HttpContext context)
         {
             string date_time = context.Request["date_time"];
-            
+
             int PageSize = Convert.ToInt32(context.Request["rows"]);
             int PageIndex = Convert.ToInt32(context.Request["page"]);
 
             StringBuilder commandText = new StringBuilder();
             string where = "";
 
-            if(string.IsNullOrEmpty(date_time))
+            if (string.IsNullOrEmpty(date_time))
             {
-                date_time = new DateTime().ToShortDateString();
+                DateTime t = DateTime.Now;
+                date_time = t.ToString("yyyy-MM-dd hh:mm:ss");
             }
-            string StartTime = date_time.Substring(0, 10) + "00:00:00";
-            string EndTime = date_time.Substring(0, 10) + "23:59:59";
-            where += " and product_date>='" + StartTime + "'";
-            where += " and product_date<='" + EndTime + "'";
-                
-               
+            string StartTime = date_time.Substring(0, 10) + " 00:00:00";
+            string EndTime = date_time.Substring(0, 10) + " 23:59:59";
+            where += " and [AlarmStartTime]>='" + StartTime + "'";
+            where += " and [AlarmEndTime]<='" + EndTime + "'";
+
+
 
             string sidx = RequstString("sidx");    //排序名称
             string sort = RequstString("sord");    //排序方式

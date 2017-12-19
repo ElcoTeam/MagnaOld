@@ -14,7 +14,7 @@ namespace Bll
         public static DataListModel<Production_AlarmModel> GetList(int page, int pagesize, string sidx, string sord, string Where)
         {
             string jsonStr = "[]";
-            DataListModel<Production_AlarmModel> userList = Production_AlarmModelDAL.GetList(page, pagesize, sidx, sord, Where);
+            DataListModel<Production_AlarmModel> userList = Production_AlarmTrendDAL.GetList(page, pagesize, sidx, sord, Where);
             return userList;
             //List<UserM_Menu> menuList = UserM_MenuDAL.GetUserMenuList();
             //jsonStr = JSONTools.ScriptSerialize<DataListModel<Production_Model>>(userList);
@@ -23,7 +23,7 @@ namespace Bll
        
         public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int totalcount)
         {
-            return Production_AlarmModelDAL.getTable(PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
+            return Production_AlarmTrendDAL.getTable(PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
         }
     }
 }

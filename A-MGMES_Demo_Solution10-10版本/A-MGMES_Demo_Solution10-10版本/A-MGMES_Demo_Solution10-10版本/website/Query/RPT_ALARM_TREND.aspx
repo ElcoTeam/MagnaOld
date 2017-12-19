@@ -18,19 +18,19 @@
  #left{width: 50%;float: left; background: #fff;}
 
  #right{width: 40%;float: left;background: #fff;}
-
+ .caption{align-content:center}
 </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <h2>生产线MES报警数据分析 - 趋势图</h2>
+   <div class="caption"> <h2>生产线MES报警数据分析 - 趋势图</h2>
     <h2>Production Line MES Alarm Data Anlaysis - Trend Chart</h2>
+    </div>
  <div class="top">
         <table cellpadding="0" cellspacing="0" style="width: 70%">
-            <tr>生产线报警报表</tr>
             <tr>
-                <td class="title"  >
+                <td class="title" style="width:120px" >
                     
-                        选择日期：<br />
+                        选择开始日期：<br />
                     Choose the Date
                     
                 </td>  
@@ -38,19 +38,17 @@
                     <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
                 
-                <td >
+                <td style="width: 120px">
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
-                 <td>  
+                 <td style="width: 120px">  
                   <input id="sub" type="submit"  value="导出Excel" hidden="hidden"/>
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
-                 <td>  
+                 <td style="width: 120px">  
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="print()">打印</a>
                 </td>
-                <td>  
-                  <span id="label_time"></span> 生产MES报警数据分析
-                </td>
+                
             </tr>
         </table>
 
@@ -113,7 +111,7 @@
                                 //    field: 'stationNo', title: 'Station\n\t工位', align: 'center',width:100,
                              
                                 //},
-                                { field: 'production_date', title: '生产日期', align: "center", width: 100, },
+                                { field: 'product_date', title: '生产日期', align: "center", width: 100, },
                                 { field: 'material_num', title: 'Material 物料', align: "center", width: 100, },
                                 { field: 'production_num', title: 'Production 生产', align: "center", width: 100, },
                                 { field: 'maintenance_num', title: 'Maintenance 维修', align: "center", width: 100, },
@@ -159,7 +157,7 @@
                 rows[0]["overcycle_num"] = compute("overcycle_num");
                 rows[0]["total_num"] = compute("total_num");
          
-                rows[0]["production_date"] = "summary";
+                rows[0]["product_date"] = "summary";
                 $('#gridTable').datagrid('reloadFooter');
             }
            //获取所有列的值 
@@ -219,7 +217,7 @@
                 overcycle_num = JSON.parse('[' + overcycle_num + ']');
                 $('#upright_container').highcharts({
                     chart: {
-                        type:'column',
+                        type:'line',
                         zoomType: 'xy'
                     },
                     title: {
@@ -310,62 +308,66 @@
 
                 var quality_sum  = compute("quality_num");
                 var overcycle_sum = compute("overcycle_num");
-                material_sum = JSON.parse('[' + material_sum + ']');
-                production_sum = JSON.parse('[' + production_sum + ']');
-                maintenance_sum = JSON.parse('[' + maintenance_sum + ']');
-                quality_sum = JSON.parse('[' + quality_sum + ']');
-                overcycle_sum = JSON.parse('[' + overcycle_sum + ']');
-                $('#downright_container').highcharts({
+                var total_sum = compute("total_num");
+                if (total_sum > 0) {
+                    material_sum = material_sum*100.0/total_sum ;
+                    production_sum = production_sum*100.0/total_sum ;
+                    maintenance_sum =  maintenance_sum*100.0/total_sum ;
+                    quality_sum = quality_sum * 100.0 / total_sum;
+                    overcycle_sum = overcycle_sum * 100.0 / total_sum;
+                }
+                $('#downright_container').highcharts(
+                    {
                     chart: {
-                        type: 'bar'
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        spacing: [100, 0, 40, 0]
                     },
                     title: {
-                        text: '生产线MES报警数据分析-趋势图'
-                    },
-                    subtitle: {
-                        text: 'Production Line MES Alarm Data Anlaysis-Trend Chart'
-                    },
-                    xAxis: {
-                        categories: [],
-                        gridLineWidth: 0,
-                        title: {
-                            text: date_time
-                        }
-                    },
-                    yAxis: {
-                        gridLineWidth: 0,
-                        title: {
-                            text: '报警',
-                            align: 'high'
-                        },
+                        floating: true,
+                        text: '圆心显示的标题'
                     },
                     tooltip: {
-                        valueSuffix: ' '
+                        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                     },
                     plotOptions: {
-                        bar: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
                             dataLabels: {
                                 enabled: true,
-                                allowOverlap: false
-                            }
+                                format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                                style: {
+                                    color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                }
+                            },
+                            point: {
+                                events: {
+                                    mouseOver: function (e) {  // 鼠标滑过时动态更新标题
+                                        // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                        chart.setTitle({
+                                            text: e.target.name + '\t' + e.target.y + ' %'
+                                        });
+                                    }
+                                    //, 
+                                    // click: function(e) { // 同样的可以在点击事件里处理
+                                    //     chart.setTitle({
+                                    //         text: e.point.name+ '\t'+ e.point.y + ' %'
+                                    //     });
+                                    // }
+                                }
+                            },
                         }
                     },
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom',
-                        floating: true,
-                        borderWidth: 0,
-                        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-                        shadow: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
                     series: [{
-                        name: '质量',
-                        data: quality_sum
-                    },
+                        type: 'pie',
+                        innerSize: '80%',
+                        name: '市场份额',
+                        data:[{
+                            name: '质量',
+                            data: quality_sum
+                        },
                              {
                                  name: '维修',
                                  data: maintenance_sum
@@ -378,6 +380,17 @@
                                  name: '物料',
                                  data: material_sum
                              }]
+                    }],
+                    },
+                function (c) {
+        // 环形图圆心
+        var centerY = c.series[0].center[1],
+            titleHeight = parseInt(c.title.styles.fontSize);
+                c.setTitle({
+                    y:centerY + titleHeight/2
+                });
+                chart = c;
+          
                 });
 
 
@@ -433,12 +446,12 @@
        
         function excelFor()
         {
-            Export('生产线报警报表', $('#gridTable'));
+            Export('生产线报警趋势报表', $('#gridTable'));
         }
         function print()
         {
             
-            CreateFormPage("生产线报警报表", $("#gridTable"));
+            CreateFormPage("生产线报警趋势报表", $("#gridTable"));
            
         }
     </script>

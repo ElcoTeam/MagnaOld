@@ -29,11 +29,11 @@ namespace website.HttpHandlers
             string where = "";
             if (!string.IsNullOrEmpty(OrderType))
             {
-                where += " and OrderType = " + OrderType + " ";
+                where += " and a.OrderType = " + OrderType + " ";
             }
            if (!string.IsNullOrEmpty(SerialNumber))
             {
-                where += "  and SerialNumber like '%" + SerialNumber + "%' ";
+                where += "  and a.SerialNumber like '%" + SerialNumber + "%' ";
             }
             
             string JsonStr ="";
