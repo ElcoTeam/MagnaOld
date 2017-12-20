@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.Data.SqlClient;
 using Tools;
 using DbUtility;
 using Model;
@@ -10,6 +11,74 @@ namespace Dal
 {
     public class Production_AlarmTrendDAL
     {
+        public  static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime)
+        {
+            List<Production_AlarmModel> modelList = new List<Production_AlarmModel>();
+            List<Production_AlarmModel> footerList = new List<Production_AlarmModel>();
+            DataListModel<Production_AlarmModel> modeldata = new DataListModel<Production_AlarmModel>();
+            int total=0;
+            SqlParameter[] sqlPara = new SqlParameter[2];
+                sqlPara[0] = new SqlParameter("@start_time", StartTime);
+                sqlPara[1] = new SqlParameter("@end_time", EndTime);
+            DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_AlarmTrend", sqlPara, new string[] { "data", "footer" });
+            if (DataHelper.HasData(ds))
+            {
+
+                DataTable dt2 = ds.Tables["data"];
+                total = dt2.Rows.Count;
+                DataTable footer = ds.Tables["footer"];
+                foreach (DataRow row in dt2.Rows)
+                {
+                    Production_AlarmModel model = new Production_AlarmModel();
+                    // model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                    // model.product_date = DataHelper.GetCellDataToStr(row, "product_date").Substring(0, 10);
+                    string strtest = DataHelper.GetCellDataToStr(row, "product_date");
+                    string str = DataHelper.GetCellDataToStr(row, "product_date").Split(' ')[0];
+                    if (str.Length > 0)
+                    {
+                        model.product_date = str;
+                    }
+                    else
+                    {
+                        model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                    }
+                    model.material_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "material_num"));
+                    model.production_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "production_num"));
+                    model.maintenance_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "maintenance_num"));
+                    model.quality_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "quality_num"));
+                    model.overcycle_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "overcycle_num"));
+                    model.total_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "total_num"));
+
+                    modelList.Add(model);
+                }
+                foreach (DataRow row in footer.Rows)
+                {
+                    Production_AlarmModel model = new Production_AlarmModel();
+                    //model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                    //model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                    model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                    model.material_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "material_num"));
+                    model.production_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "production_num"));
+                    model.maintenance_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "maintenance_num"));
+                    model.quality_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "quality_num"));
+                    model.overcycle_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "overcycle_num"));
+                    model.total_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "total_num"));
+                    footerList.Add(model);
+                }
+                DataListModel<Production_AlarmModel> allmodel = new DataListModel<Production_AlarmModel>();
+                allmodel.total = total.ToString();
+                allmodel.rows = modelList;
+                allmodel.footer = footerList;
+                return allmodel;
+
+            }
+            else
+            {
+                total = 0;
+                return null;
+            }
+
+        }
         public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int total)
         {
             string SortFlag = "";

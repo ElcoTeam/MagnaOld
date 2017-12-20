@@ -35,6 +35,9 @@ namespace website.HttpHandlers
                 case "GetList":
                     context.Response.Write(GetList(context));
                     break;
+                case "GetListNew":
+                    context.Response.Write(GetListNew(context));
+                    break;
                 case "Export":
                     Export(context);
                     break;
@@ -102,7 +105,42 @@ namespace website.HttpHandlers
             context.Response.ContentType = "json";
             context.Response.Write(json);
         }
-       
+        public string GetListNew(HttpContext context)
+        {
+            string date_time = context.Request["date_time"];
+
+            int PageSize = Convert.ToInt32(context.Request["rows"]);
+            int PageIndex = Convert.ToInt32(context.Request["page"]);
+
+            StringBuilder commandText = new StringBuilder();
+            string where = "";
+
+            if (string.IsNullOrEmpty(date_time))
+            {
+                DateTime t = DateTime.Now;
+                date_time = t.ToString("yyyy-MM-dd hh:mm:ss");
+            }
+            string StartTime = date_time.Substring(0, 10) + " 00:00:00";
+            string EndTime = date_time.Substring(0, 10) + " 23:59:59";
+            where += " and [AlarmStartTime]>='" + StartTime + "'";
+            where += " and [AlarmEndTime]<='" + EndTime + "'";
+
+
+
+            string sidx = RequstString("sidx");    //排序名称
+            string sort = RequstString("sord");    //排序方式
+            if ("-1" == sort)
+            {
+                sort = "id";
+            }
+            if ("-1" == order)
+            {
+                order = "asc";
+            }
+            DataListModel<Production_AlarmModel> userList = Production_AlarmDlyReport_BLL.GetListNew(StartTime,PageIndex, PageSize, sort, order, where);
+            string json = JSONTools.ScriptSerialize<DataListModel<Production_AlarmModel>>(userList);
+            return json;
+        }
         public string GetList(HttpContext context)
         {
             string date_time = context.Request["date_time"];

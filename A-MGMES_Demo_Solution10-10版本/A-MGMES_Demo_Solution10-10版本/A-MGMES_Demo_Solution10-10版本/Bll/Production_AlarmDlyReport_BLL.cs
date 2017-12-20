@@ -11,6 +11,15 @@ namespace Bll
 {
    public  class Production_AlarmDlyReport_BLL
     {
+       public static DataListModel<Production_AlarmModel> GetListNew(string startTime,int page, int pagesize, string sidx, string sord, string Where)
+       {
+           string jsonStr = "[]";
+           DataListModel<Production_AlarmModel> userList = Production_AlarmModelDAL.GetListNew(startTime,page, pagesize, sidx, sord, Where);
+           return userList;
+           //List<UserM_Menu> menuList = UserM_MenuDAL.GetUserMenuList();
+           //jsonStr = JSONTools.ScriptSerialize<DataListModel<Production_Model>>(userList);
+           //return jsonStr;
+       }
         public static DataListModel<Production_AlarmModel> GetList(int page, int pagesize, string sidx, string sord, string Where)
         {
             string jsonStr = "[]";

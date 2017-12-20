@@ -11,6 +11,13 @@ namespace Bll
 {
    public  class Production_AlarmTrendReport_BLL
     {
+       public static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime)
+       {
+           string jsonStr = "[]";
+           DataListModel<Production_AlarmModel> userList = Production_AlarmTrendDAL.GetListNew(StartTime,EndTime);
+           return userList;
+          
+       }
         public static DataListModel<Production_AlarmModel> GetList(int page, int pagesize, string sidx, string sord, string Where)
         {
             string jsonStr = "[]";

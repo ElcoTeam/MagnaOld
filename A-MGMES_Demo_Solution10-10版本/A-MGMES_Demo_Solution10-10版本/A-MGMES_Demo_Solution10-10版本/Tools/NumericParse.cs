@@ -95,6 +95,7 @@ namespace Tools
             }
             return null;
         }
+       
 
         public static DateTime StringToDateTime(string str, bool needCoverToNow)
         {

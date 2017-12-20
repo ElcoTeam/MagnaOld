@@ -15,56 +15,63 @@
     <script src="../js/highcharts/modules/exporting.js"></script>
     <style type="text/css">
 
- #left{width: 50%;float: left; background: #fff;}
+ #left{width: 50%;float: left; background: #ffffff;}
 
- #right{width: 40%;float: left;background: #fff;}
- .caption{align-content:center}
+ #right{width: 50%;float: left;background: #ffffff;}
+ 
 </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-   <div class="caption"> <h2>生产线MES报警数据分析 - 趋势图</h2>
-    <h2>Production Line MES Alarm Data Anlaysis - Trend Chart</h2>
-    </div>
- <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 70%">
+  <div id ="gridPanel">
+    <div id="printArea" class="printArea" closed="true"> 
+        <div id="left">
+        <div class="top">
+        <table cellpadding="0" cellspacing="0" style="width: 50%">
             <tr>
-                <td class="title" style="width:120px" >
+                <td class="title"  >
                     
-                        选择开始日期：<br />
-                    Choose the Date
+                        开始日期：<br />
+                    
                     
                 </td>  
                 <td style="width: 120px">
-                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
+                    <input id="start_time" class="easyui-datebox" data-options="required:true,showTime:false" />
                 </td>
-                
+                <td class="title"  >
+                    
+                        结束日期：<br />
+                    
+                    
+                </td>  
                 <td style="width: 120px">
+                    <input id="end_time" class="easyui-datebox" data-options="required:true,showTime:false" />
+                </td>
+                <td >
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
-                 <td style="width: 120px">  
+                 <td>  
                   <input id="sub" type="submit"  value="导出Excel" hidden="hidden"/>
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
-                 <td style="width: 120px">  
+                 <td>  
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="print()">打印</a>
                 </td>
-                
             </tr>
         </table>
 
     </div>
- <div id ="gridPanel">
-    <div id="printArea" class="printArea" closed="true"> 
-        <div id="left">
             <!-- 数据表格  -->
-            <table id="gridTable" title="生产线MES报警" style="width: 99%;">
+            <table id="gridTable"  style="width: 99%;">
             </table>
         </div>
         <div id="right" class="chart-Panel">
-              <div id="upright_container" style="width: 100%; height: 50%; text-align:center;  margin: 0 auto;border:1px">
+            <div id="label_time" style="width: 100%; font-size:14px;padding:5px;font-weight:700;color:#000000; text-align:center;margin: 0 auto;" >
+               
+            </div>
+              <div id="upright_container" style="width: 100%; height: 50%; text-align:center;padding:15px;  margin: 0 auto;border:1px">
 
               </div>
-              <div id="downright_container" style="width: 100%; height: 50%; text-align:center;  margin: 0 auto;border:1px">
+              <div id="downright_container" style="width: 100%; height: 50%; text-align:center; padding:15px; margin: 0 auto;border:1px">
            
               </div>
          </div>
@@ -79,7 +86,10 @@
         var queryParams;
         /****************       DOM加载          ***************/
         $(function () {
-            
+            var date_t = new Date();
+            var s_t = date_t.setMonth(date_t.getMonth()-1);
+            $("#start_time").datebox('setValue', s_t.toString());
+            $("#end_time").datebox('setValue', date_t.toDateString());
             $.ajaxSetup({
                 cache: false //关闭AJAX缓存
             });
@@ -95,34 +105,53 @@
         }
 
         function GetGrid() {
+            queryParams = {
+                start_time: $("#start_time").datebox('getValue'),
+                end_time: $("#end_time").datebox('getValue'),
+            }
             var col = $('#gridTable').width();
                 dg = $('#gridTable').datagrid({
                     fitColumns: true,
                     nowrap: false,
                     striped: true,
                     collapsible: false,
-                    url: '/HttpHandlers/RPT_ALARM_TREND.ashx?method=GetList',
+                    url: '/HttpHandlers/RPT_ALARM_TREND.ashx?method=GetListNew',
                     showFooter:true,
                     sortName: 'stationNo',
                     sortOrder: 'asc',
+                    queryParams:queryParams,
                     columns: [[
                                 { field: 'id', title: '序号', align:'center' ,width:100,hidden:true},
                                 //{
                                 //    field: 'stationNo', title: 'Station\n\t工位', align: 'center',width:100,
                              
                                 //},
-                                { field: 'product_date', title: '生产日期', align: "center", width: 100, },
-                                { field: 'material_num', title: 'Material 物料', align: "center", width: 100, },
-                                { field: 'production_num', title: 'Production 生产', align: "center", width: 100, },
-                                { field: 'maintenance_num', title: 'Maintenance 维修', align: "center", width: 100, },
+                                {
+                                    field: 'product_date', title: '生产日期', align: "center", width: 100,
+                                    
+                                },
+                                {
+                                    field: 'material_num', title: 'Material 物料', align: "center", width: 100,
+                                    styler: setMaterial_Styler,
+                                },
+                                {
+                                    field: 'production_num', title: 'Production 生产', align: "center", width: 100,
+                                    styler: setProduction_Styler,
+                                },
+                                {
+                                    field: 'maintenance_num', title: 'Maintenance 维修', align: "center", width: 100,
+                                    styler: setMaintenance_Styler,
+                                },
                                 {
                                     field: 'quality_num', title: 'Quality 质量',  align: "center",width:100,
-                                   
+                                    styler: setQuality_Styler,
                                 },
-                                { field: 'overcycle_num', title: 'Overcycle 超时', align: "center", width: 100, },
+                                {
+                                    field: 'overcycle_num', title: 'Overcycle 超时', align: "center", width: 100,
+                                },
                                 {
                                     field: 'total_num', title: 'Total 总计', align: "center", width: 100,
-                                    
+                                    styler: setTotal_Styler,
                                 },
                                
                     ]],
@@ -136,9 +165,6 @@
                     pageList: [30, 60, 90],
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
                         console.log(data);
-                       
-                       
-                        
                         sumPrice();
                         paint();
                     }
@@ -199,8 +225,20 @@
 
 
             function paint() {
-                //横轴坐标 小时代号
-                var x_categories = getCol('production_date', false, '');
+                //高度设置
+                var lheight = $("#left").height();
+                $("#right").height(lheight);
+                var theight = $(".top").height();
+                $("#lable_time").height(theight);
+                $('#upright_container').height((lheight - theight - 30) * 0.5);
+                $('#downright_container').height((lheight - theight - 30) * 0.45);
+                var date_time = $('#start_time').datebox('getValue');
+                var end_time = $('#end_time').datebox('getValue');
+                date_time = date_time.substr(0, 10);
+                end_time = end_time.toString("yyyy-MM-dd").substr(0, 10);
+                $("#label_time").html(date_time + " - "+end_time+" 趋势图");
+                //横轴坐标 
+                var x_categories = getCol('product_date', false, '');
 
                 var material_num = getCol('material_num', false, '');
                 var production_num = getCol('production_num', false, '');
@@ -218,7 +256,9 @@
                 $('#upright_container').highcharts({
                     chart: {
                         type:'line',
-                        zoomType: 'xy'
+                        zoomType: 'xy',
+                        borderColor: '#EBBA95',
+                        borderWidth: 2,
                     },
                     title: {
                         text: '生产线MES报警数据分析-趋势图'
@@ -318,15 +358,17 @@
                 }
                 $('#downright_container').highcharts(
                     {
-                    chart: {
-                        plotBackgroundColor: null,
+                        chart: {
+                            borderColor: '#EBBA95',
+                            borderWidth: 2,
+                        plotBackgroundColor:null,
                         plotBorderWidth: null,
                         plotShadow: false,
-                        spacing: [100, 0, 40, 0]
+                        spacing: [0, 0, 0, 0]
                     },
                     title: {
                         floating: true,
-                        text: '圆心显示的标题'
+                        text: '报警数据分析'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -340,8 +382,12 @@
                                 format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                                 style: {
                                     color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                                }
+                                },
+                                
+
+                               
                             },
+                            showInLegend:true,
                             point: {
                                 events: {
                                     mouseOver: function (e) {  // 鼠标滑过时动态更新标题
@@ -363,22 +409,22 @@
                     series: [{
                         type: 'pie',
                         innerSize: '80%',
-                        name: '市场份额',
+                        name: '报警比例',
                         data:[{
                             name: '质量',
-                            data: quality_sum
+                            y: quality_sum
                         },
                              {
                                  name: '维修',
-                                 data: maintenance_sum
+                                 y: maintenance_sum
                              },
                              {
                                  name: '生产',
-                                 data: production_sum
+                                 y: production_sum
                              },
                              {
                                  name: '物料',
-                                 data: material_sum
+                                 y: material_sum
                              }]
                     }],
                     },
@@ -426,7 +472,83 @@
             
             });
 
-       
+            function setMaterial_Styler(value, row, index) {
+
+                if (value == 0) {
+                    return 'background-color:green;';
+                }
+                else if (value >= 1) {
+                    return 'background-color:#ff0000;';//红色
+                }
+
+            }
+            function setProduction_Styler(value, row, index) {
+
+                if (value == 0) {
+                    return 'background-color:green;';
+                }
+                else if (value >= 1) {
+                    return 'background-color:#ff0000;';//红色
+                }
+
+            }
+            function setMaintenance_Styler(value, row, index) {
+
+                if (value == 0) {
+                    return 'background-color:green;';
+                }
+                else if (value == 1) {
+                    return 'background-color:#ffff99;';
+                }
+                else if (value == 2) {
+                    return 'background-color:#ffcc66;';
+                }
+                else if (value == 3) {
+                    return 'background-color:#e26b0a;';
+                }
+                else if (value > 3) {
+                    return 'background-color:#ff0000;';
+                }
+
+            }
+            function setQuality_Styler(value, row, index) {
+
+                if (value == 0) {
+                    return 'background-color:green;';
+                }
+                else if (value == 1) {
+                    return 'background-color:#ffff99;';
+                }
+                else if (value == 2) {
+                    return 'background-color:#ffcc66;';
+                }
+                else if (value == 3) {
+                    return 'background-color:#e26b0a;';
+                }
+                else if (value > 3) {
+                    return 'background-color:#ff0000;';
+                }
+
+            }
+            function setTotal_Styler(value, row, index) {
+
+                if (value == 0) {
+                    return 'background-color:green;';
+                }
+                else if (value == 1) {
+                    return 'background-color:#ffff99;';
+                }
+                else if (value == 2) {
+                    return 'background-color:#ffcc66;';
+                }
+                else if (value == 3) {
+                    return 'background-color:#e26b0a;';
+                }
+                else if (value > 3) {
+                    return 'background-color:#ff0000;';
+                }
+
+            }
         //格式化时间字符串
         function data_string(str) {
             var d = eval('new ' + str.substr(1, str.length - 2));
@@ -439,9 +561,10 @@
         //查询业务
         function searchName() {
            
-            var date_time = $('#start_time').datetimebox('getValue');
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
            
-            $('#gridTable').datagrid('reload', { method: "GetList", date_time:date_time});
+            $('#gridTable').datagrid('reload', { method: "GetList", start_time:start_time,end_time:end_time});
         }
        
         function excelFor()

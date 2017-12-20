@@ -28,7 +28,7 @@ namespace Model
         /// <summary>
         /// 
         /// </summary>
-        public String product_date
+        public string product_date
         {
             set { _product_date = value; }
             get { return _product_date; }
