@@ -30,9 +30,9 @@ namespace Bll
             //return jsonStr;
         }
        
-        public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int totalcount)
+        public static DataTable getTable(string date_time,int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int totalcount)
         {
-            return Production_AlarmModelDAL.getTable(PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
+            return Production_AlarmModelDAL.getTable( date_time,PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
         }
     }
 }

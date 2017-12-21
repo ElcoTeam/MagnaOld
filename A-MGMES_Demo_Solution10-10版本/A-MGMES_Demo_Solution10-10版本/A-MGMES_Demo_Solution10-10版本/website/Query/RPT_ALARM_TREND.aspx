@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/AdminMasterPage.master"  AutoEventWireup="true" CodeBehind="RPT_ALARM_TREND.aspx.cs" Inherits="website.Query.RPT_ALARM_DLY" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/AdminMasterPage.master"  AutoEventWireup="true" CodeBehind="RPT_ALARM_TREND.aspx.cs" Inherits="website.Query.RPT_ALARM_TREND" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     
 	<link href="/js/uploadify/uploadify.css" rel="stylesheet" />
@@ -22,6 +22,7 @@
 </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
   <div id ="gridPanel">
     <div id="printArea" class="printArea" closed="true"> 
         <div id="left">
@@ -50,7 +51,7 @@
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
                  <td>  
-                  <input id="sub" type="submit"  value="导出Excel" hidden="hidden"/>
+                  
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
                  <td>  
@@ -163,7 +164,9 @@
                     
                     pageSize: 30,
                     pageList: [30, 60, 90],
+                    //loader: myLoader, //前端分页加载函数  
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
+                       // $("#gridTable").data().datagrid.cache = null;//清除datagrid 缓存，保证前台假分页；  
                         console.log(data);
                         sumPrice();
                         paint();
@@ -171,7 +174,50 @@
 
                 });
 
-            }
+        }
+        //实现假分页  
+function myLoader(param, success, error) {  
+    var that = $(this);  
+    var opts = that.datagrid("options");  
+    if (!opts.url) {  
+        return false;  
+    }  
+    var cache = that.data().datagrid.cache;  
+    if (!cache) {  
+        $.ajax({  
+                    type: opts.method,  
+                    url: opts.url,  
+                    data: param,  
+                    dataType: "json",  
+                    success: function (data) {  
+                        that.data().datagrid['cache'] = data;  
+                        success(bulidData(data));  
+                    },  
+                    error: function () {  
+                        error.apply(this, arguments);  
+                    }  
+                });  
+    } else {  
+        success(bulidData(cache));  
+    }  
+  
+    function bulidData(data) {  
+        var temp = $.extend({}, data);  
+        var tempRows = [];  
+        var start = (param.page - 1) * parseInt(param.rows);  
+        var end = start + parseInt(param.rows);  
+        var rows = data.rows;  
+        for (var i = start; i < end; i++) {  
+            if (rows[i]) {  
+                tempRows.push(rows[i]);  
+            } else {  
+                break;  
+            }  
+        }  
+        temp.rows = tempRows;  
+        return temp;  
+    }  
+    }  
             function sumPrice() {
                 //添加“合计”列
                 var rows = $('#gridTable').datagrid('getFooterRows');
@@ -353,8 +399,8 @@
                     material_sum = material_sum*100.0/total_sum ;
                     production_sum = production_sum*100.0/total_sum ;
                     maintenance_sum =  maintenance_sum*100.0/total_sum ;
-                    quality_sum = quality_sum * 100.0 / total_sum;
-                    overcycle_sum = overcycle_sum * 100.0 / total_sum;
+                    quality_sum = quality_sum * 100.0 /total_sum;
+                    overcycle_sum = overcycle_sum * 100.0 /total_sum;
                 }
                 $('#downright_container').highcharts(
                     {
@@ -410,7 +456,11 @@
                         type: 'pie',
                         innerSize: '80%',
                         name: '报警比例',
-                        data:[{
+                        data: [{
+                            name: '超时',
+                            y: overcycle_sum
+                        },
+                            {
                             name: '质量',
                             y: quality_sum
                         },
@@ -569,7 +619,31 @@
        
         function excelFor()
         {
-            Export('生产线报警趋势报表', $('#gridTable'));
+            //导出当前页面 begin 
+            //Export('生产线报警趋势报表', $('#gridTable'));
+            //导出当前页面end
+            //导出所有数据 begin
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            $.ajax({
+                type: 'post',
+                url: '/HttpHandlers/RPT_ALARM_TREND.ashx?method=Export',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                data: { "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Export" },
+                cache: false,
+                success: function (data) {
+                    if (data.Result == "true") {
+                        $("#subs").click();
+                    }
+                    else {
+                        alert("导出失败");
+                    }
+                }
+            });
+            //导出所有数据end
+
         }
         function print()
         {

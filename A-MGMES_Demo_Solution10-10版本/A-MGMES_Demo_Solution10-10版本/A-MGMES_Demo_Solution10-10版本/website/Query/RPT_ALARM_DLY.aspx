@@ -36,14 +36,14 @@
                     
                 </td>  
                 <td style="width: 120px">
-                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showTime:false" />
+                    <input id="start_time" class="easyui-datebox" data-options="required:true,showTime:false" />
                 </td>
                 
                 <td >
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
                  <td>  
-                  <input id="sub" type="submit"  value="导出Excel" hidden="hidden"/>
+                  <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
                  <td>  
@@ -150,11 +150,12 @@
                     toolbar: '#navigationSearch',
                     pagination: true,
                     
-                    pageSize: 50,
-                    pageList: [50, 70, 90],
+                    pageSize: 30,
+                    pageList: [30, 60, 90],
+                    //loader: myLoader, //前端分页加载函数  
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
                         console.log(data);
-                       
+                       // $("#gridTable").data().datagrid.cache = null;//清除datagrid 缓存，保证前台假分页；  
                        
                         
                         sumPrice();
@@ -163,7 +164,52 @@
 
                 });
 
+        }
+
+        //实现假分页  
+        function myLoader(param, success, error) {
+            var that = $(this);
+            var opts = that.datagrid("options");
+            if (!opts.url) {
+                return false;
             }
+            var cache = that.data().datagrid.cache;
+            if (!cache) {
+                $.ajax({
+                    type: opts.method,
+                    url: opts.url,
+                    data: param,
+                    dataType: "json",
+                    success: function (data) {
+                        that.data().datagrid['cache'] = data;
+                        success(bulidData(data));
+                    },
+                    error: function () {
+                        error.apply(this, arguments);
+                    }
+                });
+            } else {
+                success(bulidData(cache));
+            }
+
+            function bulidData(data) {
+                var temp = $.extend({}, data);
+                var tempRows = [];
+                var start = (param.page - 1) * parseInt(param.rows);
+                var end = start + parseInt(param.rows);
+                var rows = data.rows;
+                for (var i = start; i < end; i++) {
+                    if (rows[i]) {
+                        tempRows.push(rows[i]);
+                    } else {
+                        break;
+                    }
+                }
+                temp.rows = tempRows;
+                return temp;
+            }
+        }
+
             function sumPrice() {
                 //添加“合计”列
                 var rows = $('#gridTable').datagrid('getFooterRows');
@@ -569,7 +615,32 @@
        
         function excelFor()
         {
-            Export('生产线报警报表', $('#gridTable'));
+            
+                ////导出当前页面 begin 
+            //Export('生产线报警报表', $('#gridTable'));
+               // //导出当前页面end
+                ////导出所有数据 begin
+                var date_time = $('#start_time').datetimebox('getValue');
+                $.ajax({
+                    type: 'post',
+                    url: '/HttpHandlers/RPT_ALARM_Dly.ashx?method=Export',
+                    async: false,
+                    cache: false,
+                    dataType: 'json',
+                    data: { "date_time": "" + date_time + "",  "method": "Export" },
+                    cache: false,
+                    success: function (data) {
+                        if (data.Result == "true") {
+                            $("#subs").click();
+                        }
+                        else {
+                            alert("导出失败");
+                        }
+                    }
+                });
+                //导出所有数据end
+
+            
         }
         function print()
         {

@@ -11,22 +11,25 @@ namespace Dal
 {
     public class Production_AlarmTrendDAL
     {
-        public  static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime)
+        public  static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime,int StartIndex,int EndIndex)
         {
             List<Production_AlarmModel> modelList = new List<Production_AlarmModel>();
             List<Production_AlarmModel> footerList = new List<Production_AlarmModel>();
             DataListModel<Production_AlarmModel> modeldata = new DataListModel<Production_AlarmModel>();
             int total=0;
-            SqlParameter[] sqlPara = new SqlParameter[2];
+            SqlParameter[] sqlPara = new SqlParameter[4];
                 sqlPara[0] = new SqlParameter("@start_time", StartTime);
                 sqlPara[1] = new SqlParameter("@end_time", EndTime);
-            DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_AlarmTrend", sqlPara, new string[] { "data", "footer" });
+                sqlPara[2] = new SqlParameter("@start_index", StartIndex);
+                sqlPara[3] = new SqlParameter("@end_index", EndIndex);
+            DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_AlarmTrend", sqlPara, new string[] { "data", "footer" ,"count"});
             if (DataHelper.HasData(ds))
             {
 
                 DataTable dt2 = ds.Tables["data"];
-                total = dt2.Rows.Count;
                 DataTable footer = ds.Tables["footer"];
+                DataTable dt1 = ds.Tables["count"];
+                total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
                 foreach (DataRow row in dt2.Rows)
                 {
                     Production_AlarmModel model = new Production_AlarmModel();
@@ -79,7 +82,7 @@ namespace Dal
             }
 
         }
-        public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int total)
+        public static DataTable getTable(string StartTime, string EndTime, int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int total)
         {
             string SortFlag = "";
             string sortOrder = "";
@@ -91,20 +94,31 @@ namespace Dal
             {
                 sortOrder = "asc";
             }
-            string query_sql = "";
-            if (EndIndex == -1)
-            {
-                query_sql = " select * from(select row_number() over(order by " + SortFlag + " " + sortOrder + " ) as rowid,report.* from Sheet report  where 1 = 1 " + wherestr + ") as Results where rowid >=" + StartIndex + " ";
-            }
-
-            string count_sql = "select  count(*) as total from View_mg_sys_log where 1 = 1 " + wherestr;
-            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
+            
+            SqlParameter[] sqlPara = new SqlParameter[4];
+            sqlPara[0] = new SqlParameter("@start_time", StartTime);
+            sqlPara[1] = new SqlParameter("@end_time", EndTime);
+            sqlPara[2] = new SqlParameter("@start_index", StartIndex);
+            sqlPara[3] = new SqlParameter("@end_index", EndIndex);
+            DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_AlarmTrend", sqlPara, new string[] { "data", "footer","count" });
             if (DataHelper.HasData(ds))
             {
-                DataTable dt1 = ds.Tables["count"];
-                total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
-                DataTable dt2 = ds.Tables["data"];
-                return dt2;
+                
+                DataTable dt1 = ds.Tables["data"];
+                DataTable dt2 = ds.Tables["footer"];
+                total = dt1.Rows.Count;
+                int tableNum = 2;
+                DataTable dt = ds.Tables[1].Clone();
+                if (dt != null)
+                {
+                    for (int i = 0; i < tableNum; i++)
+                    {
+                        dt.Merge(ds.Tables[i]);
+                    }
+                }
+                return dt;
+
+               
             }
             else
             {

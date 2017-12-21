@@ -11,10 +11,10 @@ namespace Bll
 {
    public  class Production_AlarmTrendReport_BLL
     {
-       public static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime)
+       public static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime,int startIndex,int endIndex)
        {
            string jsonStr = "[]";
-           DataListModel<Production_AlarmModel> userList = Production_AlarmTrendDAL.GetListNew(StartTime,EndTime);
+           DataListModel<Production_AlarmModel> userList = Production_AlarmTrendDAL.GetListNew(StartTime,EndTime,startIndex,endIndex);
            return userList;
           
        }
@@ -27,10 +27,10 @@ namespace Bll
             //jsonStr = JSONTools.ScriptSerialize<DataListModel<Production_Model>>(userList);
             //return jsonStr;
         }
-       
-        public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int totalcount)
+
+        public static DataTable getTable(String StartTime, string EndTime,int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int totalcount)
         {
-            return Production_AlarmTrendDAL.getTable(PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
+            return Production_AlarmTrendDAL.getTable(StartTime, EndTime,PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
         }
     }
 }

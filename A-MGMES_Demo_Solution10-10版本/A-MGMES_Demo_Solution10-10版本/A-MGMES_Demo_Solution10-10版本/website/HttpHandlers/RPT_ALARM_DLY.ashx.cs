@@ -42,7 +42,7 @@ namespace website.HttpHandlers
                     Export(context);
                     break;
                 default:
-                    GetList(context);
+                    GetListNew(context);
                     break;
 
             }
@@ -80,13 +80,13 @@ namespace website.HttpHandlers
                 order = "asc";
             }
             string json = "";
-            string fileName = HttpContext.Current.Request.MapPath("~/App_Data/生产线报警报表.xlsx");
+            string fileName = HttpContext.Current.Request.MapPath("~/App_Data/生产线报警日报表.xlsx");
             try
             {
                 int StartIndex = 1;
                 int EndIndex = -1;
                 int totalcount = 0;
-                DataTable resTable = Production_AlarmDlyReport_BLL.getTable(PageSize, StartIndex, EndIndex, sort, order, where, out totalcount);
+                DataTable resTable = Production_AlarmDlyReport_BLL.getTable(date_time,PageSize, StartIndex, EndIndex, sort, order, where, out totalcount);
                 ExcelHelper.ExportDTtoExcel(resTable, "生产线报警报表", fileName);
                 string ss = "true";
                 json = "{\"Result\":\"" + ss + "\"}";
