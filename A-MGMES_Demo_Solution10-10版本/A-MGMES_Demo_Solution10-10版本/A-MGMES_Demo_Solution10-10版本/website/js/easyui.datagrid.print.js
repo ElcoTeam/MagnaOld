@@ -103,20 +103,20 @@ function CreateFormPage(strPrintName, printDatagrid) {
         iframe,
         win,
         links = document.getElementsByTagName("link"),
-        html = '<!doctype html><html><head><meta charset="utf-8"><title></title>';
+        html = '<!doctype html><html><head><meta charset="utf-8"><title>'+strPrintName+'</title>';
 
     // 自动添加样式
-    for (var i = 0, len = links.length; i < len; i++) {
-        if (links[i].rel === 'stylesheet') {
-            //if (opt.usePageStyle || links[i].href.indexOf('learun-report.css') !== -1) {
-            //    html += links[i].outerHTML;
-            //}
-            if (opt.usePageStyle || links[i].href.indexOf('.css') !== -1) {
-                html += links[i].outerHTML;
-            }
+    //for (var i = 0, len = links.length; i < len; i++) {
+    //    if (links[i].rel === 'stylesheet') {
+    //        //if (opt.usePageStyle || links[i].href.indexOf('learun-report.css') !== -1) {
+    //        //    html += links[i].outerHTML;
+    //        //}
+    //        if (opt.usePageStyle || links[i].href.indexOf('.css') !== -1) {
+    //            html += links[i].outerHTML;
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
     content = opt.table ? '' : opt.outerHTML;
     html += '</head><body>' + content + '</body></html>';
@@ -131,5 +131,6 @@ function CreateFormPage(strPrintName, printDatagrid) {
     win = $iframe[0].contentWindow;
     var $tb = tableString;
     $(win.document.body).append($html).append($tb);
+    //console.log($html);
     win.print();
 }

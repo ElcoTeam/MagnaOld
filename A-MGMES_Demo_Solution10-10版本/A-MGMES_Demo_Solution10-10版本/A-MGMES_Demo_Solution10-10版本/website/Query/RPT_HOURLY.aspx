@@ -92,7 +92,8 @@
 
         /****************       DOM加载          ***************/
         $(function () {
-            
+            var date_t = new Datetime();
+            $("#start_time").datetimebox('setValue', date_t.toString());
             $.ajaxSetup({
                 cache: false //关闭AJAX缓存
             });
@@ -360,7 +361,7 @@
                         var data1 = data;
                         var i = 0;
                         for (i in data1) {
-                            optionstring += "<option value=\"" + data1[i].cl_name + "\" >" + data1[i].cl_name.trim() + "</option>";
+                            optionstring += "<option value=\"" + data1[i].cl_id + "\" >" + data1[i].cl_name.trim() + "</option>";
                         }
                         $("#clnameid").html("<option value=''>请选择...</option> " + optionstring);
                     },

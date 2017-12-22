@@ -28,8 +28,8 @@ namespace Dal
             {
                 query_sql = " select * from(select row_number() over(order by " + SortFlag + " " + sortOrder + " ) as rowid,report.* from Sheet report  where 1 = 1 " + wherestr + ") as Results where rowid >=" + StartIndex + " ";
             }
-            
-            string count_sql = "select  count(*) as total from View_mg_sys_log where 1 = 1 " + wherestr;
+
+            string count_sql = "select  count(*) as total from Sheet where 1 = 1 " + wherestr;
             DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
             if (DataHelper.HasData(ds))
             {
@@ -253,7 +253,7 @@ namespace Dal
         public static DataTable GetClassInfo()
         {
             DataTable tb = new DataTable();
-            string sql = @"SELECT  distinct [cl_name] FROM [MagnaDB].[dbo].[Sheet] where 1=1 ";
+            string sql = @"SELECT  distinct [cl_id], [cl_name] FROM [MagnaDB].[dbo].[mg_classes] where 1=1 ";
             tb = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);         
             return tb;
         }

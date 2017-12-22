@@ -647,8 +647,9 @@ function myLoader(param, success, error) {
         }
         function print()
         {
-            
-            CreateFormPage("生产线报警趋势报表", $("#gridTable"));
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            CreateFormPage( start_time +" - "+end_time + "生产线报警趋势报表", $("#gridTable"));
            
         }
     </script>

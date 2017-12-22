@@ -112,7 +112,11 @@
                     sortOrder: 'asc',
                     queryParams:queryParams,
                     columns: [[
-                                { field: 'id', title: '序号', align:'center' ,width:100,hidden:true},
+                                { field: 'id', title: '序号', align: 'center', width: 100, hidden: true },
+                                {
+                                    field: 'product_date', title: '生产日期', align: "center", width: 100,hidden:true
+
+                                },
                                 {
                                     field: 'stationNo', title: 'Station\n\t工位', align: 'center', width: 100,
                                     styler:setStyler,
@@ -644,8 +648,8 @@
         }
         function print()
         {
-            
-            CreateFormPage("生产线报警报表", $("#gridTable"));
+            var date_time = $('#start_time').datetimebox('getValue');
+            CreateFormPage(date_time + "生产线报警报表", $("#gridTable"));
            
         }
     </script>
