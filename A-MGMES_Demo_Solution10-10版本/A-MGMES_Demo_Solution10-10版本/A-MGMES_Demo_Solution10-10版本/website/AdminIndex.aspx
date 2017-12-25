@@ -365,11 +365,6 @@
                     dialogMsg(errorThrown, -1);
                 }
             });
-           
-
-           
-                
-           
         });
 
 

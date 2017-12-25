@@ -216,9 +216,9 @@ namespace DAL
                                 ";
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into Sys_UserInfo(");
-            strSql.Append("user_id,user_name,user_email,user_depid,user_posiid,user_menuids,user_sex,user_isAdmin,user_pwd)");
+            strSql.Append("user_id,user_name,user_email,user_depid,user_posiid,user_menuids,user_sex,user_isAdmin,user_pwd,user_no)");
             strSql.Append(" values (");
-            strSql.Append("@i,@user_name,@user_email,@user_depid,@user_posiid,@user_menuids,@user_sex,@user_isAdmin,@user_pwd)");
+            strSql.Append("@i,@user_name,@user_email,@user_depid,@user_posiid,@user_menuids,@user_sex,@user_isAdmin,@user_pwd,@user_no)");
             SqlParameter[] parameters = {
 					new SqlParameter("@user_name", SqlDbType.VarChar),
 					new SqlParameter("@user_email", SqlDbType.VarChar),
@@ -227,7 +227,8 @@ namespace DAL
 					new SqlParameter("@user_menuids", SqlDbType.VarChar),
 					new SqlParameter("@user_sex", SqlDbType.Int),
 					new SqlParameter("@user_isAdmin", SqlDbType.Int),
-					new SqlParameter("@user_pwd", SqlDbType.VarChar)
+					new SqlParameter("@user_pwd", SqlDbType.VarChar),
+                    new SqlParameter("@user_no", SqlDbType.VarChar)
                                         };
             parameters[0].Value = model.user_name;
             parameters[1].Value = model.user_email;
@@ -237,6 +238,7 @@ namespace DAL
             parameters[5].Value = model.user_sex;
             parameters[6].Value = model.user_isAdmin;
             parameters[7].Value = model.user_pwd;
+            parameters[8].Value = model.user_no;
 
             //权限存储
             StringBuilder insertuserlimit = new StringBuilder();
@@ -266,6 +268,7 @@ namespace DAL
                                       ,[user_email]
                                       ,[user_depid]
                                       ,[user_posiid]
+                                      ,[user_no]
                                      ,d.dep_name user_depid_name
                                       ,p.posi_name user_posiid_name
                                       ,[user_menuids]
@@ -297,6 +300,8 @@ namespace DAL
                     mg_userModel model = new mg_userModel();
 
                     model.user_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_id"));
+                    
+                    model.user_no =DataHelper.GetCellDataToStr(row, "user_no")=="NULL" ? "" : DataHelper.GetCellDataToStr(row, "user_no");
                     model.user_name = DataHelper.GetCellDataToStr(row, "user_name");
                     model.user_pwd = DataHelper.GetCellDataToStr(row, "user_pwd");
                     model.user_email = DataHelper.GetCellDataToStr(row, "user_email");
@@ -328,6 +333,7 @@ namespace DAL
                                       ,[user_email]
                                       ,[user_depid]
                                       ,[user_posiid]
+                                      ,[user_no]
                                       ,d.dep_name user_depid_name
                                       ,p.posi_name user_posiid_name
                                       ,[user_menuids]
@@ -362,6 +368,7 @@ namespace DAL
                     mg_userModel model = new mg_userModel();
 
                     model.user_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_id"));
+                    model.user_no = DataHelper.GetCellDataToStr(row, "user_no") == "NULL" ? "" : DataHelper.GetCellDataToStr(row, "user_no");
                     model.user_name = DataHelper.GetCellDataToStr(row, "user_name");
                     model.user_pwd = DataHelper.GetCellDataToStr(row, "user_pwd");
                     model.user_email = DataHelper.GetCellDataToStr(row, "user_email");
@@ -434,7 +441,7 @@ namespace DAL
 
         public static int DeleteUser(string user_id)
         {
-            string sql = "DELETE FROM [Sys_UserInfo] WHERE user_id=" + user_id;
+            string sql = "UPDATE [Sys_UserInfo] SET is_delete='1' WHERE user_no=" + user_id;
             string deletelimit = "delete from Sys_UserLimitInfo where  UserNo=" + user_id;
 
             int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql+ deletelimit, null);

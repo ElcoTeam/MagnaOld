@@ -12,7 +12,7 @@
   </PropertyGroup>
   <ItemGroup>
     <File Include="AdminIndex.aspx">
-      <publishTime>12/18/2017 08:56:52</publishTime>
+      <publishTime>12/20/2017 17:22:14</publishTime>
     </File>
     <File Include="AdminLogin.aspx">
       <publishTime>12/14/2017 12:17:36</publishTime>
@@ -27,13 +27,13 @@
       <publishTime>11/29/2017 10:51:49</publishTime>
     </File>
     <File Include="bin/Bll.dll">
-      <publishTime>12/17/2017 15:00:34</publishTime>
+      <publishTime>12/22/2017 17:00:05</publishTime>
     </File>
     <File Include="bin/Bll.pdb">
       <publishTime>08/25/2017 18:24:55</publishTime>
     </File>
     <File Include="bin/Dal.dll">
-      <publishTime>12/17/2017 15:00:34</publishTime>
+      <publishTime>12/22/2017 17:00:04</publishTime>
     </File>
     <File Include="bin/Dal.pdb">
       <publishTime>08/25/2017 18:24:55</publishTime>
@@ -60,7 +60,7 @@
       <publishTime>11/01/2014 00:46:48</publishTime>
     </File>
     <File Include="bin/Model.dll">
-      <publishTime>12/16/2017 18:45:13</publishTime>
+      <publishTime>12/22/2017 17:00:03</publishTime>
     </File>
     <File Include="bin/Model.pdb">
       <publishTime>08/08/2017 15:35:21</publishTime>
@@ -81,13 +81,13 @@
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
     <File Include="bin/Tools.dll">
-      <publishTime>12/16/2017 18:45:14</publishTime>
+      <publishTime>12/22/2017 17:00:04</publishTime>
     </File>
     <File Include="bin/Tools.pdb">
       <publishTime>08/08/2017 15:35:21</publishTime>
     </File>
     <File Include="bin/website.dll">
-      <publishTime>12/18/2017 14:22:32</publishTime>
+      <publishTime>12/22/2017 17:00:07</publishTime>
     </File>
     <File Include="bin/website.pdb">
       <publishTime>08/30/2017 15:50:37</publishTime>
@@ -224,6 +224,9 @@
     <File Include="foundation/department.aspx">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
+    <File Include="foundation/EditPsw.aspx">
+      <publishTime>12/18/2017 16:42:57</publishTime>
+    </File>
     <File Include="foundation/FlowLine.aspx">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
@@ -273,7 +276,7 @@
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
     <File Include="foundation/User.aspx">
-      <publishTime>12/14/2017 12:17:36</publishTime>
+      <publishTime>12/20/2017 17:16:10</publishTime>
     </File>
     <File Include="foundation/zx_32.CAB">
       <publishTime>12/14/2017 12:17:36</publishTime>
@@ -314,6 +317,9 @@
     <File Include="HttpHandlers/DelJetSEQNR.ashx">
       <publishTime>12/14/2017 16:08:48</publishTime>
     </File>
+    <File Include="HttpHandlers/EditPassword.ashx">
+      <publishTime>12/18/2017 16:42:57</publishTime>
+    </File>
     <File Include="HttpHandlers/ExcelHandler.ashx">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
@@ -352,6 +358,12 @@
     </File>
     <File Include="HttpHandlers/RepairHandler.ashx">
       <publishTime>12/14/2017 12:17:36</publishTime>
+    </File>
+    <File Include="HttpHandlers/RPT_ALARM_DLY.ashx">
+      <publishTime>12/15/2017 16:54:13</publishTime>
+    </File>
+    <File Include="HttpHandlers/RPT_ALARM_TREND.ashx">
+      <publishTime>12/19/2017 11:41:56</publishTime>
     </File>
     <File Include="HttpHandlers/Service1006_RPT_HOURLY.ashx">
       <publishTime>12/14/2017 16:08:48</publishTime>
@@ -393,7 +405,7 @@
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
     <File Include="HttpHandlers/TestHandler.ashx">
-      <publishTime>06/26/2017 15:05:40</publishTime>
+      <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
     <File Include="HttpHandlers/TestPartHandler.ashx">
       <publishTime>12/14/2017 12:17:36</publishTime>
@@ -1994,6 +2006,9 @@
     <File Include="js/My97DatePicker/WdatePicker.js">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
+    <File Include="js/register.js">
+      <publishTime>12/18/2017 16:42:57</publishTime>
+    </File>
     <File Include="js/tree_data1.json">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
@@ -2036,6 +2051,75 @@
     <File Include="Menu/GetMenuList.ashx">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
+    <File Include="My97DatePicker/calendar.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/lang/en.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/lang/zh-cn.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/lang/zh-tw.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/datePicker.gif">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/default/datepicker.css">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/default/img.gif">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/WdatePicker.css">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/whyGreen/bg.jpg">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/whyGreen/datepicker.css">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/skin/whyGreen/img.gif">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/WdatePicker.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/lang/en.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/lang/zh-cn.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/lang/zh-tw.js">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/readme.txt">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/datePicker.gif">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/default/datepicker.css">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/default/img.gif">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/WdatePicker.css">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/whyGreen/bg.jpg">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/whyGreen/datepicker.css">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
+    <File Include="My97DatePicker/开发包/skin/whyGreen/img.gif">
+      <publishTime>12/19/2017 09:07:52</publishTime>
+    </File>
     <File Include="Order/CustomerOrder.aspx">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
@@ -2043,7 +2127,7 @@
       <publishTime>12/14/2017 16:31:22</publishTime>
     </File>
     <File Include="Order/InsertCustomOrder.aspx">
-      <publishTime>12/15/2017 16:54:13</publishTime>
+      <publishTime>12/18/2017 16:42:57</publishTime>
     </File>
     <File Include="Order/mg_DelJetSEQNR.aspx">
       <publishTime>12/14/2017 16:08:48</publishTime>
@@ -2073,13 +2157,19 @@
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
     <File Include="Query/CustomerOrder1.aspx">
-      <publishTime>12/15/2017 16:54:13</publishTime>
+      <publishTime>12/19/2017 11:41:56</publishTime>
     </File>
     <File Include="Query/exportExcel.aspx">
       <publishTime>12/14/2017 12:17:36</publishTime>
     </File>
     <File Include="Query/FTTQuery.aspx">
       <publishTime>12/14/2017 16:08:48</publishTime>
+    </File>
+    <File Include="Query/RPT_ALARM_DLY.aspx">
+      <publishTime>12/18/2017 16:42:57</publishTime>
+    </File>
+    <File Include="Query/RPT_ALARM_TREND.aspx">
+      <publishTime>12/19/2017 11:41:56</publishTime>
     </File>
     <File Include="Query/RPT_HOURLY.aspx">
       <publishTime>12/14/2017 16:08:48</publishTime>
@@ -2094,7 +2184,7 @@
       <publishTime>12/14/2017 16:08:48</publishTime>
     </File>
     <File Include="Query/TorqueReporter.aspx">
-      <publishTime>12/14/2017 12:17:36</publishTime>
+      <publishTime>12/19/2017 09:21:40</publishTime>
     </File>
     <File Include="Query/TransportHistory.aspx">
       <publishTime>08/01/2017 15:03:47</publishTime>

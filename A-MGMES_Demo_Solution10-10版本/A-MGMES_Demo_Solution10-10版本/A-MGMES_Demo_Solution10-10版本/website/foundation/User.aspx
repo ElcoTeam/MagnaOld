@@ -3,6 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="/css/foundation.css" rel="stylesheet" type="text/css" />
     <script src="/js/My97DatePicker/WdatePicker.js" type="text/javascript"></script>
+     <script src="/js/validate.js" type="text/javascript"></script>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -61,6 +62,16 @@
                     <select id="user_posiid" class="easyui-combobox" name="st_id" style="width: 230px; height: 25px;"
                         data-options="valueField: 'posi_id',textField: 'posi_name'">
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="title" style="width: 110px;">
+                    <p>
+                        工号：
+                    </p>
+                </td>
+                <td>
+                   <input id="user_no" type="text" class="easyui-validatebox" style="width: 230px;height: 27px;"  data-options="required:true,validType:['length[1,50]']"/>
                 </td>
             </tr>
             <tr>
@@ -195,6 +206,7 @@
                       //{ field: 'user_menuids', title: '菜单权限', hidden: true },
 
                       { field: 'user_id', title: 'id', width: 100, align: "center" },
+                      { field: 'user_no', title: '工号', width: 100, align: "center" },
                       { field: 'user_name', title: '姓名', width: 100, align: "center" },
                       { field: 'user_sex_name', title: '性别', width: 100, align: "center" },
                       { field: 'user_pwd', title: '密码', width: 100, align: "center" },
@@ -220,7 +232,7 @@
                 maximizable:false,
                 collapsible:false,
                 width:750,
-                height:400,
+                height:500,
                 footer:'#ft',
                 top:20,
                 onBeforeClose:function(){clearw();},
@@ -254,6 +266,7 @@
             var user_id = isEdit == true ? userid : 0;
             var user_depid = $('#user_depid').combo('getValue');
             var user_posiid = $('#user_posiid').combo('getValue');
+            var user_no = $('#user_no').val();
             var user_name = $('#user_name').val();
             var user_email = $('#user_email').val();
             var user_pwd = $('#user_pwd').val();
@@ -292,6 +305,7 @@
             var model = {
                 user_id: user_id,
                 user_depid: user_depid,
+                user_no: user_no,
                 user_pwd: user_pwd,
                 user_posiid: user_posiid,
                 user_name: user_name,
@@ -339,8 +353,11 @@
             //窗体数据初始化
             var row = selRows[0];
             userid = row.user_id;
-            $('#user_depid').combobox('select', row.user_depid);
-            $('#user_posiid').combobox('select', row.user_posiid);
+          
+            $('#user_depid').combobox('select', row.user_depid == 0 ? "" : row.user_depid);
+            $('#user_posiid').combobox('select', row.user_posiid == 0 ? "" : row.user_posiid);
+            $('#user_no').val(row.user_no);
+            $("#user_no").attr("disabled", "disabled");
             $('#user_name').val(row.user_name);
             $('#user_pwd').val(row.user_pwd);
             $('#user_email').val(row.user_email);
@@ -425,211 +442,6 @@
             $('#user_posiid').combobox('reload', '/HttpHandlers/UserHandler.ashx?method=queryPositionsForUser');
         }
 
-        //菜单json数据
-
-
-        //menuJSON = [
-        //             {
-        //                 "id": "m1",
-        //                 "text": "行政人事档案",
-        //                 "state": "closed",
-        //                 "checked": true,
-        //                 "children": [
-        //                     {
-        //                         "id": "m1_1",
-        //                         "text": "部门档案"
-        //                     },
-        //                     {
-        //                         "id": "m1_2",
-        //                         "text": "职位档案"
-        //                     },
-        //                     {
-        //                         "id": "m1_3",
-        //                         "text": "操作工档案"
-        //                     },
-        //                     {
-        //                         "id": "m1_4",
-        //                         "text": "用户权限管理"
-        //                     },
-        //                     {
-        //                         "id": "m1_5",
-        //                         "text": "口号宣传维护"
-        //                     },
-        //                     {
-        //                         "id": "m1_6",
-        //                         "text": "邮件档案"
-        //                     }
-        //                 ]
-        //             },
-        //             {
-        //                 "id": "m2",
-        //                 "text": "部件零件档案",
-        //                 "state": "closed",
-        //                 "checked": true,
-        //                 "children": [
-        //                     {
-        //                         "id": "m2_1",
-        //                         "text": "ALL 整车座椅"
-        //                     },
-        //                     {
-        //                         "id": "m2_2",
-        //                         "text": "POA 部件档案"
-        //                     },
-        //                     {
-        //                         "id": "m2_3",
-        //                         "text": "BOM 零件档案"
-        //                     },
-        //                     {
-        //                         "id": "m2_4",
-        //                         "text": "检测项配置"
-        //                     },
-        //                     {
-        //                         "id": "m2_5",
-        //                         "text": "检测项分组"
-        //                     },
-        //                     {
-        //                         "id": "m2_6",
-        //                         "text": "点检项"
-        //                     },
-        //                     {
-        //                         "id": "m2_7",
-        //                         "text": "点检站"
-        //                     },
-        //                     {
-        //                         "id": "m2_8",
-        //                         "text": "检测配件"
-        //                     },
-        //                     {
-        //                         "id": "m2_9",
-        //                         "text": "颜色配置"
-        //                     },
-        //                     {
-        //                         "id": "m2_10",
-        //                         "text": "返修项"
-        //                     },
-        //                     {
-        //                         "id": "m2_11",
-        //                         "text": "产品信息配置"
-        //                     }
- 
-        //                 ]
-        //             },
-        //             {
-        //                 "id": "m3",
-        //                 "text": "生产线档案",
-        //                 "state": "closed",
-        //                 "checked": true,
-        //                 "children": [
-        //                     {
-        //                         "id": "m3_1",
-        //                         "text": "流水线档案"
-        //                     },
-        //                     {
-        //                         "id": "m3_2",
-        //                         "text": "工位档案"
-        //                     },
-        //                     {
-        //                         "id": "m3_3",
-        //                         "text": "工序步骤管理"
-        //                     }
-        //                     //{
-        //                     //    "id": "m3_4",
-        //                     //    "text": "班次档案"
-        //                     //}
-        //                 ]
-        //             },
-        //             {
-        //                 "id": "m4",
-        //                 "text": "订单管理",
-        //                 "state": "closed",
-        //                 "checked": true,
-        //                 "children": [
-        //                     {
-        //                         "id": "m4_1",
-        //                         "text": "销售订单"
-        //                     },
-        //                     {
-        //                         "id": "m4_3",
-        //                         "text": "紧急插入订单"
-        //                     }
-        //                     //{
-        //                     //    "id": "m4_2",
-        //                     //    "text": "生产通知单"
-        //                     //}
-        //                 ]
-        //             },
-        //             {
-        //                 "id": "m5",
-        //                 "text": "查询统计",
-        //                 "state": "closed",
-        //                 "checked": true,
-        //                 "children": [
-        //                     {
-        //                         "id": "m5_1",
-        //                         "text": "工序步骤日志查询"
-        //                     },
-        //                     {
-        //                         "id": "m5_2",
-        //                         "text": "产量报表查询"
-        //                     },
-        //                     {
-        //                         "id": "m5_3",
-        //                         "text": "报警信息查询"
-        //                     },
-        //                     {
-        //                         "id": "m5_4",
-        //                         "text": "时间信息查询"
-        //                     },
-        //                     {
-        //                         "id": "m5_5",
-        //                         "text": "扭矩/角度信息分析"
-        //                     },
-        //                     {
-        //                         "id": "m5_6",
-        //                         "text": "发运历史"
-        //                     },
-        //                     {
-        //                         "id": "m5_7",
-        //                         "text": "检测返修"
-        //                     },
-        //                     {
-        //                         "id": "m5_8",
-        //                         "text": "设备停机记录"
-        //                     },
-        //                     {
-        //                         "id": "m5_9",
-        //                         "text": "点检记录表"
-        //                     },
-        //                     {
-        //                         "id": "m5_10",
-        //                         "text": "客户订单报表"
-        //                     },
-        //                     {
-        //                         "id": "m5_11",
-        //                         "text": "FTT查询"
-        //                     }
-        //                 ]
-        //             },
-        //             {
-        //                 "id": "m6",
-        //                 "text": "MES 发运设置",
-        //                 "state": "closed",
-        //                 "checked": true,
-        //                 "children": [
-        //                     {
-        //                         "id": "m6_1",
-        //                         "text": "故障原因"
-        //                     }
-        //                     //{
-        //                     //    "id": "m4_2",
-        //                     //    "text": "生产通知单"
-        //                     //}
-        //                 ]
-        //             }
-        //];
-
-
-
         /**********************************************/
         /*****************   窗体程序 *******************/
         /**********************************************/
@@ -639,6 +451,7 @@
             //  menuTree    
             $('#user_depid').combobox('clear');
             $('#user_posiid').combobox('clear');
+            $('#user_no').val('');
             $('#user_name').val('');
             $('#user_pwd').val('');
             $('#user_email').val('');

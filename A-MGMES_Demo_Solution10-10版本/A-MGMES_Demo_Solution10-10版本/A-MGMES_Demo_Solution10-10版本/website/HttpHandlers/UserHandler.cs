@@ -180,6 +180,7 @@ public class UserHandler : IHttpHandler
         string user_id = Request.Params["user_id"];
         string user_depid = Request.Params["user_depid"];
         string user_posiid = Request.Params["user_posiid"];
+        string user_no = Request.Params["user_no"];
         string user_name = Request.Params["user_name"];
         string user_email = Request.Params["user_email"];
         string user_sex = Request.Params["user_sex"];
@@ -191,6 +192,7 @@ public class UserHandler : IHttpHandler
         model.user_id = NumericParse.StringToInt(user_id);
         model.user_depid = NumericParse.StringToInt(user_depid);
         model.user_posiid = NumericParse.StringToInt(user_posiid);
+        model.user_no = user_no;
         model.user_name = user_name;
         model.user_pwd = user_pwd;
         model.user_email = user_email;
