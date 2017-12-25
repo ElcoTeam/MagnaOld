@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Bll</RootNamespace>
     <AssemblyName>Bll</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -49,6 +49,7 @@
     <Compile Include="checkRepair_BLL.cs" />
     <Compile Include="checkReport_BLL.cs" />
     <Compile Include="DelJetSEQNR_BLL.cs" />
+    <Compile Include="EditPassword_BLL.cs" />
     <Compile Include="Failure_BLL.cs" />
     <Compile Include="FTT_BLL.cs" />
     <Compile Include="mg-CustomerOrder_3BLL.cs" />
@@ -87,7 +88,15 @@
     <Compile Include="mg_UserBLL.cs" />
     <Compile Include="mg_workqueueBLL.cs" />
     <Compile Include="mg_PoInspectItemBLL.cs" />
+    <Compile Include="Production_AlarmDlyReport_BLL.cs" />
+    <Compile Include="Production_AlarmTrendReport_BLL.cs" />
+    <Compile Include="Production_Report_BLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="px_InternetPrinterBLL.cs" />
+    <Compile Include="px_MaterialsortprintingBLL.cs" />
+    <Compile Include="px_PanrameterBLL.cs" />
+    <Compile Include="px_PrintBLL.cs" />
+    <Compile Include="px_ShowChiClientBLL.cs" />
     <Compile Include="Sys_MenuBLL.cs" />
     <Compile Include="Time_ReportBLL.cs" />
     <Compile Include="TransportHistory_BLL.cs" />
@@ -100,6 +109,10 @@
     <ProjectReference Include="..\Dal\Dal.csproj">
       <Project>{8b13835f-89a4-4e32-836d-17c4ebdb6176}</Project>
       <Name>Dal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DbUtility\DbUtility.csproj">
+      <Project>{910e6091-a03b-4a02-8646-5f54bccbfd02}</Project>
+      <Name>DbUtility</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{d5eec511-f12c-4bac-8099-cc5dabdde685}</Project>

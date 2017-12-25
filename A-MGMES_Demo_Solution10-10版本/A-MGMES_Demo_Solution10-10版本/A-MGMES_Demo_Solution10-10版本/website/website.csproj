@@ -42,7 +42,7 @@
   <ItemGroup>
     <Reference Include="Aspose.Cells, Version=7.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Aspose.Cells.dll</HintPath>
+      <HintPath>E:\网站程序\生产线网站\A-MGMES_Demo_Solution10-19版本\website\bin\Aspose.Cells.dll</HintPath>
     </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\dll\EPPlus.dll</HintPath>
@@ -105,7 +105,6 @@
     <Content Include="css\reset.css" />
     <Content Include="css\simpleDetail.css" />
     <Content Include="default.aspx" />
-    <Content Include="ExtraMenu.aspx" />
     <Content Include="foundation\adminrole.aspx" />
     <Content Include="foundation\allpart.aspx" />
     <Content Include="foundation\AndonTaglines.aspx" />
@@ -600,9 +599,13 @@
     <Content Include="Query\timeReporter.aspx" />
     <Content Include="Query\TorqueReporter.aspx" />
     <Content Include="Query\TransportHistory1.aspx" />
+    <Content Include="SortManagent\InternetPrinters.aspx" />
+    <Content Include="SortManagent\MaterialSorting.aspx" />
+    <Content Include="SortManagent\Materialsortprinting - 复制.aspx" />
+    <Content Include="SortManagent\Materialsortprinting.aspx" />
+    <Content Include="SortManagent\ShowChiClient.aspx" />
     <Content Include="System\adminpwd.aspx" />
     <Content Include="System\adminrole.aspx" />
-    <Content Include="testform.aspx" />
     <Content Include="UploadImages\BOMImages\1_20160819022959.png" />
     <Content Include="UploadImages\BOMImages\flag_20160819033830.png" />
     <Content Include="UploadImages\BOMImages\flag_20160830043336.png" />
@@ -703,13 +706,6 @@
     <Compile Include="ExcelHelper\ExcelHelper.cs" />
     <Compile Include="ExcelHelper\WriteLog.cs" />
     <Compile Include="ExcelHelper\dataTableToListview.cs" />
-    <Compile Include="ExtraMenu.aspx.cs">
-      <DependentUpon>ExtraMenu.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ExtraMenu.aspx.designer.cs">
-      <DependentUpon>ExtraMenu.aspx</DependentUpon>
-    </Compile>
     <Compile Include="foundation\adminrole.aspx.designer.cs">
       <DependentUpon>adminrole.aspx</DependentUpon>
     </Compile>
@@ -858,7 +854,6 @@
     <Compile Include="FunCommon\Part_TimeCuter.ascx.designer.cs">
       <DependentUpon>Part_TimeCuter.ascx</DependentUpon>
     </Compile>
-    <Compile Include="hehe.cs" />
     <Compile Include="HttpHandlers\AllPartHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -868,6 +863,9 @@
     <Compile Include="HttpHandlers\BOMHandler.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="HttpHandlers\InternetPrinters.cs" />
+    <Compile Include="HttpHandlers\MaterialSorting.cs" />
+    <Compile Include="HttpHandlers\Materialsortprinting.cs" />
     <Compile Include="HttpHandlers\Part1Handler.ashx.cs">
       <DependentUpon>Part1Handler.ashx</DependentUpon>
     </Compile>
@@ -920,6 +918,7 @@
     <Compile Include="HttpHandlers\RepairHandler.ashx.cs">
       <DependentUpon>RepairHandler.ashx</DependentUpon>
     </Compile>
+    <Compile Include="HttpHandlers\ShowChiClient.cs" />
     <Compile Include="HttpHandlers\StationHandler.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -1104,6 +1103,41 @@
     <Compile Include="HttpHandlers\Services1007_CheckReport.ashx.cs">
       <DependentUpon>Services1007_CheckReport.ashx</DependentUpon>
     </Compile>
+    <Compile Include="SortManagent\InternetPrinters.aspx.cs">
+      <DependentUpon>InternetPrinters.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SortManagent\InternetPrinters.aspx.designer.cs">
+      <DependentUpon>InternetPrinters.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SortManagent\MaterialSorting.aspx.cs">
+      <DependentUpon>MaterialSorting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SortManagent\MaterialSorting.aspx.designer.cs">
+      <DependentUpon>MaterialSorting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SortManagent\Materialsortprinting - 复制.aspx.cs">
+      <DependentUpon>Materialsortprinting - 复制.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SortManagent\Materialsortprinting - 复制.aspx.designer.cs">
+      <DependentUpon>Materialsortprinting - 复制.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SortManagent\Materialsortprinting.aspx.cs">
+      <DependentUpon>Materialsortprinting.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SortManagent\Materialsortprinting.aspx.designer.cs">
+      <DependentUpon>Materialsortprinting.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SortManagent\ShowChiClient.aspx.cs">
+      <DependentUpon>ShowChiClient.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SortManagent\ShowChiClient.aspx.designer.cs">
+      <DependentUpon>ShowChiClient.aspx</DependentUpon>
+    </Compile>
     <Compile Include="System\adminpwd.aspx.designer.cs">
       <DependentUpon>adminpwd.aspx</DependentUpon>
     </Compile>
@@ -1192,13 +1226,6 @@
     <Compile Include="System\adminrole.aspx.cs">
       <DependentUpon>adminrole.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="testform.aspx.cs">
-      <DependentUpon>testform.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="testform.aspx.designer.cs">
-      <DependentUpon>testform.aspx</DependentUpon>
     </Compile>
     <Compile Include="Query\volumeReporter.aspx.cs">
       <DependentUpon>volumeReporter.aspx</DependentUpon>
@@ -1360,6 +1387,10 @@
     <Content Include="js\highcharts\themes\sand-signika.js.map" />
     <Content Include="js\highcharts\themes\skies.js.map" />
     <Content Include="js\highcharts\themes\sunset.js.map" />
+    <Content Include="HttpHandlers\InternetPrinters.ashx" />
+    <Content Include="HttpHandlers\MaterialSorting.ashx" />
+    <Content Include="HttpHandlers\Materialsortprinting.ashx" />
+    <Content Include="HttpHandlers\ShowChiClient.ashx" />
     <None Include="Properties\PublishProfiles\config.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

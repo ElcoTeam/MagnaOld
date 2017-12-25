@@ -66,8 +66,31 @@ namespace DAL
             //}
             //return null;
 
-            string sql = @" SELECT  [user_id]
-                                      ,user_pwd
+//            string sql = @" SELECT  [user_id]
+//                                      ,user_pwd
+//                                      ,[user_name]
+//                                      ,[user_email]
+//                                      ,[user_depid]
+//                                      ,[user_posiid]
+//                                     ,d.dep_name user_depid_name
+//                                      ,p.posi_name user_posiid_name
+//                                      ,[user_menuids]
+//	  	                                  ,case [user_sex]
+//		                                                            when 1 then '男'
+//		                                                            else '女'
+//		                                                            end user_sex_name
+//                                      ,[user_sex]
+//	                                  ,case [user_isAdmin]
+//		                                                            when 1 then '是'
+//		                                                            else '否'
+//		                                                            end user_isAdmin_name
+//                                      ,[user_isAdmin]
+//                                  FROM [Sys_UserInfo] u
+//                                  left join Sys_DeptInfo d on u.user_depid = d.dep_id
+//                                  left join Sys_RoleInfo p on u.user_posiid = p.posi_id 
+//                                    where Lower(user_name)='" + uname.ToLower() +@"';
+//                                    ";
+            string sql = @" SELECT  user_pwd
                                       ,[user_name]
                                       ,[user_email]
                                       ,[user_depid]
@@ -88,7 +111,7 @@ namespace DAL
                                   FROM [Sys_UserInfo] u
                                   left join Sys_DeptInfo d on u.user_depid = d.dep_id
                                   left join Sys_RoleInfo p on u.user_posiid = p.posi_id 
-                                    where Lower(user_name)='" + uname.ToLower() +@"';
+                                    where Lower(user_name)='" + uname.ToLower() + @"';
                                     ";
             DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
             if (DataHelper.HasData(dt))
@@ -96,7 +119,7 @@ namespace DAL
                 foreach (DataRow row in dt.Rows)
                 {
                     mg_userModel model = new mg_userModel();
-                    model.user_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_id"));
+                  //  model.user_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_id"));
                     model.user_name = DataHelper.GetCellDataToStr(row, "user_name");
                     model.user_pwd = DataHelper.GetCellDataToStr(row, "user_pwd");
                     model.user_email = DataHelper.GetCellDataToStr(row, "user_email");

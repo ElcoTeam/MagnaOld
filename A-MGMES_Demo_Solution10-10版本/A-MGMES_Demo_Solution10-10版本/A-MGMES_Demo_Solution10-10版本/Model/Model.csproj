@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Model</RootNamespace>
     <AssemblyName>Model</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\SortManagent\Tools\bin\Debug\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -72,6 +76,12 @@
     <Compile Include="Production_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="mg_Repair.cs" />
+    <Compile Include="px_InternetPrinterModel.cs" />
+    <Compile Include="px_IPAddress_Port.cs" />
+    <Compile Include="px_MaterialsortprintingModel.cs" />
+    <Compile Include="px_PanrameterModel.cs" />
+    <Compile Include="px_PrintModel.cs" />
+    <Compile Include="px_ShowChiClientModel.cs" />
     <Compile Include="ResultMsg_User.cs" />
     <Compile Include="Sys_Menu.cs" />
   </ItemGroup>
