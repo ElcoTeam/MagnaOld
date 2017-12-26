@@ -10,6 +10,15 @@ namespace Bll
 {
     public class Production_Report_BLL
     {
+       public static DataListModel<Production_Model> GetListNew(string StartTime, string EndTime, int clnameid,string clname,int PageIndex,int PageSize)
+        {
+            string jsonStr = "[]";
+            DataListModel<Production_Model> userList = Production_ModelDAL.GetListNew(StartTime, EndTime, clnameid, clname, PageIndex,PageSize);
+            return userList;
+            //List<UserM_Menu> menuList = UserM_MenuDAL.GetUserMenuList();
+            //jsonStr = JSONTools.ScriptSerialize<DataListModel<Production_Model>>(userList);
+            //return jsonStr;
+        } 
         public static DataListModel<Production_Model> GetList(int page, int pagesize, string sidx, string sord, string Where)
         {
             string jsonStr = "[]";
@@ -23,9 +32,9 @@ namespace Bll
         {
             return Production_ModelDAL.GetClassInfo();
         }
-        public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order,string wherestr,  out int totalcount)
-    {
-        return Production_ModelDAL.getTable(PageSize, StartIndex, EndIndex, sort, order, wherestr, out totalcount);
-    }
+        public static DataTable getTable(string StartTime, string EndTime, int clnameid, string clname, int StartIndex,int EndIndex,  out int totalcount)
+       {
+        return Production_ModelDAL.getTable(StartTime, EndTime, clnameid, clname, StartIndex, EndIndex, out totalcount);
+       }
     }
 }

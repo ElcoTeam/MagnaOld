@@ -15,9 +15,8 @@
     <script src="../js/highcharts/modules/exporting.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
- <div class="top">
+ <div class="top"  style="width: 50%;height:10%">
         <table cellpadding="0" cellspacing="0" style="width: 70%">
-            <tr>生产报表 - 班次（小时）</tr>
             <tr>
                 <td class="title"  >
                     
@@ -25,15 +24,15 @@
                     
                 </td>  
                            
-                <td style="width: 120px;">
-                    <select id="clnameid" type="text" />
+                <td style="width: 200px;">
+                    <select id="clnameid" />
 
                 </td>
              </tr>
              <tr>
                 <td class="title"  >
 
-                       选择开始时间：
+                       开始时间：
                     
                 </td>          
                 <td style="width: 120px">
@@ -41,8 +40,7 @@
                 </td>
                 <td class="title"  >
                     
-                        选择结束时间：
-                    
+                        结束时间：                   
                 </td>       
                 <td style="width: 120px">
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
@@ -52,7 +50,7 @@
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
                  <td>  
-                  <input id="sub" type="submit"  value="导出Excel" hidden="hidden"/>
+                  <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
                   <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
                  <td>  
@@ -62,12 +60,12 @@
         </table>
 
     </div>
-    <div id ="gridPanel">
-    <div id="printArea" class="printArea" closed="true"> 
+    <div id ="gridPanel"  style="width: 99%;height:90%">
+    <div id="printArea" class="printArea" closed="true" style="width: 99%;height:inherit"> 
     <!-- 数据表格  -->
-    <table id="gridTable" title="FTT列表" style="width: 99%;">
+    <table id="gridTable" title="FTT列表" style="width: 99%;height:70%">
     </table>
-    <div class="center-Panel">
+    <div class="center-Panel" style="width: 99%;height:50%">
                     <div class="panel-Title">统计信息柱状图</div>
                      <div id="container" style="width: 100%; height: 400px; text-align:center;  margin: 0 auto">
            
@@ -92,8 +90,9 @@
 
         /****************       DOM加载          ***************/
         $(function () {
-            var date_t = new Datetime();
-            $("#start_time").datetimebox('setValue', date_t.toString());
+            var date_t = new Date();
+            $("#start_time").datetimebox('setValue', date_t.toString('yyyy-MM-dd HH:mm'));
+            $("#end_time").datetimebox('setValue', date_t.toString('yyyy-MM-dd HH:mm'));
             $.ajaxSetup({
                 cache: false //关闭AJAX缓存
             });
@@ -109,13 +108,20 @@
         }
 
         function GetGrid() {
+            queryParams = {
+                start_time: $("#start_time").datebox('getValue'),
+                end_time: $("#end_time").datebox('getValue'),
+                clnameid: $("#clnameid option:selected").val(),
+                clname: $("#clnameid option:selected").text()
+            }
             var col = $('#gridTable').width();
                 dg = $('#gridTable').datagrid({
                     fitColumns: true,
                     nowrap: false,
                     striped: true,
                     collapsible: false,
-                    url: '/HttpHandlers/Service1006_RPT_HOURLY.ashx?method=GetList',
+                    url: '/HttpHandlers/Service1006_RPT_HOURLY.ashx?method=GetListNew',
+                    queryParams:queryParams,
                     showFooter:true,
                     sortName: 'id',
                     sortOrder: 'asc',
@@ -569,11 +575,12 @@
         }
         //查询业务
         function searchName() {
-            var clnameid = $('#clnameid').val();
+            var clnameid = $('#clnameid option:selected').val();
+            var clname = $('#clnameid option:selected').text();
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
 
-            $('#gridTable').datagrid('reload', { method: "GetList", clnameid: clnameid, start_time: start_time, end_time: end_time });
+            $('#gridTable').datagrid('reload', { method: "GetList", clnameid: clnameid, clname:clname,start_time: start_time, end_time: end_time });
         }
         //function excelFor()
         //{
@@ -610,8 +617,30 @@
         //    });
         //}
         function excelFor()
-        {
-            Export('生产报表', $('#gridTable'));
+        { //导出当前页面数据 begin
+            //Export('生产报表', $('#gridTable'));
+            //导出当前页面end 
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            var clnameid = $('#clnameid option:selected').val();
+            var clname = $('#clnameid option:selected').text();
+            $.ajax({
+                type: 'post',
+                url: '/HttpHandlers/Service1006_RPT_HOURLY.ashx?method=Export',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                data: { "clname": "" + clname + "", "clnameid": "" + clnameid + "", "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Export" },
+                cache: false,
+                success: function (data) {
+                    if (data.Result == "true") {
+                        $("#subs").click();
+                    }
+                    else {
+                        alert("导出失败");
+                    }
+                }
+            });
         }
         function print()
         {

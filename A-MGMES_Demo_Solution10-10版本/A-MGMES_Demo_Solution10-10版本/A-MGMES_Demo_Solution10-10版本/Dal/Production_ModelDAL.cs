@@ -11,38 +11,172 @@ namespace Dal
 {
     public class Production_ModelDAL
     {
-        public static DataTable getTable(int PageSize, int StartIndex, int EndIndex, string sort, string order,string wherestr,  out int total)
-       {
-            string SortFlag="";
-            string sortOrder="";
-            if (string.IsNullOrEmpty(sort))
-            {
-                SortFlag = "id";
-            }
-            if (string.IsNullOrEmpty(order))
-            {
-                sortOrder = "asc";
-            }
-            string query_sql="";
-            if(EndIndex == -1)
-            {
-                query_sql = " select * from(select row_number() over(order by " + SortFlag + " " + sortOrder + " ) as rowid,report.* from Sheet report  where 1 = 1 " + wherestr + ") as Results where rowid >=" + StartIndex + " ";
-            }
+        public static DataListModel<Production_Model> GetListNew(string StartTime, string EndTime, int clnameid, string clname, int page, int pagesize)
+        {
+            List<Production_Model> modelList = new List<Production_Model>();
+            List<Production_Model> footerList = new List<Production_Model>();
+            DataListModel<Production_Model> modeldata = new DataListModel<Production_Model>();
+            int returnValue = 0;
+            int total = 0;
+            int StartIndex = (page - 1) * pagesize + 1;
+            int EndIndex = page * pagesize;
 
-            string count_sql = "select  count(*) as total from Sheet where 1 = 1 " + wherestr;
-            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
+            SqlParameter[] sqlPara = new SqlParameter[6];
+            sqlPara[0] = new SqlParameter("@class_id", clnameid);
+            sqlPara[1] = new SqlParameter("@class_name", clname);
+            sqlPara[2] = new SqlParameter("@start_time", StartTime);
+            sqlPara[3] = new SqlParameter("@end_time", EndTime);
+            sqlPara[4] = new SqlParameter("@start_index", StartIndex);
+            sqlPara[5] = new SqlParameter("@end_index", EndIndex);
+            DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_ProductHourly", sqlPara, new string[] { "data", "footer", "count" });
             if (DataHelper.HasData(ds))
             {
                 DataTable dt1 = ds.Tables["count"];
                 total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
                 DataTable dt2 = ds.Tables["data"];
-                return dt2;
+                DataTable footer = ds.Tables["footer"];
+                foreach (DataRow row in dt2.Rows)
+                {
+                    Production_Model model = new Production_Model();
+                    model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                    model.product_date = DataHelper.GetCellDataToStr(row, "product_date").Substring(0, 10);
+                    model.cl_name = DataHelper.GetCellDataToStr(row, "cl_name");
+                    model.hourid = DataHelper.GetCellDataToStr(row, "hourid");
+                    model.customer_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "customer_num"));
+                    model.real_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_num"));
+                    model.real_customer = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_customer"));
+                    model.plan_pro_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "plan_pro_num"));
+                    model.real_pro_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_pro_num"));
+                    model.real_plan = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_plan"));
+                    model.real_biplan = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_biplan"));
+                    model.real_biplan = NumericParse.CutDecimalWithN(model.real_biplan, 3);
+                    model.line1_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line1_finish_num"));
+                    model.line1_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line1_repair_num"));
+                    model.line1_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line1_FTT"));
+                    model.line1_FTT = NumericParse.CutDecimalWithN(model.line1_FTT, 3);
+                    model.line2_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line2_finish_num"));
+                    model.line2_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line2_repair_num"));
+                    model.line2_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line2_FTT"));
+                    model.line2_FTT = NumericParse.CutDecimalWithN(model.line2_FTT, 3);
+                    model.line3_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line3_finish_num"));
+                    model.line3_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line3_repair_num"));
+                    model.line3_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line3_FTT"));
+                    model.line3_FTT = NumericParse.CutDecimalWithN(model.line3_FTT, 3);
+                    model.line4_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line4_finish_num"));
+                    model.line4_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line4_repair_num"));
+                    model.line4_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line4_FTT"));
+                    model.line4_FTT = NumericParse.CutDecimalWithN(model.line4_FTT, 3);
+                    model.line5_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line5_finish_num"));
+                    model.line5_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line5_repair_num"));
+                    model.line5_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line5_FTT"));
+                    model.line5_FTT = NumericParse.CutDecimalWithN(model.line5_FTT, 3);
+                    model.line6_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line6_finish_num"));
+                    model.line6_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line6_repair_num"));
+                    model.line6_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line6_FTT"));
+                    model.line6_FTT = NumericParse.CutDecimalWithN(model.line6_FTT, 3);
+
+
+
+                    modelList.Add(model);
+                }
+                foreach (DataRow row in footer.Rows)
+                {
+                    Production_Model model = new Production_Model();
+                    model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                    model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                    model.cl_name = DataHelper.GetCellDataToStr(row, "cl_name");
+                    model.hourid = DataHelper.GetCellDataToStr(row, "hourid");
+                    model.customer_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "customer_num"));
+                    model.real_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_num"));
+                    model.real_customer = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_customer"));
+                    model.plan_pro_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "plan_pro_num"));
+                    model.real_pro_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_pro_num"));
+                    model.real_plan = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_plan"));
+                    model.real_biplan = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "real_biplan"));
+                    model.line1_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line1_finish_num"));
+                    model.line1_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line1_repair_num"));
+                    model.line1_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line1_FTT"));
+                    model.line2_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line2_finish_num"));
+                    model.line2_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line2_repair_num"));
+                    model.line2_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line2_FTT"));
+                    model.line3_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line3_finish_num"));
+                    model.line3_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line3_repair_num"));
+                    model.line3_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line3_FTT"));
+                    model.line4_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line4_finish_num"));
+                    model.line4_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line4_repair_num"));
+                    model.line4_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line4_FTT"));
+                    model.line5_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line5_finish_num"));
+                    model.line5_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line5_repair_num"));
+                    model.line5_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line5_FTT"));
+                    model.line6_finish_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line6_finish_num"));
+                    model.line6_repair_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line6_repair_num"));
+                    model.line6_FTT = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "line6_FTT"));
+
+
+
+                    footerList.Add(model);
+                }
+                DataListModel<Production_Model> allmodel = new DataListModel<Production_Model>();
+                allmodel.total = total.ToString();
+                allmodel.rows = modelList;
+                allmodel.footer = footerList;
+                return allmodel;
+
             }
             else
             {
                 total = 0;
                 return null;
             }
+        }
+        public static DataTable getTable(string StartTime, string EndTime, int clnameid, string clname, int StartIndex,int EndIndex,  out int total)
+    {
+
+        SqlParameter[] sqlPara = new SqlParameter[6];
+        sqlPara[0] = new SqlParameter("@class_id", clnameid);
+        sqlPara[1] = new SqlParameter("@class_name", clname);
+        sqlPara[2] = new SqlParameter("@start_time", StartTime);
+        sqlPara[3] = new SqlParameter("@end_time", EndTime);
+        sqlPara[4] = new SqlParameter("@start_index", StartIndex);
+        sqlPara[5] = new SqlParameter("@end_index", EndIndex);
+        DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_ProductHourly", sqlPara, new string[] { "data", "footer", "count" });
+
+        if (DataHelper.HasData(ds))
+        {
+
+            DataTable dt1 = ds.Tables["data"];
+            DataTable dt2 = ds.Tables["footer"];
+            total = dt1.Rows.Count;
+            int tableNum = 2;
+            dt1.Rows.Add();
+            dt1.Rows[total]["cl_name"] = "汇总";
+            dt1.Rows[total]["customer_num"] = dt2.Rows[0]["customer_num"];
+            dt1.Rows[total]["real_num"] = dt2.Rows[0]["real_num"];
+            dt1.Rows[total]["real_customer"] = dt2.Rows[0]["real_customer"];
+            dt1.Rows[total]["plan_pro_num"] = dt2.Rows[0]["plan_pro_num"];
+            dt1.Rows[total]["real_pro_num"] = dt2.Rows[0]["real_pro_num"];
+            dt1.Rows[total]["real_plan"] = dt2.Rows[0]["real_plan"];
+            dt1.Rows[total]["line1_finish_num"] = dt2.Rows[0]["line1_finish_num"];
+            dt1.Rows[total]["line1_repair_num"] = dt2.Rows[0]["line1_repair_num"];
+            dt1.Rows[total]["line2_finish_num"] = dt2.Rows[0]["line2_finish_num"];
+            dt1.Rows[total]["line2_repair_num"] = dt2.Rows[0]["line2_repair_num"];
+            dt1.Rows[total]["line3_finish_num"] = dt2.Rows[0]["line3_finish_num"];
+            dt1.Rows[total]["line3_repair_num"] = dt2.Rows[0]["line3_repair_num"];
+            dt1.Rows[total]["line4_finish_num"] = dt2.Rows[0]["line4_finish_num"];
+            dt1.Rows[total]["line4_repair_num"] = dt2.Rows[0]["line4_repair_num"];
+            dt1.Rows[total]["line5_finish_num"] = dt2.Rows[0]["line5_finish_num"];
+            dt1.Rows[total]["line5_repair_num"] = dt2.Rows[0]["line5_repair_num"];
+            dt1.Rows[total]["line6_finish_num"] = dt2.Rows[0]["line6_finish_num"];
+            dt1.Rows[total]["line6_repair_num"] = dt2.Rows[0]["line6_repair_num"];
+            return dt1;
+
+
+        }
+        else
+        {
+            total = 0;
+            return null;
+        }
 
     }
         public static DataListModel<Production_Model> GetList(int page, int pagesize, string sidx, string sord, string Where)
