@@ -146,6 +146,7 @@
                 url: "/HttpHandlers/ColorHandler.ashx?method=queryColorList",
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 rownumbers: true,
                 singleSelect: true,
                 collapsible: false,

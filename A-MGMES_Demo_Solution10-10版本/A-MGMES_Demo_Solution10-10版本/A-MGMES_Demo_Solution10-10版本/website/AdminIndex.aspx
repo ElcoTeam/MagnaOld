@@ -2,6 +2,10 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <style>
+        a{
+            text-decoration:none;
+            color:white;
+         }
         .clear {
             clear: both;
         }
@@ -222,6 +226,8 @@
             </h4>
             <h4>职位：&nbsp;&nbsp;[&nbsp;<asp:Literal ID="tellit" runat="server"></asp:Literal>&nbsp;]
             </h4>
+            <h4>注销：&nbsp;&nbsp;[&nbsp;<a href="javascript:void(0)" onclick="aClick()">退出系统</a>&nbsp;]
+            </h4>
         </div>
         <div class="clear">
         </div>
@@ -365,6 +371,7 @@
                     dialogMsg(errorThrown, -1);
                 }
             });
+
         });
 
 
@@ -385,11 +392,11 @@
 
             var hasShow = false;
 
-            if (title == "退出系统")
-            {
+            //if (title == "退出系统")
+            //{
                 
-                window.location = "AdminLogin.aspx"
-            }
+            //    window.location = "AdminLogin.aspx"
+            //}
             if (url != null && url != '') {
 
                 if (tabIndexArr.length > 0) {
@@ -481,6 +488,10 @@
 
             $('#aaa').tabs('resize');
 
+        }
+
+        function aClick() {
+            window.location = "AdminLogin.aspx";
         }
         
     </script>

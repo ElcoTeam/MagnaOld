@@ -40,7 +40,7 @@
 
     <div class="top">
         <table id="CustomOrder" class="easyui-datagrid" title="紧急订单" style="width: 100%;"
-            rownumbers="true" pagination="true" data-options="
+            rownumbers="true" pagination="true" pageSize="20" data-options="
                     url: '/HttpHandlers/InsertCustomOrderHandler.ashx?method=queryList'
             ">
             <thead>

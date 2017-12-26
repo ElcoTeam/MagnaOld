@@ -72,7 +72,7 @@ public partial class AdminCMS_AdminLogin : System.Web.UI.Page
         {
             HttpCookie cookie = new HttpCookie("admininfo");
             cookie.Values["name"] = uid;
-            cookie.Values["id"] = usermodel.user_id.ToString ();
+           // cookie.Values["id"] = usermodel.user_id.ToString ();
             cookie.Values["tel"] =HttpUtility.UrlEncode( usermodel.user_posiid_name);
             cookie.Values["tel1"] = "666666";
             cookie.Values["webChatName"] = "666666";

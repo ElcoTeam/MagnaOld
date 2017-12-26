@@ -189,7 +189,7 @@ public class UserHandler : IHttpHandler
         string user_pwd = Request.Params["user_pwd"];
 
         mg_userModel model = new mg_userModel();
-        model.user_id = NumericParse.StringToInt(user_id);
+        model.user_id = user_id;
         model.user_depid = NumericParse.StringToInt(user_depid);
         model.user_posiid = NumericParse.StringToInt(user_posiid);
         model.user_no = user_no;
@@ -206,9 +206,9 @@ public class UserHandler : IHttpHandler
 
     void DeleteUser()
     {
-        string user_id = Request.Params["user_id"];
+        string user_no = Request.Params["user_no"];
 
-        string json = mg_UserBLL.DeleteUser(user_id);
+        string json = mg_UserBLL.DeleteUser(user_no);
         Response.Write(json);
         Response.End();
     }
@@ -217,13 +217,14 @@ public class UserHandler : IHttpHandler
     {
         string page = Request.Params["page"];
         string pagesize = Request.Params["rows"];
+
         if (string.IsNullOrEmpty(page))
         {
             page = "1";
         }
         if (string.IsNullOrEmpty(pagesize))
         {
-            pagesize = "15";
+            pagesize = "20";
         }
         string json = mg_UserBLL.QueryUserList(page, pagesize);
         Response.Write(json);

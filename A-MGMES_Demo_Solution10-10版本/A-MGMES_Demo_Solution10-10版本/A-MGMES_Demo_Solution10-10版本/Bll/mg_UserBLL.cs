@@ -69,7 +69,7 @@ namespace Bll
 
         public static string saveUser(mg_userModel model)
         {
-            return model.user_id == 0 ? AddUser(model) : UpdateUser(model);
+            return model.user_id == "" ? AddUser(model) : UpdateUser(model);
         }
 
         private static string UpdateUser(mg_userModel model)
@@ -81,6 +81,10 @@ namespace Bll
         private static string AddUser(mg_userModel model)
         {
             int count = mg_UserDAL.AddUser(model);
+            if (count==-1)
+            {
+                return "exit";
+            }
             return count > 0 ? "true" : "false";
         }
 
@@ -89,30 +93,24 @@ namespace Bll
             string jsonStr = "[]";
             List<mg_userModel> list = null;
             string total = "0";
-            if (page == "1")
-            {
-                list = QueryListForFirstPage(pagesize, out total);
-            }
-            else
-            {
-                list = QueryListForPaging(page, pagesize, out total);
-            }
-
+            
+            list = QueryListForFirstPage(page,pagesize, out total);
+           
             mg_userDataModel model = new mg_userDataModel();
             model.total = total;
             model.rows = list;
             jsonStr = JSONTools.ScriptSerialize<mg_userDataModel>(model);
             return jsonStr;
         }
-        private static List<mg_userModel> QueryListForPaging(string page, string pagesize, out string total)
-        {
-            List<mg_userModel> list = mg_UserDAL.QueryListForPaging(page, pagesize, out total);
-            return list;
-        }
+        //private static List<mg_userModel> QueryListForPaging(string page, string pagesize, out string total)
+        //{
+        //    List<mg_userModel> list = mg_UserDAL.QueryListForPaging(page, pagesize, out total);
+        //    return list;
+        //}
 
-        private static List<mg_userModel> QueryListForFirstPage(string pagesize, out string total)
+        private static List<mg_userModel> QueryListForFirstPage(string currentpage,string pagesize, out string total)
         {
-            List<mg_userModel> list = mg_UserDAL.QueryListForFirstPage(pagesize, out total);
+            List<mg_userModel> list = mg_UserDAL.QueryListForFirstPage(currentpage,pagesize, out total);
             return list;
         }
 

@@ -121,6 +121,7 @@
                 url: "/HttpHandlers/PoInspectItemHandler.ashx?method=QueryPoInspectItemList",           //改动的地方
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
                 striped: true,

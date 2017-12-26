@@ -227,9 +227,8 @@
                 loadMsg: '正在加载数据...',
                 toolbar: '#navigationSearch',
                 pagination: true,
-                pagination: true,
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: 20,
                 pageList: [10, 20, 30, 40],
 
                 //			    当用户点击行时触发，参数如下：

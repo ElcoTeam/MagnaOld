@@ -158,6 +158,8 @@
             //新增按钮点击
             $('.topaddBtn').first().click(function () {
                 isEdit = false;
+                $("#user_no").removeAttr("disabled", "disabled");
+                
                 $('#w').window('open');
             });
 
@@ -180,6 +182,11 @@
             $('#menuTree').tree({
                 //data: menuJSON
                 url: "../Menu/GetMenuList.ashx?ACTION=menutree",
+                //onClick: function (node) {                 //当点击 checkbox 时触发
+                //    //var  node1=$(this).tree('getParent',node.target);          //得到父节点
+                //    //$('#menuTree').tree('check', node1.target);  
+                //    alert($(this).tree('getParent', node.target));//选中父节点
+                //}
                
             });
             $('#menuTreeShow').tree({
@@ -192,6 +199,7 @@
                 url: "/HttpHandlers/UserHandler.ashx?method=queryUserList",
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 rownumbers: true,
                 singleSelect: true,
                 collapsible: false,
@@ -205,7 +213,7 @@
                       { field: 'user_sex', title: '性别', hidden: true },
                       //{ field: 'user_menuids', title: '菜单权限', hidden: true },
 
-                      { field: 'user_id', title: 'id', width: 100, align: "center" },
+                      //{ field: 'user_id', title: 'id', width: 100, align: "center" },
                       { field: 'user_no', title: '工号', width: 100, align: "center" },
                       { field: 'user_name', title: '姓名', width: 100, align: "center" },
                       { field: 'user_sex_name', title: '性别', width: 100, align: "center" },
@@ -214,12 +222,13 @@
                       { field: 'user_posiid_name', title: '职位', width: 100, align: "center" },
                       { field: 'user_email', title: 'e-mail', width: 100, align: "center" },
                       { field: 'user_isAdmin_name', title: '是否为管理员', width: 100, align: "center" },
+                      { field: 'active_flag', title: '状态', width: 100, align: "center" },
                         { field: 'user_menuids', title: '查看菜单权限', align: "center", width: 100, formatter: function (value, row, index) { return '<img src="/image/admin/chukoulist.png" style="height:16px;cursor:pointer" onclick="showMenuRole(\'' + value + '\');"/>'; }, }
                 ]]
             });
             //数据列表分页
             dg.datagrid('getPager').pagination({
-                pageList: [1, 5, 10, 15, 20],
+                pageList: [20, 25, 30],
                 layout: ['list', 'sep', 'first', 'prev', 'sep', 'links', 'sep', 'next', 'last', 'sep', 'refresh']
             });
 
@@ -262,8 +271,8 @@
 
         //新增 / 编辑  操作工档案
         function saveUser() {
-
-            var user_id = isEdit == true ? userid : 0;
+            
+            var user_id = isEdit == true ? user_no : "";
             var user_depid = $('#user_depid').combo('getValue');
             var user_posiid = $('#user_posiid').combo('getValue');
             var user_no = $('#user_no').val();
@@ -275,7 +284,7 @@
 
             var menuidArr = new Array();
             var nodes = $('#menuTree').tree('getChecked');
-
+            var pnodes = $('#menuTree').tree('getChecked','indeterminate');
             for (var i = 0; i < nodes.length; i++) {
 
                 var len = nodes[i].id.indexOf('_');
@@ -298,7 +307,12 @@
                 }
 
             }
+            for (var i = 0; i < pnodes.length; i++) {
+                menuidArr.push(pnodes[i].id);
+                
+            }
             //alert(menuidArr.join(','));
+            console.log(menuidArr.join(','));
             //return false;
             var user_menuids = menuidArr.join(',');
 
@@ -329,6 +343,9 @@
                     if (data == 'true') {
                         alert('已保存');
                         dg.datagrid('reload');
+                    }
+                    else if (data == 'exit') {
+                        alert('保存失败,已经存在此工号');
                     }
                     else alert('保存失败');
                     $('#w').window('close');
@@ -397,7 +414,7 @@
             var row = selRows[0];
             $.ajax({
                 url: "/HttpHandlers/UserHandler.ashx",
-                data: encodeURI("user_id=" + row.user_id + "&method=deleteUser"),
+                data: encodeURI("user_no=" + row.user_no + "&method=deleteUser"),
                 async: false,
                 success: function (data) {
                     if (data == 'true') {

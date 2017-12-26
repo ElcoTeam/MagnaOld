@@ -160,6 +160,7 @@
             url: "/HttpHandlers/AllPartHandler.ashx?method=queryAllPartList",
             rownumbers: true,
             pagination: true,
+            pageSize: 20,
             rownumbers: true,   //写了两遍
             singleSelect: true,
             collapsible: false,

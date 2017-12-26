@@ -252,6 +252,7 @@
                 url: "/HttpHandlers/Part1Handler.ashx?method=QueryPart1List",           //改动的地方
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
                 striped: true,

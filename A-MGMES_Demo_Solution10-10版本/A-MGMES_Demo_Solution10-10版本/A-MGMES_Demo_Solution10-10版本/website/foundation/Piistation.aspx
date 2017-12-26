@@ -136,6 +136,7 @@
                 url: "/HttpHandlers/PiistationHandler.ashx?method=queryPiistationList",
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
                 striped: true,

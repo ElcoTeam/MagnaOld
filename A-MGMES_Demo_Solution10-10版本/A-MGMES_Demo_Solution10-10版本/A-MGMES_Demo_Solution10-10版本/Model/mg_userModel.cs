@@ -10,7 +10,7 @@ namespace Model
         public mg_userModel()
         { }
         #region Model
-        private int? _user_id;
+        private string _user_id;
         private string _user_pwd;
         private string _user_name;
         private string _user_no;
@@ -26,6 +26,7 @@ namespace Model
         private int? _gongwei;
         private string _st_no;
         private string _user_NewPassword;
+        private string _active_flag;
         public string user_NewPassword
         {
             get { return _user_NewPassword; }
@@ -83,7 +84,7 @@ namespace Model
         /// <summary>
         /// 
         /// </summary>
-        public int? user_id
+        public string user_id
         {
             set { _user_id = value; }
             get { return _user_id; }
@@ -175,6 +176,12 @@ namespace Model
         {
             set { _user_isadmin = value; }
             get { return _user_isadmin; }
+        }
+
+        public string active_flag
+        {
+            set { _active_flag = value; }
+            get { return _active_flag; }
         }
         #endregion Model
     }

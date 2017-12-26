@@ -268,6 +268,7 @@
                 url: "/HttpHandlers/StationHandler.ashx?method=queryStationList",
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 rownumbers: true,
                 singleSelect: true,
                 collapsible: false,

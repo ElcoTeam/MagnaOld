@@ -183,7 +183,7 @@
                 pagination: true,
                 pagination: true,
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: 20,
                 pageList: [10, 20, 30, 40],
 
 

@@ -178,6 +178,7 @@
                 url: "/HttpHandlers/TestPartHandler.ashx?method=queryTestPartList",
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
                 striped: true,

@@ -182,6 +182,7 @@
                 url: '/HttpHandlers/Services1000_SysLog.ashx',   //从远程站点请求数据的 URL。
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
                 striped: true,

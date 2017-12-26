@@ -125,7 +125,7 @@
                 toolbar: '#navigationSearch',
                 pagination: true,
                 pageNumber: 1,
-                pageSize: 10,
+                pageSize: 20,
                 pageList: [10, 15, 20, 30],
 
                 
