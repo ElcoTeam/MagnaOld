@@ -157,69 +157,14 @@
     </table>
         
          </table>--%>
-     <table id="tb" title="物料排序打印管理" style="width:100%;overflow:auto;overflow-x:scroll;white-space:nowrap;"></table>
-       <!-- 编辑窗口 -->
-    <div id="w" style="padding: 10px; visibility: hidden" title="整车座椅编辑">
-        <table cellpadding="0" cellspacing="0">
+     <table id="tb" title="物料排序打印管理" style="width:99%;white-space:nowrap;"></table>
 
-            <tr>
-                <td class="title">
-                    <p>
-                        手持端名称 ：
-                    </p>
-                </td>
-                <td>
-                    <input id="SName" type="text" class="text"  style="width: 230px;" />
-                </td>
-            </tr>
-            <tr>
-                <td class="title" style="width: 110px;">
-                    <p>
-                        手持端IP ：
-                    </p>
-                </td>
-                <td>
-                    <input id="ClientIP" type="text" class="text"  style="width: 230px;" />
-                </td>
-            </tr>         
-            
-             <tr>
-                <td class="title" style="width: 110px;">
-                    <p>
-                        手持端权限 ：
-                    </p>
-                </td>
-                <td id="role">                   
-                   <p>前排坐垫面套物料排序单;<input class="edcheckbox" id="checkbox_1" name="checkbox_1" value="前排坐垫面套" type="checkbox"/>  </p>  
-                     <p>前排靠背面套物料排序单;<input class="edcheckbox" id="checkbox_2" name="checkbox_2" value="前排靠背面套" type="checkbox"/>  </p> 
-                     <p>前排坐垫骨架物料排序单;<input class="edcheckbox" id="checkbox_3" name="checkbox_3" value="前排坐垫骨架" type="checkbox"/>  </p> 
-                     <p>前排靠背骨架物料排序单;<input class="edcheckbox" id="checkbox_4" name="checkbox_4" value="前排靠背骨架" type="checkbox"/>  </p> 
-                     <p>插单物料排序单;<input class="edcheckbox" id="checkbox_5" name="checkbox_5" value="插单物料排序单" type="checkbox"/>  </p> 
-                     <p>前排线束物料排序单;<input class="edcheckbox" id="checkbox_6" name="checkbox_6" value="前排线束" type="checkbox"/>  </p> 
-                     <p>大背板物料排序单;<input class="edcheckbox" id="checkbox_7" name="checkbox_7" value="前排大背板" type="checkbox"/>  </p> 
-                     <p>后排40%靠背面套物料排序单;<input class="edcheckbox" id="checkbox_8" name="checkbox_8" value="后40靠背面套" type="checkbox"/>  </p> 
-                     <p>后排60%靠背面套物料排序单;<input class="edcheckbox" id="checkbox_9" name="checkbox_9" value="后60靠背面套" type="checkbox"/>  </p> 
-                     <p>后排坐垫面套物料排序单;<input class="edcheckbox" id="checkbox_10" name="checkbox_10" value="后坐垫坐垫面套" type="checkbox"/>  </p> 
-                     <p>后排中央扶手物料排序单;<input class="edcheckbox" id="checkbox_11" name="checkbox_11" value="后60扶手" type="checkbox"/>  </p> 
-                     <p>后排中央头枕物料排序单;<input class="edcheckbox" id="checkbox_12" name="checkbox_12" value="后60中头枕" type="checkbox"/>  </p> 
-                     <p>后排40%侧头枕物料排序单;<input class="edcheckbox" id="checkbox_13" name="checkbox_13" value="后40侧头枕" type="checkbox"/>  </p> 
-                     <p>后排60%侧头枕物料排序单;<input class="edcheckbox" id="checkbox_14" name="checkbox_14" value="后60侧头枕" type="checkbox"/>  </p>                  
-                                
-               </td>
-            </tr>
-        </table>
-    </div>
-    <!-- 编辑窗口 - footer -->
-    <div id="ft" style="padding: 10px; text-align: center; background-color: #f9f9f9; visibility: hidden">
-        <img src="/image/admin/loading-ring.gif" class="loadinggif" id="loadinggif" /><a
-            class="saveBtn" id="saveBtn">保存</a>
-    </div>
     <script>       
 
         //数据列表加载
         dg = $('#tb').datagrid({
             url: "/HttpHandlers/Materialsortprinting.ashx?method=queryMaterialsortprintingList",
-            rownumbers: true,
+            //rownumbers: true,
             pagination: true,
             singleSelect: true,
             collapsible: false,
@@ -227,7 +172,7 @@
            // fitColumns: true,
             nowrap: false,
             resizable:true,
-            pageSize: 20,
+            pageSize: 10,
             columns: [[
 
                   { field: '序号', title: '序号', rowspan: 2, width: 50, align: "center", sortable: true },
@@ -296,7 +241,7 @@
                 var endtime = $("#endtime").val();
                 dg = $('#tb').datagrid({
                     url: "/HttpHandlers/Materialsortprinting.ashx?method=queryMaterialsortprintingList&csh=" + csh + "&starttime=" + starttime + "&endtime=" + endtime,
-                    rownumbers: true,
+                  //  rownumbers: true,
                     pagination: true,
                     singleSelect: true,
                     collapsible: false,
@@ -304,7 +249,7 @@
                     // fitColumns: true,
                     nowrap: false,
                     resizable: true,
-                    pageSize: 20,
+                    pageSize: 10,
                     columns: [[
 
                           { field: '序号', title: '序号', rowspan: 2, width: 50, align: "center", sortable: true },
