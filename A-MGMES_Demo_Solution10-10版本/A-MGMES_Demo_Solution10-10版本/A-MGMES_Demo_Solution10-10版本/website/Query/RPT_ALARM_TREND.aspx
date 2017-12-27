@@ -27,7 +27,7 @@
     <div id="printArea" class="printArea" closed="true"> 
         <div id="left">
         <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 50%">
+        <table cellpadding="0" cellspacing="0" style="width: 85%">
             <tr>
                 <td class="title"  >
                     
@@ -293,12 +293,14 @@ function myLoader(param, success, error) {
                 var quality_num = getCol('quality_num', false, '');
                 
                 var overcycle_num = getCol('overcycle_num', false, '');
-               
+                var total_num = getCol('total_num', false, '');
                 material_num = JSON.parse('[' + material_num + ']');
                 production_num = JSON.parse('[' + production_num + ']');
                 maintenance_num = JSON.parse('[' + maintenance_num + ']');
                 quality_num = JSON.parse('[' + quality_num + ']');
                 overcycle_num = JSON.parse('[' + overcycle_num + ']');
+                total_num = JSON.parse('[' + total_num + ']');
+
                 $('#upright_container').highcharts({
                     chart: {
                         type:'line',
@@ -343,8 +345,8 @@ function myLoader(param, success, error) {
                     tooltip: {
                         formatter: function () {
                             return '<b>' + this.x + '</b><br/>' +
-                                this.series.name + ': ' + this.y + '<br/>' +
-                                '总量: ' + this.point.stackTotal;
+                                this.series.name + ': ' + this.y + '<br/>';
+                                
                         }
                     },
                     plotOptions: {
@@ -649,8 +651,42 @@ function myLoader(param, success, error) {
         {
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
-            CreateFormPage( start_time +" - "+end_time + "生产线报警趋势报表", $("#gridTable"));
-           
+            //CreateFormPage( start_time +" - "+end_time + "生产线报警趋势报表", $("#gridTable"));
+            $.ajax({
+                type: 'post',
+                url: '/HttpHandlers/RPT_ALARM_TREND.ashx?method=Print',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                data: { "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Print" },
+                cache: false,
+                success: function (data) {
+                    if (data.Result == "true") {
+                        var html = data.Html;
+                        //console.log(html);
+                        var opt = $.extend({
+                            debug: false,
+                            preview: true,     // 是否预览
+                            table: true,       // 是否打印table
+                            usePageStyle: true  // 是否使用页面中的样式
+                        }, opt);
+                        var _self = opt, timer, firstCall, win, $html = $(html);
+                        var $iframe = $("<iframe  />");
+
+                        if (!opt.debug) { $iframe.css({ position: "absolute", width: "0px", height: "0px", left: "-600px", top: "-600px" }); }
+
+                        $iframe.appendTo("body");
+                        win = $iframe[0].contentWindow;
+
+                        $(win.document.body).append($html);
+                        //console.log($html);
+                        win.print();
+                    }
+                    else {
+                        alert("导出失败");
+                    }
+                }
+            });
         }
     </script>
 </asp:Content>

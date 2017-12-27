@@ -5,13 +5,63 @@ using System.Reflection;
 using System.Data.SqlClient;
 using System.Text.RegularExpressions;
 using System.Web;
-
+using System.Text;
 namespace Tools
 {
 
     public class DataHelper
     {
         // Methods
+
+        public static string ExportDatatableToHtml(DataTable dt,string title)
+        {
+            StringBuilder strHTMLBuilder = new StringBuilder();
+            strHTMLBuilder.Append("<!doctype html><html><head><meta charset='utf-8'><title>");
+            strHTMLBuilder.Append(title);
+            strHTMLBuilder.Append("</title>");
+            strHTMLBuilder.Append("</head>");
+            strHTMLBuilder.Append("<body>");
+            strHTMLBuilder.Append("<h3 style='text-align:center'>");
+            strHTMLBuilder.Append(title);
+            strHTMLBuilder.Append("</h3>");
+
+            strHTMLBuilder.Append("<table align='center' border='1px' cellpadding='5' cellspacing='0' >");
+
+            strHTMLBuilder.Append("<tr >");
+            foreach (DataColumn myColumn in dt.Columns)
+            {
+                strHTMLBuilder.Append("<td >");
+                strHTMLBuilder.Append(myColumn.ColumnName);
+                strHTMLBuilder.Append("</td>");
+
+            }
+            strHTMLBuilder.Append("</tr>");
+
+
+            foreach (DataRow myRow in dt.Rows)
+            {
+
+                strHTMLBuilder.Append("<tr >");
+                foreach (DataColumn myColumn in dt.Columns)
+                {
+                    strHTMLBuilder.Append("<td >");
+                    strHTMLBuilder.Append(myRow[myColumn.ColumnName].ToString());
+                    strHTMLBuilder.Append("</td>");
+
+                }
+                strHTMLBuilder.Append("</tr>");
+            }
+
+            //Close tags. 
+            strHTMLBuilder.Append("</table>");
+            strHTMLBuilder.Append("</body>");
+            strHTMLBuilder.Append("</html>");
+
+            string Htmltext = strHTMLBuilder.ToString();
+
+            return Htmltext;
+
+        } 
         public static List<T> ConvertIListToList<T>(IList<T> gbList) where T : class
         {
             if ((gbList != null) && (gbList.Count >= 1))

@@ -43,6 +43,9 @@ namespace website.HttpHandlers
                 case "Export":
                    Export(context);
                     break;
+                case "Print":
+                    Print(context);
+                    break;
                 default:
                     GetListNew(context);
                     break;
@@ -84,6 +87,74 @@ namespace website.HttpHandlers
             DataListModel<Production_Model> userList = Production_Report_BLL.GetListNew(StartTime, EndTime, clnameid, clname, PageIndex,PageSize);
             string json = JSONTools.ScriptSerialize<DataListModel<Production_Model>>(userList);
             return json;
+        }
+
+        public void Print(HttpContext context)
+        {
+            string StartTime = context.Request["start_time"];
+            string EndTime = context.Request["end_time"];
+            if (string.IsNullOrEmpty(StartTime))
+            {
+                DateTime t = DateTime.Now;
+                StartTime = t.AddDays(-1).ToString("yyyy-MM-dd hh:mm:ss");
+            }
+            if (string.IsNullOrEmpty(EndTime))
+            {
+                DateTime t = DateTime.Now;
+
+                EndTime = t.ToString("yyyy-MM-dd hh:mm:ss");
+            }
+            string clid = context.Request["clnameid"];
+            int clnameid = 0;
+            if (string.IsNullOrEmpty(clid))
+            {
+                clnameid = 0;
+            }
+            else
+            {
+                clnameid = Convert.ToInt32(clid);
+            }
+            string clname = context.Request["clname"];
+            int PageSize = Convert.ToInt32(context.Request["rows"]);
+            int PageIndex = Convert.ToInt32(context.Request["page"]);
+            string sidx = RequstString("sidx");    //排序名称
+            string sort = RequstString("sord");    //排序方式
+            if ("-1" == sort)
+            {
+                sort = "id";
+            }
+            if ("-1" == order)
+            {
+                order = "asc";
+            }
+            string json = "";
+            string fileName = HttpContext.Current.Request.MapPath("~/App_Data/生产报表.xlsx");
+
+            try
+            {
+                int StartIndex = 1;
+                int EndIndex = -1;
+                int totalcount = 0;
+                DataTable resTable = Production_Report_BLL.getTable(StartTime, EndTime, clnameid, clname, StartIndex, EndIndex, out totalcount);
+                string title = " 生产报表 - 班次（小时）";
+                string html = DataHelper.ExportDatatableToHtml(resTable, title);
+                string ss = "true";
+                json = "{\"Result\":\"" + ss + "\"," + "\"Html\":\"" + html + "\"}";
+
+
+            }
+            catch (Exception e)
+            {
+                string ss1 = "false";
+                json = "{\"Result\":\"" + ss1 + "\"}";
+
+
+
+            }
+
+
+            context.Response.ContentType = "json";
+            context.Response.Write(json);
         }
         public void Export(HttpContext context)
         {

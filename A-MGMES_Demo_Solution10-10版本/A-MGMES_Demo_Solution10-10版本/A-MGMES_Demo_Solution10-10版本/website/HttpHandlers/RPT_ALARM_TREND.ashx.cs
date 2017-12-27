@@ -41,6 +41,9 @@ namespace website.HttpHandlers
                 case "Export":
                     Export(context);
                     break;
+                case "Print":
+                    Print(context);
+                    break;
                 default:
                     GetListNew(context);
                     break;
@@ -48,6 +51,66 @@ namespace website.HttpHandlers
             }
         }
 
+        public void Print(HttpContext context)
+        {
+            string start_time = context.Request["start_time"];
+            string end_time = context.Request["end_time"];
+            int PageSize = Convert.ToInt32(context.Request["rows"]);
+            int PageIndex = Convert.ToInt32(context.Request["page"]);
+
+            StringBuilder commandText = new StringBuilder();
+            string where = "";
+
+            if (string.IsNullOrEmpty(start_time))
+            {
+                DateTime t = DateTime.Now.AddMonths(-1);
+                start_time = t.ToString("yyyy-MM-dd");
+            }
+            string StartTime = start_time.Substring(0, 10);
+            if (string.IsNullOrEmpty(end_time))
+            {
+                DateTime t = DateTime.Now;
+                end_time = t.ToString("yyyy-MM-dd");
+
+            }
+            string EndTime = end_time.Substring(0, 10);
+            string sidx = RequstString("sidx");    //排序名称
+            string sort = RequstString("sord");    //排序方式
+            if ("-1" == sort)
+            {
+                sort = "id";
+            }
+            if ("-1" == order)
+            {
+                order = "asc";
+            }
+            string json = "";
+            string fileName = HttpContext.Current.Request.MapPath("~/App_Data/生产线报警趋势报表.xlsx");
+            try
+            {
+                int StartIndex = 1;
+                int EndIndex = -1;
+                int totalcount = 0;
+                string title = StartTime + " - "+EndTime+ "生产线报警趋势分析";
+                DataTable resTable = Production_AlarmTrendReport_BLL.getTable(StartTime, EndTime, PageSize, StartIndex, EndIndex, sort, order, where, out totalcount);
+                string html = DataHelper.ExportDatatableToHtml(resTable, title);
+                string ss = "true";
+                json = "{\"Result\":\"" + ss + "\"," + "\"Html\":\"" + html + "\"}";
+
+            }
+            catch (Exception e)
+            {
+                string ss1 = "false";
+                json = "{\"Result\":\"" + ss1 + "\"}";
+
+
+
+            }
+
+
+            context.Response.ContentType = "json";
+            context.Response.Write(json);
+        }
        
         public void Export(HttpContext context)
         {

@@ -41,11 +41,73 @@ namespace website.HttpHandlers
                 case "Export":
                     Export(context);
                     break;
+                case "Print":
+                    Print(context);
+                    break;
                 default:
                     GetListNew(context);
                     break;
 
             }
+        }
+        public void Print(HttpContext context)
+        {
+            string date_time = context.Request["date_time"];
+
+            int PageSize = Convert.ToInt32(context.Request["rows"]);
+            int PageIndex = Convert.ToInt32(context.Request["page"]);
+
+            StringBuilder commandText = new StringBuilder();
+            string where = "";
+
+            if (string.IsNullOrEmpty(date_time))
+            {
+                DateTime t = DateTime.Now;
+                date_time = t.ToString("yyyy-MM-dd hh:mm:ss");
+            }
+            string StartTime = date_time.Substring(0, 10) + " 00:00:00";
+            string EndTime = date_time.Substring(0, 10) + " 23:59:59";
+            where += " and [AlarmStartTime]>='" + StartTime + "'";
+            where += " and [AlarmEndTime]<='" + EndTime + "'";
+
+
+
+            string sidx = RequstString("sidx");    //排序名称
+            string sort = RequstString("sord");    //排序方式
+            if ("-1" == sort)
+            {
+                sort = "id";
+            }
+            if ("-1" == order)
+            {
+                order = "asc";
+            }
+            string json = "";
+            string fileName = HttpContext.Current.Request.MapPath("~/App_Data/生产线报警日报表.xlsx");
+            try
+            {
+                int StartIndex = 1;
+                int EndIndex = -1;
+                int totalcount = 0;
+                DataTable resTable = Production_AlarmDlyReport_BLL.getTable(date_time, PageSize, StartIndex, EndIndex, sort, order, where, out totalcount);
+                string title = date_time + " 生产线报警报表";
+                string html = DataHelper.ExportDatatableToHtml(resTable,title);
+                string ss = "true";
+                json = "{\"Result\":\"" + ss + "\","+"\"Html\":\"" + html + "\"}";
+
+            }
+            catch (Exception e)
+            {
+                string ss1 = "false";
+                json = "{\"Result\":\"" + ss1 + "\"}";
+
+
+
+            }
+
+
+            context.Response.ContentType = "json";
+            context.Response.Write(json);
         }
         public void Export(HttpContext context)
         {

@@ -27,7 +27,7 @@
     <div id="printArea" class="printArea" closed="true"> 
         <div id="left">
         <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 50%">
+        <table cellpadding="0" cellspacing="0" style="width: 85%">
             <tr>
                 <td class="title"  >
                     
@@ -154,8 +154,8 @@
                     toolbar: '#navigationSearch',
                     pagination: true,
                     
-                    pageSize: 30,
-                    pageList: [30, 60, 90],
+                    pageSize: 20,
+                    pageList: [20, 40, 60],
                     //loader: myLoader, //前端分页加载函数  
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
                         console.log(data);
@@ -648,8 +648,49 @@
         }
         function print()
         {
+            //只能打印当前显示页面的数据内容
             var date_time = $('#start_time').datetimebox('getValue');
-            CreateFormPage(date_time + "生产线报警报表", $("#gridTable"));
+            //CreateFormPage(date_time + "生产线报警报表", $("#gridTable"));
+            // 打印所有的数据内容
+              
+
+            var date_time = $('#start_time').datetimebox('getValue');
+            $.ajax({
+                type: 'post',
+                url: '/HttpHandlers/RPT_ALARM_Dly.ashx?method=Print',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                data: { "date_time": "" + date_time + "", "method": "Print" },
+                cache: false,
+                success: function (data) {
+                    if (data.Result == "true") {
+                        var html = data.Html;
+                        //console.log(html);
+                        var opt = $.extend({
+                            debug: false,
+                            preview: true,     // 是否预览
+                            table: true,       // 是否打印table
+                            usePageStyle: true  // 是否使用页面中的样式
+                        }, opt);
+                        var _self = opt, timer, firstCall, win, $html = $(html);
+                        var $iframe = $("<iframe  />");
+
+                        if (!opt.debug) { $iframe.css({ position: "absolute", width: "0px", height: "0px", left: "-600px", top: "-600px" }); }
+
+                        $iframe.appendTo("body");
+                        win = $iframe[0].contentWindow;
+                      
+                        $(win.document.body).append($html);
+                        //console.log($html);
+                        win.print();
+                    }
+                    else {
+                        alert("导出失败");
+                    }
+                }
+            });
+            //打印所有数据结束
            
         }
     </script>

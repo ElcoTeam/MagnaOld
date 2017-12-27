@@ -16,11 +16,11 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
  <div class="top"  style="width: 50%;height:10%">
-        <table cellpadding="0" cellspacing="0" style="width: 70%">
+        <table cellpadding="0" cellspacing="0" style="width: 85%">
             <tr>
-                <td class="title"  >
+                <td class="title" style="width: 120px;" >
                     
-                        选择班次：
+                       <span>选择班次：</span> 
                     
                 </td>  
                            
@@ -30,17 +30,17 @@
                 </td>
              </tr>
              <tr>
-                <td class="title"  >
+                <td class="title" style="width: 120px" >
 
-                       开始时间：
+                      <span>开始时间：</span> 
                     
                 </td>          
                 <td style="width: 120px">
                     <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
-                <td class="title"  >
+                <td class="title" style="width: 120px" >
                     
-                        结束时间：                   
+                        <span>结束时间： </span>                  
                 </td>       
                 <td style="width: 120px">
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
@@ -645,8 +645,47 @@
         function print()
         {
             //$('#gridPanel').printTable(gridPanel);
-            CreateFormPage("生产报表", $("#gridTable"));
-           // $('#printArea').print();
+            //CreateFormPage("生产报表", $("#gridTable"));
+            // $('#printArea').print();
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            var clnameid = $('#clnameid option:selected').val();
+            var clname = $('#clnameid option:selected').text();
+            $.ajax({
+                type: 'post',
+                url: '/HttpHandlers/Service1006_RPT_HOURLY.ashx?method=Print',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                data: { "clname": "" + clname + "", "clnameid": "" + clnameid + "", "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Print" },
+                cache: false,
+                success: function (data) {
+                    if (data.Result == "true") {
+                        var html = data.Html;
+                        console.log(html);
+                        var opt = $.extend({
+                            debug: false,
+                            preview: true,     // 是否预览
+                            table: true,       // 是否打印table
+                            usePageStyle: true  // 是否使用页面中的样式
+                        }, opt);
+                        var _self = opt, timer, firstCall, win, $html = $(html);
+                        var $iframe = $("<iframe  />");
+
+                        if (!opt.debug) { $iframe.css({ position: "absolute", width: "0px", height: "0px", left: "-600px", top: "-600px" }); }
+
+                        $iframe.appendTo("body");
+                        win = $iframe[0].contentWindow;
+
+                        $(win.document.body).append($html);
+                        //console.log($html);
+                        win.print();
+                    }
+                    else {
+                        alert("导出失败");
+                    }
+                }
+            });
         }
     </script>
 </asp:Content>
