@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading;
 using Model;
 using System.Web;
-using DAL;
 using SortManagent.SortDao;
+using DAL;
 namespace SortManagent.Util
 {
     public class TcpStart:HttpApplication

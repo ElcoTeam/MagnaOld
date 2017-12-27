@@ -71,6 +71,7 @@ namespace DAL
                                       ,[user_email]
                                       ,[user_depid]
                                       ,[user_posiid]
+                                      ,[user_no]
                                      ,d.dep_name user_depid_name
                                       ,p.posi_name user_posiid_name
                                       ,[user_menuids]
@@ -87,7 +88,7 @@ namespace DAL
                                   FROM [Sys_UserInfo] u
                                   left join Sys_DeptInfo d on u.user_depid = d.dep_id
                                   left join Sys_RoleInfo p on u.user_posiid = p.posi_id 
-                                    where Lower(user_name)='" + uname.ToLower() +@"';
+                                    where (Lower(user_name)='" + uname.ToLower() + @"' or user_no ='" + uname.ToLower() + @"') and active_flag=0;
                                     ";
             DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
             if (DataHelper.HasData(dt))
@@ -95,7 +96,7 @@ namespace DAL
                 foreach (DataRow row in dt.Rows)
                 {
                     mg_userModel model = new mg_userModel();
-                    //model.user_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_id"));
+                    model.user_no = DataHelper.GetCellDataToStr(row, "user_no");
                     model.user_name = DataHelper.GetCellDataToStr(row, "user_name");
                     model.user_pwd = DataHelper.GetCellDataToStr(row, "user_pwd");
                     model.user_email = DataHelper.GetCellDataToStr(row, "user_email");
@@ -291,10 +292,7 @@ namespace DAL
 		                                                            else '否'
 		                                                            end user_isAdmin_name
                                       ,[user_isAdmin]
-                                      ,case [active_flag]
-		                                                            when 1 then '已删除'
-		                                                            else '正常'
-		                                                            end active_flag
+                                      
                                   from            
                                   [Sys_UserInfo] u
                                   left join Sys_DeptInfo d on u.user_depid = d.dep_id
@@ -354,8 +352,7 @@ namespace DAL
                     model.user_sex = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_sex"));
                     model.user_isAdmin_name = DataHelper.GetCellDataToStr(row, "user_isAdmin_name");
                     model.user_isAdmin = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "user_isAdmin"));
-                    model.active_flag = DataHelper.GetCellDataToStr(row, "active_flag");
-
+                   
                     list.Add(model);
                 }
             }

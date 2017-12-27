@@ -26,12 +26,12 @@ namespace Dal
             {
                 if(string.IsNullOrEmpty(menutitle))
                 {
-                    sql = "select MenuNo,MenuName,MenuAddr,ParentNo,MenuTag,Image from View_Sys_UserLimitInfo where ParentNo='0000' and user_name= '"+currentuser+"'";                 
+                    sql = "select MenuNo,MenuName,MenuAddr,ParentNo,MenuTag,Image from View_Sys_UserLimitInfo where ParentNo='0000' and UserNo= '" + currentuser + "'";                 
                 }
                 else
                 {
 
-                    string sql1 = @"select MenuNo,MenuName,MenuAddr,ParentNo,MenuTag,Image from View_Sys_UserLimitInfo  where ParentNo in (select MenuNo from Sys_MenuInfo where MenuName='{0}' and ParentNo='0000')  and user_name= '" + currentuser + "'";     
+                    string sql1 = @"select MenuNo,MenuName,MenuAddr,ParentNo,MenuTag,Image from View_Sys_UserLimitInfo  where ParentNo in (select MenuNo from Sys_MenuInfo where MenuName='{0}' and ParentNo='0000')  and UserNo= '" + currentuser + "'";     
                     sql = string.Format(sql1, menutitle);
                 }
 

@@ -307,7 +307,7 @@
             });
 
             var _html = '';
-            var currentuser = '<%= Request.Cookies["admininfo"]["name"] %>'
+            var currentuser = '<%= Request.Cookies["admininfo"]["userno"] %>'
             $.ajax({
                 url: "Menu/GetMenuList.ashx",
                 type: "post",

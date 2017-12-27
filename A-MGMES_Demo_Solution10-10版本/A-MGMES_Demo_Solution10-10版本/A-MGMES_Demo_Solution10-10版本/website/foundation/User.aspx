@@ -222,7 +222,6 @@
                       { field: 'user_posiid_name', title: '职位', width: 100, align: "center" },
                       { field: 'user_email', title: 'e-mail', width: 100, align: "center" },
                       { field: 'user_isAdmin_name', title: '是否为管理员', width: 100, align: "center" },
-                      { field: 'active_flag', title: '状态', width: 100, align: "center" },
                         { field: 'user_menuids', title: '查看菜单权限', align: "center", width: 100, formatter: function (value, row, index) { return '<img src="/image/admin/chukoulist.png" style="height:16px;cursor:pointer" onclick="showMenuRole(\'' + value + '\');"/>'; }, }
                 ]]
             });

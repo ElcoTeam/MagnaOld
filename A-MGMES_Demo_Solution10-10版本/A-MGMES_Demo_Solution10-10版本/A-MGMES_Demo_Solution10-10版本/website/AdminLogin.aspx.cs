@@ -68,11 +68,11 @@ public partial class AdminCMS_AdminLogin : System.Web.UI.Page
             Response.Write("<script>alert('" + message + "');location.href='/AdminIndex.aspx';</script>");
             Response.End();
         }
-       else if (uid.ToLower() == usermodel.user_name.ToLower() && pwd == usermodel.user_pwd)
+        else if ((uid.ToLower() == usermodel.user_name.ToLower() && pwd == usermodel.user_pwd) || (uid == usermodel.user_no && pwd == usermodel.user_pwd))
         {
             HttpCookie cookie = new HttpCookie("admininfo");
-            cookie.Values["name"] = uid;
-           // cookie.Values["id"] = usermodel.user_id.ToString ();
+            cookie.Values["name"] = usermodel.user_name.ToString();
+            cookie.Values["userno"] = usermodel.user_no.ToString ();
             cookie.Values["tel"] =HttpUtility.UrlEncode( usermodel.user_posiid_name);
             cookie.Values["tel1"] = "666666";
             cookie.Values["webChatName"] = "666666";
@@ -89,17 +89,17 @@ public partial class AdminCMS_AdminLogin : System.Web.UI.Page
            //Response.Redirect("AdminIndex.aspx");
            //Response.End();
         }
-        else if (uid.ToLower() == usermodel.user_name.ToLower() && pwd != usermodel.user_pwd)
+        else 
         {
             string message = "帐号或密码错误，登录失败！";
             Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
             Response.End();
         }
-        else if (uid.ToLower() != usermodel.user_name.ToLower() && pwd == usermodel.user_pwd)
-        {
-            string message = "帐号或密码错误，登录失败！";
-            Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
-            Response.End();
-        }
+        //else if (uid.ToLower() != usermodel.user_name.ToLower() && pwd == usermodel.user_pwd)
+        //{
+        //    string message = "帐号或密码错误，登录失败！";
+        //    Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
+        //    Response.End();
+        //}
     }
 }
