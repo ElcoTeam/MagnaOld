@@ -297,8 +297,8 @@ namespace DAL
                                   [Sys_UserInfo] u
                                   left join Sys_DeptInfo d on u.user_depid = d.dep_id
                                   left join Sys_RoleInfo p on u.user_posiid = p.posi_id   
-                                  )as A  
-                                  where rowid> (" + pagesize + ")*((" + currentpage + ")-1) ";
+                                  where u.active_flag='0')as A  
+                                  where rowid> (" + pagesize + ")*((" + currentpage + ")-1)";
 
 //            string sql2 = @" SELECT top " + pagesize + @" 
 //                                       [user_name]

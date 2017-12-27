@@ -7,9 +7,26 @@
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <style>
        /* body { padding: 0px; margikn: 0px; background-image: urlk(/image/bgimg.jpg); background-repeat: no-repeat; background-size: 100% 100%; font-family: 微软雅黑; } */
-        body { padding: 0px;  margin: 0px;   font-family: 微软雅黑; }
+        body 
+        { 
+            padding: 0px;  
+            margin: 0px;   
+            font-family: 微软雅黑; 
+            background-image: url(/image/log_bg.jpg); 
+            background-repeat: no-repeat; 
+            background-size: 100% 100%;
+            height:920px;
+
+        }
         .nav { margin: 0px;   background-color:White; padding:20px 0px; border-bottom:2px solid #C8C8C8; width:500px; }
-        .top { margin: 0px; margin-top:20px; text-align: center; }
+        .top 
+        { 
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -218px;
+            margin-left: -250px;
+        }
         
         .loginTable { border: 0px solid #ccc; width: 500px; background-color:#f9f9f9;}
         
@@ -29,8 +46,9 @@
         
         .footer { height: 10%; bottom: 0px; position: fixed; width: 100%; }
     </style>
+    
 </head>
-<body>
+<body >
     <form id="form1" runat="server">
    
 

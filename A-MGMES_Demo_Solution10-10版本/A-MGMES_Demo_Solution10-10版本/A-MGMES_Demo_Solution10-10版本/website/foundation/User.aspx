@@ -216,7 +216,7 @@
                       //{ field: 'user_id', title: 'id', width: 100, align: "center" },
                       { field: 'user_no', title: '工号', width: 100, align: "center" },
                       { field: 'user_name', title: '姓名', width: 100, align: "center" },
-                      { field: 'user_sex_name', title: '性别', width: 100, align: "center" },
+                      
                       { field: 'user_pwd', title: '密码', width: 100, align: "center" },
                       { field: 'user_depid_name', title: '部门', width: 100, align: "center" },
                       { field: 'user_posiid_name', title: '职位', width: 100, align: "center" },
