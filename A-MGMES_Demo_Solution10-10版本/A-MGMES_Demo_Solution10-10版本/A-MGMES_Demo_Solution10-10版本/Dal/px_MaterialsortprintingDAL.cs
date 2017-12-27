@@ -71,24 +71,64 @@ namespace DAL
             SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sqlupdate, null);
            // db.Database.ExecuteSqlCommand("update mg_PartOrder set OrderIsPrint='0' where OrderIsPrint is null ");
            ////db.Database.ExecuteSqlCommand("update mg_PartOrder set OrderIsPrintSYS='0' where OrderIsPrintSYS is null ");
-
+            StringBuilder strSql = new StringBuilder();
           
-            string sql = "select * from View_px_AllList where 1=1 ";
+            string sql="select * from View_px_AllList where 1=1 ";
             if ((csh != null && csh.Length > 1) || (time != null && time.Length > 0))
-                sql = "select * from View_px_AllListALLLLL where 1=1 ";
-
+              sql="select * from View_px_AllListALLLLL where 1=1 ";
+            strSql.Append(sql);
             if (time != null && time.Length > 0)
             {
-                sql += " and co_starttime>'" + time[0] + "' and co_endtime < '" + time[1] + "'";
+                strSql.Append(" and co_starttime>@time0 and co_endtime < @time1 ");
             }
             if (csh != null && csh.Length > 1)
-                sql += " and 车身号='" + csh + "'";
-            sql += " order by ID";
+                strSql.Append(" and 车身号=@csh");
+            strSql.Append(" order by ID");
 
 
-            List<GetIndex> listindex = null;
+            List<GetIndex> listindex = null;        
+            DataTable dt;
+            if (time == null)
+            {
+                if (csh == null) 
+                {
+                    SqlParameter[] parameters = {};                    
+                    dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, strSql.ToString(), parameters);
+                }
+                else 
+                { 
+            SqlParameter[] parameters = {
+					
+					new SqlParameter("@csh", SqlDbType.NVarChar)};   
+                    parameters[0].Value = csh;
+                    dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, strSql.ToString(), parameters);
+                }
+            }
+            else
+            {
+                if (csh == null)
+                {
+                    SqlParameter[] parameters = {
+                    new SqlParameter("@time0", SqlDbType.DateTime),
+					new SqlParameter("@time1", SqlDbType.DateTime)};		
+                    parameters[0].Value = time[0];
+                    parameters[1].Value = time[1];                  
+                    dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, strSql.ToString(), parameters);
+                }
+                else
+                {
+                    SqlParameter[] parameters = {
+                    new SqlParameter("@time0", SqlDbType.DateTime),
+					new SqlParameter("@time1", SqlDbType.DateTime),
+                    new SqlParameter("@csh", SqlDbType.NVarChar)};  
+                    parameters[0].Value = time[0];
+                    parameters[1].Value = time[1];
+                    parameters[2].Value = csh;
+                    dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, strSql.ToString(), parameters);
+                }
+            }
 
-            DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
+            
             if (DataHelper.HasData(dt))
             {
                 DataTable dt2 = dt;
@@ -115,146 +155,155 @@ namespace DAL
             }
 
             List<GetSP> sp = new List<GetSP>();
-            List<GetIndex> list = new List<GetIndex>();
-            var AllModelList = listindex;
-            string sql_Print = @"SELECT [id]
+            if (listindex == null)
+            {
+              
+            }
+            else
+            {
+              
+                List<GetIndex> list = new List<GetIndex>();
+                var AllModelList = listindex;
+                string sql_Print = @"SELECT [id]
                                           ,[orderid]
                                           ,[XF]
                                           ,[ordername]
                                           ,[IsSendOk]
                                 FROM [dbo].[px_Print] ";
 
-            List<GetpxPrintAll> listpxPrintAll = null;
+                List<GetpxPrintAll> listpxPrintAll = null;
 
-            DataTable dtpxPrintAll = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql_Print, null);
-            if (DataHelper.HasData(dtpxPrintAll))
-            {
-                DataTable dt2 = dtpxPrintAll;
-                listpxPrintAll = new List<GetpxPrintAll>();
-                foreach (DataRow row in dt2.Rows)
+                DataTable dtpxPrintAll = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql_Print, null);
+                if (DataHelper.HasData(dtpxPrintAll))
                 {
-                    GetpxPrintAll model = new GetpxPrintAll();
-                    model.ID = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "ID"));
-                    model.IsSendOk = DataHelper.GetCellDataToStr(row, "IsSendOk");
-                    model.orderid = DataHelper.GetCellDataToStr(row, "orderid");
-                    model.ordername = DataHelper.GetCellDataToStr(row, "ordername");
-                    listpxPrintAll.Add(model);
+                    DataTable dt2 = dtpxPrintAll;
+                    listpxPrintAll = new List<GetpxPrintAll>();
+                    foreach (DataRow row in dt2.Rows)
+                    {
+                        GetpxPrintAll model = new GetpxPrintAll();
+                        model.ID = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "ID"));
+                        model.IsSendOk = DataHelper.GetCellDataToStr(row, "IsSendOk");
+                        model.XF = DataHelper.GetCellDataToStr(row, "XF");
+                        model.orderid = DataHelper.GetCellDataToStr(row, "orderid");
+                        model.ordername = DataHelper.GetCellDataToStr(row, "ordername");
+                        listpxPrintAll.Add(model);
+                    }
                 }
-            }
 
-            List<GetpxPrintAll> AllModelList_Print = listpxPrintAll;
-            var zfjlist = AllModelList.Where(s => s.主副驾.Equals("主架") || s.主副驾.Equals("副驾")).Select(s => s.订单号).ToList();
-            var Listcount = AllModelList.DistinctsBy(s => s.订单号).ToList();
-
-
-            var AllPrint = px_PrintDAL.Querypx_PrintList();            //所有订单号
-            var ListOrderID = AllModelList.Select(s => s.订单号).Distinct().ToList();
-            int num = 0;
-            for (int i = 0; i < Listcount.Count; i++)
-            {
-                num = num + 1;
-                if (num <= Skip)
-                    continue;
-                if (num > (Skip + Take))
-                    continue;
-
-                GetSP gsp = new GetSP();
-                gsp.序号 = (i + 1).ToString();
-                string orderid = Listcount[i].订单号;
-                string carid = Listcount[i].车身号;
-                gsp.订单号 = carid;
-                gsp.等级 = AllModelList.FirstOrDefault(s => s.订单号.Equals(orderid)).等级;
-                gsp.靠背面套主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾").零件号;
-                gsp.靠背面套副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾").零件号;
-                gsp.坐垫面套主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾").零件号;
-                gsp.坐垫面套副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾").零件号;
-                gsp.坐垫骨架主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾").零件号;
-                gsp.坐垫骨架副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾").零件号;
-                gsp.靠背骨架主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾").零件号;
-                gsp.靠背骨架副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾").零件号;
-
-                //var aa = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1);
-                //var aaaa = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述 == "靠背面套");
-                //var aaaa1 = AllModelList.FirstOrDefault(s => s.订单号 == orderid &&  s.零件号描述 == "靠背面套");
-                //var aaaa2 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40");
-                //var aaaa23 = AllModelList.FirstOrDefault(s =>  s.主副驾 == "后40");
-                //var aaaa21 = AllModelList.FindAll(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1);
-
-                gsp.线束主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾").零件号;
-                gsp.线束副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾").零件号;
-                gsp.大背板主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾").零件号;
-                gsp.大背板副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾").零件号;
-                gsp.靠背40 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1).零件号;
-                gsp.靠背60 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("靠背面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("靠背面套") != -1).零件号;
-                gsp.后坐垫 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1).零件号;
-                gsp.后排中央扶手 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1).零件号;
-                gsp.后排中央头枕 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1).零件号;
-                gsp.侧头枕40 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
-                gsp.侧头枕60 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
-                //gsp.靠背面套主驾 = "靠背面套主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾").零件号;
-                //gsp.靠背面套副驾 = "靠背面套副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾").零件号;
-                //gsp.坐垫面套主驾 = "坐垫面套主驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾").零件号;
-                //gsp.坐垫面套副驾 = "坐垫面套副驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾").零件号;
-                //gsp.坐垫骨架主驾 = "坐垫骨架主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾").零件号;
-                //gsp.坐垫骨架副驾 = "坐垫骨架副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾").零件号;
-                //gsp.靠背骨架主驾 = "靠背骨架主驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾").零件号;
-                //gsp.靠背骨架副驾 = "靠背骨架副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾").零件号;
-                //gsp.线束主驾 = "线束主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾").零件号;
-                //gsp.线束副驾 = "线束副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾").零件号;
-                //gsp.大背板主驾 = "大背板主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾").零件号;
-                //gsp.大背板副驾 = "大背板副驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾").零件号;
-                //gsp.靠背40 = "靠背40";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1).零件号;
-                //gsp.后坐垫 = "后坐垫";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1).零件号;
-                //gsp.后排中央扶手 = "后排中央扶手";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1).零件号;
-                //gsp.后排中央头枕 = "后排中央头枕";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1).零件号;
-                //gsp.侧头枕40 = "侧头枕40";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
-                //gsp.侧头枕60 = "侧头枕60";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
+                List<GetpxPrintAll> AllModelList_Print = listpxPrintAll;
+                var zfjlist = AllModelList.Where(s => s.主副驾.Equals("主架") || s.主副驾.Equals("副驾")).Select(s => s.订单号).ToList();
+                var Listcount = AllModelList.DistinctsBy(s => s.订单号).ToList();
 
 
-                gsp.靠背面套主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "主驾") == null ? 0 : 1;
-                gsp.靠背面套副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "副驾") == null ? 0 : 1;
-                gsp.坐垫面套主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫面套") != -1 && s.XF == "主驾") == null ? 0 : 1;
-                gsp.坐垫面套副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫面套") != -1 && s.XF == "副驾") == null ? 0 : 1;
-                gsp.坐垫骨架主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫骨架") != -1 && s.XF == "主驾") == null ? 0 : 1;
-                gsp.坐垫骨架副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫骨架") != -1 && s.XF == "副驾") == null ? 0 : 1;
-                gsp.靠背骨架主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背骨架") != -1 && s.XF == "主驾") == null ? 0 : 1;
-                gsp.靠背骨架副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背骨架") != -1 && s.XF == "副驾") == null ? 0 : 1;
-                gsp.线束主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("线束") != -1 && s.XF == "主驾") == null ? 0 : 1;
-                gsp.线束副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("线束") != -1 && s.XF == "副驾") == null ? 0 : 1;
-                gsp.大背板主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("大背板") != -1 && s.XF == "主驾") == null ? 0 : 1;
-                gsp.大背板副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("大背板") != -1 && s.XF == "副驾") == null ? 0 : 1;
+                var AllPrint = px_PrintDAL.Querypx_PrintList();            //所有订单号
+                var ListOrderID = AllModelList.Select(s => s.订单号).Distinct().ToList();
+                int num = 0;
+                for (int i = 0; i < Listcount.Count; i++)
+                {
+                    num = num + 1;
+                    if (num <= Skip)
+                        continue;
+                    if (num > (Skip + Take))
+                        continue;
 
-                gsp.靠背40打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "后40") == null ? 0 : 1;
-                gsp.靠背60打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "后60") == null ? 0 : 1;
-                gsp.后坐垫打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫面套") != -1 && s.XF == "后坐垫") == null ? 0 : 1;
-                gsp.后排中央扶手打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("扶手") != -1 && s.XF == "后60") == null ? 0 : 1;
-                gsp.后排中央头枕打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("中头枕") != -1 && s.XF == "后60") == null ? 0 : 1;
-                gsp.侧头枕40打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("侧头枕") != -1 && s.XF == "后40") == null ? 0 : 1;
-                gsp.侧头枕60打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("侧头枕") != -1 && s.XF == "后60") == null ? 0 : 1;
+                    GetSP gsp = new GetSP();
+                    gsp.序号 = (i + 1).ToString();
+                    string orderid = Listcount[i].订单号;
+                    string carid = Listcount[i].车身号;
+                    gsp.订单号 = carid;
+                    gsp.等级 = AllModelList.FirstOrDefault(s => s.订单号.Equals(orderid)).等级;
+                    gsp.靠背面套主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾").零件号;
+                    gsp.靠背面套副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾").零件号;
+                    gsp.坐垫面套主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾").零件号;
+                    gsp.坐垫面套副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾").零件号;
+                    gsp.坐垫骨架主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾").零件号;
+                    gsp.坐垫骨架副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾").零件号;
+                    gsp.靠背骨架主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾").零件号;
+                    gsp.靠背骨架副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾").零件号;
 
-                gsp.靠背面套主驾下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "主驾", AllModelList_Print);//AllModelList_Print
-                gsp.靠背面套副驾下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "副驾", AllModelList_Print);
-                gsp.坐垫面套主驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫面套", "主驾", AllModelList_Print);
-                gsp.坐垫面套副驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫面套", "副驾", AllModelList_Print);
-                gsp.坐垫骨架主驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫骨架", "主驾", AllModelList_Print);
-                gsp.坐垫骨架副驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫骨架", "副驾", AllModelList_Print);
-                gsp.靠背骨架主驾下发 = this.GetSend_Status(AllPrint, carid, "靠背骨架", "主驾", AllModelList_Print);
-                gsp.靠背骨架副驾下发 = this.GetSend_Status(AllPrint, carid, "靠背骨架", "副驾", AllModelList_Print);
-                gsp.线束主驾下发 = this.GetSend_Status(AllPrint, carid, "线束", "主驾", AllModelList_Print);
-                gsp.线束副驾下发 = this.GetSend_Status(AllPrint, carid, "线束", "副驾", AllModelList_Print);
-                gsp.大背板主驾下发 = this.GetSend_Status(AllPrint, carid, "大背板", "主驾", AllModelList_Print);
-                gsp.大背板副驾下发 = this.GetSend_Status(AllPrint, carid, "大背板", "副驾", AllModelList_Print);
+                    //var aa = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1);
+                    //var aaaa = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述 == "靠背面套");
+                    //var aaaa1 = AllModelList.FirstOrDefault(s => s.订单号 == orderid &&  s.零件号描述 == "靠背面套");
+                    //var aaaa2 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40");
+                    //var aaaa23 = AllModelList.FirstOrDefault(s =>  s.主副驾 == "后40");
+                    //var aaaa21 = AllModelList.FindAll(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1);
 
-                gsp.靠背40下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "后40", AllModelList_Print);
-                gsp.靠背60下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "后60", AllModelList_Print);
-                gsp.后坐垫下发 = this.GetSend_Status(AllPrint, carid, "坐垫面套", "后坐垫", AllModelList_Print);
-                gsp.后排中央扶手下发 = this.GetSend_Status(AllPrint, carid, "扶手", "后60", AllModelList_Print);
-                gsp.后排中央头枕下发 = this.GetSend_Status(AllPrint, carid, "中头枕", "后60", AllModelList_Print);
-                gsp.侧头枕40下发 = this.GetSend_Status(AllPrint, carid, "侧头枕", "后40", AllModelList_Print);
-                gsp.侧头枕60下发 = this.GetSend_Status(AllPrint, carid, "侧头枕", "后60", AllModelList_Print);
+                    gsp.线束主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾").零件号;
+                    gsp.线束副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾").零件号;
+                    gsp.大背板主驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾").零件号;
+                    gsp.大背板副驾 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾").零件号;
+                    gsp.靠背40 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1).零件号;
+                    gsp.靠背60 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("靠背面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("靠背面套") != -1).零件号;
+                    gsp.后坐垫 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1).零件号;
+                    gsp.后排中央扶手 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1).零件号;
+                    gsp.后排中央头枕 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1).零件号;
+                    gsp.侧头枕40 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
+                    gsp.侧头枕60 = AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
+                    //gsp.靠背面套主驾 = "靠背面套主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "主驾").零件号;
+                    //gsp.靠背面套副驾 = "靠背面套副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背面套") != -1 && s.主副驾 == "副驾").零件号;
+                    //gsp.坐垫面套主驾 = "坐垫面套主驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "主驾").零件号;
+                    //gsp.坐垫面套副驾 = "坐垫面套副驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫面套") != -1 && s.主副驾 == "副驾").零件号;
+                    //gsp.坐垫骨架主驾 = "坐垫骨架主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "主驾").零件号;
+                    //gsp.坐垫骨架副驾 = "坐垫骨架副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("坐垫骨架") != -1 && s.主副驾 == "副驾").零件号;
+                    //gsp.靠背骨架主驾 = "靠背骨架主驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "主驾").零件号;
+                    //gsp.靠背骨架副驾 = "靠背骨架副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("靠背骨架") != -1 && s.主副驾 == "副驾").零件号;
+                    //gsp.线束主驾 = "线束主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "主驾").零件号;
+                    //gsp.线束副驾 = "线束副驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("线束") != -1 && s.主副驾 == "副驾").零件号;
+                    //gsp.大背板主驾 = "大背板主驾";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "主驾").零件号;
+                    //gsp.大背板副驾 = "大背板副驾";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾") == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.零件号描述.IndexOf("大背板") != -1 && s.主副驾 == "副驾").零件号;
+                    //gsp.靠背40 = "靠背40";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("靠背面套") != -1).零件号;
+                    //gsp.后坐垫 = "后坐垫";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后坐垫" && s.零件号描述.IndexOf("坐垫面套") != -1).零件号;
+                    //gsp.后排中央扶手 = "后排中央扶手";//AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("扶手") != -1).零件号;
+                    //gsp.后排中央头枕 = "后排中央头枕";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("中头枕") != -1).零件号;
+                    //gsp.侧头枕40 = "侧头枕40";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后40" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
+                    //gsp.侧头枕60 = "侧头枕60";// AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1) == null ? "无" : AllModelList.FirstOrDefault(s => s.订单号 == orderid && s.主副驾 == "后60" && s.零件号描述.IndexOf("侧头枕") != -1).零件号;
 
-                sp.Add(gsp);
 
+                    gsp.靠背面套主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "主驾") == null ? 0 : 1;
+                    gsp.靠背面套副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "副驾") == null ? 0 : 1;
+                    gsp.坐垫面套主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫面套") != -1 && s.XF == "主驾") == null ? 0 : 1;
+                    gsp.坐垫面套副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫面套") != -1 && s.XF == "副驾") == null ? 0 : 1;
+                    gsp.坐垫骨架主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫骨架") != -1 && s.XF == "主驾") == null ? 0 : 1;
+                    gsp.坐垫骨架副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫骨架") != -1 && s.XF == "副驾") == null ? 0 : 1;
+                    gsp.靠背骨架主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背骨架") != -1 && s.XF == "主驾") == null ? 0 : 1;
+                    gsp.靠背骨架副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背骨架") != -1 && s.XF == "副驾") == null ? 0 : 1;
+                    gsp.线束主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("线束") != -1 && s.XF == "主驾") == null ? 0 : 1;
+                    gsp.线束副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("线束") != -1 && s.XF == "副驾") == null ? 0 : 1;
+                    gsp.大背板主驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("大背板") != -1 && s.XF == "主驾") == null ? 0 : 1;
+                    gsp.大背板副驾打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("大背板") != -1 && s.XF == "副驾") == null ? 0 : 1;
+
+                    gsp.靠背40打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "后40") == null ? 0 : 1;
+                    gsp.靠背60打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("靠背面套") != -1 && s.XF == "后60") == null ? 0 : 1;
+                    gsp.后坐垫打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("坐垫面套") != -1 && s.XF == "后坐垫") == null ? 0 : 1;
+                    gsp.后排中央扶手打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("扶手") != -1 && s.XF == "后60") == null ? 0 : 1;
+                    gsp.后排中央头枕打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("中头枕") != -1 && s.XF == "后60") == null ? 0 : 1;
+                    gsp.侧头枕40打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("侧头枕") != -1 && s.XF == "后40") == null ? 0 : 1;
+                    gsp.侧头枕60打印 = AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf("侧头枕") != -1 && s.XF == "后60") == null ? 0 : 1;
+
+                    gsp.靠背面套主驾下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "主驾", AllModelList_Print);//AllModelList_Print
+                    gsp.靠背面套副驾下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "副驾", AllModelList_Print);
+                    gsp.坐垫面套主驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫面套", "主驾", AllModelList_Print);
+                    gsp.坐垫面套副驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫面套", "副驾", AllModelList_Print);
+                    gsp.坐垫骨架主驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫骨架", "主驾", AllModelList_Print);
+                    gsp.坐垫骨架副驾下发 = this.GetSend_Status(AllPrint, carid, "坐垫骨架", "副驾", AllModelList_Print);
+                    gsp.靠背骨架主驾下发 = this.GetSend_Status(AllPrint, carid, "靠背骨架", "主驾", AllModelList_Print);
+                    gsp.靠背骨架副驾下发 = this.GetSend_Status(AllPrint, carid, "靠背骨架", "副驾", AllModelList_Print);
+                    gsp.线束主驾下发 = this.GetSend_Status(AllPrint, carid, "线束", "主驾", AllModelList_Print);
+                    gsp.线束副驾下发 = this.GetSend_Status(AllPrint, carid, "线束", "副驾", AllModelList_Print);
+                    gsp.大背板主驾下发 = this.GetSend_Status(AllPrint, carid, "大背板", "主驾", AllModelList_Print);
+                    gsp.大背板副驾下发 = this.GetSend_Status(AllPrint, carid, "大背板", "副驾", AllModelList_Print);
+
+                    gsp.靠背40下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "后40", AllModelList_Print);
+                    gsp.靠背60下发 = this.GetSend_Status(AllPrint, carid, "靠背面套", "后60", AllModelList_Print);
+                    gsp.后坐垫下发 = this.GetSend_Status(AllPrint, carid, "坐垫面套", "后坐垫", AllModelList_Print);
+                    gsp.后排中央扶手下发 = this.GetSend_Status(AllPrint, carid, "扶手", "后60", AllModelList_Print);
+                    gsp.后排中央头枕下发 = this.GetSend_Status(AllPrint, carid, "中头枕", "后60", AllModelList_Print);
+                    gsp.侧头枕40下发 = this.GetSend_Status(AllPrint, carid, "侧头枕", "后40", AllModelList_Print);
+                    gsp.侧头枕60下发 = this.GetSend_Status(AllPrint, carid, "侧头枕", "后60", AllModelList_Print);
+
+                    sp.Add(gsp);
+
+                }
             }
             return sp;
         }
@@ -285,11 +334,20 @@ namespace DAL
                 // string IsSendOk = AllModelList.Select(s => s.IsSendOk).Distinct().ToList()[0];
                 string IsSendOk = AllModelList_Print.FirstOrDefault(s => s.orderid == carid && s.ordername == ordername && s.XF == xf).IsSendOk;
                 if (AllPrint.FirstOrDefault(s => s.orderid == carid && s.ordername.IndexOf(ordername) != -1 && s.XF == xf && s.resultljh != strnull && s.resultljh.Length > 5) != null)
+                { 
                     sendStatus = "background-color:green";
+                }
+                   
                 else if (IsSendOk != null && IsSendOk.Trim().Equals("1"))
+                {
                     sendStatus = "background-color:blue";
+                }
+
                 else
+                {
                     sendStatus = "background-color:yellow";
+                }
+                  
             }
             return sendStatus;
         }
@@ -772,7 +830,7 @@ namespace DAL
             return rows;
         }
 
-        public static List<GetSP> QueryListForFirstPage(string pagesize, out string total)
+        public static List<GetSP> QueryListForFirstPage(string pagesize, out string total, DateTime? starttime, DateTime? endtime, string csh)
         {
 //            total = "0";
 //            List<GetSP> list = null;
@@ -808,11 +866,9 @@ namespace DAL
 //            }
             total = "0";
              DateTime?[] time = null;
-            int PageSize = 5;
-            DateTime? starttime=null;
-            DateTime? endtime=null;
+             int PageSize =NumericParse.StringToInt(pagesize);            
             int Page=1;
-            string csh="";
+          
             if (starttime != null && endtime != null)
             {
                 time = new DateTime?[] { starttime, endtime };
@@ -848,7 +904,7 @@ namespace DAL
             catch { }
             return result;
         }
-        public static List<GetSP> QueryListForPaging(string page, string pagesize, out string total)
+        public static List<GetSP> QueryListForPaging(string page, string pagesize, out string total, DateTime? starttime, DateTime? endtime, string csh)
         {
             total = "0";
             List<GetSP> list = null;

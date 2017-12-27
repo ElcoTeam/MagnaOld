@@ -46,8 +46,17 @@ namespace DAL
 
                     model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
                     model.isauto = DataHelper.GetCellDataToStr(row, "isauto");
+                    model.PXID = DataHelper.GetCellDataToStr(row, "PXID");
+                    model.orderid = DataHelper.GetCellDataToStr(row, "orderid");
+                    model.cartype = DataHelper.GetCellDataToStr(row, "cartype");
+                    model.XF = DataHelper.GetCellDataToStr(row, "XF");
+                    model.sum = DataHelper.GetCellDataToStr(row, "sum");
+                    model.ordername = DataHelper.GetCellDataToStr(row, "ordername");
                     model.LingjianHao = DataHelper.GetCellDataToStr(row, "LingjianHao");
-
+                    model.dayintime = NumericParse.StringToDateTime(DataHelper.GetCellDataToStr(row, "dayintime"));
+                    model.printpxid = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "printpxid"));
+                    model.resultljh = DataHelper.GetCellDataToStr(row, "resultljh");
+                    model.SFlag = DataHelper.GetCellDataToStr(row, "SFlag");
                     list.Add(model);
                 }
             }

@@ -60,6 +60,9 @@ public class Materialsortprinting : IHttpHandler
     {
         string page = Request.Params["page"];
         string pagesize = Request.Params["rows"];
+        DateTime? starttime = NumericParse.StringToDateTime(Request.Params["starttime"]);
+        DateTime? endtime = NumericParse.StringToDateTime(Request.Params["endtime"]);
+        string csh = Request.Params["csh"];
         if (string.IsNullOrEmpty(page))
         {
             page = "1";
@@ -69,7 +72,7 @@ public class Materialsortprinting : IHttpHandler
             pagesize = "15";
         }
 
-        string json = px_MaterialsortprintingBLL.queryMaterialsortprintingList(page, pagesize);
+        string json = px_MaterialsortprintingBLL.queryMaterialsortprintingList(page, pagesize,starttime,endtime,csh);
         Response.Write(json);
         Response.End();
     }

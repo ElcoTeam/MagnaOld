@@ -95,29 +95,21 @@
       <div class="top">
         <table cellpadding="0" cellspacing="0" style="width: 100%">
             <tr>
-                <td><span class="title">手持仪配置管理</span> <%--<span class="subDesc">拖拽数据进行排序</span>--%>
+                <td><span class="title">物料排序打印管理</span>
                 </td>
-                <td style="width: 120px">
-                    <a class="topaddBtn">新增配置</a>
-                </td>
-                <td style="width: 120px">
-                    <a class="toppenBtn">编辑所选</a>
-                </td>
-                <td style="width: 120px">
-                    <a class="topdelBtn">删除所选</a>
-                </td>
+              
             </tr>
         </table>
-            <form method="get" action="~/Materialsortprinting/Index">
-        车身号：<input id="csh"  name="csh" type="text" value=""/><%--<input id="csh"  name="csh" type="text" value="@Model.stmt"/>--%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          
+        车身号：<input id="csh"  name="csh" type="text" value=""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         时间选择：
-        <input name="starttime" width="100" type="date" value="@Model.starttime" />&nbsp;至&nbsp;
-        <input name="endtime" width="100" type="date" value="@Model.endtime" />
+        <input name="starttime" id="starttime" type="date" value="" />&nbsp;至&nbsp;
+        <input name="endtime"  id="endtime" type="date" value="" />
         &nbsp;&nbsp;&nbsp;
-        <input type="submit" value="查询" />
-    </form>
+        <input type="button" value="查询" class="topaddBtn" />
+           
             <form method="get" action="~/Materialsortprinting/RePrintByCarID">
-        车身号：<input id="carid" name="carid" type="text" value="" /><%--<input id="carid" name="carid" type="text" value="@Model.stmt" />--%>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        车身号：<input id="carid" name="carid" type="text" value="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         物料种类：
         <select id="selectwuliao" name="selectwuliao" style="width:200px;">
             <option value="前排-靠背面套">前排-靠背面套</option>
@@ -139,99 +131,7 @@
     </form>
     </div>
     
-     <!-- 数据表格  -->
-    <table title="手持仪配置管理" style="width: 99%;">
-   
-        <table class="table table-bordered table-striped">
-        <tr>
-            <th rowspan="2">
-                序号
-            </th>
-            <th rowspan="2">
-                车身号
-            </th>
-            <th rowspan="2">
-                车型
-            </th>
-            <th colspan="2">
-                <a href="Edit()" id="靠背面套" zfj="前排">前排靠背面套</a>
-              
-            </th>
-            <th colspan="2">
-                 <a href="Edit()" id="坐垫面套" zfj="前排">前排坐垫面套</a>
-              
-            </th>
-            <th colspan="2">
-                 <a href="Edit()" id="坐垫骨架" zfj="前排">前排坐盆骨架</a>
-              
-            </th>
-            <th colspan="2">
-                 <a href="Edit()" id="靠背骨架" zfj="前排">前排靠背骨架</a>
-               
-            </th>
-            <th colspan="2">
-                 <a href="Edit()" id="线束" zfj="前排">前排线束</a>
-              
-            </th>
-            <th colspan="2">
-                 <a href="Edit()" id="大背板" zfj="前排">大背板</a>
-              
-            </th>
-
-
-            <th rowspan="2">
-                 <a href="Edit()" id="靠背面套" zfj="后40">后排40%靠背面套</a>
-               
-            </th>
-            <th rowspan="2">
-                 <a href="Edit()" id="靠背面套" zfj="后60">后排60%靠背面套</a>
-              
-            </th>
-            <th rowspan="2">
-                 <a href="Edit()" id="坐垫面套" zfj="后坐垫">后排坐垫面套</a>
-               
-            </th>
-            <th rowspan="2">
-                 <a href="Edit()" id="扶手" zfj="后60">后排中央扶手</a>
-               
-            </th>
-            <th rowspan="2">
-                 <a href="Edit()" id="中头枕" zfj="后60">后排中央头枕</a>
-              
-            </th>
-            <th rowspan="2">
-                 <a href="Edit()" id="侧头枕" zfj="后40">后排40%侧头枕</a>
-              
-            </th>
-            <th rowspan="2">
-                 <a href="Edit()" id="侧头枕" zfj="后60">后排60%侧头枕</a>
-              
-            </th>
-            <th rowspan="2">
-                操作
-            </th>
-        </tr>
-        <tr>
-            <th>主驾</th>
-            <th>副驾</th>
-            <th>主驾</th>
-            <th>副驾</th>
-            <th>主驾</th>
-            <th>副驾</th>
-            <th>主驾</th>
-            <th>副驾</th>
-            <th>主驾</th>
-            <th>副驾</th>
-            <th>主驾</th>
-            <th>副驾</th>
-        </tr>
-       
-        <tr  >
-           
-              <%--  <td rowspan="2">
-                @Html.ActionLink("插单打印", "CDDY", new { id = item.订单号, idlevel=item.等级 }, htmlAttributes: new { @class = "btn btn-primary" })
-            </td>--%>
-        </tr>
+ 
       <%--  <tr>
             <td>@para.FirstOrDefault(s=>s.Name.Equals(  "靠背面套")).SerialID</td>
             <td>@para.FirstOrDefault(s => s.Name.Equals("靠背面套")).SerialID</td>
@@ -252,12 +152,12 @@
             <td>@para.FirstOrDefault(s => s.Name.Equals("后排中央头枕")).SerialID</td>
             <td>@para.FirstOrDefault(s => s.Name.Equals("40侧头枕")).SerialID</td>
             <td>@para.FirstOrDefault(s => s.Name.Equals("60侧头枕")).SerialID</td>
-        </tr>--%>
+        </tr>
          
     </table>
         
-         </table>
-     <table id="tb" title="手持仪配置管理1" style="width:100%;overflow:auto;overflow-x:scroll;white-space:nowrap;"></table>
+         </table>--%>
+     <table id="tb" title="物料排序打印管理" style="width:100%;overflow:auto;overflow-x:scroll;white-space:nowrap;"></table>
        <!-- 编辑窗口 -->
     <div id="w" style="padding: 10px; visibility: hidden" title="整车座椅编辑">
         <table cellpadding="0" cellspacing="0">
@@ -314,9 +214,7 @@
         <img src="/image/admin/loading-ring.gif" class="loadinggif" id="loadinggif" /><a
             class="saveBtn" id="saveBtn">保存</a>
     </div>
-    <script>
-
-
+    <script>       
 
         //数据列表加载
         dg = $('#tb').datagrid({
@@ -325,41 +223,46 @@
             pagination: true,
             singleSelect: true,
             collapsible: false,
-            striped: true,
-            fitColumns: true,
+            striped: true,           
+           // fitColumns: true,
             nowrap: false,
+            resizable:true,
             pageSize: 20,
             columns: [[
 
-                  { field: '序号', title: '序号', width: 152,align: "center" },
-                  { field: '订单号', title: '车身号 ', width: 180, align: "center" },
-                  { field: '等级', title: '车型', width: 182,  align: "center" },
-                  //{ field: 'ck', checkbox: true },
-
-                 
-                  { field: '靠背面套主驾', title: '靠背面套主驾', width: 182, align: "center" },
-                  { field: '靠背面套副驾', title: '靠背面套副驾', width: 182, align: "center" },
-                  { field: '坐垫面套主驾', title: '坐垫面套主驾', width: 182, align: "center" },
-                  { field: '坐垫面套副驾', title: '坐垫面套副驾', width: 182, align: "center" },
-                  { field: '坐垫骨架主驾', title: '坐垫骨架主驾', width: 182, align: "center" },
-                  { field: '坐垫骨架副驾', title: '坐垫骨架副驾', width: 182, align: "center" },
-                  { field: '靠背骨架主驾', title: '靠背骨架主驾', width: 182, align: "center" },
-                  { field: '靠背骨架副驾', title: '靠背骨架副驾', width: 182, align: "center" },
-                  { field: '线束主驾', title: '线束主驾', width: 182, align: "center" },
-                  { field: '线束副驾', title: '线束副驾', width: 182, align: "center" },
-                  { field: '大背板主驾', title: '大背板主驾', width: 182, align: "center" },
-                  { field: '大背板副驾', title: '大背板副驾', width: 182, align: "center" },
-                  { field: '靠背40', title: '靠背40', width: 182, align: "center" },
-                  { field: '靠背60', title: '靠背60', width: 182, align: "center" },
-                  { field: '后坐垫', title: '后坐垫', width: 182,  align: "center" },
-                  { field: '后排中央扶手', title: '后排中央扶手', width: 182, align: "center" },
-                  { field: '后排中央头枕', title: '后排中央头枕', width: 182, align: "center" },
-                  { field: '侧头枕40', title: '侧头枕40', width: 182, align: "center" },
-                  { field: '侧头枕60', title: '侧头枕60', width: 182, align: "center" },
-                  { field: 'SerialID', title: 'SerialID', width: 100, align: "center", formatter: function (value, row, index) { return '<a class="fbtn" style="height:16px;cursor:pointer" onclick="CDDY(\'' + row.订单号 + '\',\'' + row.等级 + '\');"> 插单打印</a>'; }, },
-
-
-            ]]
+                  { field: '序号', title: '序号', rowspan: 2, width: 50, align: "center", sortable: true },
+                  { field: '订单号', title: '车身号 ', rowspan: 2, width: 100, align: "center", sortable: true },
+                  { field: '等级', title: '车型', rowspan: 2, width: 100, align: "center", sortable: true },                  
+                  { title: '前排靠背面套', colspan: 2, width: 182, align: "center" },
+                  { title: '前排坐垫面套', colspan: 2, width: 182, align: "center" },
+                  { title: '前排坐盆骨架', colspan:2, width: 182, align: "center" },
+                  { title: '前排靠背骨架', colspan: 2, width: 182, align: "center" },
+                  { title: '前排线束', colspan: 2, width: 182, align: "center" },
+                  { title: '大背板', colspan: 2, width: 182, align: "center" },
+                  { field: '靠背40', title: '后排40%靠背面套', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.靠背40下发 + ';color:lightcoral' } },
+                  { field: '靠背60', title: '后排60%靠背面套', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.靠背60下发 + ';color:lightcoral' } },
+                  { field: '后坐垫', title: '后排坐垫面套', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.后坐垫下发 + ';color:lightcoral' } },
+                  { field: '后排中央扶手', title: '后排中央扶手', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.后排中央扶手下发 + ';color:lightcoral' } },
+                  { field: '后排中央头枕', title: '后排中央头枕', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.后排中央头枕下发 + ';color:lightcoral' } },
+                  { field: '侧头枕40', title: '后排40%侧头枕', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.侧头枕40下发 + ';color:lightcoral' } },
+                  { field: '侧头枕60', title: '后排60%侧头枕', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.侧头枕60下发 + ';color:lightcoral' } },
+                  { field: 'SerialID', title: '操作', rowspan: 2, width: 100, align: "center", formatter: function (value, row, index) { return '<a class="fbtn" style="height:16px;cursor:pointer" onclick="CDDY(\'' + row.订单号 + '\',\'' + row.等级 + '\');"> 插单打印</a>'; }, },
+                
+            ],[
+                  { field: '靠背面套主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背面套主驾下发 + ';color:lightcoral' } },
+                  { field: '靠背面套副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背面套副驾下发 + ';color:lightcoral' } },
+                  { field: '坐垫面套主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫面套主驾下发 + ';color:lightcoral' } },
+                  { field: '坐垫面套副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫面套副驾下发 + ';color:lightcoral' } },
+                  { field: '坐垫骨架主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫骨架主驾下发 + ';color:lightcoral' } },
+                  { field: '坐垫骨架副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫骨架副驾下发 + ';color:lightcoral' } },
+                  { field: '靠背骨架主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背骨架主驾下发 + ';color:lightcoral' } },
+                  { field: '靠背骨架副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背骨架副驾下发 + ';color:lightcoral' } },
+                  { field: '线束主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.线束主驾下发 + ';color:lightcoral' } },
+                  { field: '线束副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.线束副驾下发 + ';color:lightcoral' } },
+                  { field: '大背板主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.大背板主驾下发 + ';color:lightcoral' } },
+                  { field: '大背板副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.大背板副驾下发 + ';color:lightcoral' } }
+                  
+                  ]]
         });
         //数据列表分页
         dg.datagrid('getPager').pagination({
@@ -370,7 +273,7 @@
 
     </script>
 
-
+  
     <script>
 
         /****************       全局变量          ***************/
@@ -388,8 +291,62 @@
 
             //新增按钮点击
             $('.topaddBtn').first().click(function () {
-                isEdit = false;
-                $('#w').window('open');
+                var csh = $("#csh").val();
+                var starttime = $("#starttime").val();
+                var endtime = $("#endtime").val();
+                dg = $('#tb').datagrid({
+                    url: "/HttpHandlers/Materialsortprinting.ashx?method=queryMaterialsortprintingList&csh=" + csh + "&starttime=" + starttime + "&endtime=" + endtime,
+                    rownumbers: true,
+                    pagination: true,
+                    singleSelect: true,
+                    collapsible: false,
+                    striped: true,
+                    // fitColumns: true,
+                    nowrap: false,
+                    resizable: true,
+                    pageSize: 20,
+                    columns: [[
+
+                          { field: '序号', title: '序号', rowspan: 2, width: 50, align: "center", sortable: true },
+                          { field: '订单号', title: '车身号 ', rowspan: 2, width: 100, align: "center", sortable: true },
+                          { field: '等级', title: '车型', rowspan: 2, width: 100, align: "center", sortable: true },
+                          { title: '前排靠背面套', colspan: 2, width: 182, align: "center" },
+                          { title: '前排坐垫面套', colspan: 2, width: 182, align: "center" },
+                          { title: '前排坐盆骨架', colspan: 2, width: 182, align: "center" },
+                          { title: '前排靠背骨架', colspan: 2, width: 182, align: "center" },
+                          { title: '前排线束', colspan: 2, width: 182, align: "center" },
+                          { title: '大背板', colspan: 2, width: 182, align: "center" },
+                          { field: '靠背40', title: '后排40%靠背面套', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.靠背40下发 + ';color:lightcoral' } },
+                          { field: '靠背60', title: '后排60%靠背面套', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.靠背60下发 + ';color:lightcoral' } },
+                          { field: '后坐垫', title: '后排坐垫面套', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.后坐垫下发 + ';color:lightcoral' } },
+                          { field: '后排中央扶手', title: '后排中央扶手', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.后排中央扶手下发 + ';color:lightcoral' } },
+                          { field: '后排中央头枕', title: '后排中央头枕', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.后排中央头枕下发 + ';color:lightcoral' } },
+                          { field: '侧头枕40', title: '后排40%侧头枕', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.侧头枕40下发 + ';color:lightcoral' } },
+                          { field: '侧头枕60', title: '后排60%侧头枕', rowspan: 2, width: 100, align: "center", sortable: true, styler: function (value, row, index) { return row.侧头枕60下发 + ';color:lightcoral' } },
+                          { field: 'SerialID', title: '操作', rowspan: 2, width: 100, align: "center", formatter: function (value, row, index) { return '<a class="fbtn" style="height:16px;cursor:pointer" onclick="CDDY(\'' + row.订单号 + '\',\'' + row.等级 + '\');"> 插单打印</a>'; }, },
+
+                    ], [
+                          { field: '靠背面套主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背面套主驾下发 + ';color:lightcoral' } },
+                          { field: '靠背面套副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背面套副驾下发 + ';color:lightcoral' } },
+                          { field: '坐垫面套主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫面套主驾下发 + ';color:lightcoral' } },
+                          { field: '坐垫面套副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫面套副驾下发 + ';color:lightcoral' } },
+                          { field: '坐垫骨架主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫骨架主驾下发 + ';color:lightcoral' } },
+                          { field: '坐垫骨架副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.坐垫骨架副驾下发 + ';color:lightcoral' } },
+                          { field: '靠背骨架主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背骨架主驾下发 + ';color:lightcoral' } },
+                          { field: '靠背骨架副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.靠背骨架副驾下发 + ';color:lightcoral' } },
+                          { field: '线束主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.线束主驾下发 + ';color:lightcoral' } },
+                          { field: '线束副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.线束副驾下发 + ';color:lightcoral' } },
+                          { field: '大背板主驾', title: '主驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.大背板主驾下发 + ';color:lightcoral' } },
+                          { field: '大背板副驾', title: '副驾', rowspan: 1, width: 90, align: "center", styler: function (value, row, index) { return row.大背板副驾下发 + ';color:lightcoral' } }
+
+                    ]]
+                });
+                //数据列表分页
+                dg.datagrid('getPager').pagination({
+                    pageList: [1, 5, 10, 15, 20],
+                    layout: ['list', 'sep', 'first', 'prev', 'sep', 'links', 'sep', 'next', 'last', 'sep', 'refresh']
+                });
+               
             });
             //编辑按钮点击
             $('.toppenBtn').first().click(function () {
