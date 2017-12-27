@@ -7,12 +7,12 @@ using System.Data;
 using System.Data.SqlClient;
 using Model;
 using Tools;
-
+using SortManagent.Util;
 namespace Bll
 {
     public class px_MaterialsortprintingBLL
     {
-        GetModel getmodel = new GetModel();
+        
         public static List<classess> Querymg_classes()
         {
             return px_MaterialsortprintingDAL.Querymg_classes();
@@ -50,6 +50,53 @@ namespace Bll
         {
             List<GetSP> list = px_MaterialsortprintingDAL.QueryListForFirstPage(pagesize, out total, starttime, endtime, csh);
             return list;
+        }
+
+        public static string printtestHas_getWLName(string id, string zfj, string erweima, bool iscd, string getWLName, string getWLName123)
+        {
+
+            GetModel getmodel = new GetModel();
+
+            var print = px_PrintBLL.Querypx_PrintList().Where(s => s.PXID.Equals(erweima)).ToList();
+            if (print.Count > 0)
+            {
+                List<GetIndex> pxlist = new List<GetIndex>();
+                foreach (var item in print)
+                {
+                    GetIndex gi = new GetIndex();
+                    gi.订单号 = item.orderid;
+                    gi.车身号 = item.orderid;
+                    gi.主副驾 = item.XF;
+                    gi.等级 = item.cartype;
+                    gi.零件号 = item.LingjianHao;
+                    gi.零件号描述 = item.ordername;
+                    pxlist.Add(gi);
+                }
+                bool flag = CallPrint.PrintM(pxlist, erweima, getWLName123, getWLName, false);
+                if (flag)
+                {
+
+                    return "1";
+                }
+
+                return "0";
+
+            }
+            else
+            {
+                List<GetIndex> pxlist = getmodel.GetIndexWJ(id, zfj);
+                List<GetIndex> searchlist = new List<GetIndex>();
+                searchlist = pxlist.Where(s => s.mg_partorder_ordertype == 4).ToList();
+                searchlist.AddRange(pxlist.ToList());
+                pxlist = searchlist;
+                bool flag = CallPrint.PrintM(pxlist, erweima, zfj + id, getWLName);
+                if (flag)
+                {
+                    return "1";
+                }
+
+                return "0";
+            }
         }
         class GetSPPageModel
         {

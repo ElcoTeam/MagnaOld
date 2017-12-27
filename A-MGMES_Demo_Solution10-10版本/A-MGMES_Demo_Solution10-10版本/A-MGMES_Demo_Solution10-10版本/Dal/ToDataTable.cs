@@ -38,8 +38,8 @@ namespace SortManagent.Util
                 {
                     try
                     {
-                     
-                          //  row[property.Name] = property.GetValue(item);
+
+                        row[property.Name] = property.GetValue(item, null);
                       
                     }
                     catch (Exception a)

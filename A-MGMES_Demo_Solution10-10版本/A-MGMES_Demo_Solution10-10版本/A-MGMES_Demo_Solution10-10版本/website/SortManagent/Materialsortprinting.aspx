@@ -106,9 +106,9 @@
         <input name="starttime" id="starttime" type="date" value="" />&nbsp;至&nbsp;
         <input name="endtime"  id="endtime" type="date" value="" />
         &nbsp;&nbsp;&nbsp;
-        <input type="button" value="查询" class="topaddBtn" />
+        <input type="button" value="查询" class="topsearchBtn" />
            
-            <form method="get" action="~/Materialsortprinting/RePrintByCarID">
+            
         车身号：<input id="carid" name="carid" type="text" value="" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         物料种类：
         <select id="selectwuliao" name="selectwuliao" style="width:200px;">
@@ -127,8 +127,8 @@
             <option value="后60-侧头枕">后60-侧头枕</option>
         </select>
         &nbsp;&nbsp;&nbsp;
-        <input type="submit" value="补单打印" />
-    </form>
+        <input type="button" class="toppenBtn" value="补单打印" />
+   
     </div>
     
  
@@ -289,8 +289,8 @@
                 cache: false //关闭AJAX缓存
             });
 
-            //新增按钮点击
-            $('.topaddBtn').first().click(function () {
+            //搜索按钮点击
+            $('.topsearchBtn').first().click(function () {
                 var csh = $("#csh").val();
                 var starttime = $("#starttime").val();
                 var endtime = $("#endtime").val();
@@ -348,10 +348,24 @@
                 });
                
             });
-            //编辑按钮点击
+            //补单打印按钮点击
             $('.toppenBtn').first().click(function () {
-                isEdit = true;
-                initEidtWidget();
+               
+                var carid = $("#carid").val();              
+                var selectwuliao = $("#selectwuliao").val();               
+                $.ajax({
+                    type: "POST",
+                    async: false,
+                    url: "/HttpHandlers/Materialsortprinting.ashx?method=RePrintByCarID&carid=" + carid + "&selectwuliao=" + selectwuliao,
+                   
+                    success: function (data) {
+                        alert(data);
+
+                    },
+                    error: function () {
+                        alert();
+                    }
+                });
             });
 
 
