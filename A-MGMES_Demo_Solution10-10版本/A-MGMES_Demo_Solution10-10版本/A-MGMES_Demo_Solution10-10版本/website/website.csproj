@@ -40,10 +40,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Aspose.Cells, Version=7.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\网站程序\生产线网站\A-MGMES_Demo_Solution10-19版本\website\bin\Aspose.Cells.dll</HintPath>
-    </Reference>
     <Reference Include="EPPlus">
       <HintPath>..\dll\EPPlus.dll</HintPath>
     </Reference>
