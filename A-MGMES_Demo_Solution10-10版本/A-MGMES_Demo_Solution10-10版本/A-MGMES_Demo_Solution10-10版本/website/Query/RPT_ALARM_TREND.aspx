@@ -23,11 +23,8 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
-  <div id ="gridPanel">
-    <div id="printArea" class="printArea" closed="true"> 
-        <div id="left">
-        <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 85%">
+     <div class="top">
+        <table cellpadding="0" cellspacing="0" >
             <tr>
                 <td class="title"  >
                     
@@ -61,6 +58,10 @@
         </table>
 
     </div>
+  <div id ="gridPanel">
+    <div id="printArea" class="printArea" closed="true"> 
+        <div id="left">
+       
             <!-- 数据表格  -->
             <table id="gridTable"  style="width: 99%;">
             </table>
@@ -162,8 +163,8 @@
                     toolbar: '#navigationSearch',
                     pagination: true,
                     
-                    pageSize: 30,
-                    pageList: [30, 60, 90],
+                    pageSize: 20,
+                    pageList: [20,30, 60, 90],
                     //loader: myLoader, //前端分页加载函数  
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
                        // $("#gridTable").data().datagrid.cache = null;//清除datagrid 缓存，保证前台假分页；  

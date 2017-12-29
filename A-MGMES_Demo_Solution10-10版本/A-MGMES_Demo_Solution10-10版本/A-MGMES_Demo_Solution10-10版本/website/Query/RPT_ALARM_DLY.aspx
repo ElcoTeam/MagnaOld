@@ -154,8 +154,8 @@
                     toolbar: '#navigationSearch',
                     pagination: true,
                     
-                    pageSize: 20,
-                    pageList: [20, 40, 60],
+                    pageSize: 15,
+                    pageList: [15,30, 60, 90],
                     //loader: myLoader, //前端分页加载函数  
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
                         console.log(data);

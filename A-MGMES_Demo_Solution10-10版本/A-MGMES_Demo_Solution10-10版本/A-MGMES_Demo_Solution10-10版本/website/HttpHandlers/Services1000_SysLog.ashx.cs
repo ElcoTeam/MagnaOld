@@ -93,7 +93,7 @@ namespace website.HttpHandlers
             {
                 if("-1"==sort)
                 {
-                    sort = "sys_id";
+                    sort = " st_no,step_startTime";
                 }
                 if("-1"==order)
                 {

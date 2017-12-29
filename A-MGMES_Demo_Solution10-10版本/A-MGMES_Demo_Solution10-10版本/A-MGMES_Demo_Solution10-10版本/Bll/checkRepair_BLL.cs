@@ -17,5 +17,9 @@ namespace Bll
         {
             return checkRepair_Dal.getTableExcel(StartTime, EndTime, OrderCode, StationNo, PageIndex, out totalcount);
         }
+        public static String GetListNew(string StartTime, string EndTime, string OrderCode, string StationNo,int  PageIndex, int PageSize, out int totalcount)
+        {
+            return checkRepair_Dal.GetListNew(StartTime, EndTime, OrderCode, StationNo, PageIndex, PageSize, out totalcount);
+        }
     }
 }

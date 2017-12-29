@@ -31,7 +31,7 @@ namespace Dal
         {
             if (string.IsNullOrEmpty(SortFlag))
             {
-                SortFlag = "sys_id";
+                SortFlag = " st_no,step_startTime";
             }
             if (string.IsNullOrEmpty(sortOrder))
             {
@@ -89,7 +89,7 @@ namespace Dal
         {
             if (string.IsNullOrEmpty(SortFlag))
             {
-                SortFlag = "sys_id";
+                SortFlag = "st_no,step_startTime";
             }
             if (string.IsNullOrEmpty(sortOrder))
             {

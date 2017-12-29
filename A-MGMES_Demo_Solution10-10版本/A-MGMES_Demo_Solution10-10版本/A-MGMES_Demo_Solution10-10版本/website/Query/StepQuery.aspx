@@ -185,8 +185,8 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
-                sortName: "AngleResult",
-                sortOrder: "desc",
+                sortName: "st_no, step_startTime",
+                sortOrder: "asc",
                 queryParams:
                     {
                         fl_name: fl_name,

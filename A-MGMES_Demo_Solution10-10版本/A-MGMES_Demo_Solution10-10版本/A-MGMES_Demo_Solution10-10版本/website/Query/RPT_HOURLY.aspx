@@ -15,7 +15,7 @@
     <script src="../js/highcharts/modules/exporting.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
- <div class="top"  style="width: 50%;height:10%">
+ <div class="top"  style="width: 65%;height:10%">
         <table cellpadding="0" cellspacing="0" style="width: 85%">
             <tr>
                 <td class="title" style="width: 120px;" >
@@ -63,7 +63,7 @@
     <div id ="gridPanel"  style="width: 99%;height:90%">
     <div id="printArea" class="printArea" closed="true" style="width: 99%;height:inherit"> 
     <!-- 数据表格  -->
-    <table id="gridTable" title="FTT列表" style="width: 99%;height:70%">
+    <table id="gridTable" title="FTT列表" style="width: 99%;height:50%">
     </table>
     <div class="center-Panel" style="width: 99%;height:50%">
                     <div class="panel-Title">统计信息柱状图</div>
@@ -278,8 +278,8 @@
                     toolbar: '#navigationSearch',
                     pagination: true,
                     
-                    pageSize: 30,
-                    pageList: [30, 60, 90],
+                    pageSize: 15,
+                    pageList: [15,30, 60, 90],
                     onLoadSuccess: function (data) {//表单加载完后再加载此方法
                         console.log(data);
                        

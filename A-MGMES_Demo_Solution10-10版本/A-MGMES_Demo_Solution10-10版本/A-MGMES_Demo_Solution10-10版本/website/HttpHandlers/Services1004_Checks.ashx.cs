@@ -25,14 +25,25 @@ namespace website.HttpHandlers
             string OrderCode = request["OrderCode"];
             string StationNo = request["StationNo"];
             string method = request["method"];
+            if (string.IsNullOrEmpty(StartTime))
+            {
+                DateTime t = DateTime.Now.AddMonths(-1);
+                StartTime = t.ToString("yyyy-MM-dd HH:mm:ss");
+            }
            
+            if (string.IsNullOrEmpty(EndTime))
+            {
+                DateTime t = DateTime.Now;
+                EndTime = t.ToString("yyyy-MM-dd HH:mm:ss");
+
+            }
             if (OrderCode == "请选择")
             {
                 OrderCode = "";
             }
             if (StationNo == "请选择")
             {
-                StationNo = "";
+                StationNo = "FSA210";
             }
             
             int totalcount;
@@ -42,6 +53,7 @@ namespace website.HttpHandlers
             string neirong = "";
             string yee = "";
             int PageIndex = Convert.ToInt32(request["page"]);
+            int PageSize = Convert.ToInt32(request["rows"]);
             if (string.IsNullOrWhiteSpace(method))
             {
                JsonStr3 =  checkRepair_BLL.getTableString(StartTime, EndTime, OrderCode, StationNo,PageIndex, out totalcount);
@@ -49,7 +61,13 @@ namespace website.HttpHandlers
                 context.Response.ContentType = "json";
                 context.Response.Write(JsonStr3);
             }
-           
+            else if (method =="GetListNew")
+            {
+                JsonStr3 = checkRepair_BLL.GetListNew(StartTime, EndTime, OrderCode, StationNo, PageIndex, PageSize, out totalcount);
+
+                context.Response.ContentType = "json";
+                context.Response.Write(JsonStr3);
+            }
             #region 导出代码  
             else if (method == "Export")
             {

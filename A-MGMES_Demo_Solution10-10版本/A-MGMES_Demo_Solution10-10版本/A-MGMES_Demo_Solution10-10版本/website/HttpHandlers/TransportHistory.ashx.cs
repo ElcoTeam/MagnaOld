@@ -32,7 +32,7 @@ namespace website
             if (!string.IsNullOrEmpty(OrderCode))
             {
                
-                where += " and  订单编码 = '" + OrderCode + "' ";
+                where += " and  订单编码 like '%" + OrderCode + "%' ";
             }
 
             if (!string.IsNullOrEmpty(CarType))

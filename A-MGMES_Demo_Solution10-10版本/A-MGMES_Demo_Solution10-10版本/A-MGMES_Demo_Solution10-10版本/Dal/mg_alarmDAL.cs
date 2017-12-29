@@ -32,7 +32,7 @@ from mg_Alarm where [AlarmStartTime]>='" + dtb + "' and [AlarmEndTime]<='" + dta
         }
         public static DataTable getfsabydateexcel(string dtb, string dta)
         {
-            string sql = "select distinct case when AlarmType = 1 then '物料' when AlarmType = 2 then '质量'  when AlarmType = 3 then '维修'  when AlarmType = 4 then '超时' when AlarmType = 5 then '生产' when AlarmType = 6 then '急停' else '正常' end as Status,AlarmStation,AlarmStartTime,AlarmEndTime,StartOrderNo,EndOrderNo,case when IsSolve = 1 then '已解决' else '未解决' end as IsPass from mg_Alarm where (([AlarmStartTime]>='" + dtb + "' and [AlarmEndTime]<='" + dta + "') and (StartOrderNo is not null and StartOrderNo <> '') and EndOrderNo is not null and EndOrderNo <> '' )order by AlarmStation";
+            string sql = "select distinct case when AlarmType = 1 then '物料' when AlarmType = 2 then '质量'  when AlarmType = 3 then '维修'  when AlarmType = 4 then '超时' when AlarmType = 5 then '生产' when AlarmType = 6 then '急停' else '正常' end as Status,AlarmStation,AlarmStartTime,AlarmEndTime,StartOrderNo,EndOrderNo,case when IsSolve = 1 then '已解决' else '未解决' end as IsPass from mg_Alarm where (([AlarmStartTime]>='" + dtb + "' and [AlarmEndTime]<='" + dta + "') and (StartOrderNo is not null and StartOrderNo <> '') and EndOrderNo is not null and EndOrderNo <> '' )order by AlarmStation ,AlarmStartTime";
             DataTable t = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
             return t;
         }

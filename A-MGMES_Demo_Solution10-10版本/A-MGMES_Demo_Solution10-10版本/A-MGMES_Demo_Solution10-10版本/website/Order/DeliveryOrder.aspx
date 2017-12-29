@@ -126,7 +126,7 @@
            
             //订单列表
             orderTB = $('#orderTB').datagrid({
-                url: '/Services1008_CustomerOrder.ashx',
+                url: '/HttpHandlers/Services1008_CustomerOrder.ashx',
                 rownumbers: true,
                 pagination: true,
                 singleSelect: true,
@@ -138,7 +138,12 @@
 					{ field: 'SerialNumber', title: 'SerialNumber', width: 150, align: "center" },
 					{ field: 'SerialNumber_MES', title: 'SerialNumber_MES', width: 150, align: "center" },
 					{ field: 'VinNumber', title: 'VinNumber', width: 200, align: "center" },
-					{ field: 'PlanDeliverTime', title: 'PlanDeliverTime', width: 200, align: "center" },
+					{
+					    field: 'PlanDeliverTime', title: 'PlanDeliverTime', width: 200, align: "center",
+					    formatter: function (value, row, index) {
+					        return DataStr(value);
+					    }
+					},
 					{ field: 'CreateTime', title: 'CreateTime', width: 200, align: "center" },
 					{ field: 'OrderType', title: 'OrderType', width: 200, align: "center" },
 					{ field: 'OrderState', title: 'OrderState', width: 200, align: "center" },
@@ -154,7 +159,47 @@
         });
 
         /****************       主要业务程序          ***************/
+        //发运时间时间格式化为 年-月-日
+        function DataStr(value) {
+            // console.log("value"+value);
+            var str = value;
+            var Arr = str.toString().split('.');
+            //console.log("Arr"+Arr);
+            var result = "";
+            if (Arr.length < 1) {
+                result = str;
+            }
+            else {
+                //年月日
+                if (Arr[0].length > 2) {
+                    for (var i = 0; i < Arr.length; i++) {
+                        if (i == Arr.length - 1) {
+                            result += Arr[i];
+                        }
+                        else {
+                            result += Arr[i] + "-";
+                        }
 
+                    }
+                }
+                else//日，月，年
+                {
+                    for (var i = Arr.length - 1; i >= 0; i--) {
+                        if (i == 0) {
+                            result += Arr[i];
+                        }
+                        else {
+                            result += Arr[i] + "-";
+                        }
+
+                    }
+                }
+
+            }
+
+            //console.log("result"+result);
+            return result;
+        }
         //编辑  
         function savePart() {
             var OrderID = $("#OrderID").val();

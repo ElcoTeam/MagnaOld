@@ -38,7 +38,7 @@ namespace website
 {
     public class ExcelHelper
     {
-        public static int EXCEL03_MaxRow = 10000;
+        public static int EXCEL03_MaxRow = 60000;
         private static WriteLog wl = new WriteLog();
         #region 从datatable中将数据导出到excel
         /// <summary>
@@ -246,8 +246,8 @@ namespace website
                             {
 
                                 double.TryParse(drValue, out result);
-                               
-                                newCell.SetCellValue(result);
+                                newCell.SetCellValue(drValue);
+                                //newCell.SetCellValue(result);
                                 break;
                             }
                             else
@@ -522,7 +522,8 @@ namespace website
                             {
 
                                 double.TryParse(drValue, out result);
-                                newCell.SetCellValue(result);
+                                newCell.SetCellValue(drValue);
+                                //newCell.SetCellValue(result);
                                 break;
                             }
                             else
@@ -653,7 +654,7 @@ namespace website
 
                         }
                     }
-                    catch
+                    catch (Exception e)
                     {
                         throw new Exception();
                     }
