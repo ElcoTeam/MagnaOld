@@ -181,7 +181,7 @@
                 collapsible: false,
                 columns: [[
                       { field: 'mail_id', title: 'ID', align: "center", width: 50, hidden: "true" },
-                      { field: 'ReceiptTypeName', title: '收件人类别', align: "center", width: 530 },
+                      { field: 'ReceiptTypeName', title: '收件人类别', align: "left", width: 530 },
                       { field: 'MailRecipient', title: '收件人邮箱', align: "center", width: 330 },
                       { field: 'RecipientTypeName', title: '是否收件人', align: "center", width: 330 },
                       { field: 'ReceiptType', title: 'ReceiptType', align: "center", width: 330, hidden: "true" },

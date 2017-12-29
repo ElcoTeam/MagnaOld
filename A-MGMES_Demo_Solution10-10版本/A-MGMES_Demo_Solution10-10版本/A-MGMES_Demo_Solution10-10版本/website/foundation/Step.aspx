@@ -64,7 +64,7 @@
 		</table>
 	</div>
 	<!-- 数据表格  -->
-	<table id="tb" title="工位列表" style="width: 99%;">
+	<table id="tb" title="工位列表" style="width: 98%;">
 	</table>
 	<!-- 加载窗口 -->
 	<div id="excelw" style="padding: 10px; text-align: center; font-size: 22px; padding-top: 20px; vertical-align: middle; visibility: hidden" title="生成excel">
@@ -339,12 +339,12 @@
 				striped: true,
 				fitColumns: true,
 				columns: [[
-								{ field: 'step_id', title: 'id', hidden: true },
+						    { field: 'step_id', title: 'id', hidden: true },
 							{ field: 'fl_id', title: '流水线id', hidden: true },
 							{ field: 'st_id', title: '工位id', hidden: true },
 							{ field: 'part_id', title: '部件id', hidden: true },
 							{ field: 'bom_id', title: '零件id', hidden: true },
-								 { field: 'step_pic', title: '图片', formatter: function (value, row, index) { return '<img src="' + row.step_pic + '" style="height:80px;" />'; }, width: 100, align: "center" },
+						    { field: 'step_pic', title: '图片', formatter: function (value, row, index)  { return '<img src="' + row.step_pic + '" style="height:80px;" />'; }, width: 100, align: "center" },
 								 { field: 'step_order', title: '排序序号', hidden: true },
 							{ field: 'step_name', title: '步骤名称', width: 200, align: "center" },
 
@@ -369,7 +369,7 @@
 			//数据列表分页
 			dg.datagrid('getPager').pagination({
 				pageList: [1, 10, 20, 30, 50],
-				layout: ['list', 'sep', 'first', 'prev', 'sep', 'links', 'sep', 'next', 'last', 'sep', 'refresh']
+				//layout: ['list', 'sep', 'first', 'prev', 'sep', 'links', 'sep', 'next', 'last', 'sep', 'refresh']
 			});
 
 			//图片上传

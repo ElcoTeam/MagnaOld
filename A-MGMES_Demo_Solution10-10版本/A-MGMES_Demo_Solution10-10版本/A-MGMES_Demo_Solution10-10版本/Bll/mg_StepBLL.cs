@@ -97,14 +97,9 @@ namespace Bll
             string jsonStr = "[]";
             List<mg_StepModel> list = null;
             string total = "0";
-            if (page == "1")
-            {
-                list = QueryListForFirstPage(pagesize, out total, fl_id, st_id, part_id);
-            }
-            else
-            {
-                list = QueryListForPaging(page, pagesize, out total, fl_id, st_id, part_id);
-            }
+           
+            list = QueryListForFirstPage(page,pagesize, out total, fl_id, st_id, part_id);
+            
 
             mg_stepPageModel model = new mg_stepPageModel();
             model.total = total;
@@ -113,15 +108,11 @@ namespace Bll
             return jsonStr;
         }
 
-        private static List<mg_StepModel> QueryListForPaging(string page, string pagesize, out string total, string fl_id, string st_id, string part_id)
-        {
-            List<mg_StepModel> list = mg_StepDAL.QueryListForPaging(page, pagesize, out total, fl_id, st_id, part_id);
-            return list;
-        }
+       
 
-         private static List<mg_StepModel> QueryListForFirstPage(string pagesize, out string total, string fl_id, string st_id, string part_id)
+         private static List<mg_StepModel> QueryListForFirstPage(string currentpage,string pagesize, out string total, string fl_id, string st_id, string part_id)
         {
-            List<mg_StepModel> list = mg_StepDAL.QueryListForFirstPage(pagesize, out total, fl_id, st_id, part_id);
+            List<mg_StepModel> list = mg_StepDAL.QueryListForFirstPage(currentpage,pagesize, out total, fl_id, st_id, part_id);
             return list;
         }
 

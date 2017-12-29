@@ -452,7 +452,7 @@
         //根据日期显示订单号的
 	    function reloadpart_id_s() {
 	        var start_time = $('#start_time').datetimebox('getValue');
-	        var end_time = $(+'#end_time').datetimebox('getValue');
+	        var end_time = $('#end_time').datetimebox('getValue');
 	        
 	        $('#OrderCode').combobox('reload', '/HttpHandlers/TorqueReporterHandler1.ashx?method=get_order_list&StartTime=' + start_time + '&EndTime=' + end_time);
 	        //$('#part_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandl

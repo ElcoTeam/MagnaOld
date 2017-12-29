@@ -361,7 +361,9 @@ namespace DAL
             return rows;
         }
 
-        public static List<mg_StepModel> QueryListForPaging(string page, string pagesize, out string total, string fl_id, string st_id, string part_id)
+      
+
+        public static List<mg_StepModel> QueryListForFirstPage(string currentpage,string pagesize, out string total, string fl_id, string st_id, string part_id)
         {
             total = "0";
             List<mg_StepModel> list = null;
@@ -370,7 +372,11 @@ namespace DAL
             queryStr += (!string.IsNullOrEmpty(part_id) && part_id != "0") ? " and step.part_id=" + part_id : " ";
             string sql1 = @"select count(step_id) total from [mg_step] step " + queryStr + @" ;";
             string sql2 = @" 
-                            SELECT top " + pagesize + @" [step_id]
+                           select  top " + pagesize + @" A.*
+                                       
+                                       from (
+                                      select ROW_NUMBER() over(order by step.step_order) as                      rowid ,
+                                       [step_id]
                                       ,[step_name]
                                       ,step.[fl_id]
 	                                  ,fl.fl_name
@@ -395,90 +401,9 @@ namespace DAL
                                   left join mg_station st on step.st_id = st.st_id
                                   left join mg_BOM b on step.bom_id=b.bom_id
                                   left join mg_part p on step.part_id=p.part_id
-                                    " + queryStr + @"
-                                    and  step.step_order > (
-                                                select top 1 step_order from 
-                                                        (select top ((" + page + @"-1)*" + pagesize + @") step_order from  [mg_step] where step_order is not null and fl_id=" + fl_id + @" order by step_order  )t
-                                                order by  step_order desc )
+                                " + queryStr + @") as A  
+                                  where rowid> (" + pagesize + ")*((" + currentpage + ")-1)";
 
-                                  order by step.step_order
-
-                                ";
-            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql1 + sql2, new string[] { "count", "data" }, null);
-            if (DataHelper.HasData(ds))
-            {
-                DataTable dt1 = ds.Tables["count"];
-                total = DataHelper.GetCellDataToStr(dt1.Rows[0], "total");
-                DataTable dt2 = ds.Tables["data"];
-                list = new List<mg_StepModel>();
-                foreach (DataRow row in dt2.Rows)
-                {
-                    mg_StepModel model = new mg_StepModel();
-
-                    model.step_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "step_id"));
-                    model.step_name = DataHelper.GetCellDataToStr(row, "step_name");
-                    model.fl_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "fl_id"));
-                    model.fl_name = DataHelper.GetCellDataToStr(row, "fl_name");
-                    model.st_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "st_id"));
-                    model.st_name = DataHelper.GetCellDataToStr(row, "st_name");
-                    model.bom_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "bom_id"));
-                    model.bom_PN = DataHelper.GetCellDataToStr(row, "bom_PN") + " | " + DataHelper.GetCellDataToStr(row, "bom_desc");
-                    model.bom_desc = DataHelper.GetCellDataToStr(row, "bom_desc");
-                    model.bom_count = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "bom_count"));
-                    model.step_clock = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "step_clock"));
-                    model.step_desc = DataHelper.GetCellDataToStr(row, "step_desc");
-                    model.step_pic = DataHelper.GetCellDataToStr(row, "step_pic");
-                    model.step_plccode = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "step_plccode"));
-                    model.step_order = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "step_order"));
-                    model.part_id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "part_id"));
-                    model.part_no = DataHelper.GetCellDataToStr(row, "part_no") + " | " + DataHelper.GetCellDataToStr(row, "part_name");
-                    model.barcode_start = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "barcode_start"));
-                    model.barcode_number = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "barcode_number"));
-                    list.Add(model);
-                }
-            }
-            return list;
-        }
-
-        public static List<mg_StepModel> QueryListForFirstPage(string pagesize, out string total, string fl_id, string st_id, string part_id)
-        {
-            total = "0";
-            List<mg_StepModel> list = null;
-            string queryStr = (!string.IsNullOrEmpty(fl_id) && fl_id != "0") ? " where step.fl_id=" + fl_id : " where step.step_id is not null ";
-            queryStr += (!string.IsNullOrEmpty(st_id) && st_id != "0") ? " and step.st_id=" + st_id : " ";
-            queryStr += (!string.IsNullOrEmpty(part_id) && part_id != "0") ? " and step.part_id=" + part_id : " ";
-            string sql1 = @"select count(step_id) total from [mg_step] step " + queryStr + @" ;";
-            string sql2 = @" 
-                            SELECT top " + pagesize + @" [step_id]
-                                      ,[step_name]
-                                      ,step.[fl_id]
-	                                  ,fl.fl_name
-                                      ,step.[st_id]
-	                                  ,st.st_name
-                                      ,step.[bom_id]
-	                                  ,b.bom_PN
-                                      ,step.[part_id]
-	                                  ,p.part_no
-	                                  ,p.part_name
-	                                  ,b.bom_desc
-                                      ,[bom_count]
-                                      ,[step_clock]
-                                      ,[step_desc]
-                                      ,[step_pic]
-                                      ,[step_plccode]
-                                      ,[step_order]
-                                      ,step.[barcode_start]
-                                      ,step.[barcode_number]
-                                  FROM [mg_step] step
-                                  left join mg_FlowLine fl on step.fl_id = fl.fl_id
-                                  left join mg_station st on step.st_id = st.st_id
-                                  left join mg_BOM b on step.bom_id=b.bom_id
-                                  left join mg_part p on step.part_id=p.part_id
-                                " + queryStr + @"
-
-                                  order by step.step_order
-
-                                ";
             DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql1 + sql2, new string[] { "count", "data" }, null);
             if (DataHelper.HasData(ds))
             {
