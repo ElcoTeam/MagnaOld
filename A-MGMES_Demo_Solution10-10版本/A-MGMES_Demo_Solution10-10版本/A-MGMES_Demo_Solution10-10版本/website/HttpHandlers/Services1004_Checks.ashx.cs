@@ -73,18 +73,27 @@ namespace website.HttpHandlers
             {
                 
                 DataTable ResTable4 = checkRepair_BLL.getTableExcel(StartTime, EndTime, OrderCode, StationNo,PageIndex, out totalcount);
-               
-                
+
+                string str="";
                 try
                 {
 
 
-                    ExcelHelper.ExportDTtoExcel(ResTable4, "", HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx"));
-                    JsonStr3 = "true";
+                   // ExcelHelper.ExportDTtoExcel(ResTable4, "", HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx"));
+                    
+                    AsposeExcelTools.DataTableToExcel2(ResTable4, HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx"), out str);
+                    if(str.Length<1)
+                    {
+                        JsonStr3 = "true";
+                    }
+                    else
+                    {
+                        JsonStr3 = "false:"+str;
+                    }
                 }
                 catch
                 {
-                    JsonStr3 = "false";
+                    JsonStr3 = "false:"+str;
                 }
                 context.Response.ContentType = "json";
                 context.Response.Write(JsonStr3);

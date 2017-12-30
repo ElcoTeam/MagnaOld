@@ -47,7 +47,23 @@ namespace website.Query
             curContext.Response.BinaryWrite(ExcelStream().GetBuffer());
             curContext.Response.End();
         }
-
+        public static void ExportByWebNew(string fileName)
+        {
+            string filePath = HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx");
+            HttpContext curContext = HttpContext.Current;
+            FileInfo fileInfo = new FileInfo(filePath);
+            curContext.Response.Clear();
+            curContext.Response.ClearContent();
+            curContext.Response.ClearHeaders();
+            curContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+            curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+            curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+            curContext.Response.ContentType = "application/octet-stream";
+            curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
+            curContext.Response.WriteFile(fileInfo.FullName);
+            curContext.Response.Flush();
+            curContext.Response.End();
+        }
         protected void Button1_Click(object sender, EventArgs e)
         {
             //导出Excel

@@ -469,20 +469,20 @@ left join mg_Operator d on a.operatorid = d.op_id  ";
                    DataTable dt1 = ds.Tables["count"];
                    total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
                    DataTable dt2 = ds.Tables["data"];
-                   for (int i = 0; i < dt2.Rows.Count; i++)
-                   {
-                       string value = dt2.Rows[i]["检测内容"].ToString();
-                       if (value != "安全气囊电阻" && value != "SBR电阻" && value != "安全带插入电流" && value != "安全带拔出电流" && value != "SBR断路电阻" && value != "SBR下压前断路电阻")
-                       {
-                           //string aa ;
-                           //aa = ResTable4.Rows[i]["真实值"].ToString();
-                           //aa = "";
-                           DataRow drEmployee = dt2.Rows[i];
-                           drEmployee.BeginEdit();
-                           drEmployee["检测值"] = DBNull.Value;
-                           drEmployee.EndEdit();
-                       }
-                   }
+                   //for (int i = 0; i < dt2.Rows.Count; i++)
+                   //{
+                   //    string value = dt2.Rows[i]["检测内容"].ToString();
+                   //    if (value != "安全气囊电阻" && value != "SBR电阻" && value != "安全带插入电流" && value != "安全带拔出电流" && value != "SBR断路电阻" && value != "SBR下压前断路电阻")
+                   //    {
+                   //        //string aa ;
+                   //        //aa = ResTable4.Rows[i]["真实值"].ToString();
+                   //        //aa = "";
+                   //        DataRow drEmployee = dt2.Rows[i];
+                   //        drEmployee.BeginEdit();
+                   //        drEmployee["检测值"] = DBNull.Value;
+                   //        drEmployee.EndEdit();
+                   //    }
+                   //}
                    return dt2;
                }
 

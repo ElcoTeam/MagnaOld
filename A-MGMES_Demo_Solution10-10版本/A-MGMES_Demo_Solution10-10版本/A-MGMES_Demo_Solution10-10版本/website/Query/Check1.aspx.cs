@@ -20,8 +20,9 @@ namespace website.Query
             if (IsPostBack)
             {
                 //导出Excel
-                ExportByWeb("检测返修报表.xls");
+                //ExportByWeb("检测返修报表.xls");
                 //ExportByWeb("ExportDemo3.xls");
+                ExportByWebNew("检测返修报表.xlsx");
             }
         }
         public static MemoryStream ExcelStream()
@@ -34,11 +35,32 @@ namespace website.Query
         {
             string path = HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx");
             //调用ZK的ExcelHelper
-            DataTable dtTable = ExcelHelper.ImportExceltoDt(path);
-           
+            //DataTable dtTable = ExcelHelper.ImportExceltoDt(path);
+            DataTable dtTable = new DataTable();
+            string str;
+            AsposeExcelTools.ExcelFileToDataTable(path,out dtTable,out str);
             return dtTable;
         }
 
+
+        public static void ExportByWebNew(string fileName)
+        {
+            string filePath = HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx");
+            HttpContext curContext = HttpContext.Current;
+            FileInfo fileInfo = new FileInfo(filePath);
+            curContext.Response.Clear();
+            curContext.Response.ClearContent();
+            curContext.Response.ClearHeaders();
+            curContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+            
+            curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+            curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+            curContext.Response.ContentType = "application/octet-stream";
+            curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
+            curContext.Response.WriteFile(fileInfo.FullName);
+            curContext.Response.Flush();
+            curContext.Response.End();
+        }
         public static void ExportByWeb(string strFileName)
         {
             HttpContext curContext = HttpContext.Current;
