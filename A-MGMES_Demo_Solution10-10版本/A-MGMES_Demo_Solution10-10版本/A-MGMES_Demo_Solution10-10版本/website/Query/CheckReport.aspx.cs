@@ -45,6 +45,7 @@ namespace website.Query
                 "attachment;filename=" + HttpUtility.UrlEncode(strFileName, Encoding.UTF8));
 
             curContext.Response.BinaryWrite(ExcelStream().GetBuffer());
+            curContext.Response.Flush();
             curContext.Response.End();
         }
         public static void ExportByWebNew(string fileName)

@@ -182,13 +182,21 @@ namespace website
                        }
                    }
 
-                   for (int k = 0; k < datatable.Columns.Count; k++)
-                   {
-                       wb.Worksheets[n].AutoFitColumn(k, 0, 150);
-                   }
-                   wb.Worksheets[n].FreezePanes(1, 0, 1, datatable.Columns.Count);
+                   //for (int k = 0; k < datatable.Columns.Count; k++)
+                   //{
+                   //    wb.Worksheets[n].AutoFitColumn(k, 0, 150);
+                   //}
+                   //wb.Worksheets[n].FreezePanes(1, 0, 1, datatable.Columns.Count);
                }
+               //创建文件
+               FileStream file = new FileStream(filepath, FileMode.Create);
+
+               //关闭释放流，不然没办法写入数据
+               file.Close();
+               file.Dispose();
                 wb.Save(filepath);
+                wb = null;
+
                 return true;
             }
             catch (Exception e)

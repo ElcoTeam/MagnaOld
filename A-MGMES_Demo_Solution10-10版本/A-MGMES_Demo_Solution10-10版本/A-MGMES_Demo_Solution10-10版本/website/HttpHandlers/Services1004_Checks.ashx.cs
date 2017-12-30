@@ -88,12 +88,12 @@ namespace website.HttpHandlers
                     }
                     else
                     {
-                        JsonStr3 = "false:"+str;
+                        JsonStr3 = "false";
                     }
                 }
                 catch
                 {
-                    JsonStr3 = "false:"+str;
+                    JsonStr3 = "false";
                 }
                 context.Response.ContentType = "json";
                 context.Response.Write(JsonStr3);

@@ -19,6 +19,12 @@
 
              var OldPsw = $("#oldpassword").val();
              var NewPsw = $("#password").val();
+             var ReNewPaw = $('#repassword').val();
+             if (NewPsw != ReNewPaw)
+             {
+                 alert("两次密码不一致");
+                 return false;
+             }
              //if (!verifyCheck._click()) return;
              if (!verifyCheck._click()) return false;
 

@@ -176,6 +176,7 @@
 	                if (data == true) {
 	                    $("#subs").click();
 	                } else {
+	                    console.log(data);
 	                    alert("导出失败");
 	                    
 	                }

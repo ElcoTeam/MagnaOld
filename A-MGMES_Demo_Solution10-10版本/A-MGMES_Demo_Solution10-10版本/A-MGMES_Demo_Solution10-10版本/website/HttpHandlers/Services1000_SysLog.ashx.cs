@@ -61,7 +61,7 @@ namespace website.HttpHandlers
             }
             if (!string.IsNullOrWhiteSpace(scancode))
             {
-                wherestr += " and scanCode = '" + scancode + @"'";
+                wherestr += " and scanCode like '%" + scancode + @"%'";
             }
             if (!string.IsNullOrWhiteSpace(StartTime))
             {
