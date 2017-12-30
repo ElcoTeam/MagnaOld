@@ -19,8 +19,8 @@ namespace Dal
              
               DataTable dt = new DataTable();
               dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, strSql, null);
-
-              if (dt != null && dt.Rows.Count > 0)
+              int num = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt.Rows[0], "SM"));
+              if (dt != null && dt.Rows.Count > 0 && num > 0 )
               {
                   result.result = "";
                   result.msg = "";
