@@ -38,7 +38,7 @@ namespace website
 {
     public class ExcelHelper
     {
-        public static int EXCEL03_MaxRow = 900000;
+        public static int EXCEL03_MaxRow = 800000;
         private static WriteLog wl = new WriteLog();
         #region 从datatable中将数据导出到excel
         /// <summary>

@@ -15,7 +15,7 @@ namespace Dal
           try
           {
 
-              string strSql = " SELECT COUNT(1) AS SM FROM [Sys_UserInfo] WHERE Lower(user_name) = '" + dataEntity.user_name.ToLower().Trim() + "'  and user_pwd='" + dataEntity.user_pwd.Trim() + "'";
+              string strSql = " SELECT COUNT(1) AS SM FROM [Sys_UserInfo] WHERE Lower(user_name) = '" + dataEntity.user_name.ToLower().Trim() + "'  and user_pwd='" + dataEntity.user_pwd + "'";
              
               DataTable dt = new DataTable();
               dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, strSql, null);

@@ -9,7 +9,7 @@ namespace website
 {
     public class AsposeExcelTools
     {
-        public static int EXCEL13_MaxRow = 900000;
+        public static int EXCEL13_MaxRow = 800000;
 
         public static bool DataTableToExcel(DataTable datatable, string filepath, out string error)
         {
@@ -201,6 +201,12 @@ namespace website
             }
             catch (Exception e)
             {
+                for (int i = 0; i < datatable.Rows.Count / EXCEL13_MaxRow + 1; i++)
+                {
+                    wb.Worksheets[i].Cells.Clear();
+                }
+                wb.Worksheets.Clear();
+                wb = null;
                 error = error + " DataTableToExcel: " + e.Message;
                 return false;
             }

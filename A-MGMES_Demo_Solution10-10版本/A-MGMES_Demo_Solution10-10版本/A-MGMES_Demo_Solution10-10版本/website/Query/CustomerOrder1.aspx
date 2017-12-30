@@ -45,10 +45,23 @@
                 <td style="width: 8%">
                     <input id ="SerialNumber"/>
                 </td>
+                <td  style="width: 6%" >            
+                       <span> 开始日期：</span>
+   
+                </td>  
+                <td style="width: 120px">
+                    <input id="start_time" class="easyui-datebox" data-options="required:true" />
+                </td>
+                <td style="width: 6%"  >                   
+                       <span>结束日期： </span>      
+                </td>  
+                <td style="width: 120px">
+                    <input id="end_time" class="easyui-datebox" data-options="required:true" />
+                </td>
                 <td style="width: 8%">
                     <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">查询</a>
                 </td>
-                <td style="width: 78%">
+                <td >
                     <input type="button" Style="height: 28px; padding: 0px; width: 70px" class="btn btn-default" value="导出excel" OnClick="excelForm()" />
                 </td>
             </tr>
@@ -62,6 +75,8 @@
     </table>
     <script>
         function excelForm() {
+            var start_time= $("#start_time").datebox('getValue');
+            var end_time = $("#end_time").datebox('getValue');
             var OrderType = $('#OrderType').val();
             var SerialNumber = $('#SerialNumber').val();
             var method = "Export";
@@ -69,7 +84,7 @@
                 type: "POST",
                 async: false,
                 url: '/HttpHandlers/Services1008_CustomerOrder.ashx',
-                data: { OrderType: OrderType, SerialNumber:SerialNumber,method: method },
+                data: { StartTime:start_time,EndTime:end_time,OrderType: OrderType, SerialNumber:SerialNumber,method: method },
                 success: function (data) {
                     if (data == true) {
                         $("#sub").click();
@@ -94,6 +109,8 @@
         var queryParams;
 
         function searchOrder(num) {     //后台传值
+            var start_time = $("#start_time").datebox('getValue');
+            var end_time = $("#end_time").datebox('getValue');
             var SerialNumber = $('#SerialNumber').val();
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
@@ -105,11 +122,15 @@
             queryParams.Worker = Worker;
             queryParams.OrderType = OrderType;
             queryParams.SerialNumber = SerialNumber;
+            queryParams.StartTime = start_time;
+            queryParams.EndTime = end_time;
             queryParams.method = "";
             dg.datagrid('reload');
         }
 
         function searchInfos(sort, num) {
+            var start_time = $("#start_time").datebox('getValue');
+            var end_time = $("#end_time").datebox('getValue');
             var SerialNumber = $('#SerialNumber').val();
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
@@ -121,6 +142,8 @@
             queryParams.Worker = Worker;
             queryParams.OrderType = OrderType;
             queryParams.SerialNumber = SerialNumber;
+            queryParams.StartTime = start_time;
+            queryParams.EndTime = end_time;
             queryParams.method = "";
             dg.datagrid('reload');
             dg.datagrid('reload');
@@ -131,7 +154,9 @@
             $.ajaxSetup({
                 cache: false //关闭AJAX缓存
             });
-
+            var date_t = new Date();
+            $("#start_time").datebox('setValue', date_t.toString());
+            $("#end_time").datebox('setValue', date_t.toString());
             //所属工位下拉框数据加载  
             //reloadst_id();
             //reloadfl_id();
@@ -146,18 +171,21 @@
 
             //}
             //数据列表加载
-      
+            var start_time = $("#start_time").datebox('getValue');
+            var end_time = $("#end_time").datebox('getValue');
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
             var Worker = $('#Worker').val();
             var OrderType = $('#OrderType').val();
             var SerialNumber = $('#SerialNumber').val();
             var queryParams = {
-                OrderCode : OrderCode,
+            OrderCode : OrderCode,
             CarType : CarType,
             Worker : Worker,
             OrderType: OrderType,
-            SerialNumber:SerialNumber,
+            SerialNumber: SerialNumber,
+            StartTime: start_time,
+                EndTime:end_time,
             method : "",
         }
             dg = $('#tb').datagrid({

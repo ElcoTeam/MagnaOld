@@ -14,6 +14,35 @@
              })
          });
             
+
+        function passwordLevel(password) {
+            var Modes = 0;
+            for (i = 0; i < password.length; i++) {
+                Modes |= CharMode(password.charCodeAt(i));
+            }
+            return bitTotal(Modes);
+            //CharMode函数
+            function CharMode(iN) {
+                if (iN >= 48 && iN <= 57)//数字
+                    return 1;
+                if (iN >= 65 && iN <= 90) //大写字母
+                    return 2;
+                if ((iN >= 97 && iN <= 122) || (iN >= 65 && iN <= 90))
+                    //大小写
+                    return 4;
+                else
+                    return 8; //特殊字符
+            }
+            //bitTotal函数
+            function bitTotal(num) {
+                modes = 0;
+                for (i = 0; i < 4; i++) {
+                    if (num & 1) modes++;
+                    num >>>= 1;
+                }
+                return modes;
+            }
+        }
          //保存表单
          function AcceptClick() {
 
@@ -23,6 +52,12 @@
              if (NewPsw != ReNewPaw)
              {
                  alert("两次密码不一致");
+                 return false;
+             }
+             console.log(passwordLevel(NewPsw));
+             if (passwordLevel(NewPsw) < 3)
+             {
+                 alert("密码不符合规定，密码需至少包含大写字母、小写字母、特殊符号、数字四种中的三种");
                  return false;
              }
              //if (!verifyCheck._click()) return;

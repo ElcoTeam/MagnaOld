@@ -19,7 +19,8 @@ namespace website.HttpHandlers
             HttpRequest request = System.Web.HttpContext.Current.Request;
             string OrderType = request["OrderType"];
             string SerialNumber = request["SerialNumber"];
-
+            string start_time = context.Request["StartTime"];
+            string end_time = context.Request["EndTime"];
             int SortFlag = Convert.ToInt32(request["SortFlag"]);
             int PageSize = Convert.ToInt32(request["rows"]);
             int PageIndex = Convert.ToInt32(request["page"]);
@@ -27,6 +28,21 @@ namespace website.HttpHandlers
             sort = request["sort"];
             order = request["order"];
             string where = "";
+            if (string.IsNullOrEmpty(start_time))
+            {
+                DateTime t = DateTime.Now;
+                start_time = t.ToString("yyyy-MM-dd");
+            }
+            string StartTime = start_time.Substring(0, 10)+" 00:00:00";
+            if (string.IsNullOrEmpty(end_time))
+            {
+                DateTime t = DateTime.Now;
+                end_time = t.ToString("yyyy-MM-dd");
+
+            }
+            string EndTime = end_time.Substring(0, 10)+" 23:59:59";
+            where += " and a.CreateTime >='" + StartTime + "'";
+            where += " and a.CreateTime <='" + EndTime + "'";
             if (!string.IsNullOrEmpty(OrderType))
             {
                 where += " and a.OrderType = " + OrderType + " ";
