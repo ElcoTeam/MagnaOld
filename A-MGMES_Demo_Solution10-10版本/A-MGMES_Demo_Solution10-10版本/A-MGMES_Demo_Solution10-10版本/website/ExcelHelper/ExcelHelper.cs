@@ -38,7 +38,7 @@ namespace website
 {
     public class ExcelHelper
     {
-        public static int EXCEL03_MaxRow = 60000;
+        public static int EXCEL03_MaxRow = 900000;
         private static WriteLog wl = new WriteLog();
         #region 从datatable中将数据导出到excel
         /// <summary>
@@ -96,8 +96,8 @@ namespace website
             //空表只有表头和列头
             #region 新建表，填充表头，填充列头，样式
 
-            //if (rowIndex % EXCEL03_MaxRow == 0)
-            if(rowIndex==0)
+            if (rowIndex % EXCEL03_MaxRow == 0)
+            //if(rowIndex==0)
             {
 
                 sheet = workbook.CreateSheet() as HSSFSheet;
@@ -160,69 +160,69 @@ namespace website
             #endregion
             foreach (DataRow row in dtSource.Rows)
             {
-                //#region 新建表，填充表头，填充列头，样式
+                #region 新建表，填充表头，填充列头，样式
 
-                //if (rowIndex % EXCEL03_MaxRow == 0)
-                //{
+                if (rowIndex % EXCEL03_MaxRow == 0)
+                {
                     
-                //    sheet = workbook.CreateSheet() as HSSFSheet;
+                    sheet = workbook.CreateSheet() as HSSFSheet;
                     
 
-                //    #region 表头及样式
+                    #region 表头及样式
 
-                //    {
-                //        HSSFRow headerRow = sheet.CreateRow(0) as HSSFRow;
-                //        headerRow.HeightInPoints = 25;
-                //        headerRow.CreateCell(0).SetCellValue(strHeaderText);
+                    {
+                        HSSFRow headerRow = sheet.CreateRow(0) as HSSFRow;
+                        headerRow.HeightInPoints = 25;
+                        headerRow.CreateCell(0).SetCellValue(strHeaderText);
 
-                //        HSSFCellStyle headStyle = workbook.CreateCellStyle() as HSSFCellStyle;
-                //        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                //        HSSFFont font = workbook.CreateFont() as HSSFFont;
-                //        font.FontHeightInPoints = 10;
-                //        font.Boldweight = 70;
-                //        headStyle.SetFont(font);
+                        HSSFCellStyle headStyle = workbook.CreateCellStyle() as HSSFCellStyle;
+                        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                        HSSFFont font = workbook.CreateFont() as HSSFFont;
+                        font.FontHeightInPoints = 10;
+                        font.Boldweight = 70;
+                        headStyle.SetFont(font);
 
-                //        headerRow.GetCell(0).CellStyle = headStyle;
-                //        sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
-                //        //headerRow.Dispose();
-                //    }
+                        headerRow.GetCell(0).CellStyle = headStyle;
+                        sheet.AddMergedRegion(new Region(0, 0, 0, dtSource.Columns.Count - 1));
+                        //headerRow.Dispose();
+                    }
 
-                //    #endregion
-
-
-                //    #region 列头及样式
-
-                //    {
-                //        HSSFRow headerRow = sheet.CreateRow(1) as HSSFRow;
+                    #endregion
 
 
-                //        HSSFCellStyle headStyle = workbook.CreateCellStyle() as HSSFCellStyle;
-                //        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                //        HSSFFont font = workbook.CreateFont() as HSSFFont;
-                //        font.FontHeightInPoints = 10;
-                //        font.Boldweight = 700;
-                //        headStyle.SetFont(font);
+                    #region 列头及样式
+
+                    {
+                        HSSFRow headerRow = sheet.CreateRow(1) as HSSFRow;
 
 
-                //        foreach (DataColumn column in dtSource.Columns)
-                //        {
-                //            headerRow.CreateCell(column.Ordinal).SetCellValue(column.ColumnName);
-                //            headerRow.GetCell(column.Ordinal).CellStyle = headStyle;
+                        HSSFCellStyle headStyle = workbook.CreateCellStyle() as HSSFCellStyle;
+                        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                        HSSFFont font = workbook.CreateFont() as HSSFFont;
+                        font.FontHeightInPoints = 10;
+                        font.Boldweight = 700;
+                        headStyle.SetFont(font);
 
-                //            //设置列宽，这里我多加了10个字符的长度
-                //            sheet.SetColumnWidth(column.Ordinal, (arrColWidth[column.Ordinal] + 10) * 256);
+
+                        foreach (DataColumn column in dtSource.Columns)
+                        {
+                            headerRow.CreateCell(column.Ordinal).SetCellValue(column.ColumnName);
+                            headerRow.GetCell(column.Ordinal).CellStyle = headStyle;
+
+                            //设置列宽，这里我多加了10个字符的长度
+                            sheet.SetColumnWidth(column.Ordinal, (arrColWidth[column.Ordinal] + 10) * 256);
 
 
-                //        }
-                //        //headerRow.Dispose();
-                //    }
+                        }
+                        //headerRow.Dispose();
+                    }
 
-                //    #endregion
+                    #endregion
 
-                //    rowIndex = 2;
-                //}
+                    rowIndex = 2;
+                }
 
-                //#endregion
+                #endregion
 
                 #region 填充内容
 
@@ -381,8 +381,8 @@ namespace website
             int rowIndex = 0;
             //以前空表就不导出，增加空表导出
             #region 新建表，填充表头，填充列头，样式
-            //if (rowIndex % EXCEL03_MaxRow == 0)
-            if(rowIndex==0)
+            if (rowIndex % EXCEL03_MaxRow == 0)
+            //if(rowIndex==0)
             {
                 sheet = workbook.CreateSheet() as XSSFSheet;
                 #region 表头及样式
@@ -441,64 +441,64 @@ namespace website
           
             foreach (DataRow row in dtSource.Rows)
             {
-                //#region 新建表，填充表头，填充列头，样式
-                //if (rowIndex % EXCEL03_MaxRow== 0)
-                //{
-                //    sheet = workbook.CreateSheet() as XSSFSheet;
-                //    #region 表头及样式
-                //    {
-                //        XSSFRow headerRow = sheet.CreateRow(0) as XSSFRow;
-                //        headerRow.HeightInPoints = 25;
-                //        headerRow.CreateCell(0).SetCellValue(strHeaderText);
+                #region 新建表，填充表头，填充列头，样式
+                if (rowIndex % EXCEL03_MaxRow== 0)
+                {
+                    sheet = workbook.CreateSheet() as XSSFSheet;
+                    #region 表头及样式
+                    {
+                        XSSFRow headerRow = sheet.CreateRow(0) as XSSFRow;
+                        headerRow.HeightInPoints = 25;
+                        headerRow.CreateCell(0).SetCellValue(strHeaderText);
 
-                //        XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
-                //        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                //        XSSFFont font = workbook.CreateFont() as XSSFFont;
-                //        font.FontHeightInPoints = 20;
-                //        font.Boldweight = 700;
-                //        headStyle.SetFont(font);
+                        XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
+                        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                        XSSFFont font = workbook.CreateFont() as XSSFFont;
+                        font.FontHeightInPoints = 20;
+                        font.Boldweight = 700;
+                        headStyle.SetFont(font);
 
-                //        headerRow.GetCell(0).CellStyle = headStyle;
+                        headerRow.GetCell(0).CellStyle = headStyle;
 
-                //        sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, dtSource.Columns.Count - 1));
-                //        //headerRow.Dispose();
-                //    }
+                        sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, dtSource.Columns.Count - 1));
+                        //headerRow.Dispose();
+                    }
 
-                //    #endregion
-
-
-                //    #region 列头及样式
-
-                //    {
-                //        XSSFRow headerRow = sheet.CreateRow(1) as XSSFRow;
+                    #endregion
 
 
-                //        XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
-                //        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                //        XSSFFont font = workbook.CreateFont() as XSSFFont;
-                //        font.FontHeightInPoints = 10;
-                //        font.Boldweight = 700;
-                //        headStyle.SetFont(font);
+                    #region 列头及样式
+
+                    {
+                        XSSFRow headerRow = sheet.CreateRow(1) as XSSFRow;
 
 
-                //        foreach (DataColumn column in dtSource.Columns)
-                //        {
-                //            headerRow.CreateCell(column.Ordinal).SetCellValue(column.ColumnName);
-                //            headerRow.GetCell(column.Ordinal).CellStyle = headStyle;
+                        XSSFCellStyle headStyle = workbook.CreateCellStyle() as XSSFCellStyle;
+                        headStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                        XSSFFont font = workbook.CreateFont() as XSSFFont;
+                        font.FontHeightInPoints = 10;
+                        font.Boldweight = 700;
+                        headStyle.SetFont(font);
 
-                //            //设置列宽
-                //            sheet.SetColumnWidth(column.Ordinal, (arrColWidth[column.Ordinal] + 1) * 256);
 
-                //        }
-                //        //headerRow.Dispose();
-                //    }
+                        foreach (DataColumn column in dtSource.Columns)
+                        {
+                            headerRow.CreateCell(column.Ordinal).SetCellValue(column.ColumnName);
+                            headerRow.GetCell(column.Ordinal).CellStyle = headStyle;
 
-                //    #endregion
+                            //设置列宽
+                            sheet.SetColumnWidth(column.Ordinal, (arrColWidth[column.Ordinal] + 1) * 256);
 
-                //    rowIndex = 2;
-                //}
+                        }
+                        //headerRow.Dispose();
+                    }
 
-                //#endregion
+                    #endregion
+
+                    rowIndex = 2;
+                }
+
+                #endregion
 
                 #region 填充内容
 

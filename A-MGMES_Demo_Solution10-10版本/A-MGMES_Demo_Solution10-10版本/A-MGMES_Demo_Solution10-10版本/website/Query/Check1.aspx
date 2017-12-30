@@ -62,7 +62,7 @@
                             <li>
                                 <span>开始时间</span>
                                 <div>
-                                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false"/>
+                                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false,onChange:function(){reloadpart_id_s();}"/>
                                 </div>
                             </li>
                             <li>
