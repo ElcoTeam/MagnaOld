@@ -19,7 +19,7 @@
 
              var OldPsw = $("#oldpassword").val();
              var NewPsw = $("#password").val();
-             var ReNewPaw = $('#repassword').val();
+             var ReNewPaw = $('#rePassword').val();
              if (NewPsw != ReNewPaw)
              {
                  alert("两次密码不一致");
@@ -99,7 +99,7 @@
                    <div class="item col-xs-12" style="float: none;">
                        <span class="intelligent-label f-fl"><b class="ftx04">*</b>确认密码：</span>   
                        <div class="f-fl item-ifo">
-                           <input type="password" maxlength="20" class="txt03 f-r3 required"tabindex="4" style="ime-mode:disabled;" onpaste="return  false"autocomplete="off" data-valid="isNonEmpty||between:1-20||isRepeat:password"data-error="密码不能为空||密码长度1-16位||两次密码输入不一致" id="rePassword" />
+                           <input type="password" maxlength="20" class="txt03 f-r3 required"tabindex="4" style="ime-mode:disabled;" onpaste="return  false"autocomplete="off" data-valid="isNonEmpty||between:1-20||isRepeat:password" id="rePassword" />
                            <span class="ie8 icon-close close hide" style="right:55px"></span>
                            <span class="showpwd" data-eye="rePassword"></span>
                            <label class="icon-sucessfill blank hide"></label>
