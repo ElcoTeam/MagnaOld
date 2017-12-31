@@ -83,3 +83,27 @@
 .gridview { border-top: 1px solid #ccc; border-left: 1px solid #ccc; }
 .gridview th { padding: 5px 10px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; background-color: #f0f0f0; }
 .gridview td { padding: 5px 10px; border-right: 1px solid #ccc; border-bottom: 1px solid #ccc; }
+
+ @media screen and (max-width: 800px ) {     
+    .uservalue {      
+        width:100px; 
+     } 
+ } 
+
+ @media screen and (min-width: 800px ) and (max-width: 1400px)  {     
+    .uservalue {      
+        width:120px; 
+     } 
+ }
+
+ @media screen and (min-width: 1400px ) and (max-width: 1900px) { 
+    .uservalue {      
+        width:150px; 
+     } 
+  }
+
+  @media screen and (min-width: 1900px) { 
+    .uservalue {      
+        width:150px; 
+     } 
+  } 

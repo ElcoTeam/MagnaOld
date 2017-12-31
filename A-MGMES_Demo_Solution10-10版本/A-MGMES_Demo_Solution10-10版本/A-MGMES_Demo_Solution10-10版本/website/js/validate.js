@@ -300,6 +300,12 @@
 		            return /^([01]\d|2[01234]):([0-5]\d|60)$/i.test(value); 
 		        }, 
 		        message : '时间格式不正确'
+	    	},
+	    	pwd : {
+	    	    validator: function (value) {
+	    	        return /^(?![a-zA-Z]+$)(?![A-Z0-9]+$)(?![A-Z\W_]+$)(?![a-z0-9]+$)(?![a-z\W_]+$)(?![0-9\W_]+$)[a-zA-Z0-9\W_]{8,}$/.test(value);
+	    	    },
+	    	    message: '密码长度最少8位,大写字母，小写字母，数字，特殊符号必须四选三'
 	    	}
 	});
 

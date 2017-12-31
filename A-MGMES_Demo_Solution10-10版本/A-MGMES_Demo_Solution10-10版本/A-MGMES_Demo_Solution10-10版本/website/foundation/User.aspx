@@ -71,7 +71,7 @@
                     </p>
                 </td>
                 <td>
-                   <input id="user_no" type="text" class="easyui-validatebox" style="width: 230px;height: 27px;"  data-options="required:true,validType:['length[1,50]']"/>
+                   <input id="user_no" type="text" class="easyui-validatebox" style="width: 230px;height: 27px;"  <%--data-options="required:true,validType:['length[1,50]']"--%>/>
                 </td>
             </tr>
             <tr>
@@ -101,7 +101,7 @@
                     </p>
                 </td>
                 <td>
-                    <input id="user_pwd" class="text" style="width: 230px;">
+                    <input id="user_pwd" class="easyui-validatebox" style="width: 230px; height:27px;" data-options="validType:'pwd'" type="password">
                 </td>
             </tr>
             <tr>
@@ -158,7 +158,7 @@
             //新增按钮点击
             $('.topaddBtn').first().click(function () {
                 isEdit = false;
-                $("#user_no").removeAttr("disabled", "disabled");
+                //$("#user_no").removeAttr("disabled", "disabled");
                 
                 $('#w').window('open');
             });
@@ -217,7 +217,7 @@
                       { field: 'user_no', title: '工号', width: 100, align: "center" },
                       { field: 'user_name', title: '姓名', width: 100, align: "center" },
                       
-                      { field: 'user_pwd', title: '密码', width: 100, align: "center" },
+                      { field: 'user_pwd', title: '密码', hidden: true },
                       { field: 'user_depid_name', title: '部门', width: 100, align: "center" },
                       { field: 'user_posiid_name', title: '职位', width: 100, align: "center" },
                       { field: 'user_email', title: 'e-mail', width: 100, align: "center" },
@@ -275,6 +275,11 @@
             var user_depid = $('#user_depid').combo('getValue');
             var user_posiid = $('#user_posiid').combo('getValue');
             var user_no = $('#user_no').val();
+            if (user_no == "")
+            {
+                alert("工号不能为空");
+                return false;
+            }
             var user_name = $('#user_name').val();
             var user_email = $('#user_email').val();
             var user_pwd = $('#user_pwd').val();
@@ -373,7 +378,7 @@
             $('#user_depid').combobox('select', row.user_depid == 0 ? "" : row.user_depid);
             $('#user_posiid').combobox('select', row.user_posiid == 0 ? "" : row.user_posiid);
             $('#user_no').val(row.user_no);
-            $("#user_no").attr("disabled", "disabled");
+            //$("#user_no").attr("disabled", "disabled");
             $('#user_name').val(row.user_name);
             $('#user_pwd').val(row.user_pwd);
             $('#user_email').val(row.user_email);

@@ -19,42 +19,43 @@
     </div>
     <div class="top">
         <table cellpadding="0" cellspacing="0" style="width: 100%">
-
             <tr>
-                <td style="width:7.5%"><span class="title">步骤日志查询</span> <%--<span class="subDesc">拖拽数据行进行排序</span>--%>
+                 <td style="width:7.5%"><span class="title">步骤日志查询</span> <%--<span class="subDesc">拖拽数据行进行排序</span>--%>
                 </td>
+            </tr>
+            <tr>
                 <td style="width: 12.5%">
-                    <span>流水线：</span>
-                    <select id="fl_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                    <span style="margin-left: 10px;">流水线：</span>
+                    <select id="fl_id_s" class="easyui-combobox uservalue" style="height: 25px;"
                         data-options="valueField: 'fl_id',textField: 'fl_name',onChange:reloadst_id_s">
                     </select>
                 </td>
                 <td style="width: 12.5%">
                     <span>工位：</span>
-                    <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                    <select id="st_id_s" class="easyui-combobox uservalue" style="height: 25px;"
                         data-options="valueField: 'st_no',textField: 'st_no'">
                     </select>
                 </td>
                 <td style="width:15%">
                     <span>订单号：</span>
-                        <input id="orderid" style="width: 180px" type="text" />
+                        <input id="orderid" class="uservalue"  type="text" />
                 </td>
                 
                 </tr>
               <tr>
-                  <td style="width:7.5%"><span class="title"></span> <%--<span class="subDesc">拖拽数据行进行排序</span>--%>
-                </td>
+               <%-- <td style="width:7.5%"><span class="title"></span> 
+                </td>--%>
                 <td style="width:12.5%">
-                    <span>扫描值:</span>
-                    <input id="scancodenum" style="width: 180px" type="text" />
+                    <span style="margin-left: 10px;">扫描值：</span>
+                    <input id="scancodenum" class="uservalue"  type="text" />
                 </td>
                 <td style="width: 10%">
                      <span>开始时间：</span>
-                    <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
+                    <input id="start_time" class="easyui-datetimebox uservalue" data-options="required:true,showSeconds:false"  />
                 </td>
                 <td style="width: 10%">
                      <span>结束时间：</span>
-                    <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
+                    <input id="end_time" class="easyui-datetimebox uservalue" data-options="required:true,showSeconds:false"  />
                 </td>
                 <td style="width: 5%;"><a class="topsearchBtn" href="javascript:;" onclick="searchInfos(1,1)">查询</a></td>
                 <td style="width: 5%">

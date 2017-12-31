@@ -34,7 +34,9 @@ namespace Dal
 			                            when 7 then 'SAP手动插单订单自动拆单失败'
 			                            when 8 then 'SAP手动插单订单的ProductNo在MES系统中不匹配或为空'
 			                            when 9 then 'DelJet订单的SEQNR不连续'
-			                            when 10 then 'DelJet缓存文件夹写入失败' end as ReceiptTypeName
+			                            when 10 then 'DelJet缓存文件夹写入失败' 
+                                        else ''
+                                       end as ReceiptTypeName
                                       ,MailRecipient
                                       ,RecipientType
                                       ,case RecipientType
@@ -81,9 +83,6 @@ namespace Dal
                               SELECT top " + pagesize + @" ID mid
                                       ,ReceiptType
                                       ,case ReceiptType
-                                            -- when 1 then 'LineUp'
-                                            -- when 2 then 'Delgit'
-                                            -- when 3 then '回冲' end as ReceiptTypeName
                                             	when 1 then 'LineUpTxt加载失败'
 			                                    when 2 then 'LineUp订单的ProductNo在MES系统中不匹配或为空'
 			                                    when 3 then 'DelJetTxt加载失败'
@@ -93,7 +92,9 @@ namespace Dal
 			                                    when 7 then 'SAP手动插单订单自动拆单失败'
 			                                    when 8 then 'SAP手动插单订单的ProductNo在MES系统中不匹配或为空'
 			                                    when 9 then 'DelJet订单的SEQNR不连续'
-			                                    when 10 then 'DelJet缓存文件夹写入失败' end as ReceiptTypeName
+			                                    when 10 then 'DelJet缓存文件夹写入失败'
+                                       else ''
+                                       end as ReceiptTypeName
                                       ,MailRecipient
                                       ,RecipientType
                                       ,case RecipientType
