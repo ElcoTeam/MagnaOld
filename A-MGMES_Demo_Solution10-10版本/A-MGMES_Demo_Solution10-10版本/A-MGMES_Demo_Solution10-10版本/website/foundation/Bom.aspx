@@ -14,38 +14,21 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <input type="submit" name="name" value="导出Excel" id="sub" hidden="hidden" />
     <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 100%">
+         <table cellpadding="0" cellspacing="0" style="width: 97%">
             <tr>
-                <td><span class="title">(Bill of Material)&nbsp;零件档案</span> <span class="subDesc">生产座椅所需的物料零件，一种零件可能被多种部件用到</span>
-                </td>
-                <td style="width: 120px">
-                    <a class="topaddBtn">新增档案</a>
-                </td>
-                <td style="width: 120px">
+
+<td style="width:97%;"><div><span class="title">(Bill of Material)&nbsp;零件档案</span> <span class="subDesc">生产座椅所需的物料零件，一种零件可能被多种部件用到</span><span style="padding-left:41px;"><a class="topaddBtn">新增档案</a>
                     <a class="toppenBtn">编辑所选</a>
-                </td>
-                <td style="width: 120px">
-                    <a class="topdelBtn">删除所选</a>
-                </td>
-            </tr>
-            <tr>
-                <td style="width: 150px;"></td>
-                <td style="width: 150px;">
-                    <div>
-                        <input id="orderPn" style="width: 180px" type="text" />
-                    </div>
-                </td>
-                <td style="width: 150px;">
-                    <a class="topsearchBtn" href="javascript:;" onclick="searchPn(2)">查询</a>
-                </td>
-                <td style="width: 10%;">
-                    <a style="font-size: 12px; font-weight: 700; color: #000000" class="easyui-linkbutton" href="javascript:;" onclick="excelForm()">导出Excel</a>
-                </td>
+                    <a class="topdelBtn">删除所选</a></span><span style="float:right;">
+                        <input id="orderPn" style="width: 150px" type="text"> <a class="topsearchBtn" href="javascript:;" onclick="searchPn(2)">查询</a>
+  <a style="font-size: 12px; font-weight: 700; color: #000000" class="easyui-linkbutton" href="javascript:;" onclick="excelForm()">导出Excel</a></span></div>
+</td>
+
             </tr>
         </table>
     </div>
     <!-- 数据表格  -->
-    <table id="tb" title="零件列表" style="width: 99%;">
+    <table id="tb" title="零件列表" style="width: 98%;white-space:nowrap;">
     </table>
     <!-- 编辑窗口 -->
     <div id="w" style="padding: 0px; visibility: hidden" title="零件编辑">
@@ -396,7 +379,8 @@
                 singleSelect: true,
                 collapsible: false,
                 striped: true,
-                fitColumns: true,
+                nowrap:false,
+               // fitColumns: true,
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'bom_id', title: '查看关系网', align: "center", width: 80, formatter: function (value, row, index) { return '<img src="/image/admin/chukoulist.png" style="height:16px;cursor:pointer" onclick="showRelation(\'' + value + '\');"/>'; }, },
