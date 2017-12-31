@@ -187,12 +187,14 @@ public class UserHandler : IHttpHandler
         string user_isAdmin = Request.Params["user_isAdmin"];
         string user_menuids = Request.Params["user_menuids"];
         string user_pwd = Request.Params["user_pwd"];
+        string user_oldno = Request.Params["user_oldno"];
 
         mg_userModel model = new mg_userModel();
         model.user_id = user_id;
         model.user_depid = NumericParse.StringToInt(user_depid);
         model.user_posiid = NumericParse.StringToInt(user_posiid);
         model.user_no = user_no;
+        model.user_oldno = user_oldno;
         model.user_name = user_name;
         model.user_pwd = user_pwd;
         model.user_email = user_email;

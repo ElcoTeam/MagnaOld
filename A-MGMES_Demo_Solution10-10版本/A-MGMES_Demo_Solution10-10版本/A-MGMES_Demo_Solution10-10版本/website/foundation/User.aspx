@@ -280,9 +280,15 @@
                 alert("工号不能为空");
                 return false;
             }
+
             var user_name = $('#user_name').val();
             var user_email = $('#user_email').val();
             var user_pwd = $('#user_pwd').val();
+            if (!$("#user_pwd").validatebox('isValid'))
+            {
+                return false;
+            }
+            
             var user_sex = ($('#user_sex').switchbutton('options').checked == true) ? 1 : 0;
             var user_isAdmin = ($('#user_isAdmin').switchbutton('options').checked == true) ? 1 : 0;
 
@@ -320,6 +326,14 @@
             //return false;
             var user_menuids = menuidArr.join(',');
 
+            var user_oldno = "";
+            if (isEdit)
+            {
+                var selRows = dg.datagrid('getSelections');
+                var row = selRows[0];
+                user_oldno = row.user_no;
+            }
+           
             var model = {
                 user_id: user_id,
                 user_depid: user_depid,
@@ -331,6 +345,7 @@
                 user_sex: user_sex,
                 user_isAdmin: user_isAdmin,
                 user_menuids: user_menuids,
+                user_oldno: user_oldno,
                 method: 'saveUser'
             };
 

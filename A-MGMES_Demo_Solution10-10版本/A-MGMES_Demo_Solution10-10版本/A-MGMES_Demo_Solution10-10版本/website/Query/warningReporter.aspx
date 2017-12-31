@@ -549,80 +549,44 @@
 
         function setMaterial_Styler(value, row, index) {
 
-            if (value == 0) {
-                return 'background-color:green;';
-            }
-            else if (value >= 1) {
+            //if (value == 0) {
+            //    return 'background-color:green;';
+            //}
+            //else 
+            if (value >= 1) {
                 return 'background-color:#ff0000;';//红色
             }
 
         }
         function setProduction_Styler(value, row, index) {
 
-            if (value == 0) {
-                return 'background-color:green;';
-            }
-            else if (value >= 1) {
+            //if (value == 0) {
+            //    return 'background-color:green;';
+            //}
+            //else
+            if (value >= 1) {
                 return 'background-color:#ff0000;';//红色
             }
 
         }
         function setMaintenance_Styler(value, row, index) {
 
-            if (value == 0) {
-                return 'background-color:green;';
+            if (value >= 1) {
+                return 'background-color:#ff0000;';//红色
             }
-            else if (value == 1) {
-                return 'background-color:#ffff99;';
-            }
-            else if (value == 2) {
-                return 'background-color:#ffcc66;';
-            }
-            else if (value == 3) {
-                return 'background-color:#e26b0a;';
-            }
-            else if (value > 3) {
-                return 'background-color:#ff0000;';
-            }
-
+           
         }
         function setQuality_Styler(value, row, index) {
 
-            if (value == 0) {
-                return 'background-color:green;';
-            }
-            else if (value == 1) {
-                return 'background-color:#ffff99;';
-            }
-            else if (value == 2) {
-                return 'background-color:#ffcc66;';
-            }
-            else if (value == 3) {
-                return 'background-color:#e26b0a;';
-            }
-            else if (value > 3) {
-                return 'background-color:#ff0000;';
+            if (value >= 1) {
+                return 'background-color:#ff0000;';//红色
             }
 
         }
         function setTotal_Styler(value, row, index) {
-
-            if (value == 0) {
-                return 'background-color:green;';
+            if (value >= 1) {
+                return 'background-color:#ff0000;';//红色
             }
-            else if (value == 1) {
-                return 'background-color:#ffff99;';
-            }
-            else if (value == 2) {
-                return 'background-color:#ffcc66;';
-            }
-            else if (value == 3) {
-                return 'background-color:#e26b0a;';
-            }
-            else if (value > 3) {
-                return 'background-color:#ff0000;';
-            }
-
         }
         //格式化时间字符串
         function data_string(str) {

@@ -363,53 +363,73 @@ namespace DAL
 
         public static int UpdateUser(mg_userModel model)
         {
-            StringBuilder strSql = new StringBuilder();
-            strSql.Append("update Sys_UserInfo set ");
-            strSql.Append("user_name=@user_name,");
-            strSql.Append("user_pwd=@user_pwd,");
-            strSql.Append("user_email=@user_email,");
-            strSql.Append("user_depid=@user_depid,");
-            strSql.Append("user_posiid=@user_posiid,");
-            strSql.Append("user_menuids=@user_menuids,");
-            strSql.Append("user_sex=@user_sex,");
-            strSql.Append("user_isAdmin=@user_isAdmin");
-            strSql.Append(" where user_no=@user_no ");
-            SqlParameter[] parameters = {
-					new SqlParameter("@user_name", SqlDbType.VarChar),
-                    new SqlParameter("@user_pwd", SqlDbType.VarChar),
-					new SqlParameter("@user_email", SqlDbType.VarChar),
-					new SqlParameter("@user_depid", SqlDbType.Int),
-					new SqlParameter("@user_posiid", SqlDbType.Int),
-					new SqlParameter("@user_menuids", SqlDbType.VarChar),
-					new SqlParameter("@user_sex", SqlDbType.Int),
-					new SqlParameter("@user_isAdmin", SqlDbType.Int),
-					new SqlParameter("@user_no", SqlDbType.VarChar)
+           if(model.user_oldno !=model.user_no)
+           {
+               StringBuilder strSql1 = new StringBuilder();
+               strSql1.Append("select * from Sys_UserInfo where user_no=@user_no");
+               SqlParameter[] parameters2 = {
+                    new SqlParameter("@user_no", SqlDbType.VarChar)
                                         };
-            parameters[0].Value = model.user_name;
-            parameters[1].Value = model.user_pwd;
-            parameters[2].Value = model.user_email;
-            parameters[3].Value = model.user_depid;
-            parameters[4].Value = model.user_posiid;
-            parameters[5].Value = model.user_menuids;
-            parameters[6].Value = model.user_sex;
-            parameters[7].Value = model.user_isAdmin;
-            parameters[8].Value = model.user_no;
-            string a = strSql.ToString();
 
-            StringBuilder updateuserlimit = new StringBuilder();
-            updateuserlimit.Append("delete from Sys_UserLimitInfo where  UserNo=@user_no");
-            updateuserlimit.Append(" insert into Sys_UserLimitInfo(");
-            updateuserlimit.Append(" UserNo,MenuNo)");
-            updateuserlimit.Append(" select @user_no,ColName from dbo.[Fun_StrToTable](@user_menuids)");
-            SqlParameter[] parameters1 = {
-					new SqlParameter("@user_no", SqlDbType.VarChar),
-					new SqlParameter("@user_menuids", SqlDbType.VarChar)
-                                        };
-            parameters1[0].Value = model.user_no;
-            parameters1[1].Value = model.user_menuids;
-          
-            int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text,  strSql.ToString()+updateuserlimit.ToString(), parameters);
-            return rows;
+               parameters2[0].Value = model.user_no;
+               DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, strSql1.ToString(), parameters2);
+               if (dt.Rows.Count != 0)
+               {
+                   return -1;
+               } 
+           }
+           
+             StringBuilder strSql = new StringBuilder();
+             strSql.Append("update Sys_UserInfo set ");
+             strSql.Append("user_name=@user_name,");
+             strSql.Append("user_no=@user_oldno,");
+             strSql.Append("user_pwd=@user_pwd,");
+             strSql.Append("user_email=@user_email,");
+             strSql.Append("user_depid=@user_depid,");
+             strSql.Append("user_posiid=@user_posiid,");
+             strSql.Append("user_menuids=@user_menuids,");
+             strSql.Append("user_sex=@user_sex,");
+             strSql.Append("user_isAdmin=@user_isAdmin");
+             strSql.Append(" where user_no=@user_no ");
+             SqlParameter[] parameters = {
+			new SqlParameter("@user_name", SqlDbType.VarChar),
+                  new SqlParameter("@user_oldno", SqlDbType.VarChar),
+                  new SqlParameter("@user_pwd", SqlDbType.VarChar),
+			new SqlParameter("@user_email", SqlDbType.VarChar),
+			new SqlParameter("@user_depid", SqlDbType.Int),
+			new SqlParameter("@user_posiid", SqlDbType.Int),
+			new SqlParameter("@user_menuids", SqlDbType.VarChar),
+			new SqlParameter("@user_sex", SqlDbType.Int),
+			new SqlParameter("@user_isAdmin", SqlDbType.Int),
+			new SqlParameter("@user_no", SqlDbType.VarChar)
+                                      };
+             parameters[0].Value = model.user_name;
+             parameters[1].Value = model.user_no;
+             parameters[2].Value = model.user_pwd;
+             parameters[3].Value = model.user_email;
+             parameters[4].Value = model.user_depid;
+             parameters[5].Value = model.user_posiid;
+             parameters[6].Value = model.user_menuids;
+             parameters[7].Value = model.user_sex;
+             parameters[8].Value = model.user_isAdmin;
+             parameters[9].Value = model.user_oldno;
+             string a = strSql.ToString();
+
+             StringBuilder updateuserlimit = new StringBuilder();
+             updateuserlimit.Append("delete from Sys_UserLimitInfo where  UserNo=@user_no");
+             updateuserlimit.Append(" insert into Sys_UserLimitInfo(");
+             updateuserlimit.Append(" UserNo,MenuNo)");
+             updateuserlimit.Append(" select @user_no,ColName from dbo.[Fun_StrToTable](@user_menuids)");
+             SqlParameter[] parameters1 = {
+			new SqlParameter("@user_no", SqlDbType.VarChar),
+			new SqlParameter("@user_menuids", SqlDbType.VarChar)
+                                      };
+             parameters1[0].Value = model.user_oldno;
+             parameters1[1].Value = model.user_menuids;
+
+             int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString,System.Data.CommandType.Text, strSql.ToString() +updateuserlimit.ToString(),parameters);
+             return rows;
+
         }
 
         public static int DeleteUser(string user_no)

@@ -75,6 +75,10 @@ namespace Bll
         private static string UpdateUser(mg_userModel model)
         {
             int count = mg_UserDAL.UpdateUser(model);
+            if (count == -1)
+            {
+                return "exit";
+            }
             return count > 0 ? "true" : "false";
         }
 

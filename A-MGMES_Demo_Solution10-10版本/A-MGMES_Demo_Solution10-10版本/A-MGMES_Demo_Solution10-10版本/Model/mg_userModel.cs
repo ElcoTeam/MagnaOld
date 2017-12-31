@@ -14,6 +14,7 @@ namespace Model
         private string _user_pwd;
         private string _user_name;
         private string _user_no;
+        private string _user_oldno;
         private string _user_pic;
         private string _posi_id;
         private string _user_email;
@@ -112,6 +113,14 @@ namespace Model
         {
             set { _user_no = value; }
             get { return _user_no; }
+        }
+
+        /// 用户号
+        /// </summary>
+        public string user_oldno
+        {
+            set { _user_oldno = value; }
+            get { return _user_oldno; }
         }
         /// <summary>
         /// 头像
