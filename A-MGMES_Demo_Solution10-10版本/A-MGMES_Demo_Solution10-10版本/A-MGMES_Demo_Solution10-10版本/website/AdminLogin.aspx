@@ -12,7 +12,7 @@
             padding: 0px;  
             margin: 0px;   
             font-family: 微软雅黑; 
-            background-image: url(/image/log_bg.jpg); 
+            background-image: url(/image/magna.jpg); 
             background-repeat: no-repeat; 
             background-size: 100% 100%;
             height:920px;
@@ -68,7 +68,7 @@
                         <img src="/image/user.png" />
                     </td>
                     <td>
-                        <asp:TextBox ID="name" runat="server" CssClass="loginTable text">admin</asp:TextBox>
+                        <asp:TextBox ID="name" runat="server" CssClass="loginTable text"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
@@ -76,7 +76,7 @@
                         <img src="/image/lock.png" />
                     </td>
                     <td>
-                        <asp:TextBox ID="pwd" runat="server" CssClass="loginTable text" TextMode="Password">1</asp:TextBox>
+                        <asp:TextBox ID="pwd" runat="server" CssClass="loginTable text" TextMode="Password"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>

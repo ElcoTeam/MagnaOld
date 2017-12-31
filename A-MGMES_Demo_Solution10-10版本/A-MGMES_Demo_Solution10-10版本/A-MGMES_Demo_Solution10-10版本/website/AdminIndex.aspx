@@ -242,7 +242,7 @@
                 <%--<p style="font-size: 14px">
                     <asp:Literal ID="Literal1" runat="server"></asp:Literal>
                 </p>--%>
-               <img src="image/logo1.png" style="height: 50%;width:50%" />
+               <%--<img src="image/logo1.png" style="height: 50%;width:50%" />--%>
             </div>
         </div>
     </div>
