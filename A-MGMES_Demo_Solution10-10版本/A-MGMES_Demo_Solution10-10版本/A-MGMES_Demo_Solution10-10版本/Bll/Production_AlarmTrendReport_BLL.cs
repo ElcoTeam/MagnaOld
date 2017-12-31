@@ -11,6 +11,20 @@ namespace Bll
 {
    public  class Production_AlarmTrendReport_BLL
     {
+       public static DataTable GetWaringDataTable(string fl_id, string StartTime, string EndTime, int startIndex, int endIndex)
+       {
+           string jsonStr = "[]";
+           DataTable userList = Production_AlarmTrendDAL.GetWaringDataTable(fl_id, StartTime, EndTime, startIndex, endIndex);
+           return userList;
+
+       }
+       public static DataListModel<Production_AlarmModel> GetWaringListNew(string fl_id,string StartTime, string EndTime, int startIndex, int endIndex)
+       {
+           string jsonStr = "[]";
+           DataListModel<Production_AlarmModel> userList = Production_AlarmTrendDAL.GetWaringListNew(fl_id,StartTime, EndTime, startIndex, endIndex);
+           return userList;
+
+       }
        public static DataListModel<Production_AlarmModel> GetListNew(string StartTime,string EndTime,int startIndex,int endIndex)
        {
            string jsonStr = "[]";

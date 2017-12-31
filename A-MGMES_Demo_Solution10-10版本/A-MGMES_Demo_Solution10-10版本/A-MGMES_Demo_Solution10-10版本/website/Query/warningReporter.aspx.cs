@@ -21,6 +21,9 @@ namespace website.Query
             if (IsPostBack)
             {
                 //导出Excel
+                string start_time = HttpContext.Current.Request["start_time"];
+                string end_time = HttpContext.Current.Request["end_time"];
+                string title = start_time +"--" +end_time + " 报警信息报表.xls";
                 ExportByWeb("报警信息报表.xls");
             }
         }

@@ -82,6 +82,216 @@ namespace Dal
             }
 
         }
+        public static DataTable GetWaringDataTable(string fl_id,string StartTime, string EndTime, int StartIndex, int EndIndex)
+        {
+            List<Production_AlarmModel> modelList = new List<Production_AlarmModel>();
+            List<Production_AlarmModel> footerList = new List<Production_AlarmModel>();
+            DataListModel<Production_AlarmModel> modeldata = new DataListModel<Production_AlarmModel>();
+            int total = 0;
+            //SqlParameter[] sqlPara = new SqlParameter[4];
+            //sqlPara[0] = new SqlParameter("@start_time", StartTime);
+            //sqlPara[1] = new SqlParameter("@end_time", EndTime);
+            //sqlPara[2] = new SqlParameter("@start_index", StartIndex);
+            //sqlPara[3] = new SqlParameter("@end_index", EndIndex);
+            //DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_AlarmTrend", sqlPara, new string[] { "data", "footer", "count" });
+            string where = "";
+          string SqlStr =@"  select 
+  distinct ROW_NUMBER() over( order by line.fl_id ,station.st_no)as rowid
+  ,line.fl_id
+  ,line.fl_name
+  ,station.st_no  as stationNo
+  ,sum(case when AlarmType=1 then 1 else 0 end ) as material_num
+  ,sum(case when AlarmType=2 then 1 else 0 end) as quality_num
+  ,sum(case when AlarmType = 3 then 1 else 0 end) as maintenance_num
+  ,sum(case when AlarmType =4 then 1 else 0 end) as overcycle_num
+  ,sum(case when AlarmType = 5 then 1 else 0 end) as production_num
+  ,sum(case when AlarmType = 6 then 1 else 0 end) as stop_num
+  ,sum(case when AlarmType<7 then 1 else 0 end )as total_num
+   from mg_station station
+  left join mg_FlowLine line
+  on station.fl_id = line.fl_id
+  left join mg_Alarm alarm
+  on station.st_no = alarm.AlarmStation  ";
+            if(!string.IsNullOrEmpty(StartTime))
+            {
+                where +="  and alarm.AlarmStartTime >'"+StartTime+"' ";
+            }
+            if(!string.IsNullOrEmpty(EndTime))
+            {
+                where +="  and alarm.AlarmEndTime <'"+EndTime+"' ";
+            }
+            where += " where station.fl_id >0 ";
+            if(!string.IsNullOrEmpty(fl_id))
+            {
+                where +=" and station.fl_id ="+NumericParse.StringToInt(fl_id);
+            }
+            SqlStr +=where +@" 
+  group by  line.fl_id
+  ,line.fl_name
+  ,station.st_no  ";
+            string query_sql = " select * from ( " + SqlStr + " ) as Results   order by rowid ";
+            string count_sql = " select  count(*) as total from ( " + SqlStr + " ) AS T ";
+            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
+            if (DataHelper.HasData(ds))
+            {
+
+                DataTable dt2 = ds.Tables["data"];
+                //DataTable footer = ds.Tables["footer"];
+                DataTable dt1 = ds.Tables["count"];
+                total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
+                foreach (DataRow row in dt2.Rows)
+                {
+                    Production_AlarmModel model = new Production_AlarmModel();
+                    // model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                    // model.product_date = DataHelper.GetCellDataToStr(row, "product_date").Substring(0, 10);
+                    
+                    model.fl_id = DataHelper.GetCellDataToStr(row, "fl_id");
+                    model.fl_name = DataHelper.GetCellDataToStr(row, "fl_name");
+                    model.stationNo = DataHelper.GetCellDataToStr(row, "stationNo");
+                   // model.stationName = DataHelper.GetCellDataToStr(row, "stationName");
+                    model.material_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "material_num"));
+                    model.production_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "production_num"));
+                    model.maintenance_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "maintenance_num"));
+                    model.quality_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "quality_num"));
+                    model.overcycle_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "overcycle_num"));
+                    model.stop_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "stop_num"));
+                    model.total_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "total_num"));
+
+                    modelList.Add(model);
+                }
+                //foreach (DataRow row in footer.Rows)
+                //{
+                //    Production_AlarmModel model = new Production_AlarmModel();
+                //    //model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                //    //model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                //    model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                //    model.material_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "material_num"));
+                //    model.production_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "production_num"));
+                //    model.maintenance_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "maintenance_num"));
+                //    model.quality_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "quality_num"));
+                //    model.overcycle_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "overcycle_num"));
+                //    model.total_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "total_num"));
+                //    footerList.Add(model);
+                //}
+                DataListModel<Production_AlarmModel> allmodel = new DataListModel<Production_AlarmModel>();
+                allmodel.total = total.ToString();
+                allmodel.rows = modelList;
+                //allmodel.footer = footerList;
+                return dt2;
+
+            }
+            else
+            {
+                total = 0;
+                return null;
+            }
+
+        }
+        public static DataListModel<Production_AlarmModel> GetWaringListNew(string fl_id, string StartTime, string EndTime, int StartIndex, int EndIndex)
+        {
+            List<Production_AlarmModel> modelList = new List<Production_AlarmModel>();
+            List<Production_AlarmModel> footerList = new List<Production_AlarmModel>();
+            DataListModel<Production_AlarmModel> modeldata = new DataListModel<Production_AlarmModel>();
+            int total = 0;
+            //SqlParameter[] sqlPara = new SqlParameter[4];
+            //sqlPara[0] = new SqlParameter("@start_time", StartTime);
+            //sqlPara[1] = new SqlParameter("@end_time", EndTime);
+            //sqlPara[2] = new SqlParameter("@start_index", StartIndex);
+            //sqlPara[3] = new SqlParameter("@end_index", EndIndex);
+            //DataSet ds = SqlHelper.RunProcedureTables(SqlHelper.SqlConnString, "Proc_Rpt_AlarmTrend", sqlPara, new string[] { "data", "footer", "count" });
+            string where = "";
+            string SqlStr = @"  select 
+  distinct ROW_NUMBER() over( order by line.fl_id ,station.st_no)as rowid
+  ,line.fl_id
+  ,line.fl_name
+  ,station.st_no  as stationNo
+  ,sum(case when AlarmType=1 then 1 else 0 end ) as material_num
+  ,sum(case when AlarmType=2 then 1 else 0 end) as quality_num
+  ,sum(case when AlarmType = 3 then 1 else 0 end) as maintenance_num
+  ,sum(case when AlarmType =4 then 1 else 0 end) as overcycle_num
+  ,sum(case when AlarmType = 5 then 1 else 0 end) as production_num
+  ,sum(case when AlarmType = 6 then 1 else 0 end) as stop_num
+  ,sum(case when AlarmType<7 then 1 else 0 end )as total_num
+   from mg_station station
+  left join mg_FlowLine line
+  on station.fl_id = line.fl_id
+  left join mg_Alarm alarm
+  on station.st_no = alarm.AlarmStation  ";
+            if (!string.IsNullOrEmpty(StartTime))
+            {
+                where += "  and alarm.AlarmStartTime >'" + StartTime + "' ";
+            }
+            if (!string.IsNullOrEmpty(EndTime))
+            {
+                where += "  and alarm.AlarmEndTime <'" + EndTime + "' ";
+            }
+            where += " where station.fl_id >0 ";
+            if (!string.IsNullOrEmpty(fl_id))
+            {
+                where += " and station.fl_id =" + NumericParse.StringToInt(fl_id);
+            }
+            SqlStr += where + @" 
+  group by  line.fl_id
+  ,line.fl_name
+  ,station.st_no  ";
+            string query_sql = " select * from ( " + SqlStr + " ) as Results where rowid >=" + StartIndex + " and rowid <=" + EndIndex + " order by rowid ";
+            string count_sql = "select  count(*) as total from ( " + SqlStr + " ) AS T";
+            DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, count_sql + query_sql, new string[] { "count", "data" }, null);
+            if (DataHelper.HasData(ds))
+            {
+
+                DataTable dt2 = ds.Tables["data"];
+                //DataTable footer = ds.Tables["footer"];
+                DataTable dt1 = ds.Tables["count"];
+                total = NumericParse.StringToInt(DataHelper.GetCellDataToStr(dt1.Rows[0], "total"));
+                foreach (DataRow row in dt2.Rows)
+                {
+                    Production_AlarmModel model = new Production_AlarmModel();
+                    // model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                    // model.product_date = DataHelper.GetCellDataToStr(row, "product_date").Substring(0, 10);
+
+                    model.fl_id = DataHelper.GetCellDataToStr(row, "fl_id");
+                    model.fl_name = DataHelper.GetCellDataToStr(row, "fl_name");
+                    model.stationNo = DataHelper.GetCellDataToStr(row, "stationNo");
+                    // model.stationName = DataHelper.GetCellDataToStr(row, "stationName");
+                    model.material_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "material_num"));
+                    model.production_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "production_num"));
+                    model.maintenance_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "maintenance_num"));
+                    model.quality_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "quality_num"));
+                    model.overcycle_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "overcycle_num"));
+                    model.stop_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "stop_num"));
+                    model.total_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "total_num"));
+
+                    modelList.Add(model);
+                }
+                //foreach (DataRow row in footer.Rows)
+                //{
+                //    Production_AlarmModel model = new Production_AlarmModel();
+                //    //model.id = NumericParse.StringToInt(DataHelper.GetCellDataToStr(row, "id"));
+                //    //model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                //    model.product_date = DataHelper.GetCellDataToStr(row, "product_date");
+                //    model.material_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "material_num"));
+                //    model.production_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "production_num"));
+                //    model.maintenance_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "maintenance_num"));
+                //    model.quality_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "quality_num"));
+                //    model.overcycle_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "overcycle_num"));
+                //    model.total_num = NumericParse.StringToDecimal(DataHelper.GetCellDataToStr(row, "total_num"));
+                //    footerList.Add(model);
+                //}
+                DataListModel<Production_AlarmModel> allmodel = new DataListModel<Production_AlarmModel>();
+                allmodel.total = total.ToString();
+                allmodel.rows = modelList;
+                //allmodel.footer = footerList;
+                return allmodel;
+
+            }
+            else
+            {
+                total = 0;
+                return null;
+            }
+
+        }
         public static DataTable getTable(string StartTime, string EndTime, int PageSize, int StartIndex, int EndIndex, string sort, string order, string wherestr, out int total)
         {
             string SortFlag = "";

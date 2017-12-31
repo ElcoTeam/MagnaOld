@@ -617,7 +617,7 @@ function myLoader(param, success, error) {
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
            
-            $('#gridTable').datagrid('reload', { method: "GetList", start_time:start_time,end_time:end_time});
+            $('#gridTable').datagrid('reload', { method: "GetListNew", start_time:start_time,end_time:end_time});
         }
        
         function excelFor()

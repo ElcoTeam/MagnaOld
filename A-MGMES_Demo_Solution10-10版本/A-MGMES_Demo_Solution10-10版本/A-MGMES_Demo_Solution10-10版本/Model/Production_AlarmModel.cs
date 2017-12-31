@@ -12,6 +12,8 @@ namespace Model
        
         private int? _id;
         private string _product_date;
+        private string _fl_id;
+        private string _fl_name;
         private string _stationNo;
         private string _stationName;
         private decimal? _material_num;
@@ -19,6 +21,7 @@ namespace Model
         private decimal? _maintenance_num;
         private decimal? _quality_num;
         private decimal? _overcycle_num;
+        private decimal? _stop_num;
         private decimal? _total_num;
         public int? id
         {
@@ -40,6 +43,16 @@ namespace Model
         {
             set { _stationNo = value; }
             get { return _stationNo; }
+        }
+        public string fl_id
+        {
+            set { _fl_id = value; }
+            get { return _fl_id; }
+        }
+        public string fl_name
+        {
+            set { _fl_name = value; }
+            get { return _fl_name; }
         }
         /// <summary>
         /// 
@@ -88,6 +101,11 @@ namespace Model
         {
             set { _overcycle_num = value; }
             get { return _overcycle_num; }
+        }
+        public decimal? stop_num
+        {
+            set { _stop_num = value; }
+            get { return _stop_num; }
         }
         public decimal? total_num
         {
