@@ -50,13 +50,13 @@
    
                 </td>  
                 <td style="width: 120px">
-                    <input id="start_time" class="easyui-datebox" data-options="required:true" />
+                    <input id="start_time" class="easyui-datetimebox" data-options="required:true" />
                 </td>
                 <td style="width: 6%"  >                   
                        <span>结束日期： </span>      
                 </td>  
                 <td style="width: 120px">
-                    <input id="end_time" class="easyui-datebox" data-options="required:true" />
+                    <input id="end_time" class="easyui-datetimebox" data-options="required:true" />
                 </td>
                 <td style="width: 8%">
                     <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">查询</a>
@@ -75,8 +75,8 @@
     </table>
     <script>
         function excelForm() {
-            var start_time= $("#start_time").datebox('getValue');
-            var end_time = $("#end_time").datebox('getValue');
+            var start_time= $("#start_time").datetimebox('getValue');
+            var end_time = $("#end_time").datetimebox('getValue');
             var OrderType = $('#OrderType').val();
             var SerialNumber = $('#SerialNumber').val();
             var method = "Export";
@@ -89,7 +89,9 @@
                     if (data == true) {
                         $("#sub").click();
                     }
-                    else alert('操作失败');
+                    else {
+                        alert('操作失败');
+                    }
                 },
                 error: function () {
                 }
@@ -109,8 +111,8 @@
         var queryParams;
 
         function searchOrder(num) {     //后台传值
-            var start_time = $("#start_time").datebox('getValue');
-            var end_time = $("#end_time").datebox('getValue');
+            var start_time = $("#start_time").datetimebox('getValue');
+            var end_time = $("#end_time").datetimebox('getValue');
             var SerialNumber = $('#SerialNumber').val();
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
@@ -129,8 +131,8 @@
         }
 
         function searchInfos(sort, num) {
-            var start_time = $("#start_time").datebox('getValue');
-            var end_time = $("#end_time").datebox('getValue');
+            var start_time = $("#start_time").datetimebox('getValue');
+            var end_time = $("#end_time").datetimebox('getValue');
             var SerialNumber = $('#SerialNumber').val();
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
@@ -155,8 +157,8 @@
                 cache: false //关闭AJAX缓存
             });
             var date_t = new Date();
-            $("#start_time").datebox('setValue', date_t.toString());
-            $("#end_time").datebox('setValue', date_t.toString());
+            $("#start_time").datetimebox('setValue', date_t.toString());
+            $("#end_time").datetimebox('setValue', date_t.toString());
             //所属工位下拉框数据加载  
             //reloadst_id();
             //reloadfl_id();
@@ -171,8 +173,8 @@
 
             //}
             //数据列表加载
-            var start_time = $("#start_time").datebox('getValue');
-            var end_time = $("#end_time").datebox('getValue');
+            var start_time = $("#start_time").datetimebox('getValue');
+            var end_time = $("#end_time").datetimebox('getValue');
             var OrderCode = $('#OrderCode').val();
             var CarType = $('#CarType').val();
             var Worker = $('#Worker').val();

@@ -76,8 +76,23 @@ namespace website
                 string JsonStr = "[]";
                 try
                 {
-                    ExcelHelper.ExportDTtoExcel(resTable2, "HeaderText", HttpContext.Current.Request.MapPath("~/App_Data/发运历史报表.xlsx"));
-                    JsonStr = "true";
+                    //ExcelHelper.ExportDTtoExcel(resTable2, "HeaderText", HttpContext.Current.Request.MapPath("~/App_Data/发运历史报表.xlsx"));
+                    string fileName = HttpContext.Current.Request.MapPath("~/App_Data/发运历史报表.xlsx");
+                    string err = "";
+                    AsposeExcelTools.DataTableToExcel2(resTable2, fileName, out err);
+                    string ss = "true";
+                    if (err.Length < 1)
+                    {
+                        ss = "true";
+                    }
+                    else
+                    {
+                        ss = "false";
+                    }
+
+
+                    JsonStr = ss;
+                   
                 }
                 catch
                 {

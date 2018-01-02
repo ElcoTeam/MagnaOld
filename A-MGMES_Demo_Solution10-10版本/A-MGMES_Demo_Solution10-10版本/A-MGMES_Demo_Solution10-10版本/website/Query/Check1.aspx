@@ -98,7 +98,7 @@
             <tfoot>
                 <tr>
                     <td align="right">
-                        <input type="button" style="height:36px;" class="btn btn-default" value="生产图表" onclick="loadTable()"/>
+                        <input type="button" style="height:36px;" class="btn btn-default" value="生成图表" onclick="loadTable()"/>
                         <input type="button" style="height:36px;" class="btn btn-default" value="导出excel" onclick="excelFor()" />
                     </td>
                 </tr>
@@ -166,7 +166,7 @@
 	        var StationNo = $('#st_id_s').combobox('getValue');
 	        var method = "Export";
 	        $.ajax({
-	            type: 'get',
+	            type: 'post',
 	            url: '/HttpHandlers/Services1004_Checks.ashx',
 	            data: { StartTime: start_time, EndTime: end_time, OrderCode: OrderCode, StationNo: StationNo,method:method},
 	            dataType: 'json',

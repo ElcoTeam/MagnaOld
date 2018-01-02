@@ -121,6 +121,103 @@ namespace website
             }
 
         }
+
+        public static bool DataTableToExcel2_test(DataTable datatable, string filepath, out string error)
+        {
+            error = "";
+            Aspose.Cells.Workbook wb = new Aspose.Cells.Workbook();
+            wb.Worksheets.Clear();
+            try
+            {
+                if (datatable == null)
+                {
+                    error = "DataTableToExcel:datatable 为空";
+                    return false;
+                }
+
+                //为单元格添加样式    
+                Aspose.Cells.Style style = wb.Styles[wb.Styles.Add()];
+                //设置居中
+                style.HorizontalAlignment = Aspose.Cells.TextAlignmentType.Center;
+                //设置背景颜色
+                style.ForegroundColor = System.Drawing.Color.FromArgb(153, 204, 0);
+                //style.Pattern = BackgroundType.Solid;
+                style.Font.IsBold = true;
+
+                int rowIndex = 0;
+                //新建立sheet页
+                int count = datatable.Rows.Count;
+                int totalNum = datatable.Rows.Count / EXCEL13_MaxRow + 1;//总共生成的sheet页
+                string sheetName = "";
+                int beginIndex = 0;
+                int endIndex = 0;
+                for (int n = 0; n < totalNum; n++)
+                {
+                    sheetName = "sheet" + n.ToString();
+                    wb.Worksheets.Add(sheetName);
+                    rowIndex = 0;
+                    for (int i = 0; i < datatable.Columns.Count; i++)
+                    {
+                        DataColumn col = datatable.Columns[i];
+                        string columnName = col.Caption ?? col.ColumnName;
+                        wb.Worksheets[n].Cells[rowIndex, i].PutValue(columnName);
+                        wb.Worksheets[n].Cells[rowIndex, i].SetStyle(style);
+                    }
+                    rowIndex++;
+                    beginIndex = n * EXCEL13_MaxRow;
+                    endIndex = beginIndex + EXCEL13_MaxRow;
+                    if (endIndex >= count)
+                    {
+                        endIndex = count;
+                    }
+                    int rownum = endIndex - beginIndex;
+                    if (beginIndex < count && endIndex <= count)
+                    {
+
+                        wb.Worksheets[n].Cells.ImportDataTable(datatable,true,beginIndex,0,rownum,datatable.Columns.Count,false);
+                        //for (int j = beginIndex; j < endIndex; j++)
+                        //{
+                        //    DataRow row = datatable.Rows[j];
+                        //    for (int i = 0; i < datatable.Columns.Count; i++)
+                        //    {
+                        //        wb.Worksheets[n].Cells[rowIndex, i].PutValue(row[i].ToString());
+                        //    }
+                        //    rowIndex++;
+                        //}
+                    }
+
+                    //for (int k = 0; k < datatable.Columns.Count; k++)
+                    //{
+                    //    wb.Worksheets[n].AutoFitColumn(k, 0, 150);
+                    //}
+                    //wb.Worksheets[n].FreezePanes(1, 0, 1, datatable.Columns.Count);
+                }
+                //创建文件
+                FileStream file = new FileStream(filepath, FileMode.Create);
+
+                //关闭释放流，不然没办法写入数据
+                file.Close();
+                file.Dispose();
+               
+                wb.Save(filepath);
+                wb = null;
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                for (int i = 0; i < datatable.Rows.Count / EXCEL13_MaxRow + 1; i++)
+                {
+                    wb.Worksheets[i].Cells.Clear();
+                }
+                wb.Worksheets.Clear();
+                wb = null;
+                error = error + " DataTableToExcel: " + e.Message;
+                return false;
+            }
+
+        }
+
         public static bool DataTableToExcel2(DataTable datatable, string filepath, out string error)
         {
             error = "";
@@ -182,11 +279,11 @@ namespace website
                        }
                    }
 
-                   //for (int k = 0; k < datatable.Columns.Count; k++)
-                   //{
-                   //    wb.Worksheets[n].AutoFitColumn(k, 0, 150);
-                   //}
-                   //wb.Worksheets[n].FreezePanes(1, 0, 1, datatable.Columns.Count);
+                   for (int k = 0; k < datatable.Columns.Count; k++)
+                   {
+                       wb.Worksheets[n].AutoFitColumn(k, 0, 150);
+                   }
+                   wb.Worksheets[n].FreezePanes(1, 0, 1, datatable.Columns.Count);
                }
                //创建文件
                FileStream file = new FileStream(filepath, FileMode.Create);

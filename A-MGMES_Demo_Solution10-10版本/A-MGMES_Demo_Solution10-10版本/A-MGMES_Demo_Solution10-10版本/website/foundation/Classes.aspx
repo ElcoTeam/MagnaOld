@@ -103,7 +103,7 @@
                      <asp:ImageButton ID="BtEdit" runat="server" ImageUrl="~/image/admin/pen.png" 
                         onclick="BtEdit_Click"  />
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:ImageButton ID="BtDel" runat="server" ImageUrl="~/image/admin/delete1.png" 
+                 <asp:ImageButton ID="BtDel" runat="server" ImageUrl="~/image/admin/delete1.png" 
                         onclick="BtDel_Click"  />
                 </ItemTemplate>
                  <EditItemTemplate>

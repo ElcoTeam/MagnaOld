@@ -46,8 +46,21 @@ namespace website.HttpHandlers
                 {
                     try
                     {
-                        ExcelHelper.ExportDTtoExcel(outtable, "产量报表", HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx"));
-                        JsonStr = "true";
+                        string fileName = HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx");
+
+                       // ExcelHelper.ExportDTtoExcel(outtable, "产量报表", HttpContext.Current.Request.MapPath("~/App_Data/产量报表.xlsx"));
+                        string err = "";
+                        AsposeExcelTools.DataTableToExcel2(outtable, fileName, out err);
+                        string ss = "true";
+                        if (err.Length < 1)
+                        {
+                            ss = "true";
+                        }
+                        else
+                        {
+                            ss = "false";
+                        }
+                        JsonStr = ss;
                     }
                     catch
                     {

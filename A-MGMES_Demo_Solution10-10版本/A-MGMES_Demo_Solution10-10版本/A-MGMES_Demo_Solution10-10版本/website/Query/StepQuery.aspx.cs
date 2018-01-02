@@ -22,7 +22,7 @@ public partial class Query_StepQuery : System.Web.UI.Page
         if (IsPostBack)
         {
             //导出Excel
-            ExportByWeb();
+            ExportByWebNew("步骤日志报表.xls");
         }
         else
         {
@@ -33,7 +33,23 @@ public partial class Query_StepQuery : System.Web.UI.Page
             //////////}
         }
     }
-    
+    public static void ExportByWebNew(string fileName)
+    {
+        string filePath = HttpContext.Current.Request.MapPath("~/App_Data/步骤日志报表.xlsx");
+        HttpContext curContext = HttpContext.Current;
+        FileInfo fileInfo = new FileInfo(filePath);
+        curContext.Response.Clear();
+        curContext.Response.ClearContent();
+        curContext.Response.ClearHeaders();
+        curContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+        curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+        curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+        curContext.Response.ContentType = "application/octet-stream";
+        curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
+        curContext.Response.WriteFile(fileInfo.FullName);
+        curContext.Response.Flush();
+        curContext.Response.End();
+    }
     public static void ExportByWeb()
     {
         HttpContext curContext = HttpContext.Current;

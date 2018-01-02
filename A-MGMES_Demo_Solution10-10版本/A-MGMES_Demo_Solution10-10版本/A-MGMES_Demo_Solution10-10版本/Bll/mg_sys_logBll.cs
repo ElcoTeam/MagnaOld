@@ -45,6 +45,11 @@ namespace Bll
             List<object> result = mg_sys_LogDal.getst_idList(fl_id);
             return JSONTools.ScriptSerialize(result);
         }
+        public static string getst_idListForTorque(string fl_id)
+        {
+            List<object> result = mg_sys_LogDal.getst_idListForTorque(fl_id);
+            return JSONTools.ScriptSerialize(result);
+        }
         public static string getst_idListForCheck(string fl_id)
         {
             List<object> result = mg_sys_LogDal.getst_idListForCheck(fl_id);

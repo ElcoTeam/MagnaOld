@@ -30,6 +30,10 @@ namespace website.HttpHandlers
                     st();
                     //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
                     break;
+                case "get_st_listforTorque":
+                    st_for_torque();
+                    //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
+                    break;
                 case "get_st_listforcheck":
                     st_for_check();
                     //context.Response.Write(mg_sys_logBll.getst_idList(context.Request["fl_id"]));
@@ -68,12 +72,19 @@ namespace website.HttpHandlers
             Response.Write(a);
             Response.End();
         }
+        void st_for_torque()
+        {
+            string a = mg_sys_logBll.getst_idListForTorque(RequstString("fl_id"));
+            Response.Write(a);
+            Response.End();
+        }
         void st_for_check()
         {
             string a = mg_sys_logBll.getst_idListForCheck(RequstString("fl_id"));
             Response.Write(a);
             Response.End();
         }
+
         void st_for_step()
         {
             string a = mg_sys_logBll.getst_idListForStep(RequstString("fl_id"));

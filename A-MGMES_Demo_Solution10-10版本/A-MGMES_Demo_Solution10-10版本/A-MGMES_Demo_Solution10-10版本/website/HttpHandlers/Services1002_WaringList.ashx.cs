@@ -301,12 +301,23 @@ namespace website.HttpHandlers
                 int EndIndex = -1;
                 int totalcount = 0;
                 DataTable resTable = Production_AlarmTrendReport_BLL.GetWaringDataTable(fl_id, StartTime, EndTime, StartIndex, EndIndex);
-                ExcelHelper.ExportDTtoExcel(resTable, "报警信息报表", fileName);
-
+                //ExcelHelper.ExportDTtoExcel(resTable, "报警信息报表", fileName);
+                string err = "";
+                AsposeExcelTools.DataTableToExcel2(resTable, fileName, out err);
+                string ss = "true";
+                if (err.Length < 1)
+                {
+                    ss = "true";
+                }
+                else
+                {
+                    ss = "false";
+                }
+                   
                 ///
                 
                 //////
-                string ss = "true";
+               
                 json = "{\"Result\":\"" + ss + "\"}";
 
             }

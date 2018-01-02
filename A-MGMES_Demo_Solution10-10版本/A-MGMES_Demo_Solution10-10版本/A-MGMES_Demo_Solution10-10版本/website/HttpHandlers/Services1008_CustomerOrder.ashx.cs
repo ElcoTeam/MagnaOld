@@ -31,16 +31,16 @@ namespace website.HttpHandlers
             if (string.IsNullOrEmpty(start_time))
             {
                 DateTime t = DateTime.Now;
-                start_time = t.ToString("yyyy-MM-dd");
+                start_time = t.ToString("yyyy-MM-dd HH:mm:ss");
             }
-            string StartTime = start_time.Substring(0, 10)+" 00:00:00";
+            string StartTime = start_time.Substring(0, 17)+"00";
             if (string.IsNullOrEmpty(end_time))
             {
                 DateTime t = DateTime.Now;
-                end_time = t.ToString("yyyy-MM-dd");
+                end_time = t.ToString("yyyy-MM-dd HH:mm:ss");
 
             }
-            string EndTime = end_time.Substring(0, 10)+" 23:59:59";
+            string EndTime = end_time.Substring(0, 17)+"59";
             where += " and a.CreateTime >='" + StartTime + "'";
             where += " and a.CreateTime <='" + EndTime + "'";
             if (!string.IsNullOrEmpty(OrderType))
@@ -59,9 +59,9 @@ namespace website.HttpHandlers
                 int EndIndex = StartIndex + PageSize - 1;
                 int totalcount;
                 DataTable resTable = mg_CustomerOrderBLL.getTable(PageSize, PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
-                DataTable resTable1 = GetPagedTable(resTable, PageIndex, PageSize);
+               // DataTable resTable1 = GetPagedTable(resTable, PageIndex, PageSize);
 
-                JsonStr= FunCommon.DataTableToJson2(totalcount, resTable1);
+                JsonStr= FunCommon.DataTableToJson2(totalcount, resTable);
                 
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(JsonStr);
@@ -73,8 +73,23 @@ namespace website.HttpHandlers
                {
                    int totalcount;
                    DataTable resTable = mg_CustomerOrderBLL.getTableExcel(sort, order, where, out totalcount);
-                   ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx"));
-                   JsonStr="true";
+                   //ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx"));
+
+                   string fileName = HttpContext.Current.Request.MapPath("~/App_Data/客户订单报表.xlsx");
+                   string err = "";
+                   AsposeExcelTools.DataTableToExcel2(resTable, fileName, out err);
+                   string ss = "true";
+                   if (err.Length < 1)
+                   {
+                       ss = "true";
+                   }
+                   else
+                   {
+                       ss = "false";
+                   }
+
+                                                      
+                   JsonStr=ss;
                }
                 catch
                {

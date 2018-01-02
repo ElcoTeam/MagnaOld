@@ -232,6 +232,37 @@ namespace Dal
             return result;
         }
         #endregion
+        #region 获取扭矩角度中的 工位号
+        public static List<object> getst_idListForTorque(string fl_id)
+        {
+
+            List<object> result = new List<object>();
+            string sql = "";
+            SqlParameter[] parameters = null;
+            //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
+            if (!string.IsNullOrEmpty(fl_id))
+            {
+                sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  order by dbo.mg_station.st_no";
+                parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
+            }
+            else
+            {
+                sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log b ON dbo.mg_station.st_no=b.st_no where 1=1 order by dbo.mg_station.st_no";
+                parameters = null;
+            }
+            DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
+            foreach (DataRow row in table.Rows)
+            {
+                result.Add(new
+                {
+                    // st_id = row["st_id"],
+                    st_no = row["st_no"]
+                });
+            }
+
+            return result;
+        }
+        #endregion
         #region 获取点检记录表中的 工位号
         public static List<object> getst_idListForCheck(string fl_id)
         {

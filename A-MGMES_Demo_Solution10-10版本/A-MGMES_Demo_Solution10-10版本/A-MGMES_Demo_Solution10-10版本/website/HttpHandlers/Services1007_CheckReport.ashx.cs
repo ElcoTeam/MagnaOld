@@ -146,8 +146,22 @@ namespace website.HttpHandlers
             try
             {
                  #region 导出代码   
-                 ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
-                 json = "true";
+                 //ExcelHelper.ExportDTtoExcel(ResTable, "", HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx"));
+                string fileName = HttpContext.Current.Request.MapPath("~/App_Data/点检记录报表.xlsx");
+                string err = "";
+                AsposeExcelTools.DataTableToExcel2(ResTable, fileName, out err);
+                string ss = "true";
+                if (err.Length < 1)
+                {
+                    ss = "true";
+                }
+                else
+                {
+                    ss = "false";
+                }
+
+                json = ss;
+                
                  #endregion
             }
             catch

@@ -17,9 +17,10 @@ namespace website.Query
             if (IsPostBack)
             {
                 //导出Excel
-                ExportByWeb("点检记录表.xls");
+                ExportByWebNew("点检记录表.xlsx");
             }
         }
+       
         public static MemoryStream ExcelStream()
         {
             DataTable dtTable = GetDtTable();
@@ -60,7 +61,7 @@ namespace website.Query
             curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
             curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
             curContext.Response.ContentType = "application/octet-stream";
-            curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
+            curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
             curContext.Response.WriteFile(fileInfo.FullName);
             curContext.Response.Flush();
             curContext.Response.End();

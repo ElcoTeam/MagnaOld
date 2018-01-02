@@ -145,6 +145,7 @@ namespace website.HttpHandlers
             {
                 order = "asc";
             }
+            string err = "";
             string json = "";
             string fileName = HttpContext.Current.Request.MapPath("~/App_Data/生产线报警趋势报表.xlsx");
             try
@@ -153,8 +154,19 @@ namespace website.HttpHandlers
                 int EndIndex = -1;
                 int totalcount = 0;
                 DataTable resTable = Production_AlarmTrendReport_BLL.getTable(StartTime, EndTime,PageSize, StartIndex, EndIndex, sort, order, where, out totalcount);
-                ExcelHelper.ExportDTtoExcel(resTable, "生产线报警趋势报表", fileName);
+               // ExcelHelper.ExportDTtoExcel(resTable, "生产线报警趋势报表", fileName);
+                
+             
+                AsposeExcelTools.DataTableToExcel2(resTable, fileName, out err);
                 string ss = "true";
+                if (err.Length < 1)
+                {
+                    ss = "true";
+                }
+                else
+                {
+                    ss = "false";
+                }
                 json = "{\"Result\":\"" + ss + "\"}";
 
             }

@@ -25,7 +25,7 @@ namespace DAL
                 sortOrder = "asc";
             }
             StringBuilder commandText = new StringBuilder();
-            string str = @" select 
+            string str = @" select ROW_NUMBER()over(order by a.OrderID) as rowid,
 a.OrderID,
 a.CustomerNumber,
 a.JITCallNumber,
@@ -53,8 +53,8 @@ left join mg_Customer_Product b
             //commandText.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when mg_PartOrder1.OrderType = 1 then 'DelJit订单' when mg_PartOrder1.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when mg_PartOrder1.CompletionState = 1 then '未拆分' when mg_PartOrder1.CompletionState = 2 then '未下发' when mg_PartOrder1.CompletionState = 3 then '已下发' when mg_PartOrder1.CompletionState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
             commandText.Append(str);
             commandText.Append(wherestr);//这里修改条件语句
-            commandText.Append(" order by a."+SortFlag+" "+ sortOrder);
-            string query_sql = commandText.ToString();
+           // commandText.Append(" order by a."+SortFlag+" "+ sortOrder);
+            string query_sql = " select * from (" + commandText.ToString() + ")  as Results where rowid >=" + StartIndex + " and rowid <=" + EndIndex + " order by rowid ";
             StringBuilder commandText1 = new StringBuilder();
             //commandText1.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when mg_PartOrder1.OrderType = 1 then 'DelJit订单' when mg_PartOrder1.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when mg_PartOrder1.CompletionState = 1 then '未拆分' when mg_PartOrder1.CompletionState = 2 then '未下发' when mg_PartOrder1.CompletionState = 3 then '已下发' when mg_PartOrder1.CompletionState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
             commandText1.Append(str);

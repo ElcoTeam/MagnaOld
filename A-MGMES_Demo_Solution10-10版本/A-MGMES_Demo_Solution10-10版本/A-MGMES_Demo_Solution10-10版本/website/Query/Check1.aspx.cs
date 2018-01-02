@@ -22,7 +22,7 @@ namespace website.Query
                 //导出Excel
                 //ExportByWeb("检测返修报表.xls");
                 //ExportByWeb("ExportDemo3.xls");
-                ExportByWebNew("检测返修报表.xlsx");
+                ExportByWebNew1("检测返修报表.xlsx");
             }
         }
         public static MemoryStream ExcelStream()
@@ -47,38 +47,24 @@ namespace website.Query
         {
             HttpResponse Response = HttpContext.Current.Response;
             System.IO.Stream iStream = null;
-
-
-
             // Buffer to read 10K bytes in chunk:
-
             byte[] buffer = new Byte[10000];
-
-
 
             // Length of the file:
 
             int length;
 
-
-
             // Total bytes to read.
 
             long dataToRead;
-
-
 
             // Identify the file to download including its path.
 
             string filepath = HttpContext.Current.Request.MapPath("~/App_Data/检测返修报表.xlsx");
 
-
-
             // Identify the file name.
 
             string filename = System.IO.Path.GetFileName(filepath);
-
-
 
             try
             {
@@ -198,7 +184,7 @@ namespace website.Query
             //curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
             //curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
             //curContext.Response.ContentType = "application/octet-stream";
-            //curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
+            //curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
             //curContext.Response.WriteFile(fileInfo.FullName);
             //curContext.Response.Flush();
             //curContext.Response.End();
@@ -216,7 +202,7 @@ namespace website.Query
             curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
             curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
             curContext.Response.ContentType = "application/octet-stream";
-            curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("gb2312");
+            curContext.Response.ContentEncoding = Encoding.UTF8;
             curContext.Response.WriteFile(fileInfo.FullName);
             curContext.Response.Flush();
             curContext.Response.End();

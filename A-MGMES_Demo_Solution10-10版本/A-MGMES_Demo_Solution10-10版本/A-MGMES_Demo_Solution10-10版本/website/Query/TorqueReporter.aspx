@@ -141,10 +141,46 @@
                 echarts: '/js'
             }
         });
+        function setdate(day) {
+            var sd = new Date();
+            sd.setDate(sd.getDate() + day);
+            var sy = sd.getFullYear();
+            var sm = sd.getMonth() + 1;
+            var sdd = sd.getDate();
+            if (sm >= 1 && sm <= 9) {
+                sm = "0" + sm;
+            }
+            if (sdd >= 0 && sdd <= 9) {
+                sdd = "0" + sdd;
+            }
 
+            var ed = new Date();
+            ed.setDate(ed.getDate() + 1);
+            var ey = ed.getFullYear();
+            var em = ed.getMonth() + 1;
+            var edd = ed.getDate();
+            if (em >= 1 && em <= 9) {
+                em = "0" + em;
+            }
+            if (edd >= 0 && edd <= 9) {
+                edd = "0" + edd;
+            }
+            $("#startDate").val(sy + "-" + sm + "-" + sdd);
+            $("#endDate").val(ey + "-" + em + "-" + edd);
+        }
+        function today() {
+            var today = new Date();
+            var h = today.getFullYear();
+            var m = today.getMonth() + 1;
+            var d = today.getDate();
+            m = m < 10 ? "0" + m : m;   //  这里判断月份是否<10,如果是在月份前面加'0'
+            d = d < 10 ? "0" + d : d;        //  这里判断日期是否<10,如果是在日期前面加'0'
+            return h + "-" + m + "-" + d;
+        }
         $(function () {
-            //$('#start_time').datetimebox('setValue', Date.now.toString());
-            //$('#end_time').datetimebox('setValue', Date.now.toString());
+          
+            $('#start_time').val(today());
+            $('#end_time').val(today());
             require(
 							[
 									'echarts',
@@ -182,8 +218,8 @@
             var st_no = $('#st_no_s').combo('getValue');
             var part_no = $('#part_id_s').combo('getValue');
             var chart_Type = $('#data_type').combo('getValue');
-            var starttime = $('#start_time').val().trim();;
-            var endtime = $('#end_time').val().trim();;
+            var starttime = $('#start_time').val().trim();
+            var endtime = $('#end_time').val().trim();
 
             $.ajax({
                 type: 'get',
@@ -353,7 +389,7 @@
             $('#st_no_s').combobox('clear');
             var fl_id = $('#fl_id_s').combobox('getValue');
             $('#st_no_s').combobox({
-                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id,
+                url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listforTorque&fl_id=' + fl_id,
                 method: "post",
                 valueField: 'st_no',
                 textField: 'st_no',

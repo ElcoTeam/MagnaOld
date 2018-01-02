@@ -17,8 +17,25 @@ namespace website.Query
             if (IsPostBack)
             {
                 //导出Excel
-                ExportByWeb("时间信息报表.xls");
+                ExportByWebNew("时间信息报表.xls");
             }
+        }
+        public static void ExportByWebNew(string fileName)
+        {
+            string filePath = HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx");
+            HttpContext curContext = HttpContext.Current;
+            FileInfo fileInfo = new FileInfo(filePath);
+            curContext.Response.Clear();
+            curContext.Response.ClearContent();
+            curContext.Response.ClearHeaders();
+            curContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+            curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+            curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+            curContext.Response.ContentType = "application/octet-stream";
+            curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
+            curContext.Response.WriteFile(fileInfo.FullName);
+            curContext.Response.Flush();
+            curContext.Response.End();
         }
         public static MemoryStream ExcelStream()
         {

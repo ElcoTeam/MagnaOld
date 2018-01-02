@@ -137,11 +137,11 @@ public partial class foundation_Classes : System.Web.UI.Page
     protected void BtSave_Click(object sender, EventArgs e)
     {
         #region 只能排两班，新增则提示无法保存
-        if (GridView1.Rows.Count >= 2)
-        {
-            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "无法保存", "<script language='javascript'> alert('已有两条排班信息，如需改动，请删除一条再保存！');</script>");
-            return;
-        } 
+        //if (GridView1.Rows.Count >= 2)
+        //{
+        //    Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "无法保存", "<script language='javascript'> alert('已有两条排班信息，如需改动，请删除一条再保存！');</script>");
+        //    return;
+        //} 
         #endregion
 
         if (CkText_Box())
@@ -294,15 +294,15 @@ public partial class foundation_Classes : System.Web.UI.Page
         DateTime s_time_add = Convert.ToDateTime(starttime.Text.Trim());
         DateTime e_time_add = Convert.ToDateTime(endtime.Text.Trim());
 
-        DataTable dt = mg_ClassesBLL.GetAllData();
-        DateTime s_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_starttime"].ToString());
-        DateTime e_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_endtime"].ToString());
+        //DataTable dt = mg_ClassesBLL.GetAllData();
+        //DateTime s_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_starttime"].ToString());
+        //DateTime e_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_endtime"].ToString());
 
-        if ((s_time_add >= s_time_gv && s_time_add <= e_time_gv) || (e_time_add >= s_time_gv && e_time_add <= e_time_gv))
-        {
-            Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "时间交叉", "<script language='javascript'> alert('班次时间不能与已有班次时间重叠，保存失败！');</script>");
-            return;
-        }
+        //if ((s_time_add > s_time_gv && s_time_add < e_time_gv) || (e_time_add > s_time_gv && e_time_add <e_time_gv))
+        //{
+        //    Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "时间交叉", "<script language='javascript'> alert('班次时间不能与已有班次时间重叠，保存失败！');</script>");
+        //    return;
+        //}
 
         #endregion
 

@@ -39,8 +39,21 @@ namespace website.HttpHandlers
 
 
                     DataTable resTable = Time_ReportBLL.TimeProducts(StartTime, EndTime, Flag, st_no);
-                    ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
-                    json = "true";
+                    //ExcelHelper.ExportDTtoExcel(resTable, "", HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx"));
+                    string fileName = HttpContext.Current.Request.MapPath("~/App_Data/时间信息报表.xlsx");
+                    string err = "";
+                    AsposeExcelTools.DataTableToExcel2(resTable, fileName, out err);
+                    string ss = "true";
+                    if (err.Length < 1)
+                    {
+                        ss = "true";
+                    }
+                    else
+                    {
+                        ss = "false";
+                    }
+                   
+                    json = ss;
                 }
                 catch
                 {

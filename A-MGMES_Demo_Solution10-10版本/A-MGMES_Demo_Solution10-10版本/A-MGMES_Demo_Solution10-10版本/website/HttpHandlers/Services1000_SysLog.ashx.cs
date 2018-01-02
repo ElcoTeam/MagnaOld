@@ -106,8 +106,19 @@ namespace website.HttpHandlers
                     int StartIndex = 1;
                     int EndIndex = -1;
                     resTable = mg_sys_logBll.getList(PageSize, StartIndex, EndIndex, sort, order, wherestr,out totalcount );
-                    ExcelHelper.ExportDTtoExcel(resTable, "步骤日志报表", fileName);
+                    //ExcelHelper.ExportDTtoExcel(resTable, "步骤日志报表", fileName);
+                    string err = "";
+                    AsposeExcelTools.DataTableToExcel2(resTable, fileName, out err);
                     string ss = "true";
+                    if (err.Length < 1)
+                    {
+                        ss = "true";
+                    }
+                    else
+                    {
+                        ss = "false";
+                    }
+                   
                     json = "{\"Result\":\"" + ss + "\"}";
                    
                 }
