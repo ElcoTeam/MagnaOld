@@ -59,7 +59,7 @@
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true" />
                 </td>
                 <td style="width: 8%">
-                    <a class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)">查询</a>
+                    <input type="button" class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)" value="查询"/>
                 </td>
                 <td >
                     <input type="button" Style="height: 28px; padding: 0px; width: 70px" class="btn btn-default" value="导出excel" OnClick="excelForm()" />

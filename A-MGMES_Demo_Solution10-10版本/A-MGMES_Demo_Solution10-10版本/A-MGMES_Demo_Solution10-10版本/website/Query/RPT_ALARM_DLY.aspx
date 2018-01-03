@@ -25,9 +25,9 @@
  
  <div id ="gridPanel">
     <div id="printArea" class="printArea" closed="true"> 
-        <div id="left">
+       
         <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 85%">
+        <table cellpadding="0" cellspacing="0" style="width: 50%">
             <tr>
                 <td class="title"  >
                     
@@ -53,6 +53,7 @@
         </table>
 
     </div>
+         <div id="left">
             <!-- 数据表格  -->
             <table id="gridTable"  style="width: 99%;">
             </table>
@@ -68,7 +69,7 @@
            
               </div>
          </div>
-     </div> 
+    
    </div>
     <script>
 

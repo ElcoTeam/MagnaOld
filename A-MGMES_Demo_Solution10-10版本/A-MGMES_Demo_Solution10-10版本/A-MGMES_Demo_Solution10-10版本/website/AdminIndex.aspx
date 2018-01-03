@@ -20,11 +20,11 @@
 
             .left .logo {
                 background-color: #fafafa;
-                height: 20px; 
+            
                 width: 180px;
                 border: none;
                 border-bottom: 0px solid #ccc;
-                padding: 20px 0px 20px 20px;
+                padding: 20px 0px 10px 20px;
             }
 
                 .left .logo h4 {

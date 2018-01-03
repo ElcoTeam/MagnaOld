@@ -57,9 +57,10 @@
                      <span>结束时间：</span>
                     <input id="end_time" class="easyui-datetimebox uservalue" data-options="required:true,showSeconds:false"  />
                 </td>
-                <td style="width: 5%;"><a class="topsearchBtn" href="javascript:;" onclick="searchInfos(1,1)">查询</a></td>
+                <td style="width: 5%;">
+                    <input  type="button" class="topsearchBtn"  onclick="searchInfos(1,1)" value="查询"/></td>
                 <td style="width: 5%">
-                    <a class="toppenBtn" style="font-size: 12px; font-weight: 700; color: #000000">编辑</a>
+                    <input type="button" class="toppenBtn" style="font-size: 12px; font-weight: 700; color: #000000" value="编辑"/>
                 </td>
                 <td style="width: 5%;">
                     <a style="font-size: 12px; font-weight: 700; color: #000000" class="easyui-linkbutton" href="javascript:;" onclick="excelForm()">导出Excel</a>

@@ -33,36 +33,36 @@
     <%--<asp:Button runat="server" Text="Button" OnClick="Button1_Click" /> --%>
 
     <div class="top">
-        <table cellpadding="0" cellspacing="0" style="width: 70%">
+        <table cellpadding="0" cellspacing="0" >
             <tr>
-                <td class="title" style="width: 50px; " >
+                <td class="title" style="width: 10%; " >
                     
                         班次名：
                     
                 </td>             
-                <td style="width: 165px;">
+                <td style="width: 10%;">
                     <input id="clnameid" type="text" />
 
                 </td>
-                <td class="title" style="width: 60px;" >
+                <td class="title" style="width: 10%;" >
 
                        起始时间：
                     
                 </td>          
-                <td style="width: 120px">
+                <td style="width: 10%">
                     <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
-                <td class="title" style="width: 60px; " >
+                <td class="title" style="width:10%; " >
                     
                         结束时间：
                     
                 </td>       
-                <td style="width: 120px">
+                <td style="width: 10%">
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
                 
-                <td style="position:absolute;right:20px; margin-top:5px;">
-                  <a class="topsearchBtn" href="javascript:;" onclick="searchName()"">查询</a>
+                <td >
+                  <input type="button" class="topsearchBtn" href="javascript:;" onclick="searchName()"" value="查询"/>
                 </td>
                 
             </tr>
