@@ -22,6 +22,10 @@ namespace website.HttpHandlers
             context.Response.ContentType = "text/plain";
             switch (context.Request["method"])
             {
+
+                case "get_fl_listforTor":
+                    get_fl_listforTor();
+                    break;
                 case "get_fl_list":
                     fl();
                    // context.Response.Write(mg_sys_logBll.getfl_idList());
@@ -69,6 +73,12 @@ namespace website.HttpHandlers
         void fl()
         {
             string a = mg_sys_logBll.getfl_idList();
+            Response.Write(a);
+            Response.End();
+        }
+        void get_fl_listforTor()
+        {
+            string a = mg_sys_logBll.get_fl_listforTor();
             Response.Write(a);
             Response.End();
         }

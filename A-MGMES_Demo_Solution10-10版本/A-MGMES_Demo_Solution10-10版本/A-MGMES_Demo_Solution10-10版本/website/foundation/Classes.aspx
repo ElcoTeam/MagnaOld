@@ -27,14 +27,14 @@
                     &nbsp;上班时间：&nbsp;
                 </td>
                 <td style="width: 200px;">
-                    <asp:TextBox ID="txt_starttime" runat="server" Width="200px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></asp:TextBox>
+                    <asp:TextBox ID="txt_starttime" runat="server" Width="200px" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></asp:TextBox>
                 </td>
 
                 <td style="width: 100px;">
                     &nbsp;下班时间：&nbsp;
                 </td>
                 <td style="width: 200px;">
-                    <asp:TextBox ID="txt_endtime" runat="server" Width="200px" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></asp:TextBox>
+                    <asp:TextBox ID="txt_endtime" runat="server" Width="200px" class="Wdate" onClick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"></asp:TextBox>
                 </td>
                 <td style="width: 100px; text-align: right">
                     <asp:Button ID="BtSave" runat="server" Text="新增班次"  CssClass="addBtn" 

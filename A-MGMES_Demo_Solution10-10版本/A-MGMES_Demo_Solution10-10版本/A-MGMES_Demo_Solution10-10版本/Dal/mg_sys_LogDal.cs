@@ -123,7 +123,7 @@ namespace Dal
         {
             List<mg_sys_log> result = new List<mg_sys_log>();
 
-            StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.View_mg_sys_log where 1=1 and Len(AngleResult) > 0");
+            StringBuilder sql = new StringBuilder(@"SELECT fl_id,fl_name,st_no,part_no,step_order as step, AngleResult as angle, TorqueResult as torque FROM  dbo.View_mg_sys_log where 1=1 and AngleResult!='' ");
             List<SqlParameter> parameters = new List<SqlParameter>();
             //System.Diagnostics.Debug.Write();
             if (string.IsNullOrEmpty(fl_id) == false)
@@ -199,6 +199,25 @@ namespace Dal
             
             return result;
         }
+
+        public static List<object> getfl_idListforTor()
+        {
+            List<object> result = new List<object>();
+            string sql = @" select distinct f.fl_id ,f.fl_name  from mg_FlowLine f
+    LEFT JOIN dbo.View_mg_sys_log b on f.fl_id = b.fl_id 
+	where b.AngleResult!='' order by f.fl_id ";      //有fl_id，fl_name两个字段
+            DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
+            foreach (DataRow row in table.Rows)
+            {
+                result.Add(new
+                {
+                    fl_id = row["fl_id"],
+                    fl_name = row["fl_name"]
+                });
+            }
+
+            return result;
+        }
         #endregion
 
         #region 获取工位号
@@ -242,12 +261,14 @@ namespace Dal
             //string sql = "select distinct st_id, st_no from dbo.mg_sys_log where fl_id=@fl_id and len(AngleResult) > 0";
             if (!string.IsNullOrEmpty(fl_id))
             {
-                sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  order by dbo.mg_station.st_no";
+                sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log b ON dbo.mg_station.st_no=b.st_no    where dbo.mg_station.fl_id=@fl_id  and b.AngleResult!='' order by dbo.mg_station.st_no";
+                //sql = "select distinct b.st_no from  dbo.View_mg_sys_log b  where b.fl_id=@fl_id  order by b.st_no";
                 parameters = new SqlParameter[] { new SqlParameter("@fl_id", SqlDbType.NVarChar) { Value = fl_id } };
             }
             else
             {
-                sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log b ON dbo.mg_station.st_no=b.st_no where 1=1 order by dbo.mg_station.st_no";
+                sql = "select distinct dbo.mg_station.st_no from dbo.mg_station LEFT JOIN dbo.View_mg_sys_log b ON dbo.mg_station.st_no=b.st_no where 1=1 and b.AngleResult!='' order by dbo.mg_station.st_no";
+               // sql = "select distinct b.st_no from  dbo.View_mg_sys_log b   order by b.st_no";
                 parameters = null;
             }
             DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
@@ -393,7 +414,7 @@ namespace Dal
         public static List<object> getpart_idList(string fl_id, string st_no)
         {
             List<object> result = new List<object>();
-            StringBuilder sql = new StringBuilder(@"select distinct part_no from dbo.View_mg_sys_log where 1=1 ");
+            StringBuilder sql = new StringBuilder(@"select distinct part_no from dbo.View_mg_sys_log where 1=1 and AngleResult!='' ");
             List<SqlParameter> parameters = new List<SqlParameter>();
 
                 if (string.IsNullOrEmpty(fl_id) == false)

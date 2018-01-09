@@ -141,46 +141,30 @@
                 echarts: '/js'
             }
         });
-        function setdate(day) {
-            var sd = new Date();
-            sd.setDate(sd.getDate() + day);
-            var sy = sd.getFullYear();
-            var sm = sd.getMonth() + 1;
-            var sdd = sd.getDate();
-            if (sm >= 1 && sm <= 9) {
-                sm = "0" + sm;
-            }
-            if (sdd >= 0 && sdd <= 9) {
-                sdd = "0" + sdd;
-            }
+        /**
+  * 
+  * 获取当前时间
+  */
+        function p(s) {
+            return s < 10 ? '0' + s : s;
+        }
 
-            var ed = new Date();
-            ed.setDate(ed.getDate() + 1);
-            var ey = ed.getFullYear();
-            var em = ed.getMonth() + 1;
-            var edd = ed.getDate();
-            if (em >= 1 && em <= 9) {
-                em = "0" + em;
-            }
-            if (edd >= 0 && edd <= 9) {
-                edd = "0" + edd;
-            }
-            $("#startDate").val(sy + "-" + sm + "-" + sdd);
-            $("#endDate").val(ey + "-" + em + "-" + edd);
-        }
-        function today() {
-            var today = new Date();
-            var h = today.getFullYear();
-            var m = today.getMonth() + 1;
-            var d = today.getDate();
-            m = m < 10 ? "0" + m : m;   //  这里判断月份是否<10,如果是在月份前面加'0'
-            d = d < 10 ? "0" + d : d;        //  这里判断日期是否<10,如果是在日期前面加'0'
-            return h + "-" + m + "-" + d;
-        }
+        var myDate = new Date();
+        //获取当前年
+        var year = myDate.getFullYear();
+        //获取当前月
+        var month = myDate.getMonth() + 1;
+        //获取当前日
+        var date = myDate.getDate();
+        var h = myDate.getHours();       //获取当前小时数(0-23)
+        var m = myDate.getMinutes();     //获取当前分钟数(0-59)
+        var s = myDate.getSeconds();
+
+        var now = year + '-' + p(month) + "-" + p(date) + " " + p(h) + ':' + p(m) + ":" + p(s);
         $(function () {
           
-            $('#start_time').val(today());
-            $('#end_time').val(today());
+            $('#start_time').val(now);
+            $('#end_time').val(now);
             require(
 							[
 									'echarts',
@@ -203,7 +187,7 @@
              //reloadst_no_s();
             //reloadpart_id_s();
 
-            setTimeout(loadChart, 1000); 
+            loadChart();
             
            
         });
@@ -367,7 +351,7 @@
         function reloadfl_id_s() {
            
             $('#fl_id_s').combobox({
-                    url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_list',
+                    url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_fl_listforTor',
                     method: "post",
                    valueField: 'fl_id',
                    textField: 'fl_name',
