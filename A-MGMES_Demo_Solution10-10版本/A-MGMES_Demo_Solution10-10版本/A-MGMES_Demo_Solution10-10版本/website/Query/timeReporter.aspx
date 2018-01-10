@@ -57,7 +57,7 @@
                             <li>
                                 <span>&nbsp;流水线</span>
                                 <div>
-                                    <select id="fl_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                                    <select id="fl_id_s" class="easyui-combobox uservalue" 
 						                data-options="valueField: 'fl_id',textField: 'fl_name',onChange:reloadst_id_s">
 					                </select>
                                 </div>
@@ -65,7 +65,7 @@
                             <li>
                                 <span>工位</span>
                                 <div>
-                                    <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                                    <select id="st_id_s" class="easyui-combobox uservalue" 
 						                data-options="valueField: 'st_no',textField: 'st_no'">
 					                </select>
                                 </div>
@@ -84,7 +84,7 @@
                             </li>
                             <li>
                                 <div>
-                                    <select id="reportType" style="display:none" class="easyui-combobox" style="width: 200px; height: 25px;"
+                                    <select id="reportType" style="display:none" class="easyui-combobox uservalue"
 						                data-options="onChange:function(){ reportTypeChanged(); }">
 						                <option value="1" >按小时</option>
 						                <option value="2" selected >按天</option>
@@ -100,7 +100,7 @@
                     <td align="right">
                         <a class="topsearchBtn" href="javascript:;">生成图表</a>
                          <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出Excel</a>
+                  <a  class="topexcelBtn" href="javascript:;" onclick ="excelFor()">导出Excel</a>
                        <%-- <asp:Button runat="server"  style="height:28px;" class="btn btn-default" Text="导出excel" OnClick="Button1_Click" />--%>
                     <%--修改一下按钮的样式，位置--%>
                     </td>

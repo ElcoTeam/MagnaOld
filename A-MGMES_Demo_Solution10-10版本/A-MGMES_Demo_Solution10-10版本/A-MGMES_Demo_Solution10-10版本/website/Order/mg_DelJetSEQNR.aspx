@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/AdminMasterPage.master"  AutoEventWireup="true" CodeBehind="mg_DelJetSEQNR.aspx.cs" Inherits="website.Order.mg_DelJetSEQNR" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-    <link href="/css/foundation.css" rel="stylesheet" type="text/css" />
+    <link href="../css/foundation.css" rel="stylesheet" type="text/css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="top">
@@ -15,17 +15,17 @@
     <div id="contenttop">
         <table cellpadding="0" cellspacing="0">
             <tr>
-                <td style="width: 70px;">
+                <td >
                     DelJet订单的顺序号：&nbsp;
                 </td>
-                <td style="width: 200px;">
+                <td >
                     <input type ="text" id="seqnr" Width="200px" ></input>
                 </td>
-                <td style="width: 100px; text-align: right">
-                    <input type="button" id="edit"  value="修改顺序号"/>
+                <td >
+                    <input type="button" class="penBtn" id="edit"  value="修改顺序号"/>
                 </td>
-                <td style="width: 100px; text-align: right">
-                    <input type="button" id="select"  value="查询"/>
+                <td >
+                    <input type="button" id="select" class="searchBtn" value="查询"/>
                 </td>
             </tr>
         </table>

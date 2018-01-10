@@ -13,6 +13,7 @@
     <script src="../bootstrap/jqPaginator.js"></script>
     <script src="../js/highcharts/highcharts.js"></script>
     <script src="../js/highcharts/modules/exporting.js"></script>
+    <link href="../css/foundation.css" rel="stylesheet" />
     <style type="text/css">
 </style>
 </asp:Content>
@@ -21,37 +22,38 @@
      <div class="top">
         <table cellpadding="0" cellspacing="0" >
             <tr>
-                   <span>流水线：</span>
-                    <select id="fl_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                   <td><span>流水线：</span></td>
+                    <td><select id="fl_id_s" class="easyui-combobox uservalue" 
                         data-options="valueField: 'fl_id',textField: 'fl_name'">
                     </select>
-                <td class="title"  >
+                        </td>
+                <td>
                     
                         开始日期：
                     
                     
                 </td>  
-                <td style="width: 120px">
+                <td >
                     <input id="start_time" class="easyui-datetimebox" data-options="required:true" />
                 </td>
-                <td class="title"  >
+                <td>
                     
                         结束日期：
                     
                     
                 </td>  
-                <td style="width: 120px">
+                <td >
                     <input id="end_time" class="easyui-datetimebox" data-options="required:true" />
                 </td>
                 <td >
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
+                  <a  class="topsearchBtn" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
                  <td>  
                   
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
+                  <a class="topexcelBtn" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
                  <td>  
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="print()">打印</a>
+                  <a class="topprintBtn" href="javascript:;" onclick ="print()">打印</a>
                 </td>
             </tr>
         </table>

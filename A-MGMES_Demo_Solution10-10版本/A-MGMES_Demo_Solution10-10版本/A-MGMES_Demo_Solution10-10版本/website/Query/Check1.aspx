@@ -52,7 +52,7 @@
 		<table cellpadding="0" cellspacing="0" style="width: 100%">
             <thead>
                 <tr>
-                    <td>检测返修报表</td>
+                    <td class="title">检测返修报表</td>
                 </tr>
             </thead>
             <tbody>
@@ -74,7 +74,7 @@
                             <li>
                                 <span>订单号</span>
                                 <div>
-                                    <select id="OrderCode" class="easyui-combobox" style="width: 200px; height: 25px;"
+                                    <select id="OrderCode" class="easyui-combobox uservalue" 
 						                data-options="valueField: 'OrderNo',textField: 'OrderNo'">
                                         <option value="">请选择</option>
 					                </select>
@@ -83,7 +83,7 @@
                             <li>
                                 <span>工位</span>
                                 <div>
-                                    <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;">
+                                    <select id="st_id_s" class="easyui-combobox uservalue" >
                                         <option value="请选择" selected ="selected">请选择</option >
                                         <option value="FSA160">FSA160</option >
                                         <option value="FSA170">FSA170</option >
@@ -98,8 +98,8 @@
             <tfoot>
                 <tr>
                     <td align="right">
-                        <input type="button" style="height:36px;" class="btn btn-default" value="生成图表" onclick="loadTable()"/>
-                        <input type="button" style="height:36px;" class="btn btn-default" value="导出excel" onclick="excelFor()" />
+                        <input type="button"  class="topsearchBtn" value="生成图表" onclick="loadTable()"/>
+                        <input type="button"  class="topexcelBtn" value="导出excel" onclick="excelFor()" />
                     </td>
                 </tr>
             </tfoot>

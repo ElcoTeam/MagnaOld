@@ -40,13 +40,13 @@
                 </td>
                 <td style="width: 150px">
                     <span>&nbsp;流水线</span>
-                    <select id="fl_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                    <select id="fl_id_s" class="easyui-combobox uservalue" 
                         data-options="valueField: 'fl_id',textField: 'fl_name',onChange:reloadst_id_s">
                     </select>
                 </td>
                 <td style="width: 150px">
                     <span>工位</span>
-                    <select id="st_id_s" class="easyui-combobox" style="width: 150px; height: 25px;"
+                    <select id="st_id_s" class="easyui-combobox uservalue" 
                         data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
                     </select>
                 </td>
@@ -60,7 +60,7 @@
                 </td>
                 <td style="width: 150px;"><input type="button" class="topsearchBtn" href="javascript:;" onclick="searchInfos(1,1)" value="查询"/></td>
 
-                <td style="width: 150px;"><a style="font-size: 12px; font-weight: 700; color: #000000" class="easyui-linkbutton" href="javascript:;" onclick="excelForm()">导出Excel</a></td>
+                <td style="width: 150px;"><a  class="topexcelBtn" href="javascript:;" onclick="excelForm()">导出Excel</a></td>
             </tr>
             <tr>
                 <td style="width: 150px;"></td>

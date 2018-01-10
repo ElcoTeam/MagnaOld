@@ -218,7 +218,7 @@ namespace DAL
                           ,[OrderIsHistory]
                           ,[abb]
                           ,[resultljh]
-                      FROM [MagnaDB].[dbo].[AllList_DoHis]
+                      FROM [AllList_DoHis]
                         where (zjppp = '靠背面套主驾' or 
                         zjppp = '靠背面套副驾' or 
                         zjppp = '坐垫面套主驾' or 

@@ -13,6 +13,7 @@
     <script src="../bootstrap/jqPaginator.js"></script>
     <script src="../js/highcharts/highcharts.js"></script>
     <script src="../js/highcharts/modules/exporting.js"></script>
+    <link href="../css/foundation.css" rel="stylesheet" />
     <style type="text/css">
 
  #left{width: 50%;float: left; background: #ffffff;}
@@ -26,7 +27,7 @@
      <div class="top">
         <table cellpadding="0" cellspacing="0" >
             <tr>
-                <td class="title"  >
+                <td  >
                     
                         开始日期：<br />
                     
@@ -35,7 +36,7 @@
                 <td style="width: 120px">
                     <input id="start_time" class="easyui-datebox" data-options="required:true,showTime:false" />
                 </td>
-                <td class="title"  >
+                <td  >
                     
                         结束日期：<br />
                     
@@ -45,14 +46,14 @@
                     <input id="end_time" class="easyui-datebox" data-options="required:true,showTime:false" />
                 </td>
                 <td >
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick="searchName()"">查询</a>
+                  <a  class="topsearchBtn" href="javascript:;" onclick="searchName()"">查询</a>
                 </td>
                  <td>  
                   
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="excelFor()">导出</a>
+                  <a  class="topexcelBtn" href="javascript:;" onclick ="excelFor()">导出</a>
                 </td>
                  <td>  
-                  <a style="font-size:12px;font-weight:700;color:#000000" class="easyui-linkbutton btn btn-default" href="javascript:;" onclick ="print()">打印</a>
+                  <a  class="topprintBtn" href="javascript:;" onclick ="print()">打印</a>
                 </td>
             </tr>
         </table>

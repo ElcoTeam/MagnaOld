@@ -234,7 +234,7 @@ namespace Dal
       ,case when ([line6_finish_num]>0)
 	  then round([line6_repair_num]*100.00/[line6_finish_num],1)
 	  else 0.0 end as line6_FTT
-  FROM [MagnaDB].[dbo].[Sheet] where 1=1 " + Where;
+  FROM [Sheet] where 1=1 " + Where;
               
                 if (string.IsNullOrEmpty(SortFlag))
             {
@@ -387,7 +387,7 @@ namespace Dal
         public static DataTable GetClassInfo()
         {
             DataTable tb = new DataTable();
-            string sql = @"SELECT  distinct [cl_id], [cl_name] FROM [MagnaDB].[dbo].[mg_classes] where 1=1 ";
+            string sql = @"SELECT  distinct [cl_id], [cl_name] FROM [mg_classes] where 1=1 ";
             tb = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);         
             return tb;
         }

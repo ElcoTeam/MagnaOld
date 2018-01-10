@@ -35,7 +35,7 @@
     <div class="top">
         <table cellpadding="0" cellspacing="0" >
             <tr>
-                <td class="title" style="width: 10%; " >
+                <td  style="width: 10%; " >
                     
                         班次名：
                     
@@ -44,7 +44,7 @@
                     <input id="clnameid" type="text" />
 
                 </td>
-                <td class="title" style="width: 10%;" >
+                <td style="width: 10%;" >
 
                        起始时间：
                     
@@ -52,7 +52,7 @@
                 <td style="width: 10%">
                     <input id="start_time" class="easyui-datetimebox" data-options="required:true,showSeconds:false" />
                 </td>
-                <td class="title" style="width:10%; " >
+                <td style="width:10%; " >
                     
                         结束时间：
                     
