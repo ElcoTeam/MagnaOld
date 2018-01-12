@@ -385,14 +385,16 @@
         }
 
         function reloadst_no_s() {
-          
+            $('#st_no_s').combobox('loadData', {});
             var fl_id = $('#fl_id_s').combobox('getValue');
-            if (fl_id == "" ) {
-               
+            if (fl_id == "") {
+                $('#st_no_s').combobox('clear');
+                $('#st_no_s').combobox('setValue', '请选择');
                 return false;
             }
             if (fl_id == "请选择") {
-              
+                $('#st_no_s').combobox('clear');
+               $('#st_no_s').combobox('setValue', '请选择');
                 return false;
             }
 
@@ -416,15 +418,15 @@
         }
 
         function reloadpart_id_s() {
-           
+            $('#part_id_s').combobox('loadData', {});
             var fl_id = $('#fl_id_s').combobox('getValue');
             var st_no = $('#st_no_s').combobox('getValue');
             if (fl_id == "" || st_no == "") {
-               
+                $('#part_id_s').combobox('setValue', '请选择');
                 return false;
             }
             if (fl_id == "请选择" || st_no == "请选择" ) {
-               
+                $('#part_id_s').combobox('setValue', '请选择');
                 return false;
             }
 

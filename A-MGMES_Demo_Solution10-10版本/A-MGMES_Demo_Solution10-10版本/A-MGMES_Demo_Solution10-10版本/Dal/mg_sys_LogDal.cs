@@ -279,6 +279,11 @@ namespace Dal
                 parameters = null;
             }
             DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, parameters);
+            result.Add(new
+            {
+               
+                st_no = "请选择"
+            });
             foreach (DataRow row in table.Rows)
             {
                 result.Add(new
@@ -435,6 +440,10 @@ namespace Dal
                     parameters.Add(new SqlParameter("@st_no", SqlDbType.NVarChar) { Value = st_no });
                 }
             DataTable table = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql.ToString(), parameters.ToArray());
+            result.Add(new
+            {
+                part_no = "请选择"
+            });
             foreach (DataRow row in table.Rows)
             {
                 result.Add(new
