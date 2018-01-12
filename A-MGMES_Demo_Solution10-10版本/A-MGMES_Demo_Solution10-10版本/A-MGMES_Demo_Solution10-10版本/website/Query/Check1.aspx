@@ -99,7 +99,7 @@
                 <tr>
                     <td align="right">
                         <input type="button"  class="topsearchBtn" value="生成图表" onclick="loadTable()"/>
-                        <input type="button"  class="topexcelBtn" value="导出excel" onclick="excelFor()" />
+                        <input type="button"  class="topexcelBtn" value="导出Excel" onclick="excelFor()" />
                     </td>
                 </tr>
             </tfoot>

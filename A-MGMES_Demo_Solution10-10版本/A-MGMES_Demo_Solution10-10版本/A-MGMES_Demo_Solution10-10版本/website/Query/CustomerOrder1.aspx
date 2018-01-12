@@ -62,7 +62,7 @@
                     <input type="button" class="topsearchBtn" href="javascript:;" onclick="searchOrder(2)" value="查询"/>
                 </td>
                 <td >
-                    <input type="button" class="topexcelBtn" value="导出excel" OnClick="excelForm()" />
+                    <input type="button" class="topexcelBtn" value="导出Excel" OnClick="excelForm()" />
                 </td>
             </tr>
         </table>

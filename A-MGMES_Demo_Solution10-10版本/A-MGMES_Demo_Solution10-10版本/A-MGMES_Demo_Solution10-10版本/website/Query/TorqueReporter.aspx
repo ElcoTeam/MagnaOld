@@ -70,7 +70,7 @@
                                 <span>流水线</span>
                                 <div>
                                     <select id="fl_id_s" class="easyui-combobox uservalue" 
-                                      data-options="valueField: 'fl_id',textField: 'fl_name',onChange:function(){reloadst_no_s();}">
+                                      data-options="valueField: 'fl_id',textField: 'fl_name'">
                                      <option value="">请选择</option>
                                     </select>
                                 </div>
@@ -79,7 +79,7 @@
                                 <span>工位</span>
                                 <div>
                                     <select id="st_no_s" class="easyui-combobox uservalue" 
-                                       data-options="valueField: 'st_no',textField: 'st_no',onChange:function(){reloadpart_id_s();}">
+                                       data-options="valueField: 'st_no',textField: 'st_no'">
                                     <option value="">请选择</option>
                                     </select>
                                 </div>
@@ -369,16 +369,15 @@
                     method: "post",
                    valueField: 'fl_id',
                    textField: 'fl_name',
+                   editable:false,
                    onChange: function(){
                        reloadst_no_s();
                         },
                     onLoadSuccess: function () {
                         //var data = $(this).combobox("getData");
-                        //if (data.length > 0) {
-                        //    $('#fl_id_s').combobox('select', data[0].fl_id);
-                          
-                        //}
-                        $('#fl_id_s').combobox('setValue', '请选择');
+                        //data.push("", "请选择");
+                       // $('#fl_id_s').combobox('select', data[0].fl_id);
+                       // $('#fl_id_s').combobox('setValue', '请选择');
                        
                     }
                 });
@@ -402,6 +401,7 @@
                 method: "post",
                 valueField: 'st_no',
                 textField: 'st_no',
+                editable:false,
                 onChange: function(){
                     reloadpart_id_s();
                 },
@@ -433,6 +433,7 @@
                 method: "post",
                 valueField: 'part_no',
                 textField: 'part_no',
+                editable:false,
                 onLoadSuccess: function () {
                     //var data = $(this).combobox("getData");
                     //if (data.length > 0) {
