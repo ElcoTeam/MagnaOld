@@ -19,9 +19,14 @@
     <div class="top">
         <table cellpadding="0" cellspacing="0" style="width: 100%">
             <tr>
-                <td><span class="title">&nbsp;库存发货</span> <span class="subDesc"></span>
+                <td><span class="title">&nbsp;库存发货</span> <span class="subDesc">支持订单号模糊查询</span>
                 </td>
-                
+                <td></td>
+                <td style="width: 210px;">
+                     <span>订单号：</span>
+                     <input id="orderid" class="uservalue"  type="text" />
+                </td>
+                <td style="width: 110px;"><a class="topsearchBtn">筛选订单</a></td>
                 <td style="width: 150px">
                     <a class="toppenBtn">订单库存发货</a>
                 </td>
@@ -45,21 +50,11 @@
                     </p>
                 </td>
                 <td>
-                    <input id="OrderID" type="text" class="text" style="width: 230px;" disabled />
+                    <input id="PRODN" type="text" class="text" style="width: 230px;" disabled />
                 </td>
                 
             </tr>
-             <tr>
-                <td class="title" style="width: 100px">
-                    <p>
-                        车身号：
-                    </p>
-                </td>
-                <td>
-                    <input id="VinNumber" type="text" class="text" style="width: 230px;"  disabled/>
-                </td>
-                
-            </tr>
+            
             <tr>
                 <td class="title">
                     <p>
@@ -73,8 +68,6 @@
                     </select>
                 </td>
             </tr>
-            
-
         </table>
     </div>
     <!-- 编辑窗口 - footer -->
@@ -100,7 +93,10 @@
                 initEidtWidget();
             });
 
-            
+            //搜索按钮
+            $('.topsearchBtn').first().click(function () {
+                searchInfos();
+            });
 
             //保存按钮
             $('#saveBtn').bind('click', function () {
@@ -126,103 +122,76 @@
            
             //订单列表
             orderTB = $('#orderTB').datagrid({
-                url: '/HttpHandlers/Services1008_CustomerOrder.ashx',
+                url: '/HttpHandlers/DeliveryOrder.ashx?method=queryOrder',
                 rownumbers: true,
                 pagination: true,
+                pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
+                onLoadSuccess: function (data) {
+                    
+                    if (data.total == 0) {
+                        //添加一个新数据行，第一列的值为你需要的提示信息，然后将其他列合并到第一列来，注意修改colspan参数为你columns配置的总列数
+                        $(this).datagrid('appendRow', { PARTN: '<div style="text-align:center;color:red">没有相关记录！</div>' }).datagrid('mergeCells', { index: 0, field: 'PARTN', colspan: 4 })
+                        //隐藏分页导航条，这个需要熟悉datagrid的html结构，直接用jquery操作DOM对象，easyui datagrid没有提供相关方法隐藏导航条
+                        $(this).closest('div.datagrid-wrap').find('div.datagrid-pager').hide();
+                    }
+                        //如果通过调用reload方法重新加载数据有数据时显示出分页导航容器
+                    else $(this).closest('div.datagrid-wrap').find('div.datagrid-pager').show();
+                },
                 columns: [[
-					{ field: 'OrderID', title: 'OrderID', width: 50, align: "center" },
-					{ field: 'CustomerNumber', title: 'CustomerNumber', width: 100, align: "center" },
-					{ field: 'JITCallNumber', title: 'JITCallNumber', width: 150, align: "center" },
-					{ field: 'SerialNumber', title: 'SerialNumber', width: 150, align: "center" },
-					{ field: 'SerialNumber_MES', title: 'SerialNumber_MES', width: 150, align: "center" },
-					{ field: 'VinNumber', title: 'VinNumber', width: 200, align: "center" },
-					{
-					    field: 'PlanDeliverTime', title: 'PlanDeliverTime', width: 200, align: "center",
-					    formatter: function (value, row, index) {
-					        return DataStr(value);
-					    }
-					},
-					{ field: 'CreateTime', title: 'CreateTime', width: 200, align: "center" },
-					{ field: 'OrderType', title: 'OrderType', width: 200, align: "center" },
-					{ field: 'OrderState', title: 'OrderState', width: 200, align: "center" },
-					{ field: 'ProductName', title: 'ProductName', width: 200, align: "center" },
-                    { field: 'OrderIsHistory', title: 'OrderIsHistory', width: 100, align: "center" },
+					{ field: 'PARTN', title: 'PARTN', width: 150, align: "center" },
+					{ field: 'PRODN', title: 'PRODN', width: 250, align: "center" },
+                    //{ field: 'VEHID', title: 'VEHID', width: 250, align: "center" },
+					{ field: 'PDATUM', title: 'PDATUM', width: 250, align: "center" },
+					{ field: 'CreateTime', title: 'CreateTime', width: 450, align: "center" },
+					
+                    { field: 'OrderIsHistory', title: 'OrderIsHistory', width: 100, align: "center", formatter: fInfo },
                 ]]
             });
             orderTB.datagrid('getPager').pagination({
-                pageList: [1, 5, 10, 15, 20],
+                pageList: [20,30,40],
                 layout: ['list', 'sep', 'first', 'prev', 'sep', 'links', 'sep', 'next', 'last', 'sep', 'refresh']
             });
 
         });
 
-        /****************       主要业务程序          ***************/
-        //发运时间时间格式化为 年-月-日
-        function DataStr(value) {
-            // console.log("value"+value);
-            var str = value;
-            var Arr = str.toString().split('.');
-            //console.log("Arr"+Arr);
-            var result = "";
-            if (Arr.length < 1) {
-                result = str;
+        //格式化列
+        function fInfo(val, row) {
+            if (val==1) {
+                return '<span style="color:red;">不生产</span>';
+            } else {
+                return '<span style="color:green;">生产</span>';
             }
-            else {
-                //年月日
-                if (Arr[0].length > 2) {
-                    for (var i = 0; i < Arr.length; i++) {
-                        if (i == Arr.length - 1) {
-                            result += Arr[i];
-                        }
-                        else {
-                            result += Arr[i] + "-";
-                        }
-
-                    }
-                }
-                else//日，月，年
-                {
-                    for (var i = Arr.length - 1; i >= 0; i--) {
-                        if (i == 0) {
-                            result += Arr[i];
-                        }
-                        else {
-                            result += Arr[i] + "-";
-                        }
-
-                    }
-                }
-
-            }
-
-            //console.log("result"+result);
-            return result;
         }
+        /****************       主要业务程序          ***************/
+       
         //编辑  
         function savePart() {
-            var OrderID = $("#OrderID").val();
-            var VinNumber = $("#VinNumber").val();
+            var PRODN = $("#PRODN").val();
             var OrderIsHistory = $("#OrderIsHistory").combo('getValue');
             var model = {
-                OrderID: OrderID,
-                VinNumber: VinNumber,
+                PRODN: PRODN,
                 OrderIsHistory: OrderIsHistory,
                 method: 'editDeliveryOrder'
             };
-
             editDeliveryOrder(model);
         }
+
+
         function editDeliveryOrder(model) {
             $.ajax({
                 type: "POST",
                 async: false,
-                url: "/HttpHandlers/CustomerOrderHandler.ashx",
+                url: "/HttpHandlers/DeliveryOrder.ashx",
                 data: model,
                 success: function (data) {
                     if (data == 'true') {
                         alert('已保存');
+                        orderTB.datagrid('reload');
+                    }
+                    else if (data == 'exsit') {
+                        alert('该订单已经生产');
                         orderTB.datagrid('reload');
                     }
                     else alert('保存失败');
@@ -244,8 +213,8 @@
                 return;
             }
             var row = selRows[0];
-            $("#OrderID").val(row.OrderID);
-            $("#VinNumber").val(row.VinNumber);
+            console.log(row);
+            $("#PRODN").val(row.PRODN);
             $('#OrderIsHistory').combobox('select', row.OrderIsHistory);
             $('#w').window('open');
         }
@@ -259,6 +228,18 @@
             $("#OrderID").val();
             $("#VinNumber").val();
             $('#OrderIsHistory').combobox('select', 0);
+        }
+
+        ///查询内容信息
+        function searchInfos() {
+            var orderid = $('#orderid').val();
+            var queryParams = {
+                orderid: orderid
+            };
+            $('#orderTB').datagrid({
+                queryParams: queryParams
+            });
+            $('#orderTB').datagrid('reload');
         }
     </script>
 

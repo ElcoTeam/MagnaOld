@@ -363,17 +363,21 @@ namespace website
                 string JsonStr = null;
                 JsonStr += "{\"total\":\"" + TotalCount + "\",\r\n";
                 JsonStr += "\"rows\":[\r\n";
-                foreach (DataRow row in dt.Rows)
+                if(dt!=null)
                 {
-                    JsonStr += "{\r\n";
-                    for (int i = 0; i < dt.Columns.Count; i++)
+                    foreach (DataRow row in dt.Rows)
                     {
-                        JsonStr += "\"" + dt.Columns[i].ColumnName + "\":\"" + row[i].ToString().Trim() + "\",\r\n";
+                        JsonStr += "{\r\n";
+                        for (int i = 0; i < dt.Columns.Count; i++)
+                        {
+                            JsonStr += "\"" + dt.Columns[i].ColumnName + "\":\"" + row[i].ToString().Trim() + "\",\r\n";
+                        }
+                        JsonStr = JsonStr.Remove(JsonStr.Length - 3);
+                        JsonStr += "}, ";
                     }
-                    JsonStr = JsonStr.Remove(JsonStr.Length - 3);
-                    JsonStr += "}, ";
+                    JsonStr = JsonStr.Remove(JsonStr.Length - 2);
                 }
-                JsonStr = JsonStr.Remove(JsonStr.Length - 2);
+               
                 JsonStr += "]}";
 
                 return JsonStr;
