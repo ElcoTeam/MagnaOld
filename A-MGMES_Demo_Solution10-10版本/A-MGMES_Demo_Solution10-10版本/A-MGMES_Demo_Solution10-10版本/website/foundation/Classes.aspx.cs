@@ -151,15 +151,15 @@ public partial class foundation_Classes : System.Web.UI.Page
             DateTime s_time_add = Convert.ToDateTime(this.txt_starttime.Text.Trim());
             DateTime e_time_add = Convert.ToDateTime(this.txt_endtime.Text.Trim());
 
-            DataTable dt = mg_ClassesBLL.GetAllData();
-            DateTime s_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_starttime"].ToString());
-            DateTime e_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_endtime"].ToString());
+            //DataTable dt = mg_ClassesBLL.GetAllData();
+            //DateTime s_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_starttime"].ToString());
+            //DateTime e_time_gv = Convert.ToDateTime(dt.Rows[0]["cl_endtime"].ToString());
 
-            if((s_time_add >= s_time_gv && s_time_add <= e_time_gv) || (e_time_add >= s_time_gv && e_time_add <= e_time_gv))
-            {
-                Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "时间交叉", "<script language='javascript'> alert('班次时间不能与已有班次时间重叠，保存失败！');</script>");
-                return;
-            }
+            //if((s_time_add >= s_time_gv && s_time_add <= e_time_gv) || (e_time_add >= s_time_gv && e_time_add <= e_time_gv))
+            //{
+            //    Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "时间交叉", "<script language='javascript'> alert('班次时间不能与已有班次时间重叠，保存失败！');</script>");
+            //    return;
+            //}
 
             #endregion
 
