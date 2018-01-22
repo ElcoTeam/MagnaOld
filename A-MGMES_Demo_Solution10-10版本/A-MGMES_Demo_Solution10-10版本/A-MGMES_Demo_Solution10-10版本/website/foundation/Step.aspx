@@ -115,7 +115,7 @@
 				</td>
 				<td>
 					<select id="fl_id" class="easyui-combobox" style="width: 230px; height: 25px;"
-						data-options="valueField: 'fl_id',textField: 'fl_name',onSelect:function(){reloadst_id();}">
+						data-options="valueField: 'fl_id',textField: 'fl_name',onChange:function(){reloadst_id();}">
 					</select>
 				</td>
 			</tr>
@@ -139,7 +139,7 @@
 				</td>
 				<td>
 					<select id="part_id" class="easyui-combobox" style="width: 230px; height: 25px;"
-						data-options="valueField: 'part_id',textField: 'part_no',onSelect:function(){reloadbom_id();}">
+						data-options="valueField: 'part_id',textField: 'part_no',onChange:function(){reloadbom_id();}">
 					</select>
 				</td>
 			</tr>

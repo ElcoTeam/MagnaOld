@@ -491,16 +491,24 @@
         }
 
         function reloadst_id_s() {
-            $('#st_id_s').combobox('clear');
+            $('#st_id_s').combobox('loadData', {});
             var fl_id = $('#fl_id_s').combobox('getValue');
+            if (fl_id == "") {
+                $('#st_id_s').combobox('clear');
+                $('#st_id_s').combobox('setValue', '请选择');
+                return false;
+            }
+            if (fl_id == "请选择") {
+                $('#st_id_s').combobox('clear');
+                $('#st_id_s').combobox('setValue', '请选择');
+                return false;
+            }
             $('#st_id_s').combobox({
                 url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForStep&fl_id=' + fl_id,
                 method: "post",
                 valueField: 'st_no',
                 textField: 'st_no',
-                onChange: function () {
-                    reloadpart_id_s();
-                },
+               
                 onLoadSuccess: function () {
                     var data = $(this).combobox("getData");
                     if (data.length > 0) {
