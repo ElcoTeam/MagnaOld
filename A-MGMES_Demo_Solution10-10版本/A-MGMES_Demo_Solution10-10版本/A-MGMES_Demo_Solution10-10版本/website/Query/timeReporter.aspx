@@ -421,7 +421,7 @@
 	    }
 
 	    function reloadst_id_s() {
-	        $('#st_id_s').combobox('clear');
+	        $('#st_id_s').combobox('loadData', {});
 	        var fl_id = $('#fl_id_s').combobox('getValue');
 	        $('#st_id_s').combobox({
 	            url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForTime&fl_id=' + fl_id,
@@ -442,7 +442,7 @@
 	    }
 
 	    function reloadpart_id_s() {
-	        $('#part_id_s').combobox('clear');
+	        $('#part_id_s').combobox('loadData', {});
 	        var fl_id = $('#fl_id_s').combobox('getValue');
 	        var st_no = $('#st_id_s').combobox('getValue');
 	        $('#part_id_s').combobox({
