@@ -28,6 +28,26 @@ namespace Model
         private string _st_no;
         private string _user_NewPassword;
         private string _active_flag;
+        private string _createtime;
+        private string _lastlogintime;
+        private string _lasteditpwdtime;
+
+        public string Lasteditpwdtime
+        {
+            get { return _lasteditpwdtime; }
+            set { _lasteditpwdtime = value; }
+        }
+        public string Lastlogintime
+        {
+            get { return _lastlogintime; }
+            set { _lastlogintime = value; }
+        }
+        public string Createtime
+        {
+            get { return _createtime; }
+            set { _createtime = value; }
+        }
+
         public string user_NewPassword
         {
             get { return _user_NewPassword; }

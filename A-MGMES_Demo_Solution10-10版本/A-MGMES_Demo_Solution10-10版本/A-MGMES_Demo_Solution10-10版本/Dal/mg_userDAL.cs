@@ -378,31 +378,63 @@ namespace DAL
                    return -1;
                } 
            }
-           
+  
+             StringBuilder checkpwd = new StringBuilder();
              StringBuilder strSql = new StringBuilder();
-             strSql.Append("update Sys_UserInfo set ");
-             strSql.Append("user_name=@user_name,");
-             strSql.Append("user_no=@user_oldno,");
-             strSql.Append("user_pwd=@user_pwd,");
-             strSql.Append("user_email=@user_email,");
-             strSql.Append("user_depid=@user_depid,");
-             strSql.Append("user_posiid=@user_posiid,");
-             strSql.Append("user_menuids=@user_menuids,");
-             strSql.Append("user_sex=@user_sex,");
-             strSql.Append("user_isAdmin=@user_isAdmin");
-             strSql.Append(" where user_no=@user_no ");
-             SqlParameter[] parameters = {
-			new SqlParameter("@user_name", SqlDbType.VarChar),
-                  new SqlParameter("@user_oldno", SqlDbType.VarChar),
-                  new SqlParameter("@user_pwd", SqlDbType.VarChar),
-			new SqlParameter("@user_email", SqlDbType.VarChar),
-			new SqlParameter("@user_depid", SqlDbType.Int),
-			new SqlParameter("@user_posiid", SqlDbType.Int),
-			new SqlParameter("@user_menuids", SqlDbType.VarChar),
-			new SqlParameter("@user_sex", SqlDbType.Int),
-			new SqlParameter("@user_isAdmin", SqlDbType.Int),
-			new SqlParameter("@user_no", SqlDbType.VarChar)
-                                      };
+             checkpwd.Append("select user_pwd from Sys_UserInfo where user_no=@user_no and user_pwd=@user_pwd");
+             SqlParameter[] parameters3 = 
+             {
+                    new SqlParameter("@user_no", SqlDbType.VarChar),
+                    new SqlParameter("@user_pwd", SqlDbType.VarChar)
+             };
+
+             parameters3[0].Value = model.user_no;
+             parameters3[1].Value = model.user_pwd;
+             DataTable dt1 = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, checkpwd.ToString(), parameters3);
+             if (dt1.Rows.Count != 0)
+             {
+                 strSql.Append("update Sys_UserInfo set ");
+                 strSql.Append("user_name=@user_name,");
+                 strSql.Append("user_no=@user_oldno,");
+                 strSql.Append("user_pwd=@user_pwd,");
+                 strSql.Append("user_email=@user_email,");
+                 strSql.Append("user_depid=@user_depid,");
+                 strSql.Append("user_posiid=@user_posiid,");
+                 strSql.Append("user_menuids=@user_menuids,");
+                 strSql.Append("user_sex=@user_sex,");
+                 strSql.Append("user_isAdmin=@user_isAdmin");
+                 strSql.Append(" where user_no=@user_no ");
+             }
+
+             else
+             {
+                 strSql.Append("update Sys_UserInfo set ");
+                 strSql.Append("user_name=@user_name,");
+                 strSql.Append("user_no=@user_oldno,");
+                 strSql.Append("user_pwd=@user_pwd,");
+                 strSql.Append("user_email=@user_email,");
+                 strSql.Append("user_depid=@user_depid,");
+                 strSql.Append("user_posiid=@user_posiid,");
+                 strSql.Append("user_menuids=@user_menuids,");
+                 strSql.Append("user_sex=@user_sex,");
+                 strSql.Append("user_isAdmin=@user_isAdmin,");
+                 strSql.Append("lasteditpwdtime=getdate()");
+                 strSql.Append(" where user_no=@user_no ");
+
+             }
+             SqlParameter[] parameters = 
+             {
+			            new SqlParameter("@user_name", SqlDbType.VarChar),
+                              new SqlParameter("@user_oldno", SqlDbType.VarChar),
+                              new SqlParameter("@user_pwd", SqlDbType.VarChar),
+			            new SqlParameter("@user_email", SqlDbType.VarChar),
+			            new SqlParameter("@user_depid", SqlDbType.Int),
+			            new SqlParameter("@user_posiid", SqlDbType.Int),
+			            new SqlParameter("@user_menuids", SqlDbType.VarChar),
+			            new SqlParameter("@user_sex", SqlDbType.Int),
+			            new SqlParameter("@user_isAdmin", SqlDbType.Int),
+			            new SqlParameter("@user_no", SqlDbType.VarChar)
+             };
              parameters[0].Value = model.user_name;
              parameters[1].Value = model.user_no;
              parameters[2].Value = model.user_pwd;
@@ -440,6 +472,42 @@ namespace DAL
             int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql+ deletelimit, null);
             return rows;
         }
+
+        /// <summary>
+        /// 修改最后登录时间
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int UpdateUserLoginTime(mg_userModel model)
+        {
+            string sql = "UPDATE [Sys_UserInfo] SET lastlogintime=getdate() WHERE user_no='" + model.user_no + "'";
+            
+            int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql , null);
+            return rows;
+        }
+
+        /// <summary>
+        /// 检查90天是否修改密码
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static int CheckUserPwd(string user)
+        {
+            string sql = "select * from Sys_UserInfo WHERE user_no='" + user + "' and lasteditpwdtime is null and DATEDIFF(day,createtime,getdate())>=90";
+
+            DataTable dt = SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql.ToString(), null);
+            if(dt.Rows.Count>0)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            //int rows = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, System.Data.CommandType.Text, sql, null);
+            
+        }
+
     }
 }
 

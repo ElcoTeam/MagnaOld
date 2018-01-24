@@ -42,7 +42,9 @@ public class UserHandler : IHttpHandler
             //case "getMenu":
             //    GetMenu();
             //    break;
-
+            case "checkusereditpwd":
+                Checkusereditpwd();
+                break;
 
         }
     }
@@ -232,7 +234,15 @@ public class UserHandler : IHttpHandler
         Response.Write(json);
         Response.End();
     }
-   
+
+    void Checkusereditpwd()
+    {
+        string currentuser = Request.Params["currentuser"];
+        string json = mg_UserBLL.CheckUserPwd(currentuser);
+        Response.Write(json);
+        Response.End();
+    }
+
 
     public bool IsReusable
     {

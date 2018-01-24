@@ -21,6 +21,9 @@
                 <td style="width: 120px">
                     <a class="topdelBtn">删除所选</a>
                 </td>
+                 <td style="width: 120px;">
+                    <a  class="topexcelBtn" href="javascript:;" onclick="excelForm()">导出Excel</a>
+                </td>
             </tr>
         </table>
     </div>
@@ -40,7 +43,7 @@
                 <td>
                     <select id="user_depid" class="easyui-combobox" name="st_id" style="width: 230px; height: 25px;"
                         data-options="valueField: 'dep_id',textField: 'dep_name'">
-                    </select>还挺
+                    </select>
                 </td>
                 <td rowspan="6" style="padding-left: 20px">
                     <div style="width: 300px; height: 250px; overflow-x: hidden; overflow-y: auto;">

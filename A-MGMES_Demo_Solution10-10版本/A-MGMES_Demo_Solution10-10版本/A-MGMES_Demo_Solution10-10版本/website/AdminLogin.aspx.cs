@@ -65,29 +65,52 @@ public partial class AdminCMS_AdminLogin : System.Web.UI.Page
         if (usermodel==null)
         {
             string message = "您输入的用户名并不存在，登录失败！";
-            Response.Write("<script>alert('" + message + "');location.href='/AdminIndex.aspx';</script>");
+            Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
             Response.End();
         }
         else if ((uid.ToLower() == usermodel.user_name.ToLower() && pwd == usermodel.user_pwd) || (uid == usermodel.user_no && pwd == usermodel.user_pwd))
         {
-            HttpCookie cookie = new HttpCookie("admininfo");
-            cookie.Values["name"] = usermodel.user_name.ToString();
-            cookie.Values["userno"] = usermodel.user_no.ToString ();
-            cookie.Values["tel"] =HttpUtility.UrlEncode( usermodel.user_posiid_name);
-            cookie.Values["tel1"] = "666666";
-            cookie.Values["webChatName"] = "666666";
-            cookie.Values["password"] = "666666";
-           // cookie.Values["isFreezed"] = usermodel.user_menuids;
-            cookie.Values["menuids"] =HttpUtility.UrlEncode( usermodel.user_menuids);
-            cookie.Values["user_depid_name"] =HttpUtility.UrlEncode( usermodel.user_depid_name);
-            cookie.Values["user_posiid_name"] =HttpUtility.UrlEncode( usermodel.user_posiid_name);
-            
-            //cookie.Value[""]
+            //判断是否90天修改密码
+            string checkresult = mg_UserBLL.CheckUserPwd(usermodel.user_no);
+            if (checkresult == "true")
+            {
+                string message = "90天内没有修改密码，登陆失败！";
+                Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
+                Response.End();
 
-            Response.Cookies.Add(cookie);
-          FormsAuthentication.RedirectFromLoginPage(uid, false);
-           //Response.Redirect("AdminIndex.aspx");
-           //Response.End();
+            }
+            else
+            {
+                string loginresult = mg_UserBLL.LoginTime(usermodel);
+                if (loginresult == "true")
+                {
+                    HttpCookie cookie = new HttpCookie("admininfo");
+                    cookie.Values["name"] = usermodel.user_name.ToString();
+                    cookie.Values["userno"] = usermodel.user_no.ToString();
+                    cookie.Values["tel"] = HttpUtility.UrlEncode(usermodel.user_posiid_name);
+                    cookie.Values["tel1"] = "666666";
+                    cookie.Values["webChatName"] = "666666";
+                    cookie.Values["password"] = "666666";
+                    // cookie.Values["isFreezed"] = usermodel.user_menuids;
+                    cookie.Values["menuids"] = HttpUtility.UrlEncode(usermodel.user_menuids);
+                    cookie.Values["user_depid_name"] = HttpUtility.UrlEncode(usermodel.user_depid_name);
+                    cookie.Values["user_posiid_name"] = HttpUtility.UrlEncode(usermodel.user_posiid_name);
+
+                    //cookie.Value[""]
+
+                    Response.Cookies.Add(cookie);
+                    FormsAuthentication.RedirectFromLoginPage(uid, false);
+                    //Response.Redirect("AdminIndex.aspx");
+                    //Response.End();
+                }
+                else
+                {
+                    string message = "登录失败,服务器异常！";
+                    Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
+                    Response.End();
+                }
+            }
+          
         }
         else 
         {
@@ -95,11 +118,5 @@ public partial class AdminCMS_AdminLogin : System.Web.UI.Page
             Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
             Response.End();
         }
-        //else if (uid.ToLower() != usermodel.user_name.ToLower() && pwd == usermodel.user_pwd)
-        //{
-        //    string message = "帐号或密码错误，登录失败！";
-        //    Response.Write("<script>alert('" + message + "');location.href='/AdminLogin.aspx';</script>");
-        //    Response.End();
-        //}
     }
 }

@@ -372,6 +372,29 @@
                 }
             });
 
+            //判断是否90天修改密码
+            $.ajax({
+                url: "HttpHandlers/UserHandler.ashx",
+                type: "post",
+                dataType: "json",
+                data:
+                {
+                    "method": "checkusereditpwd",
+                    "currentuser": currentuser
+                },
+                success: function (data)
+                {
+                    if (data == "true")
+                    {
+                        alert("您90天内没有修改密码,请及时修改，否则无法登录");
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown)
+                {
+                    alert(errorThrown);
+                }
+            });
+
         });
 
 
@@ -493,6 +516,6 @@
         function aClick() {
             window.location = "AdminLogin.aspx";
         }
-        
+            
     </script>
 </asp:Content>

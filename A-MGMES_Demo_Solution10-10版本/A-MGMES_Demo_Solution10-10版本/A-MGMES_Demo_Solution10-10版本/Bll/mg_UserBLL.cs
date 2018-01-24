@@ -82,6 +82,28 @@ namespace Bll
             return count > 0 ? "true" : "false";
         }
 
+        /// <summary>
+        /// 修改登录时间
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string LoginTime(mg_userModel model)
+        {
+            int count = mg_UserDAL.UpdateUserLoginTime(model);
+            return count > 0 ? "true" : "false";
+        }
+
+        /// <summary>
+        /// 判断是否90天 修改密码
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static string CheckUserPwd(string user)
+        {
+            int count = mg_UserDAL.CheckUserPwd(user);
+            return count > 0 ? "true" : "false";
+        } 
+
         private static string AddUser(mg_userModel model)
         {
             int count = mg_UserDAL.AddUser(model);
