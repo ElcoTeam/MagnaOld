@@ -31,19 +31,19 @@
 		<table cellpadding="0" cellspacing="0" style="width: 100%">
 			<tr>
 
-				<td><span class="title">步骤档案</span> <span class="subDesc">拖拽数据行进行排序</span>
+				<td class="usertitle"><span class="title">步骤档案</span> <span class="subDesc">拖拽数据行进行排序</span>
 				</td>
-				<td></td>
+
 				<td style="width: 150px;">
-					<select id="fl_id_s" class="easyui-combobox" style="width: 200px; height: 25px;"
+					<select id="fl_id_s" class="easyui-combobox autoselect" style=" height: 25px;"
 						data-options="valueField: 'fl_id',textField: 'fl_name',onChange:reloadst_id_s">
 					</select></td>
 				<td style="width: 150px;">
-					<select id="st_id_s" class="easyui-combobox" style="width: 200px; height: 25px;"
+					<select id="st_id_s" class="easyui-combobox autoselect" style=" height: 25px;"
 						data-options="valueField: 'st_id',textField: 'st_no',onChange:reloadpart_id_s">
 					</select></td>
 				<td style="width: 150px;">
-					<select id="part_id_s" class="easyui-combobox" style="width: 250px; height: 25px;"
+					<select id="part_id_s" class="easyui-combobox autoselect" style=" height: 25px;"
 						data-options="valueField: 'part_id',textField: 'part_no'">
 					</select></td>
 				<td style="width: 120px;"><a class="topsearchBtn">筛选步骤</a></td>

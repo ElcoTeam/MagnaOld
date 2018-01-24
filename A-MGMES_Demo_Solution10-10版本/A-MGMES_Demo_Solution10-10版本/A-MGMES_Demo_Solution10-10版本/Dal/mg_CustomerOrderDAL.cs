@@ -59,7 +59,7 @@ left join mg_Customer_Product b
             //commandText1.Append("select a.OrderID,a.CustomerNumber,a.JITCallNumber,a.SerialNumber,a.SerialNumber_MES,a.VinNumber,a.PlanDeliverTime,a.CreateTime,case when mg_PartOrder1.OrderType = 1 then 'DelJit订单' when mg_PartOrder1.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,case when mg_PartOrder1.CompletionState = 1 then '未拆分' when mg_PartOrder1.CompletionState = 2 then '未下发' when mg_PartOrder1.CompletionState = 3 then '已下发' when mg_PartOrder1.CompletionState = 4 then '生产中' else '已完成' end as OrderState,LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,a.OrderIsHistory from mg_CustomerOrder_3 a left join mg_Customer_Product b on b.CustomerOrderID = a.OrderID left join mg_Product c on c.ID = b.ProductID where c.ProductType = 1  ");
             commandText1.Append(str);
             commandText1.Append(wherestr);//这里修改条件语句
-            string count_sql = " select count(*) as total from  (" + commandText1.ToString() + " ) result ";
+            string count_sql = " select count(1) as total from  (" + commandText1.ToString() + " ) result ";
 
             DataSet ds = SqlHelper.GetDataSetTableMapping(SqlHelper.SqlConnString, System.Data.CommandType.Text, query_sql + count_sql, new string[] { "data", "count" }, null);
             if (DataHelper.HasData(ds))

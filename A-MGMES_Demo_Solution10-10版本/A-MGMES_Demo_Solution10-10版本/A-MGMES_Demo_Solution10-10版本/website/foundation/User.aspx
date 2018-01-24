@@ -40,7 +40,7 @@
                 <td>
                     <select id="user_depid" class="easyui-combobox" name="st_id" style="width: 230px; height: 25px;"
                         data-options="valueField: 'dep_id',textField: 'dep_name'">
-                    </select>
+                    </select>还挺
                 </td>
                 <td rowspan="6" style="padding-left: 20px">
                     <div style="width: 300px; height: 250px; overflow-x: hidden; overflow-y: auto;">

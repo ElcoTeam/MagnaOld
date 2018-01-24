@@ -34,7 +34,7 @@ namespace Dal
               if (result.result == "")
               {
 
-                  strSql = "update Sys_UserInfo set user_pwd='" + dataEntity.user_NewPassword + "'  where Lower(user_name)='" + dataEntity.user_name.ToLower() + "'";
+                  strSql = "update Sys_UserInfo set user_pwd='" + dataEntity.user_NewPassword + "',createtime=getdate()  where Lower(user_name)='" + dataEntity.user_name.ToLower() + "'";
                   int re = SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, strSql, null);
                   if (re == 1)
                   {

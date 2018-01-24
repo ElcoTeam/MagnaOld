@@ -117,7 +117,7 @@ namespace DAL
         }
         public static int AddUserByName(string name, string pwd, string rfid, string email, int depid, int posiid, string pic, string menuids)
         {
-            string sql = @"INSERT INTO [Sys_UserInfo] ([user_name],[user_pwd],[user_no],[user_pic],[user_email],[user_depid],[user_posiid],[user_menuids]) VALUES ('" + name + "','" + pwd + "','" + rfid + "','" + pic + "','" + email + "'," + depid + "," + posiid + ",'" + menuids + "')";
+            string sql = @"INSERT INTO [Sys_UserInfo] ([user_name],[user_pwd],[user_no],[user_pic],[user_email],[user_depid],[user_posiid],[user_menuids],[createtime]) VALUES ('" + name + "','" + pwd + "','" + rfid + "','" + pic + "','" + email + "'," + depid + "," + posiid + ",'" + menuids + "',getdate())";
             return SqlHelper.ExecuteNonQuery(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
@@ -215,9 +215,9 @@ namespace DAL
             {
                 StringBuilder strSql = new StringBuilder();
                 strSql.Append("insert into Sys_UserInfo(");
-                strSql.Append("user_name,user_email,user_depid,user_posiid,user_menuids,user_sex,user_isAdmin,user_pwd,user_no)");
+                strSql.Append("user_name,user_email,user_depid,user_posiid,user_menuids,user_sex,user_isAdmin,user_pwd,user_no,createtime)");
                 strSql.Append(" values (");
-                strSql.Append("@user_name,@user_email,@user_depid,@user_posiid,@user_menuids,@user_sex,@user_isAdmin,@user_pwd,@user_no)");
+                strSql.Append("@user_name,@user_email,@user_depid,@user_posiid,@user_menuids,@user_sex,@user_isAdmin,@user_pwd,@user_no,getdate())");
                 SqlParameter[] parameters = {
 					new SqlParameter("@user_name", SqlDbType.VarChar),
 					new SqlParameter("@user_email", SqlDbType.VarChar),

@@ -95,16 +95,35 @@
     .uservalue {      
         width:120px; 
      } 
+    .usertitle{
+        width:250px;
+    }
+    .autoselect {
+        width:150px; 
+    }
+
  }
 
  @media screen and (min-width: 1400px ) and (max-width: 1900px) { 
     .uservalue {      
         width:150px; 
      } 
+    .usertitle{
+        width:400px;
+    }
+     .autoselect {
+        width:200px; 
+    }
   }
 
   @media screen and (min-width: 1900px) { 
     .uservalue {      
         width:150px; 
      } 
+    .usertitle{
+        width:400px;
+    }
+     .autoselect {
+        width:200px; 
+    }
   } 
