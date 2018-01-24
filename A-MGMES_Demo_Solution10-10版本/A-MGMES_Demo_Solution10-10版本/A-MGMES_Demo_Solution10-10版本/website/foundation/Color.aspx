@@ -152,6 +152,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'prop_id', title: '颜色id', hidden: true, align:"center" },
                       { field: 'prop_name', title: '颜色', width: 100, hidden: false, align: "center" },

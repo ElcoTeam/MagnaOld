@@ -131,6 +131,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'fl_id', title: 'ID', align: "center", hidden:true},
                       { field: 'fl_name', title: '流水线名称', width:100, align: "center" },

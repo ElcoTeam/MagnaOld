@@ -126,6 +126,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'pi_id', title: 'ID', align: "center",  hidden: "true" },
                       { field: 'piitem', title: '点检项名称', align: "center",width: 100},

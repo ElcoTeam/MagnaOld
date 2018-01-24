@@ -172,6 +172,7 @@
                 pagination: true,
                 singleSelect: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
     //  ,[]
@@ -204,6 +205,7 @@
                 pagination: true,
                 singleSelect: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'all_ids', title: '整车id集合', hidden: true },
@@ -229,6 +231,7 @@
                 url: "/HttpHandlers/AllPartHandler.ashx?method=queryAllPartListForPart",
                 rownumbers: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ck', checkbox: true },
                       { field: 'all_id', title: 'id', hidden: true },
@@ -259,6 +262,7 @@
             selectedAllPartdg = $('#selectedAllpartTB').datagrid({
                 collapsible: false,
                 singleSelect: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'all_id', title: 'id', hidden: true },
                       { field: 'all_no', title: '整车代号', align: "center" },

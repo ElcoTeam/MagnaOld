@@ -257,6 +257,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'part_id', title: 'ID', align: "center", hidden: "true" },
                       { field: 'part_name', title: '名称', align: "center", width: 100 },

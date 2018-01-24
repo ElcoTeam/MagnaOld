@@ -178,6 +178,7 @@
                 sortOrder: 'asc',
                 remoteSort: true,
                 idField: 'id',
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
 							{ field: 'ID', title: 'ID', hidden: true },
 

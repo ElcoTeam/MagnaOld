@@ -141,6 +141,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'piIDs', title: '点检项id集合', hidden: true },
@@ -162,6 +163,7 @@
                 url: "/HttpHandlers/PoInspectItemHandler.ashx?method=QueryPoInspectItemListALL",
                 rownumbers: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ck', checkbox: true },
                       { field: 'pi_id', title: 'ID', align: "center", width: 50, hidden: "true" },

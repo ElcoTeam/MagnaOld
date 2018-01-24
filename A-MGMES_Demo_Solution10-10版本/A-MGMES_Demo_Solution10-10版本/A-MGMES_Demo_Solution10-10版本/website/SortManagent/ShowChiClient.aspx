@@ -184,7 +184,8 @@
             striped: true,
             fitColumns: true,
             nowrap: false,
-            pageSize : 20,
+            pageSize: 20,
+            emptyMsg: '<span>没有找到相关记录<span>',
             columns: [[
                   //{ field: 'ck', checkbox: true },
                   

@@ -122,7 +122,8 @@
                     showFooter:true,
                     sortName: 'stationNo',
                     sortOrder: 'asc',
-                    queryParams:queryParams,
+                    queryParams: queryParams,
+                    emptyMsg: '<span>没有找到相关记录<span>',
                     columns: [[
                                 { field: 'id', title: '序号', align:'center' ,width:100,hidden:true},
                                 //{

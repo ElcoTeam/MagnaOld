@@ -179,6 +179,7 @@
                 pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'mail_id', title: 'ID', align: "center", width: 50, hidden: "true" },
                       { field: 'ReceiptTypeName', title: '收件人类别', align: "left", width: 530 },

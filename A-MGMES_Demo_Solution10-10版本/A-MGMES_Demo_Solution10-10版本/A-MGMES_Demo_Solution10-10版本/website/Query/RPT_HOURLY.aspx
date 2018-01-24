@@ -127,6 +127,7 @@
                     showFooter:true,
                     sortName: 'id',
                     sortOrder: 'asc',
+                    emptyMsg: '<span>没有找到相关记录<span>',
                     columns: [[
                                 { field: 'id', title: '序号', align:'center' ,width:100,},
                                 {

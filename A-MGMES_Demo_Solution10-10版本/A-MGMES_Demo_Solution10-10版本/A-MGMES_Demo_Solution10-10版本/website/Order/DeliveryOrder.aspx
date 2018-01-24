@@ -128,6 +128,7 @@
                 pageSize: 20,
                 singleSelect: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 onLoadSuccess: function (data) {
                     
                     if (data.total == 0) {

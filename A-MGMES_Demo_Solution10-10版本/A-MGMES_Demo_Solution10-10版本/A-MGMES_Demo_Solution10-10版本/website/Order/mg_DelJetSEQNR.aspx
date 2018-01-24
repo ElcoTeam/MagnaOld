@@ -64,6 +64,7 @@
             dg = $('#tb').datagrid({
 
                 url: '/HttpHandlers/DelJetSEQNR.ashx',   //从远程站点请求数据的 URL。
+                emptyMsg: '<span>没有找到相关记录<span>',
                 queryParams:
                     {
                         method: "select",

@@ -200,6 +200,7 @@
                         OrderId: orderid,
                         method:""
                     },
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[ //数据表格列配置对象，查看列属性以获取更多细节
 							{ field: 'sys_id', title: 'id', hidden: true },
 							{ field: 'fl_id', title: '流水线id', hidden: true },
@@ -238,7 +239,7 @@
                 onLoadSuccess:function(data)
                 {
                    
-                    //console.log(data);
+                    console.log(data);
                 },
                 onSortColum: function (sort, order) {
                     $('#tb').datagrid('reload', {
@@ -293,8 +294,16 @@
         });
         function searchInfos(sort, num) {
             var fl_name = $('#fl_id_s').combobox('getText');
+            if (fl_name = "请选择")
+            {
+                fl_name = "";
+            }
             //alert(fl_name);
             var st_no = $('#st_id_s').combobox('getText');
+            if (st_no = "请选择")
+            {
+                st_no = "";
+            }
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
 

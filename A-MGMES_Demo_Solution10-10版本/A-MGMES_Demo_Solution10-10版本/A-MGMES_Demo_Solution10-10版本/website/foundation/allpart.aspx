@@ -166,6 +166,7 @@
             collapsible: false,
             striped: true,
             fitColumns: true,
+            emptyMsg: '<span>没有找到相关记录<span>',
             columns: [[
                   //{ field: 'ck', checkbox: true },
                   { field: 'all_rateid', title: '车型id', hidden: true },

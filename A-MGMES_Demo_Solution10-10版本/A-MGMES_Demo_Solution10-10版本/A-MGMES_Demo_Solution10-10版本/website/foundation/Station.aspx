@@ -274,6 +274,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                         { field: 'st_id', title: 'id', hidden: true },

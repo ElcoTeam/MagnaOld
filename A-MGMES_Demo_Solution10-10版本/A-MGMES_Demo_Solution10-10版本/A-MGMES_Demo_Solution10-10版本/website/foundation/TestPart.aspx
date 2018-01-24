@@ -183,6 +183,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'p_id', title: 'ID', hidden: true },
                       { field: 'partid', title: '部件编号', width: 50, align: "center" },
@@ -205,6 +206,7 @@
                 url: "/HttpHandlers/TestHandler.ashx?method=QueryTestList",
                 rownumbers: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ck', checkbox: true },
                       { field: 't_id', title: 'ID', align: "center", width: 50, hidden: "true" },

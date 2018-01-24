@@ -117,6 +117,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'group_id', title: 'ID', width: 100, align: "center" },
                       { field: 'groupname', title: '检测分组名称', width: 100, align: "center" },

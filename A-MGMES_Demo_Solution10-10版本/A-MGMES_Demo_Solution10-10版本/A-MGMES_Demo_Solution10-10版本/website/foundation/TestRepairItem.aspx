@@ -157,6 +157,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ID', title: 'ID', align: "center",  hidden: true },
                       { field: 'ItemCaption', title: '返修项名称', align: "center", width: 100 },

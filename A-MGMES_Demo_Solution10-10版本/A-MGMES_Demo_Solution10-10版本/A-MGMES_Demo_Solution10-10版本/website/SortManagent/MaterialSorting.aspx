@@ -156,7 +156,8 @@
             collapsible: false,
             striped: true,
             fitColumns: true,
-            pageSize : 20,
+            pageSize: 20,
+            emptyMsg: '<span>没有找到相关记录<span>',
             columns: [[
                   //{ field: 'ck', checkbox: true },
                   { field: 'SerialID', title: '序号', width: 100, align: "center" },                  

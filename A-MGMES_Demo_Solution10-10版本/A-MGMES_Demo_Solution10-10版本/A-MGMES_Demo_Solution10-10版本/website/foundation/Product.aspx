@@ -165,7 +165,8 @@
                 singleSelect: true,
                 collapsible: false,
                 striped: true,
-                fitColumns:true,
+                fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ID', title: 'ID', align: "center", hidden: true },
                       { field: 'ProductNo', title: '产品编号', width:100,align: "center" },

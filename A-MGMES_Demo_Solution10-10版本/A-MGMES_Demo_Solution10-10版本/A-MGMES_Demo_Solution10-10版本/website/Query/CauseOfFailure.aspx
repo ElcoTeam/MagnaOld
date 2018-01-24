@@ -174,6 +174,7 @@
                 rownumbers: true,
                 singleSelect: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'ID', title: '工位id', hidden: true },

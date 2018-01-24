@@ -112,6 +112,7 @@
                 
                 sortName: 'id',
                 sortOrder: 'asc',
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
 							{ field: 'id', title: 'id', hidden: true },
 							{ field: 'cl_name', title: '班次名', width: 200, align: "center",sortable:true },

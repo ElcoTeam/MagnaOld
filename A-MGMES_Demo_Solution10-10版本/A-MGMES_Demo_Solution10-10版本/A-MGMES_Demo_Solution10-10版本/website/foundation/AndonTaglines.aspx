@@ -69,6 +69,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                     { field: 'ID', title: 'ID', width: 20, align: "center" },
                     { field: 'TaglinesType', title: '宣传口号位置', width: 100, align: "center" },

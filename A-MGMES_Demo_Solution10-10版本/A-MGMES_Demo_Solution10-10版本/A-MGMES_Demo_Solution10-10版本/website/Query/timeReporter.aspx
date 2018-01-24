@@ -423,6 +423,9 @@
 	    function reloadst_id_s() {
 	        $('#st_id_s').combobox('loadData', {});
 	        var fl_id = $('#fl_id_s').combobox('getValue');
+	        if (fl_id == "" || fl_id == "请选择") {
+	            return false;
+	        }
 	        $('#st_id_s').combobox({
 	            url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForTime&fl_id=' + fl_id,
 	            method: "post",

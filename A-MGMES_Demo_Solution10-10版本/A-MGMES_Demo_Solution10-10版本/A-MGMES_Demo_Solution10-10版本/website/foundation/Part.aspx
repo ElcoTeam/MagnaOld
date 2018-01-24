@@ -167,6 +167,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'allpartIDs', title: '整车座椅id集合', hidden: true },
@@ -192,6 +193,7 @@
                 url: "/HttpHandlers/AllPartHandler.ashx?method=queryAllPartListForPart",
                 rownumbers: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ck', checkbox: true },
                       { field: 'all_id', title: 'id', hidden: true },

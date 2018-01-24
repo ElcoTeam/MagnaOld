@@ -277,6 +277,7 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'test_id', title: 'ID', align: "center", width: 100, hidden: "true" },
                       { field: 'testgroupname', title: '分组名称', align: "center", width: 100 },

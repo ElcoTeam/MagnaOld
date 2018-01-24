@@ -380,7 +380,8 @@
                 collapsible: false,
                 striped: true,
                 nowrap:false,
-               // fitColumns: true,
+                // fitColumns: true,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'bom_id', title: '查看关系网', align: "center", width: 80, formatter: function (value, row, index) { return '<img src="/image/admin/chukoulist.png" style="height:16px;cursor:pointer" onclick="showRelation(\'' + value + '\');"/>'; }, },
@@ -424,6 +425,7 @@
                 url: "/HttpHandlers/PartHandler.ashx?method=queryPartListForBOM",
                 rownumbers: true,
                 collapsible: false,
+                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       { field: 'ck', checkbox: true },
                       { field: 'allpartIDs', title: '整车座椅id集合', hidden: true },
