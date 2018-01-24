@@ -189,6 +189,7 @@
                 fitColumns: true,
                 sortName: "st_no, step_startTime",
                 sortOrder: "asc",
+                emptyMsg: '<span>没有找到相关记录<span>',
                 queryParams:
                     {
                         fl_name: fl_name,
@@ -236,7 +237,8 @@
                 
                 onLoadSuccess:function(data)
                 {
-                    console.log(data);
+                   
+                    //console.log(data);
                 },
                 onSortColum: function (sort, order) {
                     $('#tb').datagrid('reload', {
