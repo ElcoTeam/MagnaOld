@@ -164,6 +164,9 @@
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
 	        var StationNo = $('#st_id_s').combobox('getValue');
+	        if (StationNo == "请选择" || StationNo.length < 1) {
+	            StationNo = "FSA210";
+	        }
 	        var method = "Export";
 	        $.ajax({
 	            type: 'post',

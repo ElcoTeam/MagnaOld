@@ -226,6 +226,11 @@
                 dataType: 'json',
                 cache: false,
                 success: function (data) {
+                    if (data.length < 1) {
+                        alert("没有找到相关数据");
+                        myChart.clear();
+                        return;
+                    }
                     var option = {
                         title: {
                             text: chart_Type + '信息',

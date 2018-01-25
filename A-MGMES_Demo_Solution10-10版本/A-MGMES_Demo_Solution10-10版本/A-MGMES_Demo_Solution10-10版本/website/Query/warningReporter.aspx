@@ -108,6 +108,10 @@
 
         function GetGrid() {
             var fl_id = $('#fl_id_s').combobox('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
+            
             queryParams = {
                 fl_id:fl_id,
                 start_time: $("#start_time").datetimebox('getValue'),
@@ -606,6 +610,10 @@
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
             var fl_id = $('#fl_id_s').combobox('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
+            
             $('#gridTable').datagrid('reload', { method: "GetListNew", fl_id:fl_id,start_time: start_time, end_time: end_time });
         }
 
@@ -617,6 +625,10 @@
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
             var fl_id = $('#fl_id_s').combobox('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
+            
             $.ajax({
                 type: 'post',
                 url: '/HttpHandlers/Services1002_WaringList.ashx',
@@ -640,6 +652,10 @@
         function print() {
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
+            var fl_id = $('#fl_id_s').combobox('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
             //CreateFormPage( start_time +" - "+end_time + "生产线报警趋势报表", $("#gridTable"));
             $.ajax({
                 type: 'post',
@@ -647,7 +663,7 @@
                 async: false,
                 cache: false,
                 dataType: 'json',
-                data: { "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Print" },
+                data: { "fl_id": "" + fl_id + "", "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Print" },
                 cache: false,
                 success: function (data) {
                     if (data.Result == "true") {

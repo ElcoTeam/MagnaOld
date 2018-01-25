@@ -282,6 +282,10 @@
         function reloadst_id() {
             $('#st_id').combobox('loadData', '[]');
             var fl_id = $('#fl_id').combo('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
+           
             $('#st_id').combobox('reload', '/HttpHandlers/StationHandler.ashx?method=queryStationForStepEditing&fl_id=' + fl_id);
         }
         function reloadPart_id() {
@@ -300,6 +304,10 @@
         function reloadst_id_s() {
             $('#st_id_s').combobox('loadData', '[]');
             var fl_id = $('#fl_id_s').combo('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
+           
             $('#st_id_s').combobox('reload', '/HttpHandlers/StationHandler.ashx?method=queryStationForStepEditing&fl_id=' + fl_id);
         }
         function reloadpart_id_s() {

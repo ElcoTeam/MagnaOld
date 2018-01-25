@@ -222,6 +222,10 @@
 
 	    function reloadst_id_s() {
 	        var fl_id = $('#fl_id_s').combobox('getValue');
+	        if (fl_id == "请选择") {
+	            fl_id = "";
+	        }
+	        
 	        $('#st_id_s').combobox('reload', '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_list&fl_id=' + fl_id);
 	    }
 	</script>

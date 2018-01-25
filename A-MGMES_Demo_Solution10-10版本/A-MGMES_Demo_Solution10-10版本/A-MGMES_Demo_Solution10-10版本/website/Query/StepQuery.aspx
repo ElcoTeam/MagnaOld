@@ -171,6 +171,13 @@
             var fl_name = $('#fl_id_s').combobox('getText');
             //alert(fl_name);
             var st_no = $('#st_id_s').combobox('getText');
+            
+            if (fl_name == "请选择") {
+                fl_name = "";
+            }
+            if (st_no == "请选择") {
+                st_no = "";
+            }
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
 
@@ -294,13 +301,13 @@
         });
         function searchInfos(sort, num) {
             var fl_name = $('#fl_id_s').combobox('getText');
-            if (fl_name = "请选择")
+            if (fl_name == "请选择")
             {
                 fl_name = "";
             }
             //alert(fl_name);
             var st_no = $('#st_id_s').combobox('getText');
-            if (st_no = "请选择")
+            if (st_no == "请选择")
             {
                 st_no = "";
             }
@@ -423,6 +430,12 @@
             var fl_name = $('#fl_id_s').combobox('getText');
             //alert(fl_name);
             var st_no = $('#st_id_s').combobox('getText');
+            if (fl_name == "请选择") {
+                fl_name = "";
+            }
+            if (st_no == "请选择") {
+                st_no = "";
+            }
             var start_time = $('#start_time').datetimebox('getValue');
             var end_time = $('#end_time').datetimebox('getValue');
 
@@ -534,6 +547,12 @@
             $('#part_id_s').combobox('loadData', {});
             var fl_id = $('#fl_id_s').combobox('getValue');
             var st_no = $('#st_id_s').combobox('getValue');
+            if (fl_id == "请选择") {
+                fl_id = "";
+            }
+            if (st_no == "请选择") {
+                st_no = "";
+            }
             $('#part_id_s').combobox({
                 url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no,
                 method: "post",

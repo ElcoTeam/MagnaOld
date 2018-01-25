@@ -123,6 +123,9 @@
 	        
 	        console.log(new Date());
 	        var st_no = $('#st_id_s').combobox('getText');
+	        if (st_no == "请选择") {
+	            st_no = "";
+	        }
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
 	        var flag = $('#reportType').combo('getValue');
@@ -240,6 +243,10 @@
 	            effect: 'whirling'
 	        });
 	        var st_no = $('#st_id_s').combobox('getText');
+	        
+	        if (st_no == "请选择") {
+	            st_no = "";
+	        }
 	        var start_time = $('#start_time').datetimebox('getValue');
 	        var end_time = $('#end_time').datetimebox('getValue');
 	        var flag = $('#reportType').combo('getValue');
@@ -271,7 +278,13 @@
 	            cache: false,
 	            async: false,
 	            success: function (data) {
-	                //console.log(data);
+	                if (data.length < 1)
+	                {
+	                    alert("没有找到相关数据");
+	                    myChart.clear();
+	                    return;
+	                }
+	                console.log(data);
 	                var option = {
 	                    title: {
 	                        text: '时间报表',
@@ -423,9 +436,10 @@
 	    function reloadst_id_s() {
 	        $('#st_id_s').combobox('loadData', {});
 	        var fl_id = $('#fl_id_s').combobox('getValue');
-	        if (fl_id == "" || fl_id == "请选择") {
-	            return false;
+	        if (fl_id == "请选择") {
+	            fl_id = "";
 	        }
+	       
 	        $('#st_id_s').combobox({
 	            url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_st_listForTime&fl_id=' + fl_id,
 	            method: "post",
@@ -448,6 +462,12 @@
 	        $('#part_id_s').combobox('loadData', {});
 	        var fl_id = $('#fl_id_s').combobox('getValue');
 	        var st_no = $('#st_id_s').combobox('getValue');
+	        if (fl_id == "请选择") {
+	            fl_id = "";
+	        }
+	        if (st_no == "请选择") {
+	            st_no = "";
+	        }
 	        $('#part_id_s').combobox({
 	            url: '/HttpHandlers/TorqueReporterHandler.ashx?method=get_part_list&fl_id=' + fl_id + '&st_no=' + st_no,
 	            method: "post",

@@ -398,6 +398,10 @@
             var st_id = isEdit == true ? stid : 0;
             //alert(all_id);
             var fl_id = $('#fl_id').combo('getValue');
+            if (fl_id == "请选择")
+            {
+                fl_id = "";
+            }
             var st_typeid = $('#st_typeid').combo('getValue');
             var st_no = $('#st_no').val();
             var st_name = $('#st_name').val();

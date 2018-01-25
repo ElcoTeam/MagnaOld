@@ -338,6 +338,7 @@
 				collapsible: false,
 				striped: true,
 				fitColumns: true,
+				emptyMsg: '<span>没有找到相关记录<span>',
 				columns: [[
 						    { field: 'step_id', title: 'id', hidden: true },
 							{ field: 'fl_id', title: '流水线id', hidden: true },
