@@ -177,6 +177,19 @@ namespace DAL
             return SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 
+
+        /// <summary>
+        /// 得到所有用户列表 包括最近登陆时间
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pagesize"></param>
+        /// <returns></returns>
+        public static DataTable GetUserListToExcel()
+        {
+            string sql = @"select user_name from View_Sys_UserLimitToXLS";
+            return SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
+        }
+
         public static DataTable GetUserName()
         {
             string sql = @"select bom_id,bom_name from [mg_bom] order by [bom_id]";
@@ -204,7 +217,7 @@ namespace DAL
         public static int AddUser(mg_userModel model)
         {
             StringBuilder strSql1 = new StringBuilder();
-            strSql1.Append("select * from Sys_UserInfo where user_no=@user_no");
+            strSql1.Append("select * from Sys_UserInfo where user_no=@user_no and active_flag=0");
             SqlParameter[] parameters2 = {
                     new SqlParameter("@user_no", SqlDbType.VarChar)
                                         };
@@ -366,7 +379,7 @@ namespace DAL
            if(model.user_oldno !=model.user_no)
            {
                StringBuilder strSql1 = new StringBuilder();
-               strSql1.Append("select * from Sys_UserInfo where user_no=@user_no");
+               strSql1.Append("select * from Sys_UserInfo where user_no=@user_no and active_flag=0");
                SqlParameter[] parameters2 = {
                     new SqlParameter("@user_no", SqlDbType.VarChar)
                                         };

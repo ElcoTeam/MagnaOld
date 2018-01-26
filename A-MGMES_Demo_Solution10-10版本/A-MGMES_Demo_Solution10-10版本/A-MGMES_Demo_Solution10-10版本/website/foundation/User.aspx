@@ -208,7 +208,6 @@
                 collapsible: false,
                 striped: true,
                 fitColumns: true,
-                emptyMsg: '<span>没有找到相关记录<span>',
                 columns: [[
                       //{ field: 'ck', checkbox: true },
                       { field: 'user_depid', title: '部门id', hidden: true },
@@ -528,6 +527,31 @@
                 $('#menuTreeShow').tree('uncheck', nodes[i].target);
                 $('#menuTreeShow').tree('expand', nodes[i].target);
             }
+        }
+
+        ///导出 
+        function excelForm() {
+            $.ajax({
+                type: "POST",
+                async: false,
+                url: "/HttpHandlers/UserHandler.ashx",
+                data: { "method": "Export" },
+                success: function (data) {
+                    console.log(data);
+                    //alert(data.Result);
+                    if (data.Result == "true") {
+
+                        alert('导出成功');
+                        $("#sub").click();
+                        //dg.datagrid('reload');
+                    }
+                    else alert('导出失败');
+                    $('#w').window('close');
+                },
+                error: function () {
+                }
+            });
+
         }
     </script>
 </asp:Content>

@@ -145,6 +145,19 @@ namespace Bll
             int count = mg_UserDAL.DeleteUser(user_id);
             return count > 0 ? "true" : "false";
         }
+
+        /// <summary>
+        /// 得到所有用户列表 包括最近登陆时间
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pagesize"></param>
+        /// <returns></returns>
+        public static DataTable GetUserListToExcel()
+        {
+            DataTable dt = new DataTable();
+            dt = mg_UserDAL.GetUserListToExcel();
+            return dt;
+        }
     }
 
     class mg_userDataModel

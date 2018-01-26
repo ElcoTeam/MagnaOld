@@ -125,12 +125,8 @@ namespace website.HttpHandlers
                 catch(Exception e)
                 {
                     string ss1 = "false";
-                    json = "{\"Result\":\"" + ss1 + "\"}";
-                 
-                    
-                   
+                    json = "{\"Result\":\"" + ss1 + "\"}";                 
                 }
-
 
                 context.Response.ContentType = "json";
                 context.Response.Write(json);

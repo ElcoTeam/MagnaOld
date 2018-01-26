@@ -1,9 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
+using System.Data;
+using System.IO;
+using System.Text;
+using System.Reflection;
+using System.Runtime.Serialization;
+
+using System.Runtime.Serialization.Formatters;
+
+using System.Runtime.Serialization.Formatters.Binary;
 using Bll;
 using Model;
+using website;
 using Tools;
-
 public class UserHandler : IHttpHandler
 {
 
@@ -13,7 +24,7 @@ public class UserHandler : IHttpHandler
     public void ProcessRequest(HttpContext context)
     {
 
-        context.Response.ContentType = "text/plain";
+        //context.Response.ContentType = "text/plain";
 
         Request = context.Request;
         Response = context.Response;
@@ -39,12 +50,14 @@ public class UserHandler : IHttpHandler
                 QueryDepartmentsForUser();
                 break;
 
-            //case "getMenu":
-            //    GetMenu();
-            //    break;
             case "checkusereditpwd":
                 Checkusereditpwd();
                 break;
+
+            case "Export":
+                ExportExcel(context);
+                break;
+
 
         }
     }
@@ -174,9 +187,6 @@ public class UserHandler : IHttpHandler
         Response.End();
     }
 
-
-
-
     void saveUser()
     {
         string user_id = Request.Params["user_id"];
@@ -243,6 +253,39 @@ public class UserHandler : IHttpHandler
         Response.End();
     }
 
+    void ExportExcel(HttpContext context)
+    {
+        DataTable dt = new DataTable();
+        string json = "";
+        string fileName = HttpContext.Current.Request.MapPath("~/App_Data/1111.xlsx");
+        try
+        {
+            dt = mg_UserBLL.GetUserListToExcel();
+            //ExcelHelper.ExportDTtoExcel(dt, "步骤日志报表", fileName);
+            string err = "";
+            AsposeExcelTools.DataTableToExcel2(dt, fileName, out err);
+            string ss = "true";
+            if (err.Length < 1)
+            {
+                ss = "true";
+            }
+            else
+            {
+                ss = "false";
+            }
+
+            json = "{\"Result\":\"" + ss + "\"}";
+
+        }
+        catch (Exception e)
+        {
+            string ss1 = "false";
+            json = "{\"Result\":\"" + ss1 + "\"}";
+        }
+
+        context.Response.ContentType = "json";
+        context.Response.Write(json);
+    }
 
     public bool IsReusable
     {

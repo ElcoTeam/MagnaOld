@@ -34,30 +34,30 @@
 				<td class="usertitle"><span class="title">步骤档案</span> <span class="subDesc">拖拽数据行进行排序</span>
 				</td>
 
-				<td style="width: 150px;">
+				<td>
 					<select id="fl_id_s" class="easyui-combobox autoselect" style=" height: 25px;"
 						data-options="valueField: 'fl_id',textField: 'fl_name',onChange:reloadst_id_s">
 					</select></td>
-				<td style="width: 150px;">
+				<td>
 					<select id="st_id_s" class="easyui-combobox autoselect" style=" height: 25px;"
 						data-options="valueField: 'st_id',textField: 'st_no',onChange:reloadpart_id_s">
 					</select></td>
-				<td style="width: 150px;">
+				<td>
 					<select id="part_id_s" class="easyui-combobox autoselect" style=" height: 25px;"
 						data-options="valueField: 'part_id',textField: 'part_no'">
 					</select></td>
-				<td style="width: 120px;"><a class="topsearchBtn">筛选步骤</a></td>
+				<td><a class="topsearchBtn">筛选步骤</a></td>
 
-				<td style="width: 100px">
+				<td>
 					<a class="topaddBtn">新增档案</a>
 				</td>
-				<td style="width: 100px">
+				<td>
 					<a class="toppenBtn">编辑所选</a>
 				</td>
-				<td style="width: 120px">
+				<td>
 					<a class="topdelBtn">删除所选</a>
 				</td>
-				<td style="width: 100px">
+				<td>
 					<a class="topexcelBtn">生成xls</a>
 				</td>
 			</tr>

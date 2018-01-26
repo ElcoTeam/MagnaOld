@@ -63,7 +63,7 @@
                     <input type="button" class="toppenBtn"  value="编辑"/>
                 </td>
                 <td style="width: 5%;">
-                    <a  class="topexcelBtn" href="javascript:;" onclick="excelForm()">导出Excel</a>
+                    <a  class="topexcelBtn" href="javascript:;" onclick="excelForm()">导出</a>
                 </td>
             </tr>
         </table>

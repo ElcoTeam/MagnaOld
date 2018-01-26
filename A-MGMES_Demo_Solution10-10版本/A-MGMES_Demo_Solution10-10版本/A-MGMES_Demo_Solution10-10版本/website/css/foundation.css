@@ -4,7 +4,7 @@
 
 .top { top: 20px; padding: 0px; border: 1px solid #CBD0D4; width: 99%; background-color: #F0F3F8; margin-bottom: 10px; }
 .top .title{ margin-left:10px; color:#000; font-weight:bold }
-.top .subDesc{ margin-left:50px; color:#ff0000; }
+.top .subDesc{ /*margin-left:50px;*/ color:#ff0000; }
 
 .top table { border: 0px; }
 .top table tr td { padding: 5px 0px 5px 5px; }
@@ -96,10 +96,10 @@
         width:120px; 
      } 
     .usertitle{
-        width:250px;
+        width:180px;
     }
     .autoselect {
-        width:150px; 
+        width:100px; 
     }
 
  }
