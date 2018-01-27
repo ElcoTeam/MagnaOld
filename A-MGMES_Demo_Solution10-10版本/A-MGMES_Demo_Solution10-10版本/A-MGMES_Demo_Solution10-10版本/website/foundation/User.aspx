@@ -7,6 +7,8 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+
+    <input type="submit" name="name" value="导出Excel" id="sub" hidden="hidden" />
     <div class="top">
         <table cellpadding="0" cellspacing="0" style="width: 100%">
             <tr>
@@ -540,7 +542,7 @@
                 success: function (data) {
                     console.log(data);
                     //alert(data.Result);
-                    if (data.Result == "true") {
+                    if (data == "true") {
 
                         alert('导出成功');
                         $("#sub").click();

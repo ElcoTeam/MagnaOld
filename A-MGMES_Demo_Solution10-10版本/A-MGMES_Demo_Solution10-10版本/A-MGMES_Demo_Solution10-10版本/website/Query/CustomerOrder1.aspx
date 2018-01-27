@@ -119,15 +119,38 @@
             var Worker = $('#Worker').val();
             var OrderType = $('#OrderType').val();
             var queryParams = dg.datagrid('options').queryParams;
-            queryParams.OrderCode = OrderCode;
-            queryParams.CarType = CarType;
-            queryParams.Worker = Worker;
-            queryParams.OrderType = OrderType;
-            queryParams.SerialNumber = SerialNumber;
-            queryParams.StartTime = start_time;
-            queryParams.EndTime = end_time;
-            queryParams.method = "";
-            dg.datagrid('reload');
+            var queryParams = {
+                OrderCode: OrderCode,
+                CarType: CarType,
+                Worker: Worker,
+                OrderType: OrderType,
+                SerialNumber: SerialNumber,
+                StartTime: start_time,
+                EndTime: end_time,
+                pageNumber: "1",
+                method: "",
+            }
+            //queryParams.pageNumber = "1";
+            //queryParams.OrderCode = OrderCode;
+            //queryParams.CarType = CarType;
+            //queryParams.Worker = Worker;
+            //queryParams.OrderType = OrderType;
+            //queryParams.SerialNumber = SerialNumber;
+            //queryParams.StartTime = start_time;
+            //queryParams.EndTime = end_time;
+            //queryParams.method = "";
+            
+            dg.datagrid('load', {
+                OrderCode: OrderCode,
+                CarType: CarType,
+                Worker: Worker,
+                OrderType: OrderType,
+                SerialNumber: SerialNumber,
+                StartTime: start_time,
+                EndTime: end_time,
+                pageNumber: "1",
+                method: "",
+            });
         }
 
         function searchInfos(sort, num) {

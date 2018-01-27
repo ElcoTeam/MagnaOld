@@ -8,38 +8,48 @@ using System.Data;
 using System.Data.SqlClient;
 using Bll;
 using Tools;
+using System.IO;
 
 
 public partial class foundation_User : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //if (!IsPostBack)
-        //{
-        //    BindData();
-        //}
+        if (IsPostBack)
+        {
+            ExportByWebNew("用户信息列表.xlsx");
+        }
+        else
+        {
+            //////////if (Request.Cookies["admininfo"] != null)
+            //////////{
+            //////////    this.namelit.Text = Request.Cookies["admininfo"]["name"];
+            //////////    this.tellit.Text = HttpUtility.UrlDecode(Request.Cookies["admininfo"]["user_posiid_name"]);
+            //////////}
+        }
     }
 
     private void BindData()
     {
-        //BindDepartmentName();
-        //BindPositionName();
-        //this.GridView1.DataSource = mg_UserBLL.GetAllData();
-        //this.GridView1.DataBind();
-        //this.GridView1.SelectedIndex = -1;
-        //this.txt_name.Text = "";
-        //this.txt_pwd.Text = "";
-        //this.txt_rfid.Text = "";
-        //this.txt_email.Text = "";
-        //this.txt_menuids.Text = "";
+       
     }
 
-    private void BindDepartmentName()
+    public static void ExportByWebNew(string fileName)
     {
-        //this.drp_depname.DataSource = mg_UserBLL.GetDepName();
-        //this.drp_depname.DataValueField = "dep_id";
-        //this.drp_depname.DataTextField = "dep_name";
-        //this.drp_depname.DataBind();
+        string filePath = HttpContext.Current.Request.MapPath("~/App_Data/用户信息列表.xlsx");
+        HttpContext curContext = HttpContext.Current;
+        FileInfo fileInfo = new FileInfo(filePath);
+        curContext.Response.Clear();
+        curContext.Response.ClearContent();
+        curContext.Response.ClearHeaders();
+        curContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+        curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+        curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+        curContext.Response.ContentType = "application/octet-stream";
+        curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
+        curContext.Response.WriteFile(fileInfo.FullName);
+        curContext.Response.Flush();
+        curContext.Response.End();
     }
 
     private void BindPositionName()

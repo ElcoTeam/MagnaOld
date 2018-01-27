@@ -186,7 +186,7 @@ namespace DAL
         /// <returns></returns>
         public static DataTable GetUserListToExcel()
         {
-            string sql = @"select user_name from View_Sys_UserLimitToXLS";
+            string sql = @"select * from View_Sys_UserLimitToXLS";
             return SqlHelper.GetDataDataTable(SqlHelper.SqlConnString, CommandType.Text, sql, null);
         }
 

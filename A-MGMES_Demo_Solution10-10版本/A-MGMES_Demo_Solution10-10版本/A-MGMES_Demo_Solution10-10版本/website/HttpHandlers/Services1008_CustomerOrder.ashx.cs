@@ -17,6 +17,7 @@ namespace website.HttpHandlers
         public void ProcessRequest(HttpContext context)
         {
             HttpRequest request = System.Web.HttpContext.Current.Request;
+            string query = request["queryParams"];
             string OrderType = request["OrderType"];
             string SerialNumber = request["SerialNumber"];
             string start_time = context.Request["StartTime"];

@@ -5,6 +5,7 @@ using System.Web;
 using System.Data;
 using System.IO;
 using System.Text;
+using Aspose.Cells;
 namespace website
 {
     public class AsposeExcelTools
@@ -291,9 +292,9 @@ namespace website
                //关闭释放流，不然没办法写入数据
                file.Close();
                file.Dispose();
-                wb.Save(filepath);
+               wb.Save(filepath);
                 wb = null;
-
+              
                 return true;
             }
             catch (Exception e)

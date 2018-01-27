@@ -257,14 +257,15 @@ public class UserHandler : IHttpHandler
     {
         DataTable dt = new DataTable();
         string json = "";
-        string fileName = HttpContext.Current.Request.MapPath("~/App_Data/1111.xlsx");
+        string ss = "true";
+        string fileName = HttpContext.Current.Request.MapPath("~/App_Data/用户信息列表.xlsx");
         try
         {
             dt = mg_UserBLL.GetUserListToExcel();
             //ExcelHelper.ExportDTtoExcel(dt, "步骤日志报表", fileName);
             string err = "";
             AsposeExcelTools.DataTableToExcel2(dt, fileName, out err);
-            string ss = "true";
+            
             if (err.Length < 1)
             {
                 ss = "true";
@@ -276,6 +277,7 @@ public class UserHandler : IHttpHandler
 
             json = "{\"Result\":\"" + ss + "\"}";
 
+
         }
         catch (Exception e)
         {
@@ -284,7 +286,7 @@ public class UserHandler : IHttpHandler
         }
 
         context.Response.ContentType = "json";
-        context.Response.Write(json);
+        context.Response.Write(ss);
     }
 
     public bool IsReusable
