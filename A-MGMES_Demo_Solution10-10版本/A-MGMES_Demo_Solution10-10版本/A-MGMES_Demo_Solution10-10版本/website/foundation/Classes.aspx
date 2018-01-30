@@ -40,9 +40,9 @@
                     <asp:Button ID="BtSave" runat="server" Text="新增班次"  CssClass="addBtn" 
                         onclick="BtSave_Click" />
                 </td>
-               <%-- <td style="width: 100px; text-align: right">
-                    <a class="toppenBtn">编辑班次</a>
-                </td>--%>
+                <td style="width: 100px; text-align: right">
+                    <a class="toppenBtn" href="target.aspx">目标设置</a>
+                </td>
             </tr>
         </table>
     </div>
