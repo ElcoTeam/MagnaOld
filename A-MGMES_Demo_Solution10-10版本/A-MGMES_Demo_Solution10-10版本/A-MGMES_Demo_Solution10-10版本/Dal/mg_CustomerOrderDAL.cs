@@ -36,7 +36,10 @@ a.PlanDeliverTime,
 a.CreateTime,
 case when mg_PartOrder1.OrderType = 1 then 'DelJit订单' when mg_PartOrder1.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,
 case when mg_PartOrder1.CompletionState = 1 then '未拆分' when mg_PartOrder1.CompletionState = 2 then '未下发' when mg_PartOrder1.CompletionState = 3 then '已下发'
- when mg_PartOrder1.CompletionState = 4 then '生产中' else '已完成' end as OrderState,
+ when mg_PartOrder1.CompletionState = 4 then '生产中' 
+when mg_PartOrder1.CompletionState = 6  then '已拆解'
+when mg_PartOrder1.CompletionState = 7  then '返修下线'
+else '已完成' end as OrderState,
  LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,
  a.OrderIsHistory 
  ,mg_FlowLine1.flowflag+mg_part1.part_no+substring(convert(char(8),a.CreateTime,112),3,6)+stuff('0000',5-Len(SerialNumber_MES),Len(SerialNumber_MES),SerialNumber_MES)  as MES_ORDER
@@ -99,7 +102,10 @@ a.PlanDeliverTime,
 a.CreateTime,
 case when mg_PartOrder1.OrderType = 1 then 'DelJit订单' when mg_PartOrder1.OrderType = 2 then 'SAP订单' else '紧急插单' end as OrderType,
 case when mg_PartOrder1.CompletionState = 1 then '未拆分' when mg_PartOrder1.CompletionState = 2 then '未下发' when mg_PartOrder1.CompletionState = 3 then '已下发'
- when mg_PartOrder1.CompletionState = 4 then '生产中' else '已完成' end as OrderState,
+ when mg_PartOrder1.CompletionState = 4 then '生产中'
+when mg_PartOrder1.CompletionState = 6  then '已拆解'
+when mg_PartOrder1.CompletionState = 7  then '返修下线'
+else '已完成' end as OrderState,
  LEFT(c.ProductName,CHARINDEX('-',ProductName)-1) as ProductName,
  a.OrderIsHistory 
  ,mg_FlowLine1.flowflag+mg_part1.part_no+substring(convert(char(8),a.CreateTime,112),3,6)+stuff('0000',5-Len(SerialNumber_MES),Len(SerialNumber_MES),SerialNumber_MES)  as MES_ORDER
