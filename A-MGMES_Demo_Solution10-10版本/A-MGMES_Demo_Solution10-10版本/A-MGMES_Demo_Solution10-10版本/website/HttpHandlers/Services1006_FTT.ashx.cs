@@ -23,6 +23,7 @@ namespace website.HttpHandlers
             string StartTime = request["start_time"];
             string EndTime = request["end_time"];
             string clnameid = request["clnameid"];
+            string method = context.Request["method"];
             int PageSize = Convert.ToInt32(request["rows"]);
             int PageIndex = Convert.ToInt32(request["page"]);
             string SortFlag = request["sort"];
@@ -40,20 +41,63 @@ namespace website.HttpHandlers
             {
                 where += " and cl_name like'%" + clnameid + "%'"; 
             }
-            int totalcount;
+            int totalcount = 0;
             DataTable resTable = new DataTable();
             sort = SortFlag;
             order = sortOrder;
             int StartIndex = PageSize * (PageIndex - 1) + 1;
             int EndIndex = StartIndex + PageSize - 1;
 
-
-            resTable = FTT_BLL.getTable(PageSize,PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
+            if (string.IsNullOrEmpty(method))
+            {
+                resTable = FTT_BLL.getTable(PageSize, PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
                 string JsonStr = FunCommon.DataTableToJson2(totalcount, resTable);
 
                 context.Response.ContentType = "text/plain";
                 context.Response.Write(JsonStr);
                 context.Response.End();
+            }
+            if(method=="Export")
+            {
+                string json = "";
+                string fileName = HttpContext.Current.Request.MapPath("~/App_Data/FTT数据查询.xlsx");
+                try
+                {
+                    string err = "";
+                     StartIndex = 1;
+                     EndIndex = -1;
+                     totalcount = 0;
+                     resTable = FTT_BLL.getTableExcel(PageSize, PageIndex, StartIndex, EndIndex, sort, order, where, out totalcount);
+                    // ExcelHelper.ExportDTtoExcel(resTable, "生产线报警趋势报表", fileName);
+
+
+                    AsposeExcelTools.DataTableToExcel2(resTable, fileName, out err);
+                    string ss = "true";
+                    if (err.Length < 1)
+                    {
+                        ss = "true";
+                    }
+                    else
+                    {
+                        ss = "false";
+                    }
+                    json = "{\"Result\":\"" + ss + "\"}";
+
+                }
+                catch (Exception e)
+                {
+                    string ss1 = "false";
+                    json = "{\"Result\":\"" + ss1 + "\"}";
+
+
+
+                }
+
+
+                context.Response.ContentType = "json";
+                context.Response.Write(json);
+
+            }
             
         }
 

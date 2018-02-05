@@ -12,5 +12,9 @@ namespace Bll
        {
            return FTT_Dal.getTable(Pagesize, pageIndex, StartIndex, EndIndex, SortFlag, sortOrder, wherestr, out total);
        }
+       public static DataTable getTableExcel(int Pagesize, int pageIndex, int StartIndex, int EndIndex, string SortFlag, string sortOrder, string wherestr, out int total)
+       {
+           return FTT_Dal.getTableExcel(Pagesize, pageIndex, StartIndex, EndIndex, SortFlag, sortOrder, wherestr, out total);
+       }
     }
 }

@@ -16,17 +16,33 @@ using System.Text;
 
 public partial class Query_FTTQuery : System.Web.UI.Page
 {
+
+
     protected void Page_Load(object sender, EventArgs e)
     {
         if (IsPostBack)
         {
             //导出Excel
-            //ExportByWeb("ExportDemo.xls");
+            ExportByWebNew("FTT数据查询.xls");
         }
-        //if (!IsPostBack)
-        //{
-        //    BindData();
-        //}
+
+    }
+    public static void ExportByWebNew(string fileName)
+    {
+        string filePath = HttpContext.Current.Request.MapPath("~/App_Data/FTT数据查询.xlsx");
+        HttpContext curContext = HttpContext.Current;
+        FileInfo fileInfo = new FileInfo(filePath);
+        curContext.Response.Clear();
+        curContext.Response.ClearContent();
+        curContext.Response.ClearHeaders();
+        curContext.Response.AddHeader("Content-Disposition", "attachment;filename=" + fileName);
+        curContext.Response.AddHeader("Content-Length", fileInfo.Length.ToString());
+        curContext.Response.AddHeader("Content-Transfer-Encoding", "binary");
+        curContext.Response.ContentType = "application/octet-stream";
+        curContext.Response.ContentEncoding = System.Text.Encoding.GetEncoding("utf-8");
+        curContext.Response.WriteFile(fileInfo.FullName);
+        curContext.Response.Flush();
+        curContext.Response.End();
     }
     //public static MemoryStream ExcelStream()
     //{

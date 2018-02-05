@@ -27,7 +27,7 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
+      <input id="subs" type="submit"  value="导出Excel" hidden="hidden"/>
     <%--<input type="submit" name="name" value="导出Excel" id="sub" hidden="hidden" />--%>
     <%--<input type="button" name="name" value="导出excel" runat="server" id="s1"/>--%>
     <%--<asp:Button runat="server" Text="Button" OnClick="Button1_Click" /> --%>
@@ -62,7 +62,10 @@
                 </td>
                 
                 <td >
-                  <input type="button" class="topsearchBtn" href="javascript:;" onclick="searchName()"" value="查询"/>
+                  <input type="button" class="topsearchBtn" onclick="searchName()"" value="查询"/>
+                </td>
+                <td >
+                  <input type="button" class="topsearchBtn"  onclick="excelFor()" value="导出Excel"/>
                 </td>
                 
             </tr>
@@ -200,6 +203,37 @@
             //        }
             //    }
             //});
+
+        }
+
+        function excelFor() {
+
+            ////导出当前页面 begin 
+            //Export('生产线报警报表', $('#gridTable'));
+            // //导出当前页面end
+            ////导出所有数据 begin
+            var clnameid = $('#clnameid').val();
+            var start_time = $('#start_time').datetimebox('getValue');
+            var end_time = $('#end_time').datetimebox('getValue');
+            $.ajax({
+                type: 'post',
+                url: '/HttpHandlers/Services1006_FTT.ashx',
+                async: false,
+                cache: false,
+                dataType: 'json',
+                data: { "clnameid": "" + clnameid + "", "start_time": "" + start_time + "", "end_time": "" + end_time + "", "method": "Export" },
+                cache: false,
+                success: function (data) {
+                    if (data.Result == "true") {
+                        $("#subs").click();
+                    }
+                    else {
+                        alert("导出失败");
+                    }
+                }
+            });
+            //导出所有数据end
+
 
         }
 
