@@ -37,6 +37,7 @@
                         <option value="1">DelJit订单</option>
                         <option value="2">SAP订单</option>
                         <option value="3">紧急插单</option>
+                        <option value="4">拆解回流订单</option>
                     </select>
                 </td>
                 <td style="width: 6%">
