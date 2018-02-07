@@ -394,8 +394,8 @@ namespace DAL
                                       ,[step_pic]
                                       ,[step_plccode]
                                       ,[step_order]
-                                      ,step.[barcode_start]
-                                      ,step.[barcode_number]
+                                      ,b.[barcode_start]
+                                      ,b.[barcode_number]
                                   FROM [mg_step] step
                                   left join mg_FlowLine fl on step.fl_id = fl.fl_id
                                   left join mg_station st on step.st_id = st.st_id
@@ -503,8 +503,8 @@ namespace DAL
                                 ,step_pic
 
                                   ,[step_order]
-                                  ,step.[barcode_start]
-                                  ,step.[barcode_number]
+                                  ,bom.[barcode_start]
+                                  ,bom.[barcode_number]
                               FROM [mg_step] step
                               left join mg_FlowLine fl on step.fl_id = fl.fl_id
                               left join mg_station st on st.st_id=step.st_id
