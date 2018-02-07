@@ -487,10 +487,8 @@ namespace DAL
                                   ,step.[bom_id]
 	                              ,bom.bom_PN
                                     ,bom.bom_customerPN
-								  ,case bom.bom_isCustomerPN
-								  when 0 then bom.bom_PN
-								  when 1 then  bom.bom_customerPN
-								  end bom_barcode
+								  , bom.bom_customerPN
+								   bom_barcode
 	                              ,bom.bom_storeid
 	                              ,prop2.prop_name bom_storename
 
@@ -553,10 +551,8 @@ namespace DAL
                                   ,step.[bom_id]
 	                              ,bom.bom_PN
                                     ,bom.bom_customerPN
-								  ,case bom.bom_isCustomerPN
-								  when 1 then bom.bom_PN
-								  when 0 then  bom.bom_customerPN
-								  end bom_barcode
+								  , bom.bom_customerPN
+								   bom_barcode
 	                              ,bom.bom_storeid
 	                              ,prop2.prop_name bom_storename
                                     ,bom.bom_desc
@@ -615,10 +611,8 @@ namespace DAL
                                   ,step.[bom_id]
 	                              ,bom.bom_PN
                                     ,bom.bom_customerPN
-								  ,case bom.bom_isCustomerPN
-								  when 1 then bom.bom_PN
-								  when 0 then  bom.bom_customerPN
-								  end bom_barcode
+								  , bom.bom_customerPN
+								  bom_barcode
 	                              ,bom.bom_storeid
 	                              ,prop2.prop_name bom_storename
                                     ,bom.bom_desc
