@@ -127,7 +127,8 @@ public class ExcelHandler : IHttpHandler
                 DataTable fsdriveStationDT = new DataTable();
                 fsdriveStationDT = stationDT.Copy();
                 fsdriveStationDT.Rows.Clear();
-                DataRow[] stationrows = stationDT.Select("part_categoryid=" + (int)xlsenum + " and part_id=" + part_id);
+                DataRow[] stationrows = stationDT.Select("part_categoryid=" + (int)xlsenum + " and part_id=" + part_id, "st_no asc");
+               
                 foreach (DataRow stationrow in stationrows)
                 {
                     fsdriveStationDT.ImportRow(stationrow);
@@ -365,7 +366,7 @@ public class ExcelHandler : IHttpHandler
                 DataTable stepDT = ds.Tables["step"];     //该部件下的工位下的步骤
 
                 //获取前两个工位
-                DataRow[] twostationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Passenger + " and part_id=" + part_id);
+                DataRow[] twostationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Passenger + " and part_id=" + part_id, "st_no asc");
                 DataRow firstRow = twostationrows[0];
                 string st_id_f = DataHelper.GetCellDataToStr(firstRow, "st_id");
                 string st_no_f = DataHelper.GetCellDataToStr(firstRow, "st_no");
@@ -470,7 +471,7 @@ public class ExcelHandler : IHttpHandler
                 DataTable fsdriveStationDT = new DataTable();
                 fsdriveStationDT = stationDT.Copy();
                 fsdriveStationDT.Rows.Clear();
-                DataRow[] stationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Passenger + " and part_id=" + part_id + " and st_order>" + st_order);
+                DataRow[] stationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Passenger + " and part_id=" + part_id + " and st_order>" + st_order, "st_no asc");
                 foreach (DataRow stationrow in stationrows)
                 {
                     fsdriveStationDT.ImportRow(stationrow);
@@ -617,7 +618,7 @@ public class ExcelHandler : IHttpHandler
                 DataTable stepDT = ds.Tables["step"];     //该部件下的工位下的步骤
 
                 //获取前两个工位
-                DataRow[] twostationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Drive + " and part_id=" + part_id);
+                DataRow[] twostationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Drive + " and part_id=" + part_id, "st_no asc");
                 DataRow firstRow = twostationrows[0];
                 string st_id_f = DataHelper.GetCellDataToStr(firstRow, "st_id");
                 string st_no_f = DataHelper.GetCellDataToStr(firstRow, "st_no");
@@ -721,7 +722,7 @@ public class ExcelHandler : IHttpHandler
                 DataTable fsdriveStationDT = new DataTable();
                 fsdriveStationDT = stationDT.Copy();
                 fsdriveStationDT.Rows.Clear();
-                DataRow[] stationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Drive + " and part_id=" + part_id + " and st_order>" + st_order);
+                DataRow[] stationrows = stationDT.Select("part_categoryid=" + (int)mg_XLSEnum.FS_Drive + " and part_id=" + part_id + " and st_order>" + st_order, "st_no asc");
                 foreach (DataRow stationrow in stationrows)
                 {
                     fsdriveStationDT.ImportRow(stationrow);
@@ -814,7 +815,7 @@ public class ExcelHandler : IHttpHandler
                     }
                 }
                 currentStation++;
-                for (; currentStation < 20; currentStation++)
+                for (; currentStation <=20; currentStation++)
                 {
                     SingleFillEmptyStation(worksheet, "FSA", ref rowindex, rowindex - 31, currentStation, true);
                 }
