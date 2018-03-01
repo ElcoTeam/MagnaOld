@@ -335,7 +335,7 @@
             var TorqueResult = $('#TorqueResult').val();
             var scanCode = $('#scanCode').val();
             var edit_name = document.getElementById("edit_name").innerText;
-            //alert(edit_name); 修改人名称：admin
+            //alert(edit_name); //修改人名称：admin
             var model = {
                 edit_name: edit_name,
                 step_id: step_id,

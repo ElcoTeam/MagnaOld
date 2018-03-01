@@ -24,6 +24,10 @@ namespace website.HttpHandlers
             string TorqueResult = request["TorqueResult"];
             string scanCode = request["scanCode"];
             string name = request["edit_name"].Trim();
+            if(string.IsNullOrEmpty(name))
+            {
+                name = request.Cookies["admininfo"]["name"];
+            }
             DateTime dt = DateTime.Now;
             string t = dt.ToString("yyyy-MM-dd hh:mm:ss");
 
