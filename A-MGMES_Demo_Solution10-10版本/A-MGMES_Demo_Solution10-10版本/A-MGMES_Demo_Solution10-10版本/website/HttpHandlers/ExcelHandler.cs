@@ -63,7 +63,7 @@ public class ExcelHandler : IHttpHandler
             CreateCommonExcel(ds, xlsPath, filename[3], 1, 7, mg_XLSEnum.FSB_Passenger, "FSB", "Passenger");
             CreateCommonExcel(ds, xlsPath, filename[4], 1, 4, mg_XLSEnum.FSC_Drive, "FSC", "Drive");
             CreateCommonExcel(ds, xlsPath, filename[5], 1, 4, mg_XLSEnum.FSC_Passenger, "FSC", "Passenger");
-            CreateCommonExcel(ds, xlsPath, filename[6], 2, 6, mg_XLSEnum.RSB40, "RSB", "40%靠背");
+            CreateCommonExcel(ds, xlsPath, filename[6], 1, 6, mg_XLSEnum.RSB40, "RSB", "40%靠背");
             CreateCommonExcel(ds, xlsPath, filename[7], 1, 6, mg_XLSEnum.RSB60, "RSB", "60%靠背");
             CreateCommonExcel(ds, xlsPath, filename[8], 1, 4, mg_XLSEnum.RSC, "RSC", "坐垫");
             Response.Write("true");
